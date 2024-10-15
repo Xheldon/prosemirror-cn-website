@@ -18,7 +18,7 @@ jobs:
 
       - name: 设置 Git
         run: |
-          git config --global user.name 'Xheldon'
+          git config --global user.name 'Xheldon[bot]'
           git config --global user.email 'c1006044256@gmail.com'
 
       - name: 检出 Prosemirror/website 仓库
@@ -63,10 +63,10 @@ jobs:
 
       - name: 推送到 gp 分支
         if: env.new_commits == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd website
-          git config --global user.name 'Xheldon'
-          git config --global user.email 'c1006044256@gmail.com'
           rm .gitignore
           git add public
           git commit -m "Update build"
