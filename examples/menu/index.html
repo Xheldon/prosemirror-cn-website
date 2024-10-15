@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang=en-US>
+<meta charset=utf8>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>ProseMirror menu example</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet href=/css/site.css>
+
+<header >
+  <nav>
+    <a class=logo href="/">ProseMirror</a>
+    <div class=navlinks><a href="/examples/" class=active>Examples</a>
+      <a href="/docs/" >Documentation</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    </div>
+  </nav></header><article><h1>Adding a menu</h1>
+<p>Most of the examples use the <a href="https://github.com/prosemirror/prosemirror-example-setup">example setup
+package</a> to
+create a menu, but we actually don't recommend using that and the
+example <a href="https://github.com/prosemirror/prosemirror-menu">menu
+package</a> in actual
+production, since they are rather simplistic, opinionated modules, and
+you're likely to run into their limitations rather quickly.</p>
+<p>This example will go through building a custom (and ugly) menu for a
+ProseMirror editor.</p>
+<style>
+  .menubar {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    line-height: 0.1;
+  }
+  .menuicon {
+    display: inline-block;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    color: #888;
+    line-height: 1;
+    padding: 0 7px;
+    margin: 1px;
+    cursor: pointer;
+    text-align: center;
+    min-width: 1.4em;
+  }
+  .strong, .heading { font-weight: bold; }
+  .em { font-style: italic; }
+
+  #editor { padding-top: 0 }
+</style>
+<div id=editor></div>
+<div style="display: none" id=content>
+  <h3>Simple editor</h3>
+  <p>With a very crude menu bar.
+</div>
+<p>The idea is, roughly, to create a number of user interface elements
+and tie them to <a href="/docs/guide/#commands">commands</a>. When clicked, they
+should execute these commands on the editor.</p>
+<p>One question is how to deal with commands that aren't always
+applicable—when you are in a paragraph, should the control for ‘make
+this a paragraph’ be shown? If so, should it be grayed out? This
+example will simply hide buttons when their command is not currently
+applicable.</p>
+<p>To be able to do that, it needs to update the menu structure every
+time the editor state changes. (Depending on the number of items in
+your menu, and the amount of work required for determining whether
+they are applicable, this can get expensive. There's no real solution
+for this, except either keeping the number and complexity of the
+commands low, or not changing the look of your menu depending on
+state.)</p>
+<p>If you already have some kind of dataflow abstraction that you're
+routing ProseMirror updates though, writing the menu as a separate
+component and connecting it to the editor state should work well. If
+not, a plugin is probably the easiest solution.</p>
+<p>The component for the menu might look something like this:</p>
+<pre><code class="language-javascript"><span class="tok-keyword">class</span> <span class="tok-className">MenuView</span> <span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">constructor</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">items</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">editorView</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">items</span> <span class="tok-operator">=</span> <span class="tok-variableName">items</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">editorView</span> <span class="tok-operator">=</span> <span class="tok-variableName">editorView</span>
+
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span> <span class="tok-operator">=</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;div&quot;</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">className</span> <span class="tok-operator">=</span> <span class="tok-string">&quot;menubar&quot;</span>
+    <span class="tok-variableName">items</span><span class="tok-operator">.</span><span class="tok-propertyName">forEach</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName">dom</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">appendChild</span><span class="tok-punctuation">(</span><span class="tok-variableName">dom</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">update</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">addEventListener</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;mousedown&quot;</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">e</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+      <span class="tok-variableName">e</span><span class="tok-operator">.</span><span class="tok-propertyName">preventDefault</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+      <span class="tok-variableName">editorView</span><span class="tok-operator">.</span><span class="tok-propertyName">focus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+      <span class="tok-variableName">items</span><span class="tok-operator">.</span><span class="tok-propertyName">forEach</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName">command</span><span class="tok-punctuation">,</span> <span class="tok-propertyName">dom</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+        <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">contains</span><span class="tok-punctuation">(</span><span class="tok-variableName">e</span><span class="tok-operator">.</span><span class="tok-propertyName">target</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+          <span class="tok-variableName">command</span><span class="tok-punctuation">(</span><span class="tok-variableName">editorView</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName">editorView</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">,</span> <span class="tok-variableName">editorView</span><span class="tok-punctuation">)</span>
+      <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+    <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-propertyName tok-definition">update</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">items</span><span class="tok-operator">.</span><span class="tok-propertyName">forEach</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName">command</span><span class="tok-punctuation">,</span> <span class="tok-propertyName">dom</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">active</span> <span class="tok-operator">=</span> <span class="tok-variableName">command</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">editorView</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-keyword">null</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">editorView</span><span class="tok-punctuation">)</span>
+      <span class="tok-variableName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">style</span><span class="tok-operator">.</span><span class="tok-propertyName">display</span> <span class="tok-operator">=</span> <span class="tok-variableName">active</span> <span class="tok-operator">?</span> <span class="tok-string">&quot;&quot;</span> <span class="tok-operator">:</span> <span class="tok-string">&quot;none&quot;</span>
+    <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-propertyName tok-definition">destroy</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">remove</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>It takes an array of menu items, which are objects with <code>command</code> and
+<code>dom</code> properties, and puts those into a menu bar element. Then, it
+wires up an event handler which, when a mouse button is pressed on
+this bar, figures out which item was clicked, and runs the
+corresponding command.</p>
+<p>To update the menu for a new state, all commands are run without
+dispatch function, and the items for those that return false are
+hidden.</p>
+<p>Wiring this component to an actual editor view is a bit awkward—it
+needs access to the editor view when initialized, but at the same
+time, that editor view's
+<a href="/docs/ref/#view.DirectEditorProps.dispatchTransaction"><code>dispatchTransaction</code></a>
+prop needs to call its update method. Plugins can help here. They
+allow you define a <a href="/docs/ref/#state.PluginSpec.view">plugin view</a>, like this:</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Plugin</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-state&quot;</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">menuPlugin</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">items</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">return</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Plugin</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">view</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">editorView</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">menuView</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">MenuView</span><span class="tok-punctuation">(</span><span class="tok-variableName">items</span><span class="tok-punctuation">,</span> <span class="tok-variableName">editorView</span><span class="tok-punctuation">)</span>
+      <span class="tok-variableName">editorView</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">parentNode</span><span class="tok-operator">.</span><span class="tok-propertyName">insertBefore</span><span class="tok-punctuation">(</span><span class="tok-variableName">menuView</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-punctuation">,</span> <span class="tok-variableName">editorView</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">return</span> <span class="tok-variableName">menuView</span>
+    <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>When an editor view is initialized, or when the set of plugins in its
+state change, the plugin views for any plugins that define them get
+initialized. These plugin views then have their <code>update</code> method called
+every time the editor's state is updated, and their <code>destroy</code> method
+called when they are torn down. So by adding this plugin to an editor,
+we can make sure that the editor view gets a menu bar, and that this
+menu bar is kept in sync with the editor.</p>
+<p>The actual menu items might look like this, for a basic menu with
+strong, emphasis, and block type buttons.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">toggleMark</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">setBlockType</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">wrapIn</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-commands&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">schema</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-schema-basic&quot;</span>
+
+<span class="tok-comment">// Helper function to create menu icons</span>
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">icon</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">text</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">name</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">span</span> <span class="tok-operator">=</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;span&quot;</span><span class="tok-punctuation">)</span>
+  <span class="tok-variableName">span</span><span class="tok-operator">.</span><span class="tok-propertyName">className</span> <span class="tok-operator">=</span> <span class="tok-string">&quot;menuicon &quot;</span> <span class="tok-operator">+</span> <span class="tok-variableName">name</span>
+  <span class="tok-variableName">span</span><span class="tok-operator">.</span><span class="tok-propertyName">title</span> <span class="tok-operator">=</span> <span class="tok-variableName">name</span>
+  <span class="tok-variableName">span</span><span class="tok-operator">.</span><span class="tok-propertyName">textContent</span> <span class="tok-operator">=</span> <span class="tok-variableName">text</span>
+  <span class="tok-keyword">return</span> <span class="tok-variableName">span</span>
+<span class="tok-punctuation">}</span>
+
+<span class="tok-comment">// Create an icon for a heading at the given level</span>
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">heading</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">level</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">return</span> <span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">command</span><span class="tok-punctuation">:</span> <span class="tok-variableName">setBlockType</span><span class="tok-punctuation">(</span><span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">heading</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">level</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">dom</span><span class="tok-punctuation">:</span> <span class="tok-variableName">icon</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;H&quot;</span> <span class="tok-operator">+</span> <span class="tok-variableName">level</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;heading&quot;</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+
+<span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">menu</span> <span class="tok-operator">=</span> <span class="tok-variableName">menuPlugin</span><span class="tok-punctuation">(</span><span class="tok-punctuation">[</span>
+  <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">command</span><span class="tok-punctuation">:</span> <span class="tok-variableName">toggleMark</span><span class="tok-punctuation">(</span><span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">marks</span><span class="tok-operator">.</span><span class="tok-propertyName">strong</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">dom</span><span class="tok-punctuation">:</span> <span class="tok-variableName">icon</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;B&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;strong&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+  <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">command</span><span class="tok-punctuation">:</span> <span class="tok-variableName">toggleMark</span><span class="tok-punctuation">(</span><span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">marks</span><span class="tok-operator">.</span><span class="tok-propertyName">em</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">dom</span><span class="tok-punctuation">:</span> <span class="tok-variableName">icon</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;i&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;em&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+  <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">command</span><span class="tok-punctuation">:</span> <span class="tok-variableName">setBlockType</span><span class="tok-punctuation">(</span><span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">paragraph</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">dom</span><span class="tok-punctuation">:</span> <span class="tok-variableName">icon</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;p&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;paragraph&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+  <span class="tok-variableName">heading</span><span class="tok-punctuation">(</span><span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-variableName">heading</span><span class="tok-punctuation">(</span><span class="tok-number">2</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-variableName">heading</span><span class="tok-punctuation">(</span><span class="tok-number">3</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">command</span><span class="tok-punctuation">:</span> <span class="tok-variableName">wrapIn</span><span class="tok-punctuation">(</span><span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">blockquote</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">dom</span><span class="tok-punctuation">:</span> <span class="tok-variableName">icon</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;&gt;&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;blockquote&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span>
+<span class="tok-punctuation">]</span><span class="tok-punctuation">)</span>
+</code></pre>
+<p>The <a href="https://github.com/prosemirror/prosemirror-menu"><code>prosemirror-menu</code>
+package</a> works
+similarly, but adds support for things like simple drop-down menus and
+active/inactive icons (to highlight the strong button when strong text
+is selected).</p>
+<link rel=stylesheet href="../../css/editor.css">
+<script src="../prosemirror.js"></script>
+<script src="example.js"></script></article>
+
+<footer>
+  <nav>
+    <a class=logo href=".">&nbsp;</a>
+    <div class=navlinks>
+      <a href="/backers.html">Backers</a>
+      <a href="http://contributor-covenant.org/version/1/1/0/">Code of Conduct</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror/prosemirror/issues">Report an Issue</a>
+    </div>
+  </nav>
+</footer>
+
+</html>

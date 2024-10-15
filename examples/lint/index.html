@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang=en-US>
+<meta charset=utf8>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>ProseMirror lint example</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet href=/css/site.css>
+
+<header >
+  <nav>
+    <a class=logo href="/">ProseMirror</a>
+    <div class=navlinks><a href="/examples/" class=active>Examples</a>
+      <a href="/docs/" >Documentation</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    </div>
+  </nav></header><article><h1>Linting example</h1>
+<p>The browser DOM serves its purpose—representing complex webpages—very
+well. But its huge scope and loose structure makes it difficult to
+make assumptions about. A document model that represents a smaller set
+of documents can be easier to reason about.</p>
+<p>This example implements a simple document
+<a href="https://en.wikipedia.org/wiki/Lint_(software)">linter</a> that finds
+problems in your document, and makes it easy to fix them.</p>
+<style>
+  #editor { position: relative }
+  .problem { background: #fdd; border-bottom: 1px solid #f22; margin-bottom: -1px; }
+  .lint-icon {
+    display: inline-block; position: absolute; right: 2px; cursor: pointer;
+    border-radius: 100px; background: #f22; color: white; font-family: times, georgia, serif;
+    font-size: 15px; font-weight: bold; width: 1.1em; height: 1.1em;
+    text-align: center; padding-left: .5px; line-height: 1.1em
+  }
+  .lint-icon:before { content: "!" }
+  .ProseMirror { padding-right: 20px }
+</style>
+<div id=editor></div>
+<div id=content style="display: none">
+  <h3>Lint example</h3>
+  <p>This is a sentence ,but the comma isn't in the right place.</p>
+  <h5>Too-minor header</h5>
+  <p>This is an image <img src="/img/smiley.png"> without alt text.
+  You can hover over the icons on the right to see what the
+  problem is, click them to select the relevant text, and, obviously,
+  double-click them to automatically fix it (if supported).</p>
+</div>
+<p>The first part of this example is a function that, given a document,
+produces an array of problems found in that document. We'll use the
+<a href="/docs/ref/#model.Node.descendants"><code>descendants</code></a> method to easily iterate
+over all nodes in a document. Depending on the type of node, different
+types of problems are checked for.</p>
+<p>Each problem is represented as an object with a message, a start, and
+an end, so that they can be displayed and highlighted. The objects may
+also optionally have a <code>fix</code> method, which can be called (passing the
+view) to fix the problem.</p>
+<pre><code class="language-javascript"><span class="tok-comment">// Words you probably shouldn't use</span>
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">badWords</span> <span class="tok-operator">=</span> <span class="tok-string2">/\b(obviously|clearly|evidently|simply)\b/ig</span>
+<span class="tok-comment">// Matches punctuation with a space before it</span>
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">badPunc</span> <span class="tok-operator">=</span> <span class="tok-string2">/ ([,\.!?:]) ?/g</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">lint</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">doc</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">result</span> <span class="tok-operator">=</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">lastHeadLevel</span> <span class="tok-operator">=</span> <span class="tok-keyword">null</span>
+
+  <span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">record</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">msg</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">from</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">to</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">fix</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-variableName">result</span><span class="tok-operator">.</span><span class="tok-propertyName">push</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">msg</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">from</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">to</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">fix</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-comment">// For each node in the document</span>
+  <span class="tok-variableName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">descendants</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">pos</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">isText</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-comment">// Scan text nodes for suspicious patterns</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">m</span>
+      <span class="tok-keyword">while</span> <span class="tok-punctuation">(</span><span class="tok-variableName">m</span> <span class="tok-operator">=</span> <span class="tok-variableName">badWords</span><span class="tok-operator">.</span><span class="tok-propertyName">exec</span><span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">text</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+        <span class="tok-variableName">record</span><span class="tok-punctuation">(</span><span class="tok-string2">`Try not to say '</span><span class="tok-punctuation">${</span><span class="tok-variableName">m</span><span class="tok-punctuation">[</span><span class="tok-number">0</span><span class="tok-punctuation">]</span><span class="tok-punctuation">}</span><span class="tok-string2">'`</span><span class="tok-punctuation">,</span>
+               <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-operator">.</span><span class="tok-propertyName">index</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-operator">.</span><span class="tok-propertyName">index</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-punctuation">[</span><span class="tok-number">0</span><span class="tok-punctuation">]</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">while</span> <span class="tok-punctuation">(</span><span class="tok-variableName">m</span> <span class="tok-operator">=</span> <span class="tok-variableName">badPunc</span><span class="tok-operator">.</span><span class="tok-propertyName">exec</span><span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">text</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+        <span class="tok-variableName">record</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;Suspicious spacing around punctuation&quot;</span><span class="tok-punctuation">,</span>
+               <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-operator">.</span><span class="tok-propertyName">index</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-operator">.</span><span class="tok-propertyName">index</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-punctuation">[</span><span class="tok-number">0</span><span class="tok-punctuation">]</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">,</span>
+               <span class="tok-variableName">fixPunc</span><span class="tok-punctuation">(</span><span class="tok-variableName">m</span><span class="tok-punctuation">[</span><span class="tok-number">1</span><span class="tok-punctuation">]</span> <span class="tok-operator">+</span> <span class="tok-string">&quot; &quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+    <span class="tok-punctuation">}</span> <span class="tok-keyword">else</span> <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-operator">.</span><span class="tok-propertyName">name</span> <span class="tok-operator">==</span> <span class="tok-string">&quot;heading&quot;</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-comment">// Check whether heading levels fit under the current level</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">level</span> <span class="tok-operator">=</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">level</span>
+      <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">lastHeadLevel</span> <span class="tok-operator">!=</span> <span class="tok-keyword">null</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">level</span> <span class="tok-operator">&gt;</span> <span class="tok-variableName">lastHeadLevel</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span>
+        <span class="tok-variableName">record</span><span class="tok-punctuation">(</span><span class="tok-string2">`Heading too small (</span><span class="tok-punctuation">${</span><span class="tok-variableName">level</span><span class="tok-punctuation">}</span><span class="tok-string2"> under </span><span class="tok-punctuation">${</span><span class="tok-variableName">lastHeadLevel</span><span class="tok-punctuation">}</span><span class="tok-string2">)`</span><span class="tok-punctuation">,</span>
+               <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-number">1</span> <span class="tok-operator">+</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">content</span><span class="tok-operator">.</span><span class="tok-propertyName">size</span><span class="tok-punctuation">,</span>
+               <span class="tok-variableName">fixHeader</span><span class="tok-punctuation">(</span><span class="tok-variableName">lastHeadLevel</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+      <span class="tok-variableName">lastHeadLevel</span> <span class="tok-operator">=</span> <span class="tok-variableName">level</span>
+    <span class="tok-punctuation">}</span> <span class="tok-keyword">else</span> <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-operator">.</span><span class="tok-propertyName">name</span> <span class="tok-operator">==</span> <span class="tok-string">&quot;image&quot;</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-operator">!</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">alt</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-comment">// Ensure images have alt text</span>
+      <span class="tok-variableName">record</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;Image without alt text&quot;</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">,</span> <span class="tok-variableName">addAlt</span><span class="tok-punctuation">)</span>
+    <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+
+  <span class="tok-keyword">return</span> <span class="tok-variableName">result</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>The helper utilities that are used to provide fix commands look like
+this.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">fixPunc</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">replacement</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">return</span> <span class="tok-keyword">function</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-propertyName">dispatch</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-variableName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">replaceWith</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">to</span><span class="tok-punctuation">,</span>
+                                  <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">text</span><span class="tok-punctuation">(</span><span class="tok-variableName">replacement</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">fixHeader</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">level</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">return</span> <span class="tok-keyword">function</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-propertyName">dispatch</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-variableName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setNodeMarkup</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span> <span class="tok-operator">-</span> <span class="tok-number">1</span><span class="tok-punctuation">,</span> <span class="tok-keyword">null</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">level</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">addAlt</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-propertyName">dispatch</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">alt</span> <span class="tok-operator">=</span> <span class="tok-variableName">prompt</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;Alt text&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;&quot;</span><span class="tok-punctuation">)</span>
+  <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">alt</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">attrs</span> <span class="tok-operator">=</span> <span class="tok-variableName">Object</span><span class="tok-operator">.</span><span class="tok-propertyName">assign</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">nodeAt</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">alt</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+    <span class="tok-variableName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setNodeMarkup</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span><span class="tok-punctuation">,</span> <span class="tok-keyword">null</span><span class="tok-punctuation">,</span> <span class="tok-variableName">attrs</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>The way the plugin will work is that it'll keep a set of decorations
+that highlight problems and inserts an icon next to them. CSS is used
+to position the icon on the right side of the editor, so that it
+doesn't interfere with the document flow.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Decoration</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">DecorationSet</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-view&quot;</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">lintDeco</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">doc</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">decos</span> <span class="tok-operator">=</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span>
+  <span class="tok-variableName">lint</span><span class="tok-punctuation">(</span><span class="tok-variableName">doc</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">forEach</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">prob</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+    <span class="tok-variableName">decos</span><span class="tok-operator">.</span><span class="tok-propertyName">push</span><span class="tok-punctuation">(</span><span class="tok-variableName">Decoration</span><span class="tok-operator">.</span><span class="tok-propertyName">inline</span><span class="tok-punctuation">(</span><span class="tok-variableName">prob</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span><span class="tok-punctuation">,</span> <span class="tok-variableName">prob</span><span class="tok-operator">.</span><span class="tok-propertyName">to</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">class</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;problem&quot;</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+               <span class="tok-variableName">Decoration</span><span class="tok-operator">.</span><span class="tok-propertyName">widget</span><span class="tok-punctuation">(</span><span class="tok-variableName">prob</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span><span class="tok-punctuation">,</span> <span class="tok-variableName">lintIcon</span><span class="tok-punctuation">(</span><span class="tok-variableName">prob</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-variableName">prob</span><span class="tok-operator">.</span><span class="tok-propertyName">msg</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+  <span class="tok-keyword">return</span> <span class="tok-variableName">DecorationSet</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-variableName">doc</span><span class="tok-punctuation">,</span> <span class="tok-variableName">decos</span><span class="tok-punctuation">)</span>
+<span class="tok-punctuation">}</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">lintIcon</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">prob</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">return</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">icon</span> <span class="tok-operator">=</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;div&quot;</span><span class="tok-punctuation">)</span>
+    <span class="tok-variableName">icon</span><span class="tok-operator">.</span><span class="tok-propertyName">className</span> <span class="tok-operator">=</span> <span class="tok-string">&quot;lint-icon&quot;</span>
+    <span class="tok-variableName">icon</span><span class="tok-operator">.</span><span class="tok-propertyName">title</span> <span class="tok-operator">=</span> <span class="tok-variableName">prob</span><span class="tok-operator">.</span><span class="tok-propertyName">msg</span>
+    <span class="tok-variableName">icon</span><span class="tok-operator">.</span><span class="tok-propertyName">problem</span> <span class="tok-operator">=</span> <span class="tok-variableName">prob</span>
+    <span class="tok-keyword">return</span> <span class="tok-variableName">icon</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>The problem object is stored in the icon DOM nodes, so that event
+handlers can access them when handling clicks on the node. We'll make
+a single click on an icon select the annotated region, and a double
+click run the <code>fix</code> method.</p>
+<p>Recomputing the whole set of problems, and recreating the set of
+decorations, on every change isn't very efficient, so for production
+code you might want to consider an approach that can incrementally
+update these. That'd be quite a bit more complex, but definitely
+doable—the transaction can give you the information you need to figure
+out what part of the document changed.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Plugin</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">TextSelection</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-state&quot;</span>
+
+<span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">lintPlugin</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Plugin</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">state</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">init</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">_</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">return</span> <span class="tok-variableName">lintDeco</span><span class="tok-punctuation">(</span><span class="tok-variableName">doc</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">apply</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">tr</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">old</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">return</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">docChanged</span> <span class="tok-operator">?</span> <span class="tok-variableName">lintDeco</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">)</span> <span class="tok-operator">:</span> <span class="tok-variableName">old</span> <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">props</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">decorations</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">state</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">return</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">getState</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">handleClick</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">_</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">event</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-string2">/lint-icon/</span><span class="tok-operator">.</span><span class="tok-propertyName">test</span><span class="tok-punctuation">(</span><span class="tok-variableName">event</span><span class="tok-operator">.</span><span class="tok-propertyName">target</span><span class="tok-operator">.</span><span class="tok-propertyName">className</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+        <span class="tok-keyword">let</span> <span class="tok-punctuation">{</span><span class="tok-propertyName">from</span><span class="tok-punctuation">,</span> <span class="tok-propertyName">to</span><span class="tok-punctuation">}</span> <span class="tok-operator">=</span> <span class="tok-variableName">event</span><span class="tok-operator">.</span><span class="tok-propertyName">target</span><span class="tok-operator">.</span><span class="tok-propertyName">problem</span>
+        <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">(</span>
+          <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span>
+            <span class="tok-operator">.</span><span class="tok-propertyName">setSelection</span><span class="tok-punctuation">(</span><span class="tok-variableName">TextSelection</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">,</span> <span class="tok-variableName">from</span><span class="tok-punctuation">,</span> <span class="tok-variableName">to</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+            <span class="tok-operator">.</span><span class="tok-propertyName">scrollIntoView</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+        <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
+      <span class="tok-punctuation">}</span>
+    <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">handleDoubleClick</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">_</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">event</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-string2">/lint-icon/</span><span class="tok-operator">.</span><span class="tok-propertyName">test</span><span class="tok-punctuation">(</span><span class="tok-variableName">event</span><span class="tok-operator">.</span><span class="tok-propertyName">target</span><span class="tok-operator">.</span><span class="tok-propertyName">className</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+        <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">prob</span> <span class="tok-operator">=</span> <span class="tok-variableName">event</span><span class="tok-operator">.</span><span class="tok-propertyName">target</span><span class="tok-operator">.</span><span class="tok-propertyName">problem</span>
+        <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">prob</span><span class="tok-operator">.</span><span class="tok-propertyName">fix</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+          <span class="tok-variableName">prob</span><span class="tok-operator">.</span><span class="tok-propertyName">fix</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-punctuation">)</span>
+          <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">focus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+          <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
+        <span class="tok-punctuation">}</span>
+      <span class="tok-punctuation">}</span>
+    <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+</code></pre>
+<link rel=stylesheet href="../../css/editor.css">
+<script src="../prosemirror.js"></script>
+<script src="example.js"></script></article>
+
+<footer>
+  <nav>
+    <a class=logo href=".">&nbsp;</a>
+    <div class=navlinks>
+      <a href="/backers.html">Backers</a>
+      <a href="http://contributor-covenant.org/version/1/1/0/">Code of Conduct</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror/prosemirror/issues">Report an Issue</a>
+    </div>
+  </nav>
+</footer>
+
+</html>

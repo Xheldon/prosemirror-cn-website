@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang=en-US>
+<meta charset=utf8>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>ProseMirror dino example</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet href=/css/site.css>
+
+<header >
+  <nav>
+    <a class=logo href="/">ProseMirror</a>
+    <div class=navlinks><a href="/examples/" class=active>Examples</a>
+      <a href="/docs/" >Documentation</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    </div>
+  </nav></header><article><h1>Dinos in the document</h1>
+<p>Say you need to include exotic, site-specific elements in your
+documents. These may be handles to other objects in our system
+(documents, users, etc), domain-specific widgets, or, in the case of
+this demo, dinosaurs.</p>
+<p>ProseMirror allows you to define your own schemas, which includes
+defining custom document elements. You can use whatever you put in the
+schema as proper semantic element in your documents.</p>
+<style>
+  img.dinosaur { height: 40px; vertical-align: bottom; border: 1px solid #0ae; border-radius: 4px; background: #ddf6ff }
+</style>
+<div id="editor"></div>
+<div id="content" style="display: none">
+  <p>This is your dinosaur-enabled editor. The insert menu allows you
+  to insert dinosaurs.</p>
+  <p>This paragraph <img class=dinosaur dino-type="stegosaurus">, for example,
+  <img class=dinosaur dino-type="triceratops">
+  is full <img class=dinosaur dino-type="tyrannosaurus"> of
+  dinosaurs.</p>
+  <p>Dinosaur nodes can be selected, copied, pasted, dragged, and so on.</p>
+</div>
+<p>In this example, we extend the
+<a href="https://github.com/prosemirror/prosemirror-schema-basic">basic</a>
+schema with a single new node. First, we define a <a href="/docs/ref/#model.NodeSpec">node
+spec</a>, which describes the node's behavior and its
+DOM representation.</p>
+<pre><code class="language-javascript"><span class="tok-comment">// The supported types of dinosaurs.</span>
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">dinos</span> <span class="tok-operator">=</span> <span class="tok-punctuation">[</span><span class="tok-string">&quot;brontosaurus&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;stegosaurus&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;triceratops&quot;</span><span class="tok-punctuation">,</span>
+               <span class="tok-string">&quot;tyrannosaurus&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;pterodactyl&quot;</span><span class="tok-punctuation">]</span>
+
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">dinoNodeSpec</span> <span class="tok-operator">=</span> <span class="tok-punctuation">{</span>
+  <span class="tok-comment">// Dinosaurs have one attribute, their type, which must be one of</span>
+  <span class="tok-comment">// the types defined above.</span>
+  <span class="tok-comment">// Brontosaurs are still the default dino.</span>
+  <span class="tok-propertyName tok-definition">attrs</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">type</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">default</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;brontosaurus&quot;</span><span class="tok-punctuation">}</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">inline</span><span class="tok-punctuation">:</span> <span class="tok-bool">true</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">group</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;inline&quot;</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">draggable</span><span class="tok-punctuation">:</span> <span class="tok-bool">true</span><span class="tok-punctuation">,</span>
+
+  <span class="tok-comment">// These nodes are rendered as images with a `dino-type` attribute.</span>
+  <span class="tok-comment">// There are pictures for all dino types under /img/dino/.</span>
+  <span class="tok-propertyName tok-definition">toDOM</span><span class="tok-punctuation">:</span> <span class="tok-variableName tok-definition">node</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">[</span><span class="tok-string">&quot;img&quot;</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-string">&quot;dino-type&quot;</span><span class="tok-punctuation">:</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-punctuation">,</span>
+                          <span class="tok-propertyName tok-definition">src</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;/img/dino/&quot;</span> <span class="tok-operator">+</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span> <span class="tok-operator">+</span> <span class="tok-string">&quot;.png&quot;</span><span class="tok-punctuation">,</span>
+                          <span class="tok-propertyName tok-definition">title</span><span class="tok-punctuation">:</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-punctuation">,</span>
+                          <span class="tok-propertyName tok-definition">class</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;dinosaur&quot;</span><span class="tok-punctuation">}</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span>
+  <span class="tok-comment">// When parsing, such an image, if its type matches one of the known</span>
+  <span class="tok-comment">// types, is converted to a dino node.</span>
+  <span class="tok-propertyName tok-definition">parseDOM</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">tag</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;img[dino-type]&quot;</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">getAttrs</span><span class="tok-punctuation">:</span> <span class="tok-variableName tok-definition">dom</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">type</span> <span class="tok-operator">=</span> <span class="tok-variableName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">getAttribute</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;dino-type&quot;</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">return</span> <span class="tok-variableName">dinos</span><span class="tok-operator">.</span><span class="tok-propertyName">indexOf</span><span class="tok-punctuation">(</span><span class="tok-variableName">type</span><span class="tok-punctuation">)</span> <span class="tok-operator">&gt;</span> <span class="tok-operator">-</span><span class="tok-number">1</span> <span class="tok-operator">?</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">type</span><span class="tok-punctuation">}</span> <span class="tok-operator">:</span> <span class="tok-bool">false</span>
+    <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">]</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>Then, we create an actual schema that includes this node, and use that
+to parse a piece of the HTML page into a ProseMirror document.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Schema</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">DOMParser</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-model&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">schema</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-schema-basic&quot;</span>
+
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">dinoSchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">nodes</span><span class="tok-punctuation">:</span> <span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">addBefore</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;image&quot;</span><span class="tok-punctuation">,</span> <span class="tok-string">&quot;dino&quot;</span><span class="tok-punctuation">,</span> <span class="tok-variableName">dinoNodeSpec</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">marks</span><span class="tok-punctuation">:</span> <span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">marks</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+
+<span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">content</span> <span class="tok-operator">=</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">querySelector</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;#content&quot;</span><span class="tok-punctuation">)</span>
+<span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">startDoc</span> <span class="tok-operator">=</span> <span class="tok-variableName">DOMParser</span><span class="tok-operator">.</span><span class="tok-propertyName">fromSchema</span><span class="tok-punctuation">(</span><span class="tok-variableName">dinoSchema</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">parse</span><span class="tok-punctuation">(</span><span class="tok-variableName">content</span><span class="tok-punctuation">)</span>
+</code></pre>
+<p>The demo is going to use the <a href="https://github.com/prosemirror/prosemirror-example-setup">example
+setup</a>
+module again, to provide the basic plumbing for the editor. But we
+need new menu items in the insert menu. First, define a
+<a href="/docs/guide/#commands">command</a> that handles dinosaur insertion.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">dinoType</span> <span class="tok-operator">=</span> <span class="tok-variableName">dinoSchema</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">dino</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">insertDino</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">type</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">return</span> <span class="tok-keyword">function</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">dispatch</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">let</span> <span class="tok-punctuation">{</span><span class="tok-propertyName">$from</span><span class="tok-punctuation">}</span> <span class="tok-operator">=</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">index</span> <span class="tok-operator">=</span> <span class="tok-variableName">$from</span><span class="tok-operator">.</span><span class="tok-propertyName">index</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-operator">!</span><span class="tok-variableName">$from</span><span class="tok-operator">.</span><span class="tok-propertyName">parent</span><span class="tok-operator">.</span><span class="tok-propertyName">canReplaceWith</span><span class="tok-punctuation">(</span><span class="tok-variableName">index</span><span class="tok-punctuation">,</span> <span class="tok-variableName">index</span><span class="tok-punctuation">,</span> <span class="tok-variableName">dinoType</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">return</span> <span class="tok-bool">false</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">dispatch</span><span class="tok-punctuation">)</span>
+      <span class="tok-variableName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">replaceSelectionWith</span><span class="tok-punctuation">(</span><span class="tok-variableName">dinoType</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">type</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>Next, create menu items that call our command.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">MenuItem</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-menu&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">buildMenuItems</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-example-setup&quot;</span>
+
+<span class="tok-comment">// Ask example-setup to build its basic menu</span>
+<span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">menu</span> <span class="tok-operator">=</span> <span class="tok-variableName">buildMenuItems</span><span class="tok-punctuation">(</span><span class="tok-variableName">dinoSchema</span><span class="tok-punctuation">)</span>
+<span class="tok-comment">// Add a dino-inserting item for each type of dino</span>
+<span class="tok-variableName">dinos</span><span class="tok-operator">.</span><span class="tok-propertyName">forEach</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">name</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">menu</span><span class="tok-operator">.</span><span class="tok-propertyName">insertMenu</span><span class="tok-operator">.</span><span class="tok-propertyName">content</span><span class="tok-operator">.</span><span class="tok-propertyName">push</span><span class="tok-punctuation">(</span><span class="tok-keyword">new</span> <span class="tok-variableName">MenuItem</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">title</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;Insert &quot;</span> <span class="tok-operator">+</span> <span class="tok-variableName">name</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">label</span><span class="tok-punctuation">:</span> <span class="tok-variableName">name</span><span class="tok-operator">.</span><span class="tok-propertyName">charAt</span><span class="tok-punctuation">(</span><span class="tok-number">0</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">toUpperCase</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-operator">+</span> <span class="tok-variableName">name</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">enable</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">state</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">return</span> <span class="tok-variableName">insertDino</span><span class="tok-punctuation">(</span><span class="tok-variableName">name</span><span class="tok-punctuation">)</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-variableName">insertDino</span><span class="tok-punctuation">(</span><span class="tok-variableName">name</span><span class="tok-punctuation">)</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+</code></pre>
+<p>Now all that's left to do is creating an editor state and view with
+our custom schema and menu.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">EditorState</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-state&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">EditorView</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-view&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">exampleSetup</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-example-setup&quot;</span>
+
+<span class="tok-variableName">window</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">EditorView</span><span class="tok-punctuation">(</span><span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">querySelector</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;#editor&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">state</span><span class="tok-punctuation">:</span> <span class="tok-variableName">EditorState</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">doc</span><span class="tok-punctuation">:</span> <span class="tok-variableName">startDoc</span><span class="tok-punctuation">,</span>
+    <span class="tok-comment">// Pass exampleSetup our schema and the menu we created</span>
+    <span class="tok-propertyName tok-definition">plugins</span><span class="tok-punctuation">:</span> <span class="tok-variableName">exampleSetup</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">schema</span><span class="tok-punctuation">:</span> <span class="tok-variableName">dinoSchema</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">menuContent</span><span class="tok-punctuation">:</span> <span class="tok-variableName">menu</span><span class="tok-operator">.</span><span class="tok-propertyName">fullMenu</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+</code></pre>
+<link rel=stylesheet href="../../css/editor.css">
+<script src="../prosemirror.js"></script>
+<script src="example.js"></script></article>
+
+<footer>
+  <nav>
+    <a class=logo href=".">&nbsp;</a>
+    <div class=navlinks>
+      <a href="/backers.html">Backers</a>
+      <a href="http://contributor-covenant.org/version/1/1/0/">Code of Conduct</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror/prosemirror/issues">Report an Issue</a>
+    </div>
+  </nav>
+</footer>
+
+</html>

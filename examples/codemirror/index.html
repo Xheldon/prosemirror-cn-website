@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang=en-US>
+<meta charset=utf8>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>ProseMirror embedded editor example</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet href=/css/site.css>
+
+<header >
+  <nav>
+    <a class=logo href="/">ProseMirror</a>
+    <div class=navlinks><a href="/examples/" class=active>Examples</a>
+      <a href="/docs/" >Documentation</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    </div>
+  </nav></header><article><h1>Embedded code editor</h1>
+<p>It can be useful to have the in-document representation of some node,
+such as a code block, math formula, or image, show up as a custom
+editor control specifically for such content. <a href="/docs/ref/#view.NodeView">Node
+views</a> are a ProseMirror feature that make this
+possible.</p>
+<p>In this example, we set up code blocks, as they exist in the <a href="/docs/ref/#schema-basic">basic
+schema</a>, to be rendered as instances of
+<a href="http://codemirror.net">CodeMirror</a>, a code editor component. The
+general idea is quite similar to the <a href="../footnote/">footnote example</a>,
+but instead of popping up the node-specific editor when the user
+selects the node, it is always visible.</p>
+<p>Wiring such a node view and keymap into an editor gives us something
+like this:</p>
+<div id="editor"></div>
+<div id=content style="display: none">
+<h3>The code block is a code editor</h3>
+<p>This editor has been wired up to render code blocks as instances of
+the <a href="http://codemirror.net">CodeMirror</a> code editor, which
+provides syntax highlighting, auto-indentation, and similar.</p>
+<pre>
+function max(a, b) {
+  return a > b ? a : b
+}</pre>
+<p>The content of the code editor is kept in sync with the content of
+the code block in the rich text editor, so that it is as if you're
+directly editing the outer document, using a more convenient
+interface.</p>
+</div>
+<style>
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+  }
+  .CodeMirror pre { white-space: pre !important }
+</style>
+<p>Because we want changes in the code editor to be reflected in the
+ProseMirror document, our node view must flush changes to its content
+to ProseMirror as soon as they happen. To allow ProseMirror commands
+to act on the right selection, the code editor will also sync its
+current selection to ProseMirror.</p>
+<p>The first thing we do in our code block node view is create an editor
+with some basic extensions, a few extra key bindings, and an update
+listener that will do the synchronization.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span>
+  <span class="tok-variableName">EditorView</span> <span class="tok-keyword">as</span> <span class="tok-variableName tok-definition">CodeMirror</span><span class="tok-punctuation">,</span> <span class="tok-variableName">keymap</span> <span class="tok-keyword">as</span> <span class="tok-variableName tok-definition">cmKeymap</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">drawSelection</span>
+<span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;@codemirror/view&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">javascript</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;@codemirror/lang-javascript&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">defaultKeymap</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;@codemirror/commands&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">syntaxHighlighting</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">defaultHighlightStyle</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;@codemirror/language&quot;</span>
+
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">exitCode</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-commands&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">undo</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">redo</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-history&quot;</span>
+
+<span class="tok-keyword">class</span> <span class="tok-className">CodeBlockView</span> <span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">constructor</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">getPos</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-comment">// Store for later</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span> <span class="tok-operator">=</span> <span class="tok-variableName">node</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">getPos</span> <span class="tok-operator">=</span> <span class="tok-variableName">getPos
+
+    </span><span class="tok-comment">// Create a CodeMirror instance</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">CodeMirror</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+      <span class="tok-propertyName tok-definition">doc</span><span class="tok-punctuation">:</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">textContent</span><span class="tok-punctuation">,</span>
+      <span class="tok-propertyName tok-definition">extensions</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">[</span>
+        <span class="tok-variableName">cmKeymap</span><span class="tok-operator">.</span><span class="tok-propertyName">of</span><span class="tok-punctuation">(</span><span class="tok-punctuation">[</span>
+          <span class="tok-punctuation">...</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">codeMirrorKeymap</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+          <span class="tok-punctuation">...</span><span class="tok-variableName">defaultKeymap</span>
+        <span class="tok-punctuation">]</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+        <span class="tok-variableName">drawSelection</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+        <span class="tok-variableName">syntaxHighlighting</span><span class="tok-punctuation">(</span><span class="tok-variableName">defaultHighlightStyle</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+        <span class="tok-variableName">javascript</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+        <span class="tok-variableName">CodeMirror</span><span class="tok-operator">.</span><span class="tok-propertyName">updateListener</span><span class="tok-operator">.</span><span class="tok-propertyName">of</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">update</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">forwardUpdate</span><span class="tok-punctuation">(</span><span class="tok-variableName">update</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+      <span class="tok-punctuation">]</span>
+    <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+
+    <span class="tok-comment">// The editor's outer node is our DOM representation</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span>
+
+    <span class="tok-comment">// This flag is used to avoid an update loop between the outer and</span>
+    <span class="tok-comment">// inner editor</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">updating</span> <span class="tok-operator">=</span> <span class="tok-bool">false</span>
+  <span class="tok-punctuation">}</span>
+</code></pre>
+<p>When the code editor is focused, translate any update that changes the
+document or selection to a ProseMirror transaction. The <code>getPos</code> that
+was passed to the node view can be used to find out where our code
+content starts, relative to the outer document (the <code>+ 1</code> skips the
+code block opening token).</p>
+<pre><code class="language-javascript">  <span class="tok-variableName">forwardUpdate</span><span class="tok-punctuation">(</span><span class="tok-variableName">update</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">updating</span> <span class="tok-operator">||</span> <span class="tok-operator">!</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span><span class="tok-operator">.</span><span class="tok-propertyName">hasFocus</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">offset</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">getPos</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName">main</span><span class="tok-punctuation">}</span> <span class="tok-operator">=</span> <span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">selFrom</span> <span class="tok-operator">=</span> <span class="tok-variableName">offset</span> <span class="tok-operator">+</span> <span class="tok-variableName">main</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">selTo</span> <span class="tok-operator">=</span> <span class="tok-variableName">offset</span> <span class="tok-operator">+</span> <span class="tok-variableName">main</span><span class="tok-operator">.</span><span class="tok-propertyName">to</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">pmSel</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">docChanged</span> <span class="tok-operator">||</span> <span class="tok-variableName">pmSel</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span> <span class="tok-operator">!=</span> <span class="tok-variableName">selFrom</span> <span class="tok-operator">||</span> <span class="tok-variableName">pmSel</span><span class="tok-operator">.</span><span class="tok-propertyName">to</span> <span class="tok-operator">!=</span> <span class="tok-variableName">selTo</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">tr</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span>
+      <span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">changes</span><span class="tok-operator">.</span><span class="tok-propertyName">iterChanges</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">fromA</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">toA</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">fromB</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">toB</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">text</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+        <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">text</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">)</span>
+          <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">replaceWith</span><span class="tok-punctuation">(</span><span class="tok-variableName">offset</span> <span class="tok-operator">+</span> <span class="tok-variableName">fromA</span><span class="tok-punctuation">,</span> <span class="tok-variableName">offset</span> <span class="tok-operator">+</span> <span class="tok-variableName">toA</span><span class="tok-punctuation">,</span>
+                         <span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">text</span><span class="tok-punctuation">(</span><span class="tok-variableName">text</span><span class="tok-operator">.</span><span class="tok-propertyName">toString</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+        <span class="tok-keyword">else</span>
+          <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">delete</span><span class="tok-punctuation">(</span><span class="tok-variableName">offset</span> <span class="tok-operator">+</span> <span class="tok-variableName">fromA</span><span class="tok-punctuation">,</span> <span class="tok-variableName">offset</span> <span class="tok-operator">+</span> <span class="tok-variableName">toA</span><span class="tok-punctuation">)</span>
+        <span class="tok-variableName">offset</span> <span class="tok-operator">+=</span> <span class="tok-punctuation">(</span><span class="tok-variableName">toB</span> <span class="tok-operator">-</span> <span class="tok-variableName">fromB</span><span class="tok-punctuation">)</span> <span class="tok-operator">-</span> <span class="tok-punctuation">(</span><span class="tok-variableName">toA</span> <span class="tok-operator">-</span> <span class="tok-variableName">fromA</span><span class="tok-punctuation">)</span>
+      <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+      <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setSelection</span><span class="tok-punctuation">(</span><span class="tok-variableName">TextSelection</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">,</span> <span class="tok-variableName">selFrom</span><span class="tok-punctuation">,</span> <span class="tok-variableName">selTo</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-punctuation">)</span>
+    <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span>
+</code></pre>
+<p>When adding steps to a transaction for content changes, the offset is
+adjusted for the changes in length caused by the change, so that
+further steps are created in the correct position.</p>
+<p>The <code>setSelection</code> method on a node view will be called when
+ProseMirror tries to put the selection inside the node. Our
+implementation makes sure the CodeMirror selection is set to match the
+position that is passed in.</p>
+<pre><code class="language-javascript">  <span class="tok-variableName">setSelection</span><span class="tok-punctuation">(</span><span class="tok-variableName">anchor</span><span class="tok-punctuation">,</span> <span class="tok-variableName">head</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span><span class="tok-operator">.</span><span class="tok-propertyName">focus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">updating</span> <span class="tok-operator">=</span> <span class="tok-bool">true</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">selection</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">anchor</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">head</span><span class="tok-punctuation">}</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">updating</span> <span class="tok-operator">=</span> <span class="tok-bool">false</span>
+  <span class="tok-punctuation">}</span>
+</code></pre>
+<p>A somewhat tricky aspect of nesting editor like this is handling
+cursor motion across the edges of the inner editor. This node view
+will have to take care of allowing the user to move the selection out
+of the code editor. For that purpose, it binds the arrow keys to
+handlers that check if further motion would ‘escape’ the editor, and
+if so, return the selection and focus to the outer editor.</p>
+<p>The keymap also binds keys for undo and redo, which the outer editor
+will handle, and for ctrl-enter, which, in ProseMirror's base keymap,
+creates a new paragraph after a code block.</p>
+<pre><code class="language-javascript">  <span class="tok-variableName">codeMirrorKeymap</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">view</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span>
+    <span class="tok-keyword">return</span> <span class="tok-punctuation">[</span>
+      <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;ArrowUp&quot;</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">maybeEscape</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;line&quot;</span><span class="tok-punctuation">,</span> <span class="tok-operator">-</span><span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+      <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;ArrowLeft&quot;</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">maybeEscape</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;char&quot;</span><span class="tok-punctuation">,</span> <span class="tok-operator">-</span><span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+      <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;ArrowDown&quot;</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">maybeEscape</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;line&quot;</span><span class="tok-punctuation">,</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+      <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;ArrowRight&quot;</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">maybeEscape</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;char&quot;</span><span class="tok-punctuation">,</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+      <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;Ctrl-Enter&quot;</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+        <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-operator">!</span><span class="tok-variableName">exitCode</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-bool">false</span>
+        <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">focus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+        <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
+      <span class="tok-punctuation">}</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+      <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;Ctrl-z&quot;</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">mac</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;Cmd-z&quot;</span><span class="tok-punctuation">,</span>
+       <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">undo</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+      <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;Shift-Ctrl-z&quot;</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">mac</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;Shift-Cmd-z&quot;</span><span class="tok-punctuation">,</span>
+       <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">redo</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+      <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">key</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;Ctrl-y&quot;</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">mac</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;Cmd-y&quot;</span><span class="tok-punctuation">,</span>
+       <span class="tok-propertyName tok-definition">run</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">redo</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span>
+    <span class="tok-punctuation">]</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-variableName">maybeEscape</span><span class="tok-punctuation">(</span><span class="tok-variableName">unit</span><span class="tok-punctuation">,</span> <span class="tok-variableName">dir</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">let</span> <span class="tok-punctuation">{</span><span class="tok-propertyName">state</span><span class="tok-punctuation">}</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName">main</span><span class="tok-punctuation">}</span> <span class="tok-operator">=</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-operator">!</span><span class="tok-variableName">main</span><span class="tok-operator">.</span><span class="tok-propertyName">empty</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-bool">false</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">unit</span> <span class="tok-operator">==</span> <span class="tok-string">&quot;line&quot;</span><span class="tok-punctuation">)</span> <span class="tok-variableName">main</span> <span class="tok-operator">=</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">lineAt</span><span class="tok-punctuation">(</span><span class="tok-variableName">main</span><span class="tok-operator">.</span><span class="tok-propertyName">head</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">dir</span> <span class="tok-operator">&lt;</span> <span class="tok-number">0</span> <span class="tok-operator">?</span> <span class="tok-variableName">main</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span> <span class="tok-operator">&gt;</span> <span class="tok-number">0</span> <span class="tok-operator">:</span> <span class="tok-variableName">main</span><span class="tok-operator">.</span><span class="tok-propertyName">to</span> <span class="tok-operator">&lt;</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-bool">false</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">targetPos</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">getPos</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-operator">+</span> <span class="tok-punctuation">(</span><span class="tok-variableName">dir</span> <span class="tok-operator">&lt;</span> <span class="tok-number">0</span> <span class="tok-operator">?</span> <span class="tok-number">0</span> <span class="tok-operator">:</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">nodeSize</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">selection</span> <span class="tok-operator">=</span> <span class="tok-variableName">Selection</span><span class="tok-operator">.</span><span class="tok-propertyName">near</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">resolve</span><span class="tok-punctuation">(</span><span class="tok-variableName">targetPos</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-variableName">dir</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">tr</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setSelection</span><span class="tok-punctuation">(</span><span class="tok-variableName">selection</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">scrollIntoView</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">focus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+</code></pre>
+<p>When a node update comes in from ProseMirror, for example because of
+an undo action, we sort of have to do the inverse of what
+<code>forwardUpdate</code> did—check for text changes, and if present, propagate
+them from the outer to the inner editor.</p>
+<p>To avoid needlessly clobbering the state of the inner editor, this
+method only generates a replacement for the range of the content that
+was changed, by comparing the start and end of the old and new
+content.</p>
+<pre><code class="language-javascript">  <span class="tok-variableName">update</span><span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span> <span class="tok-operator">!=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-bool">false</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span> <span class="tok-operator">=</span> <span class="tok-variableName">node</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">updating</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">newText</span> <span class="tok-operator">=</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">textContent</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">curText</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">toString</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">newText</span> <span class="tok-operator">!=</span> <span class="tok-variableName">curText</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">start</span> <span class="tok-operator">=</span> <span class="tok-number">0</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">curEnd</span> <span class="tok-operator">=</span> <span class="tok-variableName">curText</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">newEnd</span> <span class="tok-operator">=</span> <span class="tok-variableName">newText</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span>
+      <span class="tok-keyword">while</span> <span class="tok-punctuation">(</span><span class="tok-variableName">start</span> <span class="tok-operator">&lt;</span> <span class="tok-variableName">curEnd</span> <span class="tok-operator">&amp;&amp;</span>
+             <span class="tok-variableName">curText</span><span class="tok-operator">.</span><span class="tok-propertyName">charCodeAt</span><span class="tok-punctuation">(</span><span class="tok-variableName">start</span><span class="tok-punctuation">)</span> <span class="tok-operator">==</span> <span class="tok-variableName">newText</span><span class="tok-operator">.</span><span class="tok-propertyName">charCodeAt</span><span class="tok-punctuation">(</span><span class="tok-variableName">start</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+        <span class="tok-operator">++</span><span class="tok-variableName">start</span>
+      <span class="tok-punctuation">}</span>
+      <span class="tok-keyword">while</span> <span class="tok-punctuation">(</span><span class="tok-variableName">curEnd</span> <span class="tok-operator">&gt;</span> <span class="tok-variableName">start</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">newEnd</span> <span class="tok-operator">&gt;</span> <span class="tok-variableName">start</span> <span class="tok-operator">&amp;&amp;</span>
+             <span class="tok-variableName">curText</span><span class="tok-operator">.</span><span class="tok-propertyName">charCodeAt</span><span class="tok-punctuation">(</span><span class="tok-variableName">curEnd</span> <span class="tok-operator">-</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span> <span class="tok-operator">==</span> <span class="tok-variableName">newText</span><span class="tok-operator">.</span><span class="tok-propertyName">charCodeAt</span><span class="tok-punctuation">(</span><span class="tok-variableName">newEnd</span> <span class="tok-operator">-</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+        <span class="tok-variableName">curEnd</span><span class="tok-operator">--</span>
+        <span class="tok-variableName">newEnd</span><span class="tok-operator">--</span>
+      <span class="tok-punctuation">}</span>
+      <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">updating</span> <span class="tok-operator">=</span> <span class="tok-bool">true</span>
+      <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+        <span class="tok-propertyName tok-definition">changes</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
+          <span class="tok-propertyName tok-definition">from</span><span class="tok-punctuation">:</span> <span class="tok-variableName">start</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">to</span><span class="tok-punctuation">:</span> <span class="tok-variableName">curEnd</span><span class="tok-punctuation">,</span>
+          <span class="tok-propertyName tok-definition">insert</span><span class="tok-punctuation">:</span> <span class="tok-variableName">newText</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-variableName">start</span><span class="tok-punctuation">,</span> <span class="tok-variableName">newEnd</span><span class="tok-punctuation">)</span>
+        <span class="tok-punctuation">}</span>
+      <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">updating</span> <span class="tok-operator">=</span> <span class="tok-bool">false</span>
+    <span class="tok-punctuation">}</span>
+    <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
+  <span class="tok-punctuation">}</span>
+</code></pre>
+<p>The <code>updating</code> property is used to disable the event listener on the
+code editor, so that it doesn't try to forward the change (which just
+came from ProseMirror) back to ProseMirror.</p>
+<pre><code class="language-javascript">
+  <span class="tok-variableName">selectNode</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">cm</span><span class="tok-operator">.</span><span class="tok-propertyName">focus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">}</span>
+  <span class="tok-variableName">stopEvent</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">return</span> <span class="tok-bool">true</span> <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>Handling cursor motion from the outer to the inner editor must be done
+with a keymap on the outer editor, because the browser's native
+behavior won't handle this. The <code>arrowHandler</code> function uses the
+<a href="/docs/ref/#view.EditorView.endOfTextblock"><code>endOfTextblock</code> method</a> to
+determine, in a bidi-text-aware way, whether the cursor is at the end
+of a given textblock. If it is, and the next block is a code block,
+the selection is moved into it.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">keymap</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-keymap&quot;</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">arrowHandler</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">dir</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">return</span> <span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">dispatch</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-operator">.</span><span class="tok-propertyName">empty</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">endOfTextblock</span><span class="tok-punctuation">(</span><span class="tok-variableName">dir</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">side</span> <span class="tok-operator">=</span> <span class="tok-variableName">dir</span> <span class="tok-operator">==</span> <span class="tok-string">&quot;left&quot;</span> <span class="tok-operator">||</span> <span class="tok-variableName">dir</span> <span class="tok-operator">==</span> <span class="tok-string">&quot;up&quot;</span> <span class="tok-operator">?</span> <span class="tok-operator">-</span><span class="tok-number">1</span> <span class="tok-operator">:</span> <span class="tok-number">1</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">$head</span> <span class="tok-operator">=</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-operator">.</span><span class="tok-propertyName">$head</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">nextPos</span> <span class="tok-operator">=</span> <span class="tok-variableName">Selection</span><span class="tok-operator">.</span><span class="tok-propertyName">near</span><span class="tok-punctuation">(</span>
+        <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">resolve</span><span class="tok-punctuation">(</span><span class="tok-variableName">side</span> <span class="tok-operator">&gt;</span> <span class="tok-number">0</span> <span class="tok-operator">?</span> <span class="tok-variableName">$head</span><span class="tok-operator">.</span><span class="tok-propertyName">after</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-operator">:</span> <span class="tok-variableName">$head</span><span class="tok-operator">.</span><span class="tok-propertyName">before</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-variableName">side</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">nextPos</span><span class="tok-operator">.</span><span class="tok-propertyName">$head</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">nextPos</span><span class="tok-operator">.</span><span class="tok-propertyName">$head</span><span class="tok-operator">.</span><span class="tok-propertyName">parent</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-operator">.</span><span class="tok-propertyName">name</span> <span class="tok-operator">==</span> <span class="tok-string">&quot;code_block&quot;</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+        <span class="tok-variableName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setSelection</span><span class="tok-punctuation">(</span><span class="tok-variableName">nextPos</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+        <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
+      <span class="tok-punctuation">}</span>
+    <span class="tok-punctuation">}</span>
+    <span class="tok-keyword">return</span> <span class="tok-bool">false</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">arrowHandlers</span> <span class="tok-operator">=</span> <span class="tok-variableName">keymap</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">ArrowLeft</span><span class="tok-punctuation">:</span> <span class="tok-variableName">arrowHandler</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;left&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">ArrowRight</span><span class="tok-punctuation">:</span> <span class="tok-variableName">arrowHandler</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;right&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">ArrowUp</span><span class="tok-punctuation">:</span> <span class="tok-variableName">arrowHandler</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;up&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">ArrowDown</span><span class="tok-punctuation">:</span> <span class="tok-variableName">arrowHandler</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;down&quot;</span><span class="tok-punctuation">)</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+</code></pre>
+<link rel=stylesheet href="../../css/editor.css">
+<script src="../prosemirror.js"></script>
+<script src="example.js"></script></article>
+
+<footer>
+  <nav>
+    <a class=logo href=".">&nbsp;</a>
+    <div class=navlinks>
+      <a href="/backers.html">Backers</a>
+      <a href="http://contributor-covenant.org/version/1/1/0/">Code of Conduct</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror/prosemirror/issues">Report an Issue</a>
+    </div>
+  </nav>
+</footer>
+
+</html>

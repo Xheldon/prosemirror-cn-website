@@ -64,9 +64,8 @@ jobs:
       - name: 推送到 gp 分支
         if: env.new_commits == 'true'
         run: |
-          cd website
-          rm .gitignore
-          git checkout -b gp
-          git add public
+          git checkout -b temp
+          mv -f website/public/* _public
+          git add .
           git commit -m "Update build"
-          git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} gp:gp
+          git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:gp

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang=en-US>
+<meta charset=utf8>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>ProseMirror folding example</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet href=/css/site.css>
+
+<header >
+  <nav>
+    <a class=logo href="/">ProseMirror</a>
+    <div class=navlinks><a href="/examples/" class=active>Examples</a>
+      <a href="/docs/" >Documentation</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    </div>
+  </nav></header><article><h1>Folding Nodes</h1>
+<p>This example shows how to use node decorations to influence the
+behavior of node views. Specifically, we'll define a plugin that
+allows the user to <em>fold</em> some nodes (hiding their content).</p>
+<style>
+  .ProseMirror section header {
+    margin: 0 -8px 0 -14px;
+    padding: 0 8px 0 14px;
+    background: #eee;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+  }
+  .ProseMirror section header:before {
+    content: "section"
+  }
+  .ProseMirror section header button {
+    background: transparent;
+    border: none;
+    font: inherit;
+    color: inherit;
+    font-size: 80%;
+  }
+  .ProseMirror section h1 {
+    font-size: 100%;
+    line-height: 1.4;
+    margin: 0;
+  }
+  .ProseMirror section {
+    margin-bottom: 2px;
+  }
+</style>
+<div id="editor"></div>
+<p>We start by modifying the basic schema so that the top level consists
+of a sequence of sections, each of which must contain a heading
+followed by some arbitrary blocks.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Schema</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-model&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName">schema</span> <span class="tok-keyword">as</span> <span class="tok-variableName tok-definition">basicSchema</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-schema-basic&quot;</span>
+
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">schema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">nodes</span><span class="tok-punctuation">:</span> <span class="tok-variableName">basicSchema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">append</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">doc</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
+      <span class="tok-propertyName tok-definition">content</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;section+&quot;</span>
+    <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">section</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
+      <span class="tok-propertyName tok-definition">content</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;heading block+&quot;</span><span class="tok-punctuation">,</span>
+      <span class="tok-propertyName tok-definition">parseDOM</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">tag</span><span class="tok-punctuation">:</span> <span class="tok-string">&quot;section&quot;</span><span class="tok-punctuation">}</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span>
+      <span class="tok-propertyName tok-definition">toDOM</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">return</span> <span class="tok-punctuation">[</span><span class="tok-string">&quot;section&quot;</span><span class="tok-punctuation">,</span> <span class="tok-number">0</span><span class="tok-punctuation">]</span> <span class="tok-punctuation">}</span>
+    <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">marks</span><span class="tok-punctuation">:</span> <span class="tok-variableName">basicSchema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">marks</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+</code></pre>
+<p>To display these sections, we'll use a node view that shows a little
+uneditable header with a button in it. It looks through the direct
+decorations that it receives, and when one of those has the
+<code>foldSection</code> property in its spec, it considers itself folded, which
+is reflected in the type of arrow shown on the button and whether the
+content is hidden or visible.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">class</span> <span class="tok-className">SectionView</span> <span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">constructor</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">getPos</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">deco</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span> <span class="tok-operator">=</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;section&quot;</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">header</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">appendChild</span><span class="tok-punctuation">(</span><span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;header&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">header</span><span class="tok-operator">.</span><span class="tok-propertyName">contentEditable</span> <span class="tok-operator">=</span> <span class="tok-string">&quot;false&quot;</span> 
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">foldButton</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">header</span><span class="tok-operator">.</span><span class="tok-propertyName">appendChild</span><span class="tok-punctuation">(</span><span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;button&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">foldButton</span><span class="tok-operator">.</span><span class="tok-propertyName">title</span> <span class="tok-operator">=</span> <span class="tok-string">&quot;Toggle section folding&quot;</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">foldButton</span><span class="tok-operator">.</span><span class="tok-propertyName">onmousedown</span> <span class="tok-operator">=</span> <span class="tok-variableName tok-definition">e</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">foldClick</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName">getPos</span><span class="tok-punctuation">,</span> <span class="tok-variableName">e</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">contentDOM</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">appendChild</span><span class="tok-punctuation">(</span><span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">&quot;div&quot;</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">setFolded</span><span class="tok-punctuation">(</span><span class="tok-variableName">deco</span><span class="tok-operator">.</span><span class="tok-propertyName">some</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">d</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">d</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">foldSection</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-propertyName tok-definition">setFolded</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">folded</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">folded</span> <span class="tok-operator">=</span> <span class="tok-variableName">folded</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">foldButton</span><span class="tok-operator">.</span><span class="tok-propertyName">textContent</span> <span class="tok-operator">=</span> <span class="tok-variableName">folded</span> <span class="tok-operator">?</span> <span class="tok-string">&quot;▿&quot;</span> <span class="tok-operator">:</span> <span class="tok-string">&quot;▵&quot;</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">contentDOM</span><span class="tok-operator">.</span><span class="tok-propertyName">style</span><span class="tok-operator">.</span><span class="tok-propertyName">display</span> <span class="tok-operator">=</span> <span class="tok-variableName">folded</span> <span class="tok-operator">?</span> <span class="tok-string">&quot;none&quot;</span> <span class="tok-operator">:</span> <span class="tok-string">&quot;&quot;</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-propertyName tok-definition">update</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">deco</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-operator">.</span><span class="tok-propertyName">name</span> <span class="tok-operator">!=</span> <span class="tok-string">&quot;section&quot;</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-bool">false</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">folded</span> <span class="tok-operator">=</span> <span class="tok-variableName">deco</span><span class="tok-operator">.</span><span class="tok-propertyName">some</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">d</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">d</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">foldSection</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">folded</span> <span class="tok-operator">!=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">folded</span><span class="tok-punctuation">)</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">setFolded</span><span class="tok-punctuation">(</span><span class="tok-variableName">folded</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-propertyName tok-definition">foldClick</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">getPos</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">event</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-variableName">event</span><span class="tok-operator">.</span><span class="tok-propertyName">preventDefault</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
+    <span class="tok-variableName">setFolding</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName">getPos</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-operator">!</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">folded</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>The mouse handler for the button just calls <code>setFolding</code>, which we
+will define in a moment.</p>
+<p>It would mostly work to avoid using decorations for a feature like
+this, and just keep folding status in an instance property in the node
+view. There are two downsides to this approach, though: Firstly, node
+views may get recreated for a number of reasons (when their DOM gets
+unexpectedly mutated, or when the view update algorithm associates
+them with the wrong section node), which causes their internal state
+to be lost. Secondly, maintaining this kind of state explicitly on the
+editor level makes it possible to influence it from outside the
+editor, inspect it, or serialize it.</p>
+<p>Thus, here the state is tracked with a plugin. The role of this plugin
+is to track the set of folding decorations and to install the above
+node view.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Plugin</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-state&quot;</span>
+<span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Decoration</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">DecorationSet</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-view&quot;</span>
+
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">foldPlugin</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Plugin</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">state</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">init</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">return</span> <span class="tok-variableName">DecorationSet</span><span class="tok-operator">.</span><span class="tok-propertyName">empty</span> <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">apply</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">tr</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">value</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-variableName">value</span> <span class="tok-operator">=</span> <span class="tok-variableName">value</span><span class="tok-operator">.</span><span class="tok-propertyName">map</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">mapping</span><span class="tok-punctuation">,</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">update</span> <span class="tok-operator">=</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">getMeta</span><span class="tok-punctuation">(</span><span class="tok-variableName">foldPlugin</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">update</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">fold</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+        <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">node</span> <span class="tok-operator">=</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">nodeAt</span><span class="tok-punctuation">(</span><span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">pos</span><span class="tok-punctuation">)</span>
+        <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-operator">.</span><span class="tok-propertyName">name</span> <span class="tok-operator">==</span> <span class="tok-string">&quot;section&quot;</span><span class="tok-punctuation">)</span>
+          <span class="tok-variableName">value</span> <span class="tok-operator">=</span> <span class="tok-variableName">value</span><span class="tok-operator">.</span><span class="tok-propertyName">add</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-variableName">Decoration</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span><span class="tok-punctuation">(</span><span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">pos</span><span class="tok-punctuation">,</span> <span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">pos</span> <span class="tok-operator">+</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">nodeSize</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">foldSection</span><span class="tok-punctuation">:</span> <span class="tok-bool">true</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">]</span><span class="tok-punctuation">)</span>
+      <span class="tok-punctuation">}</span> <span class="tok-keyword">else</span> <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">update</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+        <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">found</span> <span class="tok-operator">=</span> <span class="tok-variableName">value</span><span class="tok-operator">.</span><span class="tok-propertyName">find</span><span class="tok-punctuation">(</span><span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">pos</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">,</span> <span class="tok-variableName">update</span><span class="tok-operator">.</span><span class="tok-propertyName">pos</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span>
+        <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">found</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">)</span> <span class="tok-variableName">value</span> <span class="tok-operator">=</span> <span class="tok-variableName">value</span><span class="tok-operator">.</span><span class="tok-propertyName">remove</span><span class="tok-punctuation">(</span><span class="tok-variableName">found</span><span class="tok-punctuation">)</span>
+      <span class="tok-punctuation">}</span>
+      <span class="tok-keyword">return</span> <span class="tok-variableName">value</span>
+    <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">props</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">decorations</span><span class="tok-punctuation">:</span> <span class="tok-variableName tok-definition">state</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">foldPlugin</span><span class="tok-operator">.</span><span class="tok-propertyName">getState</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">nodeViews</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">section</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">getPos</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">decorations</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-keyword">new</span> <span class="tok-variableName">SectionView</span><span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName">getPos</span><span class="tok-punctuation">,</span> <span class="tok-variableName">decorations</span><span class="tok-punctuation">)</span><span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+</code></pre>
+<p>The substance of this code is the state update method. It starts by
+mapping the fold decorations forward through the transaction, so that
+they continue to be aligned to the section's updated positions.</p>
+<p>And then it checks whether the transaction contains metadata that
+instructs it to add or remove a folded node. We use the plugin itself
+as metadata label. If this is present, it will hold a <code>{pos: number, fold: boolean}</code> object. Depending on the value of <code>fold</code>, the code
+adds or removes a node decoration at the given position.</p>
+<p>The <code>setFolding</code> function dispatches these kinds of transactions. In
+addition, it makes sure to push the selection out of the folded node,
+if possible.</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Selection</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">&quot;prosemirror-state&quot;</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">setFolding</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">pos</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">fold</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">section</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">nodeAt</span><span class="tok-punctuation">(</span><span class="tok-variableName">pos</span><span class="tok-punctuation">)</span>
+  <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">section</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">section</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-operator">.</span><span class="tok-propertyName">name</span> <span class="tok-operator">==</span> <span class="tok-string">&quot;section&quot;</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">tr</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setMeta</span><span class="tok-punctuation">(</span><span class="tok-variableName">foldPlugin</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">pos</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">fold</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">let</span> <span class="tok-punctuation">{</span><span class="tok-propertyName">from</span><span class="tok-punctuation">,</span> <span class="tok-propertyName">to</span><span class="tok-punctuation">}</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">endPos</span> <span class="tok-operator">=</span> <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-variableName">section</span><span class="tok-operator">.</span><span class="tok-propertyName">nodeSize</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">from</span> <span class="tok-operator">&lt;</span> <span class="tok-variableName">endPos</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">to</span> <span class="tok-operator">&gt;</span> <span class="tok-variableName">pos</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">newSel</span> <span class="tok-operator">=</span> <span class="tok-variableName">Selection</span><span class="tok-operator">.</span><span class="tok-propertyName">findFrom</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">resolve</span><span class="tok-punctuation">(</span><span class="tok-variableName">endPos</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span> <span class="tok-operator">||</span>
+        <span class="tok-variableName">Selection</span><span class="tok-operator">.</span><span class="tok-propertyName">findFrom</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">resolve</span><span class="tok-punctuation">(</span><span class="tok-variableName">pos</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-operator">-</span><span class="tok-number">1</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">newSel</span><span class="tok-punctuation">)</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setSelection</span><span class="tok-punctuation">(</span><span class="tok-variableName">newSel</span><span class="tok-punctuation">)</span>
+    <span class="tok-punctuation">}</span>
+    <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p>Loading this plugin alongside a schema that has sections will give you
+an editor with foldable sections.</p>
+<p>(To make them usable, you'd also need some kind of commands to create
+and join sections, but that is left out of the scope of this example.)</p>
+<link rel=stylesheet href="../../css/editor.css">
+<script src="../prosemirror.js"></script>
+<script src="example.js"></script></article>
+
+<footer>
+  <nav>
+    <a class=logo href=".">&nbsp;</a>
+    <div class=navlinks>
+      <a href="/backers.html">Backers</a>
+      <a href="http://contributor-covenant.org/version/1/1/0/">Code of Conduct</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror/prosemirror/issues">Report an Issue</a>
+    </div>
+  </nav>
+</footer>
+
+</html>
