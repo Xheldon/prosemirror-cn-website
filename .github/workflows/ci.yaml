@@ -64,6 +64,7 @@ jobs:
         if: env.new_commits == 'true'
         run: |
           cd website
+          rm .gitignore
           git add public
           git commit -m "Update build"
-          git push origin HEAD:refs/heads/gp
+          git push -f origin HEAD:refs/heads/gp
