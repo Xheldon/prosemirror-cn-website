@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charset="utf8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>ProseMirror change tracking example</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/site.css">
+
+</head><body><header>
+  <nav>
+    <a class="logo" href="/">ProseMirror</a>
+    <div class="navlinks"><a href="/examples/" class="active">Examples</a>
+      <a href="/docs/">Documentation</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    </div>
+  </nav></header><article><h1>Tracking changes</h1>
+<p data-x-en="Changes are first-class values in ProseMirror. You can hold on to them, and do things with them. Such as rebasing them across other changes, inverting them, or inspecting them to see what they did.">变化在ProseMirror中是一级值。你可以保留它们，并对它们进行操作。例如<a href="/docs/guide/#transform.rebasing">重新基准化</a>它们，反转它们，或检查它们以查看它们的作用。</p>
+<p data-x-en="This example uses those properties to allow you to “commit” your changes, to revert individual commits, and to find out which commit a piece of text originates from.">此示例使用这些属性允许您“提交”您的更改，恢复单个提交，并找出某段文本的提交来源。</p>
+<style>
+  .commit {
+    margin-bottom: 4px;
+  }
+  .commit:hover {
+    background: #ff8;
+  }
+  .commit-revert {
+    color: #a22;
+  }
+  .commit-time {
+    background: #5ab;
+    padding: 0 5px;
+    color: white;
+    font-size: 90%;
+  }
+  .commit-blame {
+    background: #ff8;
+  }
+  .blame-info {
+    position: fixed;
+    border: 1px solid silver;
+    background: white;
+    padding: 3px 8px;
+    z-index: 3;
+  }
+  .blame-wrap {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  #commit {
+    margin: 6px 0;
+    position: relative;
+  }
+  .blame-marker {
+    background: #ff8;
+  }
+</style>
+<div id="editor"></div>
+<form id="commit">
+  Commit message: <input type="text" id="message" name="message"> <button id="commitbutton" type="submit">commit</button>
+    <div class="blame-wrap"><button type="button" id="blame">blame at cursor</button></div>
+</form>
+<div id="commits" style="margin-bottom: 23px"></div>
+<p data-x-en="Hover over commits to highlight the text they introduced.">将鼠标悬停在提交上以突出显示它们引入的文本。</p>
+<p data-x-en="This page won't list the whole source code for the example, only the most interesting parts.">此页面不会列出<a href="https://github.com/ProseMirror/website/blob/master/example/track/index.js">完整的源代码</a>，仅列出最有趣的部分。</p>
+<p data-x-en="The first thing we need is a way to track the commit history. An editor plugin works well for this, since it can observe changes as they come in. This is what the plugin's state value looks like:">我们首先需要的是一种跟踪提交历史的方法。一个编辑器插件对此非常有效，因为它可以观察到变化的到来。这是插件的状态值的样子：</p>
+<pre><code class="language-javascript"><span class="tok-keyword">class</span> <span class="tok-className">TrackState</span> <span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">constructor</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">blameMap</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">commits</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">uncommittedSteps</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">uncommittedMaps</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-comment">// The blame map is a data structure that lists a sequence of</span>
+    <span class="tok-comment">// document ranges, along with the commit that inserted them. This</span>
+    <span class="tok-comment">// can be used to, for example, highlight the part of the document</span>
+    <span class="tok-comment">// that was inserted by a commit.</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">blameMap</span> <span class="tok-operator">=</span> <span class="tok-variableName">blameMap
+    </span><span class="tok-comment">// The commit history, as an array of objects.</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span> <span class="tok-operator">=</span> <span class="tok-variableName">commits</span>
+    <span class="tok-comment">// Inverted steps and their maps corresponding to the changes that</span>
+    <span class="tok-comment">// have been made since the last commit.</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span> <span class="tok-operator">=</span> <span class="tok-variableName">uncommittedSteps</span>
+    <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedMaps</span> <span class="tok-operator">=</span> <span class="tok-variableName">uncommittedMaps</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-comment">// Apply a transform to this state</span>
+  <span class="tok-propertyName tok-definition">applyTransform</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">transform</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-comment">// Invert the steps in the transaction, to be able to save them in</span>
+    <span class="tok-comment">// the next commit</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">inverted</span> <span class="tok-operator">=</span>
+      <span class="tok-variableName">transform</span><span class="tok-operator">.</span><span class="tok-propertyName">steps</span><span class="tok-operator">.</span><span class="tok-propertyName">map</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">step</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">i</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">step</span><span class="tok-operator">.</span><span class="tok-propertyName">invert</span><span class="tok-punctuation">(</span><span class="tok-variableName">transform</span><span class="tok-operator">.</span><span class="tok-propertyName">docs</span><span class="tok-punctuation">[</span><span class="tok-variableName">i</span><span class="tok-punctuation">]</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">newBlame</span> <span class="tok-operator">=</span> <span class="tok-variableName">updateBlameMap</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">blameMap</span><span class="tok-punctuation">,</span> <span class="tok-variableName">transform</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">)</span>
+    <span class="tok-comment">// Create a new state—since these are part of the editor state, a</span>
+    <span class="tok-comment">// persistent data structure, they must not be mutated.</span>
+    <span class="tok-keyword">return</span> <span class="tok-keyword">new</span> <span class="tok-variableName">TrackState</span><span class="tok-punctuation">(</span><span class="tok-variableName">newBlame</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-punctuation">,</span>
+                          <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span><span class="tok-operator">.</span><span class="tok-propertyName">concat</span><span class="tok-punctuation">(</span><span class="tok-variableName">inverted</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+                          <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedMaps</span><span class="tok-operator">.</span><span class="tok-propertyName">concat</span><span class="tok-punctuation">(</span><span class="tok-variableName">transform</span><span class="tok-operator">.</span><span class="tok-propertyName">mapping</span><span class="tok-operator">.</span><span class="tok-propertyName">maps</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+
+  <span class="tok-comment">// When a transaction is marked as a commit, this is used to put any</span>
+  <span class="tok-comment">// uncommitted steps into a new commit.</span>
+  <span class="tok-propertyName tok-definition">applyCommit</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">message</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">time</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span> <span class="tok-operator">==</span> <span class="tok-number">0</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-keyword">this</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">commit</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Commit</span><span class="tok-punctuation">(</span><span class="tok-variableName">message</span><span class="tok-punctuation">,</span> <span class="tok-variableName">time</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span><span class="tok-punctuation">,</span>
+                            <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedMaps</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">return</span> <span class="tok-keyword">new</span> <span class="tok-variableName">TrackState</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">blameMap</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-operator">.</span><span class="tok-propertyName">concat</span><span class="tok-punctuation">(</span><span class="tok-variableName">commit</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p data-x-en="The plugin itself does little more than watch transactions and update its state. When a meta property tagged by the plugin is present on the transaction, it is a commit transaction, and the property's value is the commit message.">插件本身除了监视事务和更新其状态外，几乎没有其他作用。当事务中存在由插件标记的元属性时，它是一个提交事务，并且该属性的值是提交消息。</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Plugin</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-state"</span>
+
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">trackPlugin</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Plugin</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">state</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
+    <span class="tok-propertyName tok-definition">init</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">_</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">instance</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">return</span> <span class="tok-keyword">new</span> <span class="tok-variableName">TrackState</span><span class="tok-punctuation">(</span><span class="tok-punctuation">[</span><span class="tok-keyword">new</span> <span class="tok-variableName">Span</span><span class="tok-punctuation">(</span><span class="tok-number">0</span><span class="tok-punctuation">,</span> <span class="tok-variableName">instance</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">content</span><span class="tok-operator">.</span><span class="tok-propertyName">size</span><span class="tok-punctuation">,</span> <span class="tok-keyword">null</span><span class="tok-punctuation">)</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span><span class="tok-punctuation">)</span>
+    <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
+    <span class="tok-propertyName tok-definition">apply</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">tr</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">tracked</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+      <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">docChanged</span><span class="tok-punctuation">)</span> <span class="tok-variableName">tracked</span> <span class="tok-operator">=</span> <span class="tok-variableName">tracked</span><span class="tok-operator">.</span><span class="tok-propertyName">applyTransform</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">commitMessage</span> <span class="tok-operator">=</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">getMeta</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">commitMessage</span><span class="tok-punctuation">)</span> <span class="tok-variableName">tracked</span> <span class="tok-operator">=</span> <span class="tok-variableName">tracked</span><span class="tok-operator">.</span><span class="tok-propertyName">applyCommit</span><span class="tok-punctuation">(</span><span class="tok-variableName">commitMessage</span><span class="tok-punctuation">,</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Date</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">time</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+      <span class="tok-keyword">return</span> <span class="tok-variableName">tracked</span>
+    <span class="tok-punctuation">}</span>
+  <span class="tok-punctuation">}</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+</code></pre>
+<p data-x-en="Tracking history like this allows for all kinds of useful things, such as figuring out who added a given piece of code, and when. Or reverting individual commits.">跟踪这样的历史可以实现各种有用的功能，例如找出是谁在何时添加了某段代码，或者还原单个提交。</p>
+<p data-x-en="Reverting an old steps requires rebasing the inverted form of those steps over all intermediate steps. That is what this function does.">恢复旧步骤需要将这些步骤的反向形式<a href="/docs/guide/#transform.rebasing">变基</a>到所有中间步骤之上。这就是这个函数的作用。</p>
+<pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Mapping</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-transform"</span>
+
+<span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">revertCommit</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">commit</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">trackState</span> <span class="tok-operator">=</span> <span class="tok-variableName">trackPlugin</span><span class="tok-operator">.</span><span class="tok-propertyName">getState</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-punctuation">)</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">index</span> <span class="tok-operator">=</span> <span class="tok-variableName">trackState</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-operator">.</span><span class="tok-propertyName">indexOf</span><span class="tok-punctuation">(</span><span class="tok-variableName">commit</span><span class="tok-punctuation">)</span>
+  <span class="tok-comment">// If this commit is not in the history, we can't revert it</span>
+  <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">index</span> <span class="tok-operator">==</span> <span class="tok-operator">-</span><span class="tok-number">1</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span>
+
+  <span class="tok-comment">// Reverting is only possible if there are no uncommitted changes</span>
+  <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">trackState</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">return</span> <span class="tok-variableName">alert</span><span class="tok-punctuation">(</span><span class="tok-string">"Commit your changes first!"</span><span class="tok-punctuation">)</span>
+
+  <span class="tok-comment">// This is the mapping from the document as it was at the start of</span>
+  <span class="tok-comment">// the commit to the current document.</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">remap</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Mapping</span><span class="tok-punctuation">(</span><span class="tok-variableName">trackState</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-variableName">index</span><span class="tok-punctuation">)</span>
+                          <span class="tok-operator">.</span><span class="tok-propertyName">reduce</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">maps</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">c</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">maps</span><span class="tok-operator">.</span><span class="tok-propertyName">concat</span><span class="tok-punctuation">(</span><span class="tok-variableName">c</span><span class="tok-operator">.</span><span class="tok-propertyName">maps</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+  <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">tr</span> <span class="tok-operator">=</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span>
+  <span class="tok-comment">// Build up a transaction that includes all (inverted) steps in this</span>
+  <span class="tok-comment">// commit, rebased to the current document. They have to be applied</span>
+  <span class="tok-comment">// in reverse order.</span>
+  <span class="tok-keyword">for</span> <span class="tok-punctuation">(</span><span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">i</span> <span class="tok-operator">=</span> <span class="tok-variableName">commit</span><span class="tok-operator">.</span><span class="tok-propertyName">steps</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span> <span class="tok-operator">-</span> <span class="tok-number">1</span><span class="tok-punctuation">;</span> <span class="tok-variableName">i</span> <span class="tok-operator">&gt;=</span> <span class="tok-number">0</span><span class="tok-punctuation">;</span> <span class="tok-variableName">i</span><span class="tok-operator">--</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
+    <span class="tok-comment">// The mapping is sliced to not include maps for this step and the</span>
+    <span class="tok-comment">// ones before it.</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">remapped</span> <span class="tok-operator">=</span> <span class="tok-variableName">commit</span><span class="tok-operator">.</span><span class="tok-propertyName">steps</span><span class="tok-punctuation">[</span><span class="tok-variableName">i</span><span class="tok-punctuation">]</span><span class="tok-operator">.</span><span class="tok-propertyName">map</span><span class="tok-punctuation">(</span><span class="tok-variableName">remap</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-variableName">i</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-operator">!</span><span class="tok-variableName">remapped</span><span class="tok-punctuation">)</span> <span class="tok-keyword">continue</span>
+    <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">result</span> <span class="tok-operator">=</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">maybeStep</span><span class="tok-punctuation">(</span><span class="tok-variableName">remapped</span><span class="tok-punctuation">)</span>
+    <span class="tok-comment">// If the step can be applied, add its map to our mapping</span>
+    <span class="tok-comment">// pipeline, so that subsequent steps are mapped over it.</span>
+    <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">result</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">)</span> <span class="tok-variableName">remap</span><span class="tok-operator">.</span><span class="tok-propertyName">appendMap</span><span class="tok-punctuation">(</span><span class="tok-variableName">remapped</span><span class="tok-operator">.</span><span class="tok-propertyName">getMap</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-variableName">i</span><span class="tok-punctuation">)</span>
+  <span class="tok-punctuation">}</span>
+  <span class="tok-comment">// Add a commit message and dispatch.</span>
+  <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">docChanged</span><span class="tok-punctuation">)</span>
+    <span class="tok-variableName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setMeta</span><span class="tok-punctuation">(</span><span class="tok-variableName">trackPlugin</span><span class="tok-punctuation">,</span> <span class="tok-string2">`Revert '</span><span class="tok-punctuation">${</span><span class="tok-variableName">commit</span><span class="tok-operator">.</span><span class="tok-propertyName">message</span><span class="tok-punctuation">}</span><span class="tok-string2">'`</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
+<span class="tok-punctuation">}</span>
+</code></pre>
+<p data-x-en="Due to the implicit conflict resolution when moving changes across each other, outcomes of complicated reverts, where later changes touch the same content, can sometimes be unintuitive. In a production application, it may be desirable to detect such conflicts and provide the user with an interface to resolve them.">由于在移动更改时隐式解决冲突，当后续更改触及相同内容时，复杂的还原结果有时可能不直观。在生产应用中，可能需要检测此类冲突并为用户提供解决这些冲突的界面。</p>
+<link rel="stylesheet" href="../../css/editor.css">
+<script src="../prosemirror.js"></script>
+<script src="example.js"></script></article>
+
+<footer>
+  <nav>
+    <a class="logo" href=".">&nbsp;</a>
+    <div class="navlinks">
+      <a href="/backers.html">Backers</a>
+      <a href="http://contributor-covenant.org/version/1/1/0/">Code of Conduct</a>
+      <a href="https://discuss.prosemirror.net/">Discuss</a>
+      <a href="https://github.com/prosemirror/prosemirror/issues">Report an Issue</a>
+    </div>
+  </nav>
+</footer>
+
+</body></html>
