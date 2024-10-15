@@ -6,7 +6,7 @@ on:
     - cron: '0 0 * * 0' # 每周日的午夜
 
 jobs:
-  check-and-build:
+  构建并发布:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,7 +20,7 @@ jobs:
           git config --global user.name 'Xheldon'
           git config --global user.email 'c1006044256@gmail.com'
 
-      - name: 检出 Prisemirror/website 仓库
+      - name: 检出 Prosemirror/website 仓库
         run: |
           git clone https://github.com/ProseMirror/website.git
 
