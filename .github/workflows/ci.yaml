@@ -31,16 +31,21 @@ jobs:
           git fetch
           NEW_COMMIT=$(git rev-parse HEAD)
           cd ..
-          OLD_COMMIT=$(cat last-commit.txt)
+          if [ -f last-commit.txt ]; then
+            OLD_COMMIT=$(cat last-commit.txt)
+          else
+            OLD_COMMIT=""
+          fi
           echo "new_commit=$NEW_COMMIT" >> $GITHUB_ENV
           echo "old_commit=$OLD_COMMIT" >> $GITHUB_ENV
-          if [ "$NEW_COMMIT" != "$OLD_COMMIT" ]; then
-            echo "New commits found."
+          if [[ "$NEW_COMMIT" != "$OLD_COMMIT" ]]; then
+            echo "发现新的提交。"
             echo "new_commits=true" >> $GITHUB_ENV
             echo "$NEW_COMMIT" > last-commit.txt
           else
-            echo "No new commits."
+            echo "没有新的提交。"
             echo "new_commits=false" >> $GITHUB_ENV
+          fi
 
       - name: 安装依赖
         if: env.new_commits == 'true'
@@ -59,6 +64,6 @@ jobs:
         if: env.new_commits == 'true'
         run: |
           cd website
-          git add pbulic
+          git add public
           git commit -m "Update build"
           git push origin HEAD:refs/heads/gp
