@@ -1,0 +1,42 @@
+{
+  "Imagine you have a site that allows users to enter comments, and you've decided to use Markdown for the comment input. Your target group mostly knows how to use Markdown, and finds it convenient. But you may also have some non-technical users, for whom learning arcane syntactic rules does not come naturally.": {
+    "_translate": "想象一下，你有一个允许用户输入评论的网站，并且你决定使用Markdown作为评论输入。你的目标群体大多知道如何使用Markdown，并且觉得它很方便。但是你可能也有一些非技术用户，对于他们来说，学习神秘的语法规则并不容易。",
+    "_note": ""
+  },
+  "Without changing anything in your backend, you can drop in ProseMirror as an alternative input editor. People can even switch between both views as they are editing!": {
+    "_translate": "在不更改后端的情况下，您可以将ProseMirror作为替代输入编辑器。人们甚至可以在编辑时在两种视图之间切换！",
+    "_note": ""
+  },
+  "The prosemirror-markdown package defines a ProseMirror schema that can express exactly the things that can be expressed in Markdown. It also comes with a parser and serializer that convert documents in this schema to and from Markdown text.": {
+    "_translate": "<a href=\"https://github.com/prosemirror/prosemirror-markdown\"><code>prosemirror-markdown</code></a>包定义了一个ProseMirror<a href=\"/docs/guide/#schema\">schema</a>，可以准确表达Markdown中可以表达的内容。它还带有一个解析器和序列化器，可以在此schema和Markdown文本之间转换文档。",
+    "_note": ""
+  },
+  "To abstract the actual editor, we first create a simple interface around a textarea:": {
+    "_translate": "为了抽象出实际的编辑器，我们首先在文本区域周围创建一个简单的接口：",
+    "_note": ""
+  },
+  "And then implement the same interface for a Markdown-enabled ProseMirror instance. The in- and output of this interface is still Markdown text, which it internally converts to a ProseMirror document.": {
+    "_translate": "然后为支持 Markdown 的 ProseMirror 实例实现相同的接口。此接口的输入和输出仍然是 Markdown 文本，它在内部将其转换为 ProseMirror 文档。",
+    "_note": ""
+  },
+  "Finally, we can wire up some radio buttons to allow users to switch between these two representations.": {
+    "_translate": "最后，我们可以连接一些单选按钮，以允许用户在这两种表示之间切换。",
+    "_note": ""
+  },
+  "prosemirror-markdown包定义了一个ProseMirrorschema，可以准确表达Markdown中可以表达的内容。它还带有一个解析器和序列化器，可以在此schema和Markdown文本之间转换文档。": {
+    "_translate": "<a href=\"https://github.com/prosemirror/prosemirror-markdown\"><code>prosemirror-markdown</code></a>包定义了一个ProseMirror<a href=\"/docs/guide/#schema\">schema</a>，可以准确表达Markdown中可以表达的内容。它还带有一个解析器和序列化器，可以在此schema和Markdown文本之间转换文档。",
+    "_note": ""
+  },
+  "为了抽象出实际的编辑器，我们首先在文本区域周围创建一个简单的接口：": {
+    "_translate": "为了抽象出实际的编辑器，我们首先在文本区域周围创建一个简单的接口：",
+    "_note": ""
+  },
+  "然后为支持 Markdown 的 ProseMirror 实例实现相同的接口。此接口的输入和输出仍然是 Markdown 文本，它在内部将其转换为 ProseMirror 文档。": {
+    "_translate": "然后为支持 Markdown 的 ProseMirror 实例实现相同的接口。此接口的输入和输出仍然是 Markdown 文本，它在内部将其转换为 ProseMirror 文档。",
+    "_note": ""
+  },
+  "最后，我们可以连接一些单选按钮，以允许用户在这两种表示之间切换。": {
+    "_translate": "最后，我们可以连接一些单选按钮，以允许用户在这两种表示之间切换。",
+    "_note": ""
+  }
+}

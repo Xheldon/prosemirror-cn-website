@@ -1,0 +1,86 @@
+{
+  "ProseMirror schemas provide something like a syntax for documents—they set down which structures are valid.": {
+    "_translate": "ProseMirror <a href=\"/docs/guide/#schema\">模式</a> 提供了类似于文档语法的功能——它们规定了哪些结构是有效的。",
+    "_note": ""
+  },
+  "The most simple schema possible allows the document to be composed just of text.": {
+    "_translate": "最简单的模式允许文档仅由文本组成。",
+    "_note": ""
+  },
+  "To add more structure, you'll usually want to add some kind of block nodes. For example, this schema consists of notes that can optionally be grouped with group nodes.": {
+    "_translate": "为了增加更多的结构，您通常会想要添加某种块节点。例如，此模式由可以选择与组节点分组的笔记组成。",
+    "_note": ""
+  },
+  "You can use it to edit inline content. (A ProseMirror view can be mounted on any node, including inline nodes.)": {
+    "_translate": "您可以用它来编辑内联内容。<span id=\"text-editor\"></span>\n（ProseMirror 视图可以<a href=\"/docs/ref/#view.EditorView.constructor\">挂载</a>在任何节点上，包括内联节点。）",
+    "_note": ""
+  },
+  "For nodes that aren't text or top-level nodes, it is necessary to provide toDOM methods, so that the editor can render them, and parseDOM values, so that they can be parsed. This schema uses custom DOM nodes <note> and <notegroup> to represent its nodes.": {
+    "_translate": "对于不是文本或顶级节点的节点，<a href=\"/docs/guide/#schema.serialization_and_parsing\">有必要</a>提供<a href=\"/docs/ref/#model.NodeSpec.toDOM\"><code>toDOM</code></a>方法，以便编辑器可以渲染它们，并提供<a href=\"/docs/ref/#model.NodeSpec.parseDOM\"><code>parseDOM</code></a>值，以便它们可以被解析。此模式使用自定义的 DOM 节点<code>&lt;note&gt;</code>和<code>&lt;notegroup&gt;</code>来表示其节点。",
+    "_note": ""
+  },
+  "You can press ctrl-space to add a group around the selected notes. To get that functionality, you first have to implement a custom editing command. Something like this:": {
+    "_translate": "您可以按 ctrl-space 为选定的音符添加一个组。要实现该功能，您首先需要实现一个自定义的<a href=\"/docs/guide/#commands\">编辑命令</a>。类似这样的：",
+    "_note": ""
+  },
+  "A keymap like keymap({\"Ctrl-Space\": makeNoteGroup}) can be used to enable it.": {
+    "_translate": "一个<a href=\"/docs/ref/#keymap\">键映射</a>如<code>keymap({\"Ctrl-Space\": makeNoteGroup})</code>可以用来启用它。",
+    "_note": ""
+  },
+  "The generic bindings for enter and backspace work just fine in this schema—enter will split the textblock around the cursor, or if that's empty, try to lift it out of its parent node, and thus can be used to create new notes and escape from a note group. Backspace at the start of a textblock will lift that textblock out of its parent, which can be used to remove notes from a group.": {
+    "_translate": "<a href=\"/docs/ref/#commands.baseKeymap\">通用绑定</a> 对于回车和退格在这个模式中工作得很好——回车会在光标周围拆分文本块，或者如果它是空的，尝试将其从父节点中提取出来，因此可以用来创建新笔记并从笔记组中退出。文本块开头的退格会将该文本块从其父节点中提取出来，这可以用来从组中移除笔记。",
+    "_note": ""
+  },
+  "Let's do one more, with stars and shouting.": {
+    "_translate": "让我们再来一个，有星星和喊叫。",
+    "_note": ""
+  },
+  "This schema has not just text as inline content, but also stars, which are just inline nodes. To be able to easily refer to both our inline nodes, they are tagged as a group (also called \"inline\"). The schema does the same for the two types of block nodes, one paragraph type that allows any inline content, and one that only allows unmarked text.": {
+    "_translate": "这个模式不仅有文本作为内联内容，还有<em>星星</em>，它们只是内联节点。为了能够轻松引用我们的内联节点，它们被标记为一个组（也称为<code>\"inline\"</code>）。该模式对两种类型的块节点也做了同样的处理，一种段落类型允许任何内联内容，另一种只允许未标记的文本。",
+    "_note": ""
+  },
+  "Since textblocks allow marks by default, the boring_paragraph type sets marks to the empty string to explicitly forbid them.": {
+    "_translate": "由于文本块默认允许标记，<code>boring_paragraph</code> 类型将 <a href=\"/docs/ref/#model.NodeSpec.marks\"><code>marks</code></a> 设置为空字符串以明确禁止它们。",
+    "_note": ""
+  },
+  "The schema defines two types of marks, shouted text and links. The first is like the common strong or emphasis marks, in that it just adds a single bit of information to the content it marks, and doesn't have any attributes. It specifies that it should be rendered as a <shouting> tag (which is styled to be inline, bold, and uppercase), and that that same tag should be parsed as this mark.": {
+    "_translate": "该模式定义了两种类型的标记，喊叫文本和链接。第一个类似于常见的强或强调标记，因为它只是向其标记的内容添加了一位信息，并且没有任何属性。它指定应将其呈现为<code>&lt;shouting&gt;</code>标签（样式为内联、粗体和大写），并且应将同一标签解析为此标记。",
+    "_note": ""
+  },
+  "Links do have an attribute—their target URL, so their DOM serializing method has to output that (the second element in an array returned from toDOM, if it's a plain object, provides a set of DOM attributes), and their DOM parser has to read it.": {
+    "_translate": "链接确实有一个属性——它们的目标URL，所以它们的DOM序列化方法必须输出这个（从<code>toDOM</code>返回的数组中的第二个元素，如果它是一个普通对象，则提供一组DOM属性），并且它们的DOM解析器必须读取它。",
+    "_note": ""
+  },
+  "By default, marks are inclusive, meaning that they get applied to content inserted at their end (as well as at their start when they start at the start of their parent node). For link-type marks, this is usually not the expected behavior, and the inclusive property on the mark spec can be set to false to disable that behavior.": {
+    "_translate": "默认情况下，标记是<em>包含</em>的，这意味着它们会应用于在其末端插入的内容（以及在它们从其父节点的开头开始时）。对于链接类型的标记，这通常不是预期的行为，可以将标记规范中的<a href=\"/docs/ref/#model.MarkSpec.inclusive\"><code>inclusive</code></a>属性设置为false以禁用该行为。",
+    "_note": ""
+  },
+  "This is a nice paragraph, it can have anything in it.": {
+    "_translate": "这是一个<star></star>不错的<star></star>段落，它可以包含<shouting>任何东西</shouting>。",
+    "_note": ""
+  },
+  "This paragraph is boring, it can't have anything.": {
+    "_translate": "这个段落很无聊，它什么都没有。",
+    "_note": ""
+  },
+  "Press ctrl/cmd-space to insert a star, ctrl/cmd-b to toggle shouting, and ctrl/cmd-q to add or remove a link.": {
+    "_translate": "按 ctrl/cmd-空格 插入星号，按 ctrl/cmd-b 切换大写，按 ctrl/cmd-q 添加或删除链接。",
+    "_note": ""
+  },
+  "To make it possible to interact with these elements we again have to add a custom keymap. There's a command helper for toggling marks, which we can use directly for the shouting mark.": {
+    "_translate": "为了能够与这些元素进行交互，我们再次需要添加一个自定义键映射。有一个用于切换标记的命令助手，我们可以直接用于感叹号。",
+    "_note": ""
+  },
+  "Toggling a link is a little more involved. En- or disabling non-inclusive marks when nothing is selected isn't meaningful, since you can't “type into’ them like you can with inclusive marks. And we need to ask the user for a URL—but only if a link is being added. So the command uses rangeHasMark to check whether it will be adding or removing, before prompting for a URL.": {
+    "_translate": "切换链接稍微复杂一些。当没有选择任何内容时，启用或禁用非包容性标记没有意义，因为你不能像使用包容性标记那样“输入”它们。而且我们需要向用户询问一个URL——但只有在添加链接时才需要。所以该命令使用<a href=\"/docs/ref/#model.Node.rangeHasMark\"><code>rangeHasMark</code></a>来检查它是添加还是删除，然后再提示输入URL。",
+    "_note": ""
+  },
+  "(prompt is probably not what you'd want to use in a real system. When using an asynchronous method to query the user for something, make sure to use the current state, not the state when the command was originally called, when applying the command's effect.)": {
+    "_translate": "(<code>prompt</code> 可能不是你在实际系统中想要使用的。\n当使用异步方法向用户查询某些内容时，\n请确保使用<em>当前</em>状态，而不是命令最初被调用时的状态，以应用命令的效果。)",
+    "_note": ""
+  },
+  "The command that inserts a star first checks whether the schema allows one to be inserted at the cursor position (using canReplaceWith), and if so, replaces the selection with a newly created star node.": {
+    "_translate": "该命令在插入星号之前，首先检查模式是否允许在光标位置插入星号（使用\n<a href=\"/docs/ref/#model.Node.canReplaceWith\"><code>canReplaceWith</code></a>），如果允许，则用新创建的星号节点替换选区。",
+    "_note": ""
+  }
+}

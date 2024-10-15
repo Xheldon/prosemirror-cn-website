@@ -1,0 +1,58 @@
+{
+  "Most of the examples use the example setup package to create a menu, but we actually don't recommend using that and the example menu package in actual production, since they are rather simplistic, opinionated modules, and you're likely to run into their limitations rather quickly.": {
+    "_translate": "大多数示例使用<a href=\"https://github.com/prosemirror/prosemirror-example-setup\">示例设置包</a>来创建菜单，但我们实际上不建议在实际生产中使用该包和示例<a href=\"https://github.com/prosemirror/prosemirror-menu\">菜单包</a>，因为它们是相当简单的、带有主观性的模块，你可能很快就会遇到它们的局限性。",
+    "_note": ""
+  },
+  "This example will go through building a custom (and ugly) menu for a ProseMirror editor.": {
+    "_translate": "这个例子将会讲解如何为ProseMirror编辑器构建一个自定义（且丑陋的）菜单。",
+    "_note": ""
+  },
+  "With a very crude menu bar.": {
+    "_translate": "带有非常粗糙的菜单栏。",
+    "_note": ""
+  },
+  "The idea is, roughly, to create a number of user interface elements and tie them to commands. When clicked, they should execute these commands on the editor.": {
+    "_translate": "这个想法大致是创建一些用户界面元素并将它们与<a href=\"/docs/guide/#commands\">命令</a>绑定。当点击时，它们应该在编辑器上执行这些命令。",
+    "_note": ""
+  },
+  "One question is how to deal with commands that aren't always applicable—when you are in a paragraph, should the control for ‘make this a paragraph’ be shown? If so, should it be grayed out? This example will simply hide buttons when their command is not currently applicable.": {
+    "_translate": "一个问题是如何处理并非总是适用的命令——当你在一个段落中时，是否应该显示“将此设为段落”的控件？如果显示，是否应该将其灰显？这个例子将简单地在命令当前不适用时隐藏按钮。",
+    "_note": ""
+  },
+  "To be able to do that, it needs to update the menu structure every time the editor state changes. (Depending on the number of items in your menu, and the amount of work required for determining whether they are applicable, this can get expensive. There's no real solution for this, except either keeping the number and complexity of the commands low, or not changing the look of your menu depending on state.)": {
+    "_translate": "为了能够做到这一点，它需要在每次编辑器状态改变时更新菜单结构。（根据菜单中的项目数量以及确定它们是否适用所需的工作量，这可能会变得昂贵。对此没有真正的解决方案，除了保持命令的数量和复杂性较低，或者不根据状态更改菜单的外观。）",
+    "_note": ""
+  },
+  "If you already have some kind of dataflow abstraction that you're routing ProseMirror updates though, writing the menu as a separate component and connecting it to the editor state should work well. If not, a plugin is probably the easiest solution.": {
+    "_translate": "如果你已经有某种数据流抽象，通过它路由ProseMirror更新，那么将菜单写成一个单独的组件并将其连接到编辑器状态应该会很好。如果没有，插件可能是最简单的解决方案。",
+    "_note": ""
+  },
+  "The component for the menu might look something like this:": {
+    "_translate": "菜单的组件可能看起来像这样：",
+    "_note": ""
+  },
+  "To update the menu for a new state, all commands are run without dispatch function, and the items for those that return false are hidden.": {
+    "_translate": "要更新新状态的菜单，所有命令都在没有调度函数的情况下运行，并且返回 false 的项目将被隐藏。",
+    "_note": ""
+  },
+  "It takes an array of menu items, which are objects with command and dom properties, and puts those into a menu bar element. Then, it wires up an event handler which, when a mouse button is pressed on this bar, figures out which item was clicked, and runs the corresponding command.": {
+    "_translate": "它需要一个菜单项数组，这些菜单项是具有<code>command</code>和<code>dom</code>属性的对象，并将它们放入菜单栏元素中。然后，它连接一个事件处理程序，当在此栏上按下鼠标按钮时，该处理程序会确定点击了哪个项目，并运行相应的命令。",
+    "_note": ""
+  },
+  "Wiring this component to an actual editor view is a bit awkward—it needs access to the editor view when initialized, but at the same time, that editor view's dispatchTransaction prop needs to call its update method. Plugins can help here. They allow you define a plugin view, like this:": {
+    "_translate": "将此组件连接到实际的编辑器视图有点尴尬——它在初始化时需要访问编辑器视图，但同时，该编辑器视图的<a href=\"/docs/ref/#view.DirectEditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a>属性需要调用其更新方法。插件可以在这里提供帮助。它们允许你定义一个<a href=\"/docs/ref/#state.PluginSpec.view\">插件视图</a>，像这样：",
+    "_note": ""
+  },
+  "When an editor view is initialized, or when the set of plugins in its state change, the plugin views for any plugins that define them get initialized. These plugin views then have their update method called every time the editor's state is updated, and their destroy method called when they are torn down. So by adding this plugin to an editor, we can make sure that the editor view gets a menu bar, and that this menu bar is kept in sync with the editor.": {
+    "_translate": "当编辑器视图初始化时，或者其状态中的插件集合发生变化时，定义了插件视图的任何插件都会被初始化。这些插件视图的<code>update</code>方法会在每次编辑器状态更新时被调用，而它们的<code>destroy</code>方法会在它们被销毁时被调用。因此，通过将此插件添加到编辑器中，我们可以确保编辑器视图获得一个菜单栏，并且这个菜单栏与编辑器保持同步。",
+    "_note": ""
+  },
+  "The actual menu items might look like this, for a basic menu with strong, emphasis, and block type buttons.": {
+    "_translate": "实际的菜单项可能如下所示，用于包含<strong>、<em>和<blockquote>类型按钮的基本菜单。",
+    "_note": ""
+  },
+  "The prosemirror-menu package works similarly, but adds support for things like simple drop-down menus and active/inactive icons (to highlight the strong button when strong text is selected).": {
+    "_translate": "<a href=\"https://github.com/prosemirror/prosemirror-menu\"><code>prosemirror-menu</code>包</a>的工作方式类似，但增加了对简单下拉菜单和活动/非活动图标的支持（当选择粗体文本时突出显示粗体按钮）。",
+    "_note": ""
+  }
+}

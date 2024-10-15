@@ -1,0 +1,66 @@
+{
+  "It can be useful to have the in-document representation of some node, such as a code block, math formula, or image, show up as a custom editor control specifically for such content. Node views are a ProseMirror feature that make this possible.": {
+    "_translate": "在文档中显示某些节点（例如代码块、数学公式或图像）的自定义编辑器控件可能会很有用。<a href=\"/docs/ref/#view.NodeView\">节点视图</a>是一个使这成为可能的ProseMirror功能。",
+    "_note": ""
+  },
+  "In this example, we set up code blocks, as they exist in the basic schema, to be rendered as instances of CodeMirror, a code editor component. The general idea is quite similar to the footnote example, but instead of popping up the node-specific editor when the user selects the node, it is always visible.": {
+    "_translate": "在这个例子中，我们设置了代码块，正如它们在<a href=\"/docs/ref/#schema-basic\">基本模式</a>中存在的那样，以<a href=\"http://codemirror.net\">CodeMirror</a>（一个代码编辑器组件）的实例形式呈现。总体思路与<a href=\"../footnote/\">脚注示例</a>非常相似，但不是在用户选择节点时弹出节点特定的编辑器，而是始终可见。",
+    "_note": ""
+  },
+  "Wiring such a node view and keymap into an editor gives us something like this:": {
+    "_translate": "将这样的节点视图和键映射连接到编辑器中，会得到如下结果：",
+    "_note": ""
+  },
+  "This editor has been wired up to render code blocks as instances of the CodeMirror code editor, which provides syntax highlighting, auto-indentation, and similar.": {
+    "_translate": "这个编辑器已经连接起来，将代码块渲染为<a href=\"http://codemirror.net\">CodeMirror</a>代码编辑器的实例，提供语法高亮、自动缩进等功能。",
+    "_note": ""
+  },
+  "The content of the code editor is kept in sync with the content of the code block in the rich text editor, so that it is as if you're directly editing the outer document, using a more convenient interface.": {
+    "_translate": "代码编辑器的内容与富文本编辑器中的代码块内容保持同步，这样就像是在使用更方便的界面直接编辑外部文档。",
+    "_note": ""
+  },
+  "Because we want changes in the code editor to be reflected in the ProseMirror document, our node view must flush changes to its content to ProseMirror as soon as they happen. To allow ProseMirror commands to act on the right selection, the code editor will also sync its current selection to ProseMirror.": {
+    "_translate": "因为我们希望代码编辑器中的更改能够反映在ProseMirror文档中，我们的节点视图必须在内容发生更改时立即将其刷新到ProseMirror。为了让ProseMirror命令作用于正确的选择，代码编辑器还会将其当前选择同步到ProseMirror。",
+    "_note": ""
+  },
+  "The first thing we do in our code block node view is create an editor with some basic extensions, a few extra key bindings, and an update listener that will do the synchronization.": {
+    "_translate": "在我们的代码块节点视图中，我们首先创建一个带有一些基本扩展、一些额外键绑定和一个将进行同步的更新监听器的编辑器。",
+    "_note": ""
+  },
+  "When the code editor is focused, translate any update that changes the document or selection to a ProseMirror transaction. The getPos that was passed to the node view can be used to find out where our code content starts, relative to the outer document (the + 1 skips the code block opening token).": {
+    "_translate": "当代码编辑器获得焦点时，将任何更改文档或选择的更新转换为ProseMirror事务。传递给节点视图的<code>getPos</code>可用于找出我们的代码内容相对于外部文档的起始位置（<code>+ 1</code>跳过代码块的开头标记）。",
+    "_note": ""
+  },
+  "When adding steps to a transaction for content changes, the offset is adjusted for the changes in length caused by the change, so that further steps are created in the correct position.": {
+    "_translate": "当为内容更改添加步骤到事务时，偏移量会根据更改引起的长度变化进行调整，以便在正确的位置创建进一步的步骤。",
+    "_note": ""
+  },
+  "The setSelection method on a node view will be called when ProseMirror tries to put the selection inside the node. Our implementation makes sure the CodeMirror selection is set to match the position that is passed in.": {
+    "_translate": "当 ProseMirror 尝试将选区放入节点时，将调用节点视图上的 <code>setSelection</code> 方法。我们的实现确保 CodeMirror 选区设置为匹配传入的位置。",
+    "_note": ""
+  },
+  "A somewhat tricky aspect of nesting editor like this is handling cursor motion across the edges of the inner editor. This node view will have to take care of allowing the user to move the selection out of the code editor. For that purpose, it binds the arrow keys to handlers that check if further motion would ‘escape’ the editor, and if so, return the selection and focus to the outer editor.": {
+    "_translate": "嵌套编辑器的一个有点棘手的方面是处理光标在内部编辑器边缘的移动。这个节点视图必须负责允许用户将选择移出代码编辑器。为此，它将箭头键绑定到处理程序，这些处理程序会检查进一步的移动是否会“逃离”编辑器，如果是，则将选择和焦点返回到外部编辑器。",
+    "_note": ""
+  },
+  "The keymap also binds keys for undo and redo, which the outer editor will handle, and for ctrl-enter, which, in ProseMirror's base keymap, creates a new paragraph after a code block.": {
+    "_translate": "键映射还绑定了撤销和重做的键，这将由外部编辑器处理，以及ctrl-enter键，在ProseMirror的基本键映射中，它会在代码块后创建一个新段落。",
+    "_note": ""
+  },
+  "When a node update comes in from ProseMirror, for example because of an undo action, we sort of have to do the inverse of what forwardUpdate did—check for text changes, and if present, propagate them from the outer to the inner editor.": {
+    "_translate": "当来自ProseMirror的节点更新到来时，例如由于撤销操作，我们必须做一些类似<code>forwardUpdate</code>的反向操作——检查文本更改，如果存在，则将其从外部编辑器传播到内部编辑器。",
+    "_note": ""
+  },
+  "To avoid needlessly clobbering the state of the inner editor, this method only generates a replacement for the range of the content that was changed, by comparing the start and end of the old and new content.": {
+    "_translate": "为了避免不必要地破坏内部编辑器的状态，此方法仅通过比较旧内容和新内容的开始和结束来生成更改内容范围的替换。",
+    "_note": ""
+  },
+  "The updating property is used to disable the event listener on the code editor, so that it doesn't try to forward the change (which just came from ProseMirror) back to ProseMirror.": {
+    "_translate": "<code>updating</code> 属性用于禁用代码编辑器上的事件监听器，这样它就不会尝试将更改（刚刚从 ProseMirror 来的）转发回 ProseMirror。",
+    "_note": ""
+  },
+  "Handling cursor motion from the outer to the inner editor must be done with a keymap on the outer editor, because the browser's native behavior won't handle this. The arrowHandler function uses the endOfTextblock method to determine, in a bidi-text-aware way, whether the cursor is at the end of a given textblock. If it is, and the next block is a code block, the selection is moved into it.": {
+    "_translate": "处理从外部编辑器到内部编辑器的光标移动必须在外部编辑器上使用键映射，因为浏览器的原生行为无法处理这一点。<code>arrowHandler</code>函数使用<a href=\"/docs/ref/#view.EditorView.endOfTextblock\"><code>endOfTextblock</code>方法</a>以双向文本感知的方式确定光标是否位于给定文本块的末尾。如果是，并且下一个块是代码块，则将选择移动到其中。",
+    "_note": ""
+  }
+}

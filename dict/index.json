@@ -1,0 +1,142 @@
+{
+  "Like this one!": {
+    "_translate": "像这个！",
+    "_note": ""
+  },
+  "Try it out by typing in here or see more examples.": {
+    "_translate": "试试看，在这里输入或查看更多<a href=\"examples\">示例</a>。",
+    "_note": ""
+  },
+  "Rich content editors should, ideally, produce clean, semantically meaningful documents while still being easy for users to understand. ProseMirror tries to bridge the gap between editing explicit, unambiguous content like Markdown or XML, and classical WYSIWYG editors.": {
+    "_translate": "丰富的内容编辑器理想情况下应该生成干净、语义上有意义的文档，同时仍然易于用户理解。ProseMirror 尝试弥合编辑明确、无歧义内容（如 <a href=\"http://commonmark.org/\">Markdown</a> 或 XML）与经典的 <a href=\"https://en.wikipedia.org/wiki/WYSIWYG\">所见即所得</a> 编辑器之间的差距。",
+    "_note": ""
+  },
+  "It does this by implementing a WYSIWYG-style editing interface for documents more constrained and structured than plain HTML. You can customize the shape and structure of the documents your editor creates, and tailor them to your application's needs.": {
+    "_translate": "它通过实现一个所见即所得（WYSIWYG）风格的编辑界面来完成这一点，该界面用于比普通HTML更受约束和结构化的文档。您可以自定义编辑器创建的文档的形状和结构，并根据您的应用程序需求进行调整。",
+    "_note": ""
+  },
+  "ProseMirror has built-in, ground-up, rock solid support for collaborative editing, where multiple people work on the same document in real time.": {
+    "_translate": "ProseMirror 具有内置的、从头开始的、坚如磐石的协作编辑支持，多个用户可以实时在同一文档上工作。",
+    "_note": ""
+  },
+  "Document schemas allow editing documents with a custom structure without writing your own editor from scratch.": {
+    "_translate": "Document schemas allow editing documents with a custom structure without writing your own editor from scratch.",
+    "_note": ""
+  },
+  "A modular architecture makes sure you only load the code you need, and can replace parts of the system as needed.": {
+    "_translate": "模块化架构确保您只加载所需的代码，并且可以根据需要替换系统的部分。",
+    "_note": ""
+  },
+  "A plugin system allows you to easily enable additional functionality, and package your own extensions in a convenient format.": {
+    "_translate": "一个插件系统允许您轻松启用额外的功能，并以方便的格式打包您自己的扩展。",
+    "_note": ""
+  },
+  "A largely functional and immutable architecture makes it easy to integrate ProseMirror into modern web apps, and confidently implement complex behavior.": {
+    "_translate": "一个主要是功能性和不可变的架构使得将ProseMirror集成到现代Web应用程序中变得容易，并且可以自信地实现复杂的行为。",
+    "_note": ""
+  },
+  "The core library is small and generic, providing a base onto which very different types of editors can be built.": {
+    "_translate": "核心库小而通用，提供了一个基础，可以在其上构建非常不同类型的编辑器。",
+    "_note": ""
+  },
+  "ProseMirror is open source, and you are legally free to use it commercially. Yet, writing, maintaining, supporting, and setting up infrastructure for such a project takes a lot of work and energy. Therefore...": {
+    "_translate": "ProseMirror 是<a href=\"https://github.com/ProseMirror/prosemirror/blob/master/LICENSE\">开源</a>的，您可以合法地将其用于商业用途。然而，编写、维护、支持和建立此类项目的基础设施需要大量的工作和精力。因此...",
+    "_note": ""
+  },
+  "If you are using ProseMirror to make profit, there is a social expectation that you help fund its maintenance. Start here.": {
+    "_translate": "如果你使用ProseMirror来盈利，有一个<u>社会</u>期望是你帮助资助其维护。&nbsp;<a class=\"fund-button\" href=\"http://marijnhaverbeke.nl/fund/\">从这里开始。</a>",
+    "_note": ""
+  },
+  "ProseMirror is being developed on GitHub. Contributions are welcome.": {
+    "_translate": "ProseMirror 正在 <a href=\"https://github.com/prosemirror/\">GitHub</a> 上开发。欢迎 <a href=\"https://github.com/ProseMirror/prosemirror/blob/master/CONTRIBUTING.md\">贡献</a>。",
+    "_note": ""
+  },
+  "The easiest way to install ProseMirror is with npm. Take a look at the examples to get started.": {
+    "_translate": "安装 ProseMirror 最简单的方法是使用<a href=\"https://www.npmjs.com/search?q=prosemirror-\">npm</a>。查看<a href=\"examples/basic/\">示例</a>以开始使用。",
+    "_note": ""
+  },
+  "The library works on recent versions of Firefox, Chrome, Safari, and Edge, as well as on Internet Explorer 11.": {
+    "_translate": "图书馆适用于最新版本的Firefox、Chrome、Safari和Edge，以及Internet Explorer 11。",
+    "_note": ""
+  },
+  "Discussing the project, or asking questions, is best done on the forum. Bugs should be reported through the issue tracker. We aim to be an inclusive, welcoming community. To make that explicit, we have a code of conduct that applies to communication around the project.": {
+    "_translate": "讨论项目或提问，最好在<a href=\"https://discuss.prosemirror.net/\">论坛</a>上进行。\n应通过<a href=\"https://github.com/ProseMirror/prosemirror/issues\">问题跟踪器</a>报告错误。我们致力于成为一个包容、欢迎的社区。为了明确这一点，我们有一个适用于项目交流的<a href=\"http://contributor-covenant.org/version/1/1/0/\">行为准则</a>。",
+    "_note": ""
+  },
+  "Initial development of the software was crowd-funded by these 414 excellent individuals and organizations.": {
+    "_translate": "软件的初始开发是由这些414位优秀的<a href=\"backers.html\">个人和组织</a>通过<a href=\"https://www.indiegogo.com/projects/prosemirror/\">众筹</a>资助的。",
+    "_note": ""
+  },
+  "Ongoing development is supported by these companies:": {
+    "_translate": "持续开发由这些公司支持：",
+    "_note": ""
+  },
+  "像这个！": {
+    "_translate": "像这个！",
+    "_note": ""
+  },
+  "试试看，在这里输入或查看更多示例。": {
+    "_translate": "试试看，在这里输入或查看更多<a href=\"examples\">示例</a>。",
+    "_note": ""
+  },
+  "丰富的内容编辑器理想情况下应该生成干净、语义上有意义的文档，同时仍然易于用户理解。ProseMirror 尝试弥合编辑明确、无歧义内容（如 Markdown 或 XML）与经典的 所见即所得 编辑器之间的差距。": {
+    "_translate": "丰富的内容编辑器理想情况下应该生成干净、语义上有意义的文档，同时仍然易于用户理解。ProseMirror 尝试弥合编辑明确、无歧义内容（如 <a href=\"http://commonmark.org/\">Markdown</a> 或 XML）与经典的 <a href=\"https://en.wikipedia.org/wiki/WYSIWYG\">所见即所得</a> 编辑器之间的差距。",
+    "_note": ""
+  },
+  "它通过实现一个所见即所得（WYSIWYG）风格的编辑界面来完成这一点，该界面用于比普通HTML更受约束和结构化的文档。您可以自定义编辑器创建的文档的形状和结构，并根据您的应用程序需求进行调整。": {
+    "_translate": "它通过实现一个所见即所得（WYSIWYG）风格的编辑界面来完成这一点，该界面用于比普通HTML更受约束和结构化的文档。您可以自定义编辑器创建的文档的形状和结构，并根据您的应用程序需求进行调整。",
+    "_note": ""
+  },
+  "ProseMirror 具有内置的、从头开始的、坚如磐石的协作编辑支持，多个用户可以实时在同一文档上工作。": {
+    "_translate": "ProseMirror 具有内置的、从头开始的、坚如磐石的协作编辑支持，多个用户可以实时在同一文档上工作。",
+    "_note": ""
+  },
+  "模块化架构确保您只加载所需的代码，并且可以根据需要替换系统的部分。": {
+    "_translate": "模块化架构确保您只加载所需的代码，并且可以根据需要替换系统的部分。",
+    "_note": ""
+  },
+  "一个插件系统允许您轻松启用额外的功能，并以方便的格式打包您自己的扩展。": {
+    "_translate": "一个插件系统允许您轻松启用额外的功能，并以方便的格式打包您自己的扩展。",
+    "_note": ""
+  },
+  "一个主要是功能性和不可变的架构使得将ProseMirror集成到现代Web应用程序中变得容易，并且可以自信地实现复杂的行为。": {
+    "_translate": "一个主要是功能性和不可变的架构使得将ProseMirror集成到现代Web应用程序中变得容易，并且可以自信地实现复杂的行为。",
+    "_note": ""
+  },
+  "核心库小而通用，提供了一个基础，可以在其上构建非常不同类型的编辑器。": {
+    "_translate": "核心库小而通用，提供了一个基础，可以在其上构建非常不同类型的编辑器。",
+    "_note": ""
+  },
+  "ProseMirror 是开源的，您可以合法地将其用于商业用途。然而，编写、维护、支持和建立此类项目的基础设施需要大量的工作和精力。因此...": {
+    "_translate": "ProseMirror 是<a href=\"https://github.com/ProseMirror/prosemirror/blob/master/LICENSE\">开源</a>的，您可以合法地将其用于商业用途。然而，编写、维护、支持和建立此类项目的基础设施需要大量的工作和精力。因此...",
+    "_note": ""
+  },
+  "如果你使用ProseMirror来盈利，有一个社会期望是你帮助资助其维护。 从这里开始。": {
+    "_translate": "如果你使用ProseMirror来盈利，有一个<u>社会</u>期望是你帮助资助其维护。&nbsp;<a class=\"fund-button\" href=\"http://marijnhaverbeke.nl/fund/\">从这里开始。</a>",
+    "_note": ""
+  },
+  "ProseMirror 正在 GitHub 上开发。欢迎 贡献。": {
+    "_translate": "ProseMirror 正在 <a href=\"https://github.com/prosemirror/\">GitHub</a> 上开发。欢迎 <a href=\"https://github.com/ProseMirror/prosemirror/blob/master/CONTRIBUTING.md\">贡献</a>。",
+    "_note": ""
+  },
+  "安装 ProseMirror 最简单的方法是使用npm。查看示例以开始使用。": {
+    "_translate": "安装 ProseMirror 最简单的方法是使用<a href=\"https://www.npmjs.com/search?q=prosemirror-\">npm</a>。查看<a href=\"examples/basic/\">示例</a>以开始使用。",
+    "_note": ""
+  },
+  "图书馆适用于最新版本的Firefox、Chrome、Safari和Edge，以及Internet Explorer 11。": {
+    "_translate": "图书馆适用于最新版本的Firefox、Chrome、Safari和Edge，以及Internet Explorer 11。",
+    "_note": ""
+  },
+  "软件的初始开发是由这些414位优秀的个人和组织通过众筹资助的。": {
+    "_translate": "软件的初始开发是由这些414位优秀的<a href=\"backers.html\">个人和组织</a>通过<a href=\"https://www.indiegogo.com/projects/prosemirror/\">众筹</a>资助的。",
+    "_note": ""
+  },
+  "讨论项目或提问，最好在论坛上进行。 应通过问题跟踪器报告错误。我们致力于成为一个包容、欢迎的社区。为了明确这一点，我们有一个适用于项目交流的行为准则。": {
+    "_translate": "For discussing projects or asking questions, it is best to do so on the <a href=\"https://discuss.prosemirror.net/\">forum</a>.\nErrors should be reported through the <a href=\"https://github.com/ProseMirror/prosemirror/issues\">issue tracker</a>. We are committed to being an inclusive and welcoming community. To make this clear, we have a <a href=\"http://contributor-covenant.org/version/1/1/0/\">code of conduct</a> that applies to project communication.",
+    "_note": ""
+  },
+  "持续开发由这些公司支持：": {
+    "_translate": "持续开发由这些公司支持：",
+    "_note": ""
+  }
+}

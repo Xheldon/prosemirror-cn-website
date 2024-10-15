@@ -1,0 +1,106 @@
+{
+  "Setting up a minimal rich text editor using the example configuration.": {
+    "_translate": "使用示例配置设置一个最小的富文本编辑器。",
+    "_note": ""
+  },
+  "Defining a custom document node type and adding it to a schema.": {
+    "_translate": "定义自定义文档节点类型并将其添加到模式中。",
+    "_note": ""
+  },
+  "Allow users to switch between a Markdown and WYSIWYM editing interface.": {
+    "_translate": "允许用户在 Markdown 和 WYSIWYM 编辑界面之间切换。",
+    "_note": ""
+  },
+  "Using a plugin view to implement a dynamic tooltip that hovers over the editor selection.": {
+    "_translate": "使用插件视图实现一个动态工具提示，悬停在编辑器选择上。",
+    "_note": ""
+  },
+  "Writing custom document schemas for a few different document styles, without using a base schema.": {
+    "_translate": "为几种不同的文档样式编写自定义文档架构，而不使用基础架构。",
+    "_note": ""
+  },
+  "Handling asynchronous editing actions robustly by creating a placeholder during uploads.": {
+    "_translate": "在上传期间通过创建占位符来稳健地处理异步编辑操作。",
+    "_note": ""
+  },
+  "Building a custom editor menu bar.": {
+    "_translate": "构建自定义编辑器菜单栏。",
+    "_note": ""
+  },
+  "Using node views and decorations to implement collapsible nodes.": {
+    "_translate": "使用节点视图和装饰来实现可折叠节点。",
+    "_note": ""
+  },
+  "Representing code blocks using a code editor component inside a ProseMirror instance.": {
+    "_translate": "在ProseMirror实例<em>内部</em>使用代码编辑器组件表示代码块。",
+    "_note": ""
+  },
+  "An editor that scans the document for common errors and assists the user in correcting them.": {
+    "_translate": "一个扫描文档以查找常见错误并协助用户纠正它们的编辑器。",
+    "_note": ""
+  },
+  "Implementing footnotes as inline nodes with content, and wiring up a separate editor for a sub-document.": {
+    "_translate": "将脚注实现为带有内容的内联节点，并为子文档连接一个单独的编辑器。",
+    "_note": ""
+  },
+  "Keeping a history of changes to the document, allowing the user to inspect and revert individual ones.": {
+    "_translate": "保留文档的更改历史，允许用户检查和恢复单个更改。",
+    "_note": ""
+  },
+  "A more or less solid collaborative editor, with support for shared annotations.": {
+    "_translate": "一个或多或少稳定的协作编辑器，支持共享注释。",
+    "_note": ""
+  },
+  "使用示例配置设置一个最小的富文本编辑器。": {
+    "_translate": "使用示例配置设置一个最小的富文本编辑器。",
+    "_note": ""
+  },
+  "定义自定义文档节点类型并将其添加到模式中。": {
+    "_translate": "定义自定义文档节点类型并将其添加到模式中。",
+    "_note": ""
+  },
+  "允许用户在 Markdown 和 WYSIWYM 编辑界面之间切换。": {
+    "_translate": "允许用户在 Markdown 和 WYSIWYM 编辑界面之间切换。",
+    "_note": ""
+  },
+  "使用插件视图实现一个动态工具提示，悬停在编辑器选择上。": {
+    "_translate": "使用插件视图实现一个动态工具提示，悬停在编辑器选择上。",
+    "_note": ""
+  },
+  "在上传期间通过创建占位符来稳健地处理异步编辑操作。": {
+    "_translate": "在上传期间通过创建占位符来稳健地处理异步编辑操作。",
+    "_note": ""
+  },
+  "为几种不同的文档样式编写自定义文档架构，而不使用基础架构。": {
+    "_translate": "为几种不同的文档样式编写自定义文档架构，而不使用基础架构。",
+    "_note": ""
+  },
+  "构建自定义编辑器菜单栏。": {
+    "_translate": "构建自定义编辑器菜单栏。",
+    "_note": ""
+  },
+  "使用节点视图和装饰来实现可折叠节点。": {
+    "_translate": "使用节点视图和装饰来实现可折叠节点。",
+    "_note": ""
+  },
+  "在ProseMirror实例内部使用代码编辑器组件表示代码块。": {
+    "_translate": "在ProseMirror实例<em>内部</em>使用代码编辑器组件表示代码块。",
+    "_note": ""
+  },
+  "一个扫描文档以查找常见错误并协助用户纠正它们的编辑器。": {
+    "_translate": "一个扫描文档以查找常见错误并协助用户纠正它们的编辑器。",
+    "_note": ""
+  },
+  "将脚注实现为带有内容的内联节点，并为子文档连接一个单独的编辑器。": {
+    "_translate": "将<footnote>实现为带有内容的内联节点，并为<subdocument>连接一个单独的<editor>。",
+    "_note": ""
+  },
+  "保留文档的更改历史，允许用户检查和恢复单个更改。": {
+    "_translate": "保留文档的更改历史，允许用户检查和恢复单个更改。",
+    "_note": ""
+  },
+  "一个或多或少稳定的协作编辑器，支持共享注释。": {
+    "_translate": "一个或多或少稳定的协作编辑器，支持共享注释。",
+    "_note": ""
+  }
+}

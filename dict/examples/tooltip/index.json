@@ -1,0 +1,34 @@
+{
+  "I'm using ‘tooltip’ to mean a small interface element hovering over the rest of the interface. These can be very useful in editors to show extra controls or information, for example as in a ‘Medium-style’ editing interface (named after the popular blogging platform), where most controls are hidden until you select something, at which point they pop up as a little bubble above the selection.": {
+    "_translate": "我使用“工具提示”来指代悬停在界面其余部分上的小界面元素。这些在编辑器中非常有用，可以显示额外的控件或信息，例如在“Medium风格”的编辑界面中（以流行的博客平台命名），大多数控件在你选择某些内容之前是隐藏的，此时它们会作为一个小气泡出现在选择内容的上方。",
+    "_note": ""
+  },
+  "There are two common ways to implement tooltips in ProseMirror. The easiest is to insert widget decorations and absolutely position them, relying on the fact that if you don't specify an explicit position (as in a left or bottom property), such elements are positioned at the point in the document flow where they are placed. This works well for tooltips that correspond to a specific position.": {
+    "_translate": "在 ProseMirror 中实现工具提示有两种常见方法。最简单的是插入小部件\n<a href=\"/docs/guide/#view.decorations\">装饰</a>并绝对定位，\n依赖于这样一个事实：如果你没有指定明确的位置（如<code>left</code>或<code>bottom</code>属性），这些元素会在文档流中它们被放置的位置进行定位。\n这对于对应特定位置的工具提示非常有效。",
+    "_note": ""
+  },
+  "If you want to position something above the selection, or you want to animate transitions, or you need to be able to allow the tooltips to stick out of the editor when the editor's overflow property isn't visible (for example to make it scroll), then decorations are probably not practical. In such a case, you'll have to ‘manually’ position your tooltips.": {
+    "_translate": "如果你想将某些内容放置在选区上方，或者你想为过渡效果添加动画，或者你需要在编辑器的<code>overflow</code>属性不是<code>visible</code>时（例如为了使其滚动）允许工具提示突出显示，那么装饰可能不太实用。在这种情况下，你将不得不‘手动’定位你的工具提示。",
+    "_note": ""
+  },
+  "Select some text to see a tooltip with the size of your selection.": {
+    "_translate": "选择一些文本以查看所选内容的大小提示。",
+    "_note": ""
+  },
+  "(That's not the most useful use of a tooltip, but it's a nicely simple example.)": {
+    "_translate": "(这不是工具提示最有用的用法，但这是一个非常简单的例子。)",
+    "_note": ""
+  },
+  "But you can still make use of ProseMirror's update cycle to make sure the tooltip stays in sync with the editor state. We can use a plugin view to create a view component tied to the editor's life cycle.": {
+    "_translate": "但是你仍然可以利用ProseMirror的更新周期来确保工具提示与编辑器状态保持同步。我们可以使用<a href=\"/docs/ref/#state.PluginSpec.view\">插件视图</a>来创建一个与编辑器生命周期绑定的视图组件。",
+    "_note": ""
+  },
+  "The actual view creates a DOM node to represent the tooltip and inserts it into the document alongside the editor.": {
+    "_translate": "实际视图创建一个DOM节点来表示工具提示，并将其插入到文档中编辑器旁边。",
+    "_note": ""
+  },
+  "Whenever the editor state updates, it checks whether it needs to update the tooltip. The positioning calculations are a bit involved, but such is life with CSS. Basically, it uses ProseMirror's coordsAtPos method to find the screen coordinates of the selection, and uses those to set a left and bottom property relative to the tooltip's offset parent, which is the nearest absolutely or relatively positioned parent.": {
+    "_translate": "每当编辑器状态更新时，它会检查是否需要更新工具提示。定位计算有点复杂，但这就是使用 CSS 的生活。基本上，它使用 ProseMirror 的<a href=\"/docs/ref/#view.EditorView.coordsAtPos\"><code>coordsAtPos</code>方法</a>来找到选择的屏幕坐标，并使用这些坐标来设置相对于工具提示的偏移父元素的<code>left</code>和<code>bottom</code>属性，该父元素是最近的绝对或相对定位的父元素。",
+    "_note": ""
+  }
+}

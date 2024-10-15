@@ -1,0 +1,902 @@
+{
+  "This guide describes the various concepts used in the library, and how they relate to each other. To get a complete picture of the system, it is recommended to go through it in the order it is presented in, at least up to the view component section.": {
+    "_translate": "本指南描述了库中使用的各种概念，以及它们之间的关系。为了全面了解系统，建议按照呈现的顺序进行阅读，至少要阅读到视图组件部分。",
+    "_note": ""
+  },
+  "ProseMirror provides a set of tools and concepts for building rich text editors, using a user interface inspired by what-you-see-is-what-you-get, but trying to avoid the pitfalls of that style of editing.": {
+    "_translate": "ProseMirror 提供了一套工具和概念，用于构建富文本编辑器，使用的用户界面受“所见即所得”启发，但试图避免这种编辑风格的陷阱。",
+    "_note": ""
+  },
+  "The main principle of ProseMirror is that your code gets full control over the document and what happens to it. This document isn't a blob of HTML, but a custom data structure that only contains elements that you explicitly allow it to contain, in relations that you specified. All updates go through a single point, where you can inspect them and react to them.": {
+    "_translate": "ProseMirror 的主要原则是您的代码可以完全控制文档及其发生的事情。这个文档不是一个 HTML 的 blob，而是一个自定义的数据结构，只包含您明确允许它包含的元素，并且在您指定的关系中。所有更新都通过一个单一的点，您可以在此检查并对其做出反应。",
+    "_note": ""
+  },
+  "The core library is not an easy drop-in component—we are prioritizing modularity and customizability over simplicity, with the hope that, in the future, people will distribute drop-in editors based on ProseMirror. As such, this is more of a Lego set than a Matchbox car.": {
+    "_translate": "核心库并不是一个易于插入的组件——我们优先考虑模块化和可定制性，而不是简单性，希望将来人们会基于ProseMirror分发易于插入的编辑器。因此，这更像是一个乐高积木套装，而不是一个火柴盒汽车。",
+    "_note": ""
+  },
+  "There are four essential modules, which are required to do any editing at all, and a number of extension modules maintained by the core team, which have a status similar to that of 3rd party modules—they provide useful functionality, but you may omit them or replace them with other modules that implement similar functionality.": {
+    "_translate": "有四个基本模块是进行任何编辑所必需的，还有一些由核心团队维护的扩展模块，其状态类似于第三方模块——它们提供有用的功能，但您可以省略它们或用其他实现类似功能的模块替换它们。",
+    "_note": ""
+  },
+  "The essential modules are:": {
+    "_translate": "基本模块包括：",
+    "_note": ""
+  },
+  "prosemirror-state provides the data structure that describes the editor's whole state, including the selection, and a transaction system for moving from one state to the next.": {
+    "_translate": "<a href=\"/docs/ref/#state\"><code>prosemirror-state</code></a> 提供了描述编辑器整体状态的数据结构，包括选择，以及从一个状态移动到下一个状态的事务系统。",
+    "_note": ""
+  },
+  "prosemirror-model defines the editor's document model, the data structure used to describe the content of the editor.": {
+    "_translate": "<a href=\"/docs/ref/#model\"><code>prosemirror-model</code></a> 定义了编辑器的<a href=\"#doc\">文档模型</a>，用于描述编辑器内容的数据结构。",
+    "_note": ""
+  },
+  "prosemirror-view implements a user interface component that shows a given editor state as an editable element in the browser, and handles user interaction with that element.": {
+    "_translate": "<a href=\"/docs/ref/#view\"><code>prosemirror-view</code></a> 实现了一个用户界面组件，在浏览器中将给定的编辑器状态显示为可编辑元素，并处理用户与该元素的交互。",
+    "_note": ""
+  },
+  "prosemirror-transform contains functionality for modifying documents in a way that can be recorded and replayed, which is the basis for the transactions in the state module, and which makes the undo history and collaborative editing possible.": {
+    "_translate": "<a href=\"/docs/ref/#transform\"><code>prosemirror-transform</code></a> 包含用于修改文档的功能，这些修改可以被记录和重放，这是<code>state</code>模块中事务的基础，并且使撤销历史和协作编辑成为可能。",
+    "_note": ""
+  },
+  "The fact that ProseMirror isn't distributed as a single, browser-loadable script means that you'll probably want to use some kind of bundler when using it. A bundler is a tool that automatically finds your script's dependencies, and combines them into a single big file that you can easily load from a web page. You can read more about bundling on the web, for example here.": {
+    "_translate": "ProseMirror 不是作为一个单一的、浏览器可加载的脚本分发的，这意味着在使用它时，你可能需要使用某种打包工具。打包工具是一种自动查找脚本依赖项并将它们组合成一个大文件的工具，你可以很容易地从网页加载这个文件。你可以在网上阅读更多关于打包的信息，例如<a href=\"https://medium.freecodecamp.org/javascript-modules-part-2-module-bundling-5020383cf306\">这里</a>。",
+    "_note": ""
+  },
+  "In addition, there are modules for basic editing commands, binding keys, undo history, input macros, collaborative editing, a simple document schema, and more under the GitHub prosemirror organization.": {
+    "_translate": "此外，还有<a href=\"/docs/ref/#commands\">基本编辑命令</a>、<a href=\"/docs/ref/#keymap\">绑定键</a>、<a href=\"/docs/ref/#history\">撤销历史</a>、<a href=\"/docs/ref/#inputrules\">输入宏</a>、<a href=\"/docs/ref/#collab\">协作编辑</a>、<a href=\"/docs/ref/#schema-basic\">简单文档模式</a>等模块，更多内容请访问<a href=\"https://github.com/prosemirror/\">GitHub prosemirror组织</a>。",
+    "_note": ""
+  },
+  "The Lego pieces fit together like this to create a very minimal editor:": {
+    "_translate": "乐高积木像这样组合在一起，创建一个非常简约的编辑器：",
+    "_note": ""
+  },
+  "ProseMirror requires you to specify a schema that your document conforms to, so the first thing this does is import a module with a basic schema in it.": {
+    "_translate": "ProseMirror要求您指定一个文档符合的模式，所以首先要做的是导入一个包含基本模式的模块。",
+    "_note": ""
+  },
+  "The editor isn't very usable yet. If you press enter, for example, nothing happens, because the core library has no opinion on what enter should do. We'll get to that in a moment.": {
+    "_translate": "编辑器还不太好用。例如，如果你按下回车键，什么都不会发生，因为核心库对回车键应该做什么没有意见。我们稍后会讨论这个问题。",
+    "_note": ""
+  },
+  "That schema is then used to create a state, which will generate an empty document conforming to the schema, and a default selection at the start of that document. Finally, a view is created for the state, and appended to document.body. This will render the state's document as an editable DOM node, and generate state transactions whenever the user types into it.": {
+    "_translate": "该模式随后用于创建一个状态，该状态将生成一个符合该模式的空文档，并在该文档的开头生成一个默认选择。最后，为该状态创建一个视图，并附加到<code>document.body</code>。这将把状态的文档渲染为一个可编辑的DOM节点，并在用户输入时生成状态事务。",
+    "_note": ""
+  },
+  "When the user types, or otherwise interacts with the view, it generates ‘state transactions’. What that means is that it does not just modify the document in-place and implicitly update its state in that way. Instead, every change causes a transaction to be created, which describes the changes that are made to the state, and can be applied to create a new state, which is then used to update the view.": {
+    "_translate": "当用户输入或以其他方式与视图交互时，它会生成“状态事务”。这意味着它不仅仅是就地修改文档并以这种方式隐式更新其状态。相反，每次更改都会创建一个<a href=\"#state.transactions\"><em>事务</em></a>，该事务描述对状态所做的更改，并可以应用于创建一个<em>新</em>状态，然后用于更新视图。",
+    "_note": ""
+  },
+  "By default this all happens under the cover, but you can hook into by writing plugins or configuring your view. For example, this code adds a dispatchTransaction prop, which will be called whenever a transaction is created:": {
+    "_translate": "默认情况下，这一切都在后台进行，但您可以通过编写<a href=\"#state.plugins\">插件</a>或配置视图来进行挂钩。例如，这段代码添加了一个<a href=\"/docs/ref/#view.DirectEditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a><a href=\"/docs/ref/#view.EditorProps\">属性</a>，每当创建事务时都会调用它：",
+    "_note": ""
+  },
+  "Every state update has to go through updateState, and every normal editing update will happen by dispatching a transaction.": {
+    "_translate": "<em>每次</em>状态更新都必须通过\n<a href=\"/docs/ref/#view.EditorView.updateState\"><code>updateState</code></a>，并且每次正常的编辑更新都会通过分派一个事务来进行。",
+    "_note": ""
+  },
+  "Plugins are used to extend the behavior of the editor and editor state in various ways. Some are relatively simple, like the keymap plugin that binds actions to keyboard input. Others are more involved, like the history plugin which implements an undo history by observing transactions and storing their inverse in case the user wants to undo them.": {
+    "_translate": "插件用于以各种方式扩展编辑器和编辑器状态的行为。有些相对简单，比如将<a href=\"/docs/ref/#keymap\">键映射</a>插件将<a href=\"#commands\">操作</a>绑定到键盘输入。其他的则更复杂，比如<a href=\"/docs/ref/#history\">历史</a>插件通过观察事务并存储它们的逆操作来实现撤销历史，以防用户想要撤销它们。",
+    "_note": ""
+  },
+  "Let's add those two plugins to our editor to get undo/redo functionality:": {
+    "_translate": "让我们将这两个插件添加到我们的编辑器中以获得撤销/重做功能：",
+    "_note": ""
+  },
+  "Plugins are registered when creating a state (because they get access to state transactions). After creating a view for this history-enabled state, you'll be able to press Ctrl-Z (or Cmd-Z on OS X) to undo your last change.": {
+    "_translate": "插件在创建状态时注册（因为它们可以访问状态事务）。在为这个启用历史记录的状态创建视图后，您将能够按下 Ctrl-Z（或在 OS X 上按 Cmd-Z）来撤销您上次的更改。",
+    "_note": ""
+  },
+  "The undo and redo values that the previous example bound to keys are a special kind of function called commands. Most editing actions are written as commands which can be bound to keys, hooked up to menus, or otherwise exposed to the user.": {
+    "_translate": "<code>undo</code> 和 <code>redo</code> 值在前面的例子中绑定到键上，是一种特殊的函数，称为<a href=\"#commands\"><em>命令</em></a>。大多数编辑操作都写成可以绑定到键、连接到菜单或以其他方式向用户公开的命令。",
+    "_note": ""
+  },
+  "The prosemirror-commands package provides a number of basic editing commands, along with a minimal keymap that you'll probably want to enable to have things like enter and delete do the expected thing in your editor.": {
+    "_translate": "<code>prosemirror-commands</code> 包提供了一些基本的编辑命令，以及一个最小的键映射，你可能希望启用它，以便在编辑器中实现预期的回车和删除功能。",
+    "_note": ""
+  },
+  "At this point, you have a basically working editor.": {
+    "_translate": "此时，您已经有了一个基本可用的编辑器。",
+    "_note": ""
+  },
+  "To add a menu, additional keybindings for schema-specific things, and so on, you might want to look into the prosemirror-example-setup package. This is a module that provides you with an array of plugins that set up a baseline editor, but as the name suggests, it is meant more as an example than as a production-level library. For a real-world deployment, you'll probably want to replace it with custom code that sets things up exactly the way you want.": {
+    "_translate": "要添加菜单、特定模式的额外键绑定等，您可能需要查看\n<a href=\"https://github.com/prosemirror/prosemirror-example-setup\"><code>prosemirror-example-setup</code></a>\n包。这是一个模块，为您提供一系列插件来设置一个基础编辑器，但正如其名称所示，它更多的是作为一个示例而不是生产级库。对于实际部署，您可能需要用自定义代码替换它，以完全按照您的需求进行设置。",
+    "_note": ""
+  },
+  "A state's document lives under its doc property. This is a read-only data structure, representing the document as a hierarchy of nodes, somewhat like the browser DOM. A simple document might be a \"doc\" node containing two \"paragraph\" nodes, each containing a single \"text\" node.": {
+    "_translate": "一个 state's document 存在于其 <a href=\"/docs/ref/#state.EditorState.doc\"><code>doc</code></a> 属性下。这是一个只读数据结构，表示文档为一个节点层次结构，有点像浏览器的 DOM。一个简单的文档可能是一个 <code>\"doc\"</code> 节点，包含两个 <code>\"paragraph\"</code> 节点，每个节点包含一个 <code>\"text\"</code> 节点。",
+    "_note": ""
+  },
+  "When initializing a state, you can give it an initial document to use. In that case, the schema field is optional, since the schema can be taken from the document.": {
+    "_translate": "在初始化状态时，可以给它一个初始文档使用。在这种情况下，<code>schema</code>字段是可选的，因为可以从文档中获取模式。",
+    "_note": ""
+  },
+  "Here we initialize a state by parsing the content found in the DOM element with the ID \"content\", using the DOM parser mechanism, which uses information supplied by the schema about which DOM nodes map to which elements in that schema:": {
+    "_translate": "在这里，我们通过使用 DOM 解析器机制解析在 ID 为 <code>\"content\"</code> 的 DOM 元素中找到的内容来初始化状态，该机制使用架构提供的信息来确定哪些 DOM 节点映射到该架构中的哪些元素：",
+    "_note": ""
+  },
+  "A ProseMirror document is a node, which holds a fragment containing zero or more child nodes.": {
+    "_translate": "ProseMirror 文档是一个<a href=\"/docs/ref/#model.Node\">节点</a>，它包含一个包含零个或多个子节点的<a href=\"/docs/ref/#model.Fragment\">片段</a>。",
+    "_note": ""
+  },
+  "This is a lot like the browser DOM, in that it is recursive and tree-shaped. But it differs from the DOM in the way it stores inline content.": {
+    "_translate": "这与<a href=\"https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model\">浏览器\nDOM</a>非常相似，因为它是递归的并且是树状的。但它与DOM不同之处在于它存储内联内容的方式。",
+    "_note": ""
+  },
+  "ProseMirror defines its own data structure to represent content documents. Since documents are the central element around which the rest of the editor is built, it is helpful to understand how they work.": {
+    "_translate": "ProseMirror 定义了自己的 <a href=\"/docs/ref/#model.Node\">数据结构</a> 来表示内容文档。由于文档是构建编辑器其余部分的核心元素，了解它们的工作原理是有帮助的。",
+    "_note": ""
+  },
+  "In HTML, a paragraph with markup is represented as a tree, like this:": {
+    "_translate": "在HTML中，带有标记的段落表示为树状结构，如下所示：",
+    "_note": ""
+  },
+  "This more closely matches the way we tend to think about and work with such text. It allows us to represent positions in a paragraph using a character offset rather than a path in a tree, and makes it easier to perform operations like splitting or changing the style of the content without performing awkward tree manipulation.": {
+    "_translate": "这更接近我们思考和处理此类文本的方式。它允许我们使用字符偏移而不是树中的路径来表示段落中的位置，并且使得执行诸如拆分或更改内容样式之类的操作变得更加容易，而无需进行笨拙的树操作。",
+    "_note": ""
+  },
+  "Whereas in ProseMirror, the inline content is modeled as a flat sequence, with the markup attached as metadata to the nodes:": {
+    "_translate": "在ProseMirror中，内联内容被建模为一个平坦的序列，标记作为元数据附加到节点上：",
+    "_note": ""
+  },
+  "This also means each document has one valid representation. Adjacent text nodes with the same set of marks are always combined together, and empty text nodes are not allowed. The order in which marks appear is specified by the schema.": {
+    "_translate": "这也意味着每个文档有<em>一个</em>有效的表示。具有相同标记集的相邻文本节点总是组合在一起，不允许空文本节点。标记出现的顺序由模式指定。",
+    "_note": ""
+  },
+  "Node objects come with a number of properties that reflect the role they play in the document:": {
+    "_translate": "Node 对象带有许多属性，这些属性反映了它们在文档中所扮演的角色：",
+    "_note": ""
+  },
+  "So a ProseMirror document is a tree of block nodes, with most of the leaf nodes being textblocks, which are block nodes that contain text. You can also have leaf blocks that are simply empty, for example a horizontal rule or a video element.": {
+    "_translate": "所以 ProseMirror 文档是一个块节点的树，其中大多数叶节点是<em>文本块</em>，即包含文本的块节点。你也可以有简单的空叶块，例如水平线或视频元素。",
+    "_note": ""
+  },
+  "So a typical \"paragraph\" node will be a textblock, whereas a blockquote might be a block element whose content consists of other blocks. Text, hard breaks, and inline images are inline leaf nodes, and a horizontal rule node would be an example of a block leaf node.": {
+    "_translate": "所以一个典型的<code>\"paragraph\"</code>节点将是一个文本块，而一个blockquote可能是一个其内容由其他块组成的块元素。文本、硬换行和内联图像是内联叶节点，而水平线节点将是块叶节点的一个例子。",
+    "_note": ""
+  },
+  "The schema is allowed to specify more precise constraints on what may appear where—i.e. even though a node allows block content, that doesn't mean that it allows all block nodes as content.": {
+    "_translate": "<a href=\"#schema\">模式</a>允许对可能出现的位置指定更精确的约束——即使一个节点允许块内容，也不意味着它允许<em>所有</em>块节点作为内容。",
+    "_note": ""
+  },
+  "Another important difference between a DOM tree and a ProseMirror document is the way the objects that represent nodes behave. In the DOM, nodes are mutable objects with an identity, which means that a node can only appear in one parent node, and that the node object is mutated when it is updated.": {
+    "_translate": "另一个重要的区别是DOM树和ProseMirror文档中表示节点的对象的行为方式。在DOM中，节点是具有<em>身份</em>的可变对象，这意味着一个节点只能出现在一个父节点中，并且节点对象在更新时会被修改。",
+    "_note": ""
+  },
+  "In ProseMirror, on the other hand, nodes are simply values, and should be approached much as you'd approach the value representing the number 3. 3 can appear in multiple data structures at the same time, it does not have a parent-link to the data structure it is currently part of, and if you add 1 to it, you get a new value, 4, without changing anything about the original 3.": {
+    "_translate": "在ProseMirror中，节点只是<em>值</em>，应该像对待表示数字3的值一样对待它们。3可以同时出现在多个数据结构中，它没有指向当前所属数据结构的父链接，如果你在它上面加1，你会得到一个<em>新</em>的值4，而不会改变原来的3。",
+    "_note": ""
+  },
+  "So it is with pieces of ProseMirror documents. They don't change, but can be used as a starting value to compute a modified piece of document. They don't know what data structures they are part of, but can be part of multiple structures, or even occur multiple times in a single structure. They are values, not stateful objects.": {
+    "_translate": "因此，ProseMirror 文档的片段也是如此。它们不会改变，但可以用作计算修改后的文档片段的起始值。它们不知道自己是哪些数据结构的一部分，但可以是多个结构的一部分，甚至可以在单个结构中多次出现。它们是<em>值</em>，而不是有状态的对象。",
+    "_note": ""
+  },
+  "This means that every time you update a document, you get a new document value. That document value will share all sub-nodes that didn't change with the original document value, making it relatively cheap to create.": {
+    "_translate": "这意味着每次更新文档时，您都会获得一个新的文档值。该文档值将与原始文档值共享所有未更改的子节点，从而使其创建成本相对较低。",
+    "_note": ""
+  },
+  "This has a bunch of advantages. It makes it impossible to have an editor in an invalid in-between state during an update, since the new state, with a new document, can be swapped in instantaneously. It also makes it easier to reason about documents in a somewhat mathematical way, which is really hard if your values keep changing underneath you. This helps make collaborative editing possible and allows ProseMirror to run a very efficient DOM update algorithm by comparing the last document it drew to the screen to the current document.": {
+    "_translate": "这有很多优点。它使得在更新期间编辑器不可能处于无效的中间状态，因为新的状态，带有新文档，可以瞬间替换。这也使得以某种数学方式推理文档变得更容易，如果你的值不断变化，这真的很难。这有助于实现协作编辑，并允许ProseMirror通过将最后绘制到屏幕上的文档与当前文档进行比较，运行一个非常高效的DOM <a href=\"/docs/ref/#view.EditorView.update\">更新</a>算法。",
+    "_note": ""
+  },
+  "The object structure for a document looks something like this:": {
+    "_translate": "文档的对象结构看起来像这样：",
+    "_note": ""
+  },
+  "Because such nodes are represented by regular JavaScript objects, and explicitly freezing their properties hampers performance, it is actually possible to change them. But doing this is not supported, and will cause things to break, because they are almost always shared between multiple data structures. So be careful! And note that this also holds for the arrays and plain objects that are part of node objects, such as the objects used to store node attributes, or the arrays of child nodes in fragments.": {
+    "_translate": "因为这些节点是由常规的JavaScript对象表示的，并且\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze\">冻结</a>\n它们的属性会影响性能，所以实际上<em>可以</em>更改它们。但是这样做是不被支持的，并且会导致问题，因为它们几乎总是被多个数据结构共享。所以要小心！并且请注意，这也适用于作为节点对象<em>一部分</em>的数组和普通对象，例如用于存储节点属性的对象或片段中的子节点数组。",
+    "_note": ""
+  },
+  "Each node is represented by an instance of the Node class. It is tagged with a type, which knows the node's name, the attributes that are valid for it, and so on. Node types (and mark types) are created once per schema, and know which schema they are part of.": {
+    "_translate": "每个节点由<a href=\"/docs/ref/#model.Node\"><code>Node</code></a>类的一个实例表示。它被标记为<a href=\"/docs/ref/#model.NodeType\">类型</a>，该类型知道节点的名称、对其有效的属性等。节点类型（和标记类型）在每个模式中创建一次，并且知道它们是哪个模式的一部分。",
+    "_note": ""
+  },
+  "The content of a node is stored in an instance of Fragment, which holds a sequence of nodes. Even for nodes that don't have or don't allow content, this field is filled (with the shared empty fragment).": {
+    "_translate": "节点的内容存储在<a href=\"/docs/ref/#model.Fragment\"><code>Fragment</code></a>的实例中，它包含一系列节点。即使对于没有或不允许内容的节点，此字段也会被填充（使用共享的<a href=\"/docs/ref/#model.Fragment%5Eempty\">空片段</a>）。",
+    "_note": ""
+  },
+  "Some node types allow attributes, which are extra values stored with each node. For example, an image node might use these to store its alt text and the URL of the image.": {
+    "_translate": "某些节点类型允许属性，这是存储在每个节点中的额外值。例如，图像节点可能会使用这些属性来存储其替代文本和图像的URL。",
+    "_note": ""
+  },
+  "A full document is just a node. The document content is represented as the top-level node's child nodes. Typically, it'll contain a series of block nodes, some of which may be textblocks that contain inline content. But the top-level node may also be a textblock itself, so that the document contains only inline content.": {
+    "_translate": "一份完整的文档只是一个节点。文档内容表示为顶级节点的子节点。通常，它会包含一系列块节点，其中一些可能是包含内联内容的文本块。但顶级节点本身也可能是一个文本块，因此文档只包含内联内容。",
+    "_note": ""
+  },
+  "In addition, inline nodes hold a set of active marks—things like emphasis or being a link—which are represented as an array of Mark instances.": {
+    "_translate": "此外，内联节点包含一组活动标记——例如强调或作为链接——这些标记表示为一个<a href=\"/docs/ref/#model.Mark\"><code>Mark</code></a>实例的数组。",
+    "_note": ""
+  },
+  "What kind of node is allowed where is determined by the document's schema. To programmatically create nodes, you must go through the schema, for example using the node and text methods.": {
+    "_translate": "什么类型的节点被允许在哪里是由文档的<a href=\"#schema\">模式</a>决定的。要以编程方式创建节点，必须通过模式，例如使用<a href=\"/docs/ref/#model.Schema.node\"><code>node</code></a>和<a href=\"/docs/ref/#model.Schema.text\"><code>text</code></a>方法。",
+    "_note": ""
+  },
+  "ProseMirror nodes support two types of indexing—they can be treated as trees, using offsets into individual nodes, or they can be treated as a flat sequence of tokens.": {
+    "_translate": "ProseMirror 节点支持两种类型的索引——它们可以被视为树，使用单个节点的偏移量，或者它们可以被视为一系列平坦的标记。",
+    "_note": ""
+  },
+  "The first allows you to do things similar to what you'd do with the DOM—interacting with single nodes, directly accessing child nodes using the child method and childCount, writing recursive functions that scan through a document (if you just want to look at all nodes, use descendants or nodesBetween).": {
+    "_translate": "第一个允许你做类似于在DOM中所做的事情——与单个节点交互，直接访问子节点，使用<a href=\"/docs/ref/#model.Node.child\"><code>child</code>方法</a>和<a href=\"/docs/ref/#model.Node.childCount\"><code>childCount</code></a>，编写递归函数扫描文档（如果你只想查看所有节点，使用<a href=\"/docs/ref/#model.Node.descendants\"><code>descendants</code></a>或<a href=\"/docs/ref/#model.Node.nodesBetween\"><code>nodesBetween</code></a>）。",
+    "_note": ""
+  },
+  "The second is more useful when addressing a specific position in the document. It allows any document position to be represented as an integer—the index in the token sequence. These tokens don't actually exist as objects in memory—they are just a counting convention—but the document's tree shape, along with the fact that each node knows its size, is used to make by-position access cheap.": {
+    "_translate": "第二种方法在处理文档中的特定位置时更有用。它允许将文档中的任何位置表示为一个整数——即标记序列中的索引。这些标记实际上并不存在于内存中——它们只是一个计数约定——但文档的树形结构，以及每个节点知道其大小的事实，被用来使按位置访问变得廉价。",
+    "_note": ""
+  },
+  "The start of the document, right before the first content, is position 0.": {
+    "_translate": "文档的开始，在第一个内容之前，是位置0。",
+    "_note": ""
+  },
+  "Entering or leaving a node that is not a leaf node (i.e. supports content) counts as one token. So if the document starts with a paragraph, the start of that paragraph counts as position 1.": {
+    "_translate": "进入或离开一个不是叶节点（即支持内容）的节点算作一个标记。因此，如果文档以一个段落开始，该段落的开始位置算作位置1。",
+    "_note": ""
+  },
+  "Each character in text nodes counts as one token. So if the paragraph at the start of the document contains the word “hi”, position 2 is after the “h”, position 3 after the “i”, and position 4 after the whole paragraph.": {
+    "_translate": "每个文本节点中的字符都算作一个标记。因此，如果文档开头的段落包含单词“hi”，位置2在“h”之后，位置3在“i”之后，位置4在整个段落之后。",
+    "_note": ""
+  },
+  "Leaf nodes that do not allow content (such as images) also count as a single token.": {
+    "_translate": "叶节点不允许内容（如图像）也算作一个单独的标记。",
+    "_note": ""
+  },
+  "So if you have a document that, when expressed as HTML, would look like this:": {
+    "_translate": "所以，如果你有一个文档，当用HTML表示时，看起来像这样：",
+    "_note": ""
+  },
+  "The token sequence, with positions, looks like this:": {
+    "_translate": "令牌序列及其位置如下所示：",
+    "_note": ""
+  },
+  "Each node has a nodeSize property that gives you the size of the entire node, and you can access .content.size to get the size of the node's content. Note that for the outer document node, the open and close tokens are not considered part of the document (because you can't put your cursor outside of the document), so the size of a document is doc.content.size, not doc.nodeSize.": {
+    "_translate": "每个节点都有一个<a href=\"/docs/ref/#model.Node.nodeSize\"><code>nodeSize</code></a>属性，用于获取整个节点的大小，你可以访问<a href=\"/docs/ref/#model.Fragment.size\"><code>.content.size</code></a>来获取节点<em>内容</em>的大小。请注意，对于外部文档节点，开头和结尾的标记不被视为文档的一部分（因为你不能将光标放在文档之外），所以文档的大小是<code>doc.content.size</code>，<strong>不是</strong> <code>doc.nodeSize</code>。",
+    "_note": ""
+  },
+  "Interpreting such positions manually involves quite a lot of counting. You can call Node.resolve to get a more descriptive data structure for a position. This data structure will tell you what the parent node of the position is, what its offset into that parent is, what ancestors the parent has, and a few other things.": {
+    "_translate": "手动解释这些位置涉及相当多的计数。\n你可以调用 <a href=\"/docs/ref/#model.Node.resolve\"><code>Node.resolve</code></a> 来获取一个更具描述性的<a href=\"/docs/ref/#model.ResolvedPos\">数据结构</a>。这个数据结构会告诉你位置的父节点是什么，它在父节点中的偏移量是多少，父节点有哪些祖先，以及其他一些信息。",
+    "_note": ""
+  },
+  "Take care to distinguish between child indices (as per childCount), document-wide positions, and node-local offsets (sometimes used in recursive functions to represent a position into the node that's currently being handled).": {
+    "_translate": "注意区分子索引（如<a href=\"/docs/ref/#model.Node.childCount\"><code>childCount</code></a>）、文档范围的位置和节点本地偏移（有时在递归函数中用于表示当前正在处理的节点中的位置）。",
+    "_note": ""
+  },
+  "To handle things like copy-paste and drag-drop, it is necessary to be able to talk about a slice of document, i.e. the content between two positions. Such a slice differs from a full node or fragment in that some of the nodes at its start or end may be ‘open’.": {
+    "_translate": "为了处理复制粘贴和拖放等操作，有必要能够讨论文档的一个片段，即两个位置之间的内容。这样的片段不同于完整的节点或片段，因为它的开始或结束处的一些节点可能是“开放的”。",
+    "_note": ""
+  },
+  "For example, if you select from the middle of one paragraph to the middle of the next one, the slice you've selected has two paragraphs in it, the first one open at the start, the second open at the end, whereas if you node-select a paragraph, you've selected a closed node. It may be the case that the content in such open nodes violates the schema constraints, if treated like the node's full content, because some required nodes fell outside of the slice.": {
+    "_translate": "例如，如果你从一个段落的中间选择到下一个段落的中间，你选择的片段中包含两个段落，第一个段落在开始处是开放的，第二个段落在结束处是开放的，而如果你节点选择一个段落，你选择的是一个封闭的节点。如果将这些开放节点中的内容视为节点的全部内容，可能会违反模式约束，因为某些必需的节点落在了片段之外。",
+    "_note": ""
+  },
+  "The Slice data structure is used to represent such slices. It stores a fragment along with an open depth on both sides. You can use the slice method on nodes to cut a slice out of a document.": {
+    "_translate": "<a href=\"/docs/ref/#model.Slice\"><code>Slice</code></a> 数据结构用于表示这样的切片。它存储一个 <a href=\"/docs/ref/#model.Fragment\">fragment</a> 以及两边的 <a href=\"/docs/ref/#model.Slice.openStart\">open depth</a>。你可以在节点上使用 <a href=\"/docs/ref/#model.Node.slice\"><code>slice</code> 方法</a> 从文档中切出一个切片。",
+    "_note": ""
+  },
+  "Most of the time, you'll use transformations to update documents, and won't have to directly touch the nodes. These also leave a record of the changes, which is necessary when the document is part of an editor state.": {
+    "_translate": "大多数情况下，您将使用<a href=\"#transform\">转换</a>来更新文档，而不必直接接触节点。这些操作还会留下更改记录，当文档是编辑器状态的一部分时，这是必要的。",
+    "_note": ""
+  },
+  "Since nodes and fragments are persistent, you should never mutate them. If you have a handle to a document (or node, or fragment) that object will stay the same.": {
+    "_translate": "由于节点和片段是<a href=\"https://en.wikipedia.org/wiki/Persistent_data_structure\">持久的</a>，你应该<strong>永远</strong>不要改变它们。如果你有一个文档（或节点，或片段）的句柄，该对象将保持不变。",
+    "_note": ""
+  },
+  "In cases where you do want to 'manually' derive an updated document, there are some helper methods available on the Node and Fragment types. To create an updated version of a whole document, you'll usually want to use Node.replace, which replaces a given range of the document with a slice of new content. To update a node shallowly, you can use its copy method, which creates a similar node with new content. Fragments also have various updating methods, such as replaceChild or append.": {
+    "_translate": "在您确实想要“手动”派生更新文档的情况下，<a href=\"/docs/ref/#model.Node\"><code>Node</code></a>和<a href=\"/docs/ref/#model.Fragment\"><code>Fragment</code></a>类型上有一些辅助方法可用。要创建整个文档的更新版本，通常您会想要使用<a href=\"/docs/ref/#model.Node.replace\"><code>Node.replace</code></a>，它用新的内容<a href=\"/docs/ref/#model.Slice\">切片</a>替换文档的给定范围。要浅层更新节点，您可以使用其<a href=\"/docs/ref/#model.Node.copy\"><code>copy</code></a>方法，该方法创建具有新内容的类似节点。片段也有各种更新方法，例如<a href=\"/docs/ref/#model.Fragment.replaceChild\"><code>replaceChild</code></a>或<a href=\"/docs/ref/#model.Fragment.append\"><code>append</code></a>。",
+    "_note": ""
+  },
+  "Each ProseMirror document has a schema associated with it. The schema describes the kind of nodes that may occur in the document, and the way they are nested. For example, it might say that the top-level node can contain one or more blocks, and that paragraph nodes can contain any number of inline nodes, with any marks applied to them.": {
+    "_translate": "每个 ProseMirror <a href=\"#doc\">文档</a>都有一个与之关联的<a href=\"/docs/ref/#model.Schema\">模式</a>。模式描述了文档中可能出现的<a href=\"/docs/ref/#model.Node\">节点</a>类型及其嵌套方式。例如，它可能会说明顶级节点可以包含一个或多个块，并且段落节点可以包含任意数量的内联节点，并应用任何<a href=\"/docs/ref/#model.Mark\">标记</a>。",
+    "_note": ""
+  },
+  "There is a package with a basic schema available, but the nice thing about ProseMirror is that it allows you to define your own schemas.": {
+    "_translate": "有一个带有<a href=\"/docs/ref/#schema-basic\">基本模式</a>的包可用，但ProseMirror的好处是它允许你定义自己的模式。",
+    "_note": ""
+  },
+  "Every node in a document has a type, which represents its semantic meaning and its properties, such as the way it is rendered in the editor.": {
+    "_translate": "文档中的每个节点都有一个<a href=\"/docs/ref/#model.NodeType\">类型</a>，它表示其语义意义及其属性，例如在编辑器中的呈现方式。",
+    "_note": ""
+  },
+  "When you define a schema, you enumerate the node types that may occur within it, describing each with a spec object:": {
+    "_translate": "当你定义一个模式时，你需要列举可能出现在其中的节点类型，并使用<a href=\"/docs/ref/#model.NodeSpec\">spec 对象</a>描述每个节点类型：",
+    "_note": ""
+  },
+  "That defines a schema where the document may contain one or more paragraphs, and each paragraph can contain any amount of text.": {
+    "_translate": "这定义了一个模式，其中文档可以包含一个或多个段落，每个段落可以包含任意数量的文本。",
+    "_note": ""
+  },
+  "Every schema must at least define a top-level node type (which defaults to the name \"doc\", but you can configure that), and a \"text\" type for text content.": {
+    "_translate": "每个模式至少必须定义一个顶级节点类型（默认为名称<code>\"doc\"</code>，但你可以<a href=\"/docs/ref/#model.Schema.topNodeType\">配置</a>），以及一个用于文本内容的<code>\"text\"</code>类型。",
+    "_note": ""
+  },
+  "Nodes that count as inline must declare this with the inline property (though for the text type, which is inline by definition, you may omit this).": {
+    "_translate": "作为内联的节点必须通过<a href=\"/docs/ref/#model.NodeSpec.inline\"><code>inline</code></a>属性声明这一点（尽管对于<code>text</code>类型，它本身就是内联的，你可以省略这一点）。",
+    "_note": ""
+  },
+  "The strings in the content fields in the example schema above are called content expressions. They control what sequences of child nodes are valid for this node type.": {
+    "_translate": "在上面的示例模式中，<a href=\"/docs/ref/#model.NodeSpec.content\"><code>content</code></a> 字段中的字符串被称为<em>内容表达式</em>。它们控制此节点类型的有效子节点序列。",
+    "_note": ""
+  },
+  "You can say, for example \"paragraph\" for “one paragraph”, or \"paragraph+\" to express “one or more paragraphs”. Similarly, \"paragraph*\" means “zero or more paragraphs” and \"caption?\" means “zero or one caption node”. You can also use regular-expression-like ranges, such as {2} (“exactly two”) {1, 5} (“one to five”) or {2,} (“two or more”) after node names.": {
+    "_translate": "你可以说，例如<code>\"paragraph\"</code>表示“一个段落”，或者<code>\"paragraph+\"</code>表示“一个或多个段落”。类似地，<code>\"paragraph*\"</code>表示“零个或多个段落”，而<code>\"caption?\"</code>表示“零个或一个标题节点”。你也可以使用类似正则表达式的范围，例如<code>{2}</code>（“正好两个”）<code>{1, 5}</code>（“一到五个”）或<code>{2,}</code>（“两个或更多”）在节点名称之后。",
+    "_note": ""
+  },
+  "Such expressions can be combined to create a sequence, for example \"heading paragraph+\" means ‘first a heading, then one or more paragraphs’. You can also use the pipe | operator to indicate a choice between two expressions, as in \"(paragraph | blockquote)+\".": {
+    "_translate": "这样的表达式可以组合成一个序列，例如<code>\"heading paragraph+\"</code>表示‘先是一个标题，然后是一个或多个段落’。你也可以使用管道<code>|</code>运算符来表示在两个表达式之间进行选择，如<code>\"(paragraph | blockquote)+\"</code>。",
+    "_note": ""
+  },
+  "Here \"block+\" is equivalent to \"(paragraph | blockquote)+\".": {
+    "_translate": "这里<code>\"block+\"</code>相当于<code>\"(paragraph | blockquote)+\"</code>。",
+    "_note": ""
+  },
+  "Some groups of element types will appear multiple times in your schema—for example you might have a concept of “block” nodes, that may appear at the top level but also nested inside of blockquotes. You can create a node group by giving your node specs a group property, and then refer to that group by its name in your expressions.": {
+    "_translate": "某些元素类型组将在您的模式中多次出现——例如，您可能有“块”节点的概念，它们可能出现在顶层，但也嵌套在引用块内。您可以通过给节点规范一个<a href=\"/docs/ref/#model.NodeSpec.group\"><code>group</code></a>属性来创建一个节点组，然后在表达式中通过其名称引用该组。",
+    "_note": ""
+  },
+  "It is recommended to always require at least one child node in nodes that have block content (such as \"doc\" and \"blockquote\" in the example above), because browsers will completely collapse the node when it's empty, making it rather hard to edit.": {
+    "_translate": "建议在具有块内容的节点（例如上面示例中的<code>\"doc\"</code>和<code>\"blockquote\"</code>）中始终至少要求一个子节点，因为浏览器在节点为空时会完全折叠节点，使其相当难以编辑。",
+    "_note": ""
+  },
+  "The order in which your nodes appear in an or-expression is significant. When creating a default instance for a non-optional node, for example to make sure a document still conforms to the schema after a replace step the first type in the expression will be used. If that is a group, the first type in the group (determined by the order in which the group's members appear in your nodes map) is used. If I switched the positions of \"paragraph\" and \"blockquote\" in the the example schema, you'd get a stack overflow as soon as the editor tried to create a block node—it'd create a \"blockquote\" node, whose content requires at least one block, so it'd try to create another \"blockquote\" as content, and so on.": {
+    "_translate": "节点在或表达式中出现的顺序是重要的。例如，当为一个非可选节点创建默认实例时，为了确保文档在<a href=\"/docs/ref/#transform.ReplaceStep\">替换步骤</a>后仍然符合模式，将使用表达式中的第一个类型。如果这是一个组，则使用组中的第一个类型（由组成员在<code>nodes</code>映射中出现的顺序决定）。如果我在示例模式中交换<code>\"paragraph\"</code>和<code>\"blockquote\"</code>的位置，当编辑器尝试创建一个块节点时，你会立即遇到堆栈溢出——它会创建一个<code>\"blockquote\"</code>节点，其内容至少需要一个块，因此它会尝试创建另一个<code>\"blockquote\"</code>作为内容，依此类推。",
+    "_note": ""
+  },
+  "Not every node-manipulating function in the library checks that it is dealing with valid content—higher level concepts like transforms do, but primitive node-creation methods usually don't and instead put the responsibility for providing sane input on their caller. It is perfectly possible to use, for example NodeType.create, to create a node with invalid content. For nodes that are ‘open’ on the edge of slices, this is even a reasonable thing to do. There is a separate createChecked method, as well as an after-the-fact check method that can be used to assert that a given node's content is valid.": {
+    "_translate": "库中的并非每个节点操作函数都会检查其处理的内容是否有效——更高级别的概念如<a href=\"#transform\">转换</a>会进行检查，但原始的节点创建方法通常不会，而是将提供合理输入的责任交给调用者。例如，使用<a href=\"/docs/ref/#model.NodeType.create\"><code>NodeType.create</code></a>创建一个具有无效内容的节点是完全可能的。对于在<a href=\"#doc.slices\">切片</a>边缘“开放”的节点，这甚至是合理的做法。还有一个单独的<a href=\"/docs/ref/#model.NodeType.createChecked\"><code>createChecked</code>方法</a>，以及一个事后的<a href=\"/docs/ref/#model.Node.check\"><code>check</code>方法</a>，可以用来断言给定节点的内容是有效的。",
+    "_note": ""
+  },
+  "Marks are used to add extra styling or other information to inline content. A schema must declare all mark types it allows in its schema. Mark types are objects much like node types, used to tag mark objects and provide additional information about them.": {
+    "_translate": "标记用于为内联内容添加额外的样式或其他信息。模式必须在其<a href=\"/docs/ref/#model.Schema\">模式</a>中声明所有允许的标记类型。<a href=\"/docs/ref/#model.MarkType\">标记类型</a>是类似于节点类型的对象，用于标记标记对象并提供有关它们的附加信息。",
+    "_note": ""
+  },
+  "By default, nodes with inline content allow all marks defined in the schema to be applied to their children. You can configure this with the marks property on your node spec.": {
+    "_translate": "默认情况下，具有内联内容的节点允许在其子节点上应用架构中定义的所有标记。您可以通过节点规范中的<a href=\"/docs/ref/#model.NodeSpec.marks\"><code>marks</code></a>属性来配置此项。",
+    "_note": ""
+  },
+  "Here's a simple schema that supports strong and emphasis marks on text in paragraphs, but not in headings:": {
+    "_translate": "Here's a simple schema that supports strong and emphasis marks on\ntext in paragraphs, but not in headings:",
+    "_note": ""
+  },
+  "The set of marks is interpreted as a space-separated string of mark names or mark groups—\"_\" acts as a wildcard, and the empty string corresponds to the empty set.": {
+    "_translate": "这组标记被解释为一个以空格分隔的标记名称或标记组的字符串—<code>\"_\"</code> 充当通配符，空字符串对应于空集。",
+    "_note": ""
+  },
+  "The document schema also defines which attributes each node or mark has. If your node type requires extra node-specific information to be stored, such as the level of a heading node, that is best done with an attribute.": {
+    "_translate": "文档模式还定义了每个节点或标记具有哪些<em>属性</em>。如果您的节点类型需要存储额外的节点特定信息，例如标题节点的级别，最好使用属性来完成。",
+    "_note": ""
+  },
+  "Attribute sets are represented as plain objects with a predefined (per node or mark) set of properties holding any JSON-serializeable values. To specify what attributes it allows, use the optional attrs field in a node or mark spec.": {
+    "_translate": "属性集表示为具有预定义（每个节点或标记）属性集的普通对象，这些属性集包含任何可JSON序列化的值。要指定它允许的属性，请在节点或标记规范中使用可选的<code>attrs</code>字段。",
+    "_note": ""
+  },
+  "In this schema, every instance of the heading node will have a level attribute under .attrs.level. If it isn't specified when the node is created, it will default to 1.": {
+    "_translate": "在这个模式中，每个 <code>heading</code> 节点实例将具有 <code>.attrs.level</code> 下的 <code>level</code> 属性。如果在节点 <a href=\"/docs/ref/#model.NodeType.create\">创建</a> 时未指定，它将默认为 1。",
+    "_note": ""
+  },
+  "When you don't give a default value for an attribute, an error will be raised when you attempt to create such a node without specifying that attribute.": {
+    "_translate": "<a id=\"generatable\"></a>当你不给属性提供默认值时，当你尝试创建这样的节点而不指定该属性时，将会引发错误。",
+    "_note": ""
+  },
+  "That will also make it impossible for the library to generate such nodes as filler to satisfy schema constraints during a transform or when calling createAndFill. This is why you are not allowed to put such nodes in a required position in the schema—in order to be able to enforce the schema constraints, the editor needs to be able to generate empty nodes to fill missing pieces in the content.": {
+    "_translate": "这也将使得库在转换期间或调用<a href=\"/docs/ref/#model.NodeType.createAndFill\"><code>createAndFill</code></a>时无法生成此类节点作为填充以满足模式约束。这就是为什么不允许在模式中的必需位置放置此类节点的原因——为了能够强制执行模式约束，编辑器需要能够生成空节点来填补内容中的缺失部分。",
+    "_note": ""
+  },
+  "In order to be able to edit them in the browser, it must be possible to represent document nodes in the browser DOM. The easiest way to do that is to include information about each node's DOM representation in the schema using the toDOM field in the node spec.": {
+    "_translate": "为了能够在浏览器中编辑它们，必须能够在浏览器 DOM 中表示文档节点。最简单的方法是在模式中使用节点规范中的<a href=\"/docs/ref/#model.NodeSpec.toDOM\"><code>toDOM</code>字段</a>包含有关每个节点的 DOM 表示的信息。",
+    "_note": ""
+  },
+  "This field should hold a function that, when called with the node as argument, returns a description of the DOM structure for that node. This may either be a direct DOM node or an array describing it, for example:": {
+    "_translate": "该字段应包含一个函数，当以节点作为参数调用时，返回该节点的DOM结构描述。这可以是一个直接的DOM节点或一个<a href=\"/docs/ref/#model.DOMOutputSpec\">描述它的数组</a>，例如：",
+    "_note": ""
+  },
+  "The expression [\"p\", 0] declares that a paragraph is rendered as an HTML <p> tag. The zero is the ‘hole’ where its content should be rendered. You may also include an object with HTML attributes after the tag name, for example [\"div\", {class: \"c\"}, 0]. Leaf nodes don't need a hole in their DOM representation, since they don't have content.": {
+    "_translate": "表达式<code>[\"p\", 0]</code>声明一个段落被渲染为HTML<code>&lt;p&gt;</code>标签。零是其内容应渲染的“孔”。您还可以在标签名称后包含一个带有HTML属性的对象，例如<code>[\"div\", {class: \"c\"}, 0]</code>。叶节点在其DOM表示中不需要孔，因为它们没有内容。",
+    "_note": ""
+  },
+  "Mark specs allow a similar toDOM method, but they are required to render as a single tag that directly wraps the content, so the content always goes directly in the returned node, and the hole doesn't need to be specified.": {
+    "_translate": "Mark 规格允许使用类似的 <a href=\"/docs/ref/#model.MarkSpec.toDOM\"><code>toDOM</code></a> 方法，\n但它们需要渲染为直接包裹内容的单个标签，因此内容总是直接放在返回的节点中，\n不需要指定孔。",
+    "_note": ""
+  },
+  "You'll also often need to parse a document from DOM data, for example when the user pastes or drags something into the editor. The model module also comes with functionality for that, and you are encouraged to include parsing information directly in your schema with the parseDOM property.": {
+    "_translate": "您还经常需要从 DOM 数据中<em>解析</em>文档，例如当用户将某些内容粘贴或拖入编辑器时。模型模块也提供了相应的功能，并且建议您在模式中直接包含解析信息，使用<a href=\"/docs/ref/#model.NodeSpec.parseDOM\"><code>parseDOM</code>属性</a>。",
+    "_note": ""
+  },
+  "This may list an array of parse rules, which describe DOM constructs that map to a given node or mark. For example, the basic schema has these for the emphasis mark:": {
+    "_translate": "这可能列出一系列<a href=\"/docs/ref/#model.ParseRule\"><em>解析规则</em></a>，这些规则描述了映射到给定节点或标记的DOM结构。例如，基本模式对强调标记有这些规则：",
+    "_note": ""
+  },
+  "The value given to tag in a parse rule can be a CSS selector, so you can do thing like \"div.myclass\" too. Similarly, style matches inline CSS styles.": {
+    "_translate": "给<a href=\"/docs/ref/#model.ParseRule.tag\"><code>tag</code></a>的值可以是一个CSS选择器，所以你也可以做类似<code>\"div.myclass\"</code>的事情。\n同样，<a href=\"/docs/ref/#model.ParseRule.style\"><code>style</code></a>匹配内联CSS样式。",
+    "_note": ""
+  },
+  "When a schema includes parseDOM annotations, you can create a DOMParser object for it with DOMParser.fromSchema. This is done by the editor to create the default clipboard parser, but you can also override that.": {
+    "_translate": "当一个模式包含<code>parseDOM</code>注释时，你可以使用<a href=\"/docs/ref/#model.DOMParser\"><code>DOMParser</code></a>对象通过<a href=\"/docs/ref/#model.DOMParser%5EfromSchema\"><code>DOMParser.fromSchema</code></a>为其创建。这是编辑器用来创建默认剪贴板解析器的方法，但你也可以<a href=\"/docs/ref/#view.EditorProps.clipboardParser\">覆盖</a>它。",
+    "_note": ""
+  },
+  "Documents also come with a built-in JSON serialization format. You can call toJSON on them to get an object that can safely be passed to JSON.stringify, and schema objects have a nodeFromJSON method that can parse this representation back into a document.": {
+    "_translate": "文档还带有内置的 JSON 序列化格式。你可以对它们调用 <a href=\"/docs/ref/#model.Node.toJSON\"><code>toJSON</code></a> 来获取一个可以安全传递给 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify\"><code>JSON.stringify</code></a> 的对象，并且 schema 对象有一个 <a href=\"/docs/ref/#model.Schema.nodeFromJSON\"><code>nodeFromJSON</code> 方法</a>，可以将这种表示解析回文档。",
+    "_note": ""
+  },
+  "The nodes and marks options passed to the Schema constructor take OrderedMap objects as well as plain JavaScript objects. The resulting schema's spec.nodes and spec.marks properties are always OrderedMaps, which can be used as the basis for further schemas.": {
+    "_translate": "<code>nodes</code> 和 <code>marks</code> 选项传递给 <a href=\"/docs/ref/#model.Schema\"><code>Schema</code> 构造函数</a>时，可以是 <a href=\"https://github.com/marijnh/orderedmap#readme\"><code>OrderedMap</code> 对象</a> 以及普通的 JavaScript 对象。生成的 schema 的 <a href=\"/docs/ref/#model.Schema.spec\"><code>spec</code></a><code>.nodes</code> 和 <code>spec.marks</code> 属性始终是 <code>OrderedMap</code>，可以用作进一步 schema 的基础。",
+    "_note": ""
+  },
+  "Such maps support a number of methods to conveniently create updated versions. For example you could say schema.spec.nodes.remove(\"blockquote\") to derive a set of nodes without the blockquote node, which can then be passed as the nodes field for a new schema.": {
+    "_translate": "这样的映射支持多种方法来方便地创建更新的版本。例如，你可以说<code>schema.spec.nodes.remove(\"blockquote\")</code>来派生一组没有<code>blockquote</code>节点的节点，然后可以将其作为新模式的<code>nodes</code>字段传递。",
+    "_note": ""
+  },
+  "The schema-list module exports a convenience method to add the nodes exported by those modules to a nodeset.": {
+    "_translate": "<a href=\"/docs/ref/#schema-list\">schema-list</a> 模块导出一个 <a href=\"/docs/ref/#schema-list.addListNodes\">便捷方法</a>，将这些模块导出的节点添加到节点集。",
+    "_note": ""
+  },
+  "Transforms are central to the way ProseMirror works. They form the basis for transactions, and are what makes history tracking and collaborative editing possible.": {
+    "_translate": "<a href=\"/docs/ref/#transform.Transform\">转换</a> 是 ProseMirror 工作方式的核心。它们构成了 <a href=\"#state.transactions\">事务</a> 的基础，并且使历史跟踪和协作编辑成为可能。",
+    "_note": ""
+  },
+  "Why can't we just mutate the document and be done with it? Or at least create a new version of a document and just put that into the editor?": {
+    "_translate": "为什么我们不能直接修改文档然后完成它？或者至少创建一个新版本的文档并将其放入编辑器中？",
+    "_note": ""
+  },
+  "There are several reasons. One is code clarity. Immutable data structures really do lead to simpler code. But the main thing the transform system does is to leave a trail of updates, in the form of values that represent the individual steps taken to go from an old version of the document to a new one.": {
+    "_translate": "有几个原因。一个是代码清晰度。不可变的数据结构确实会导致更简单的代码。但主要的是转换系统会留下一个<em>更新的痕迹</em>，以表示从旧版本文档到新版本文档的各个步骤的值的形式。",
+    "_note": ""
+  },
+  "The undo history can save these steps and apply their inverse to go back in time (ProseMirror implements selective undo, which is more complicated than just rolling back to a previous state).": {
+    "_translate": "<a href=\"/docs/ref/#history\">撤销历史</a>可以保存这些步骤并应用它们的逆操作来回到过去（ProseMirror 实现了选择性撤销，这比仅仅回滚到先前状态更复杂）。",
+    "_note": ""
+  },
+  "The collaborative editing system sends these steps to other editors and reorders them if necessary so that everyone ends up with the same document.": {
+    "_translate": "<a href=\"http://marijnhaverbeke.nl/blog/collaborative-editing.html\">协同编辑</a>系统将这些步骤发送给其他编辑，并在必要时重新排序，以便每个人最终得到相同的文档。",
+    "_note": ""
+  },
+  "More generally, it is very useful for editor plugins to be able to inspect and react to each change as it comes in, in order to keep their own state consistent with the rest of the editor state.": {
+    "_translate": "更一般地说，编辑器插件能够在每次更改到来时检查并做出反应是非常有用的，以便使它们自己的状态与编辑器的其余状态保持一致。",
+    "_note": ""
+  },
+  "Updates to documents are decomposed into steps that describe an update. You usually don't need to work with these directly, but it is useful to know how they work.": {
+    "_translate": "文档的更新被分解为<a href=\"/docs/ref/#transform.Step\">步骤</a>，这些步骤描述了一个更新。你通常不需要直接处理这些步骤，但了解它们的工作原理是有用的。",
+    "_note": ""
+  },
+  "Examples of steps are ReplaceStep to replace a piece of a document, or AddMarkStep to add a mark to a given range.": {
+    "_translate": "示例步骤包括<a href=\"/docs/ref/#transform.ReplaceStep\"><code>ReplaceStep</code></a>用于替换文档的一部分，或<a href=\"/docs/ref/#transform.AddMarkStep\"><code>AddMarkStep</code></a>用于在给定范围内添加标记。",
+    "_note": ""
+  },
+  "A step can be applied to a document to produce a new document.": {
+    "_translate": "一个步骤可以<a href=\"/docs/ref/#transform.Step.apply\">应用</a>到文档上以生成一个新文档。",
+    "_note": ""
+  },
+  "You'll usually want to let helper functions generate your steps for you, so that you don't have to worry about the details.": {
+    "_translate": "通常情况下，您会希望让<a href=\"/docs/ref/#transform.Transform.replace\">辅助函数</a>为您生成步骤，这样您就不必担心细节问题。",
+    "_note": ""
+  },
+  "Applying a step is a relatively straightforward process—it doesn't do anything clever like inserting nodes to preserve schema constraints, or transforming the slice to make it fit. That means applying a step can fail, for example if you try to delete just the opening token of a node, that would leave the tokens unbalanced, which isn't a meaningful thing you can do. This is why apply returns a result object, which holds either a new document, or an error message.": {
+    "_translate": "应用一个步骤是一个相对简单的过程——它不会做任何聪明的事情，比如插入节点以保持模式约束，或转换切片以使其适应。这意味着应用一个步骤可能会失败，例如，如果你试图只删除一个节点的开头标记，这会导致标记不平衡，这是你不能做的有意义的事情。这就是为什么<a href=\"/docs/ref/#transform.Step.apply\"><code>apply</code></a>返回一个<a href=\"/docs/ref/#transform.StepResult\">结果对象</a>，它包含一个新文档，<em>或</em>一条错误信息。",
+    "_note": ""
+  },
+  "Most transform methods return the transform itself, for convenient chaining (allowing you to do tr.delete(5, 7).split(5)).": {
+    "_translate": "大多数转换方法返回转换本身，以方便链接（允许您执行<code>tr.delete(5, 7).split(5)</code>）。",
+    "_note": ""
+  },
+  "An editing action may produce one or more steps. The most convenient way to work with a sequence of steps is to create a Transform object (or, if you're working with a full editor state, a Transaction, which is a subclass of Transform).": {
+    "_translate": "编辑操作可能会产生一个或多个步骤。处理步骤序列的最方便方法是创建一个<a href=\"/docs/ref/#transform.Transform\"><code>Transform</code>对象</a>（或者，如果您正在处理完整的编辑器状态，可以创建一个<a href=\"/docs/ref/#state.Transaction\"><code>Transaction</code></a>，它是<code>Transform</code>的子类）。",
+    "_note": ""
+  },
+  "There are transform methods for deleting and replacing, for adding and removing marks, for performing tree manipulation like splitting, joining, lifting, and wrapping, and more.": {
+    "_translate": "有转换方法用于<a href=\"/docs/ref/#transform.Transform.delete\">删除</a>和<a href=\"/docs/ref/#transform.Transform.replace\">替换</a>，用于<a href=\"/docs/ref/#transform.Transform.addMark\">添加</a>和<a href=\"/docs/ref/#transform.Transform.removeMark\">移除标记</a>，用于执行树操作如<a href=\"/docs/ref/#transform.Transform.split\">拆分</a>、<a href=\"/docs/ref/#transform.Transform.join\">合并</a>、<a href=\"/docs/ref/#transform.Transform.lift\">提升</a>和<a href=\"/docs/ref/#transform.Transform.wrap\">包裹</a>，等等。",
+    "_note": ""
+  },
+  "When you make a change to a document, positions pointing into that document may become invalid or change meaning. For example, if you insert a character, all positions after that character now point one token before their old position. Similarly, if you delete all the content in a document, all positions pointing into that content are now invalid.": {
+    "_translate": "当您对文档进行更改时，指向该文档的位置可能会变得无效或改变含义。例如，如果您插入一个字符，则该字符之后的所有位置现在都指向其旧位置之前的一个标记。同样，如果您删除文档中的所有内容，则指向该内容的所有位置现在都无效。",
+    "_note": ""
+  },
+  "We often do need to preserve positions across document changes, for example the selection boundaries. To help with this, steps can give you a map that can convert between positions in the document before and after applying the step.": {
+    "_translate": "我们经常需要在文档更改过程中保留位置，例如选择边界。为此，步骤可以为您提供一个<a href=\"/docs/ref/#transform.StepMap\"><em>映射</em></a>，该映射可以在应用步骤之前和之后在文档中转换位置。",
+    "_note": ""
+  },
+  "Transform objects automatically accumulate a set of maps for the steps in them, using an abstraction called Mapping, which collects a series of step maps and allows you to map through them in one go.": {
+    "_translate": "自动转换对象\n<a href=\"/docs/ref/#transform.Transform.mapping\">累积</a>一组步骤映射，使用一种称为\n<a href=\"/docs/ref/#transform.Mapping\"><code>Mapping</code></a>的抽象，它收集一系列步骤映射\n并允许你一次性映射它们。",
+    "_note": ""
+  },
+  "But sometimes you want the other behavior, which is why the map method on step maps and mappings accepts a second parameter, bias, which you can set to -1 to keep your position in place when content is inserted on top of it.": {
+    "_translate": "但有时你会想要另一种行为，这就是为什么<a href=\"/docs/ref/#transform.Mappable.map\"><code>map</code>方法</a>在步骤映射和映射上接受第二个参数<code>bias</code>，你可以将其设置为-1，以在内容插入其上时保持你的位置不变。",
+    "_note": ""
+  },
+  "There are cases where it's not entirely clear what a given position should be mapped to. Consider the last line of the example above. Position 10 points precisely at the point where we split a node, inserting two tokens. Should it be mapped to the position after the inserted content, or stay in front of it? In the example, it is apparently moved after the inserted tokens.": {
+    "_translate": "有些情况下，给定位置应该映射到哪里并不完全清楚。考虑上面示例的最后一行。位置10正好指向我们拆分节点并插入两个标记的点。它应该映射到插入内容<em>之后</em>的位置，还是保持在它前面？在示例中，它显然被移动到插入标记之后。",
+    "_note": ""
+  },
+  "The reason that individual steps are defined as small, straightforward things is that it makes this kind of mapping possible, along with inverting steps in a lossless way, and mapping steps through each other's position maps.": {
+    "_translate": "个别步骤被定义为小而简单的原因是，这使得这种映射成为可能，以及<a href=\"/docs/ref/#transform.Step.invert\">无损地反转</a>步骤，并通过彼此的位置映射映射步骤。",
+    "_note": ""
+  },
+  "When doing more complicated things with steps and position maps, for example to implement your own change tracking, or to integrate some feature with collaborative editing, you might run into the need to rebase steps.": {
+    "_translate": "当进行更复杂的操作时，例如实现自己的更改跟踪，或将某些功能与协作编辑集成时，您可能会遇到需要<em>重新定位</em>步骤的情况。",
+    "_note": ""
+  },
+  "You might not want to bother studying this until you are sure you need it.": {
+    "_translate": "在确定需要之前，你可能不想费心学习这个。",
+    "_note": ""
+  },
+  "Rebasing, in the simple case, is the process of taking two steps that start with the same document, and transform one of them so that it can be applied to the document created by the other instead. In pseudocode:": {
+    "_translate": "重新定位，在简单情况下，是指从同一个文档开始，进行两个步骤，并将其中一个步骤转换，以便可以应用于另一个步骤创建的文档。在伪代码中：",
+    "_note": ""
+  },
+  "Things get more complicated when you want to rebase a chain of steps over another chain of steps.": {
+    "_translate": "当你想要将一系列步骤变基到另一系列步骤上时，事情会变得更加复杂。",
+    "_note": ""
+  },
+  "Steps have a map method, which, given a mapping, maps the whole step through it. This can fail, since some steps don't make sense anymore when, for example, the content they applied to has been deleted. But when it succeeds, you now have a step pointing into a new document, i.e. the one after the changes that you mapped through. So in the above example, rebase(stepB, mapA) can simply call stepB.map(mapA).": {
+    "_translate": "步骤有一个<a href=\"/docs/ref/#transform.Step.map\"><code>map</code>方法</a>，给定一个映射，通过它映射整个步骤。这可能会失败，因为当应用的内容被删除时，有些步骤不再有意义。但是当它成功时，你现在有一个指向新文档的步骤，即你通过映射后的更改后的文档。所以在上面的例子中，<code>rebase(stepB, mapA)</code>可以简单地调用<code>stepB.map(mapA)</code>。",
+    "_note": ""
+  },
+  "We can map stepB1 over stepA1 and then stepA2, to get stepB1'. But with stepB2, which starts at the document produced by stepB1(doc), and whose mapped version must apply to the document produced by stepB1'(docA), things get more difficult. It must be mapped over the following chain of maps:": {
+    "_translate": "我们可以将<code>stepB1</code>映射到<code>stepA1</code>，然后<code>stepA2</code>，以获得<code>stepB1'</code>。\n但是对于<code>stepB2</code>，它从<code>stepB1(doc)</code>生成的文档开始，其映射版本必须应用于<code>stepB1'(docA)</code>生成的文档，事情变得更加困难。它必须映射到以下映射链：",
+    "_note": ""
+  },
+  "I.e. first the inverse of the map for stepB1 to get back to the original document, then through the pipeline of maps produced by applying stepA1 and stepA2, and finally through the map produced by applying stepB1' to docA.": {
+    "_translate": "即首先对<code>stepB1</code>的映射求逆以返回到原始文档，然后通过应用<code>stepA1</code>和<code>stepA2</code>生成的映射管道，最后通过应用<code>stepB1'</code>到<code>docA</code>生成的映射。",
+    "_note": ""
+  },
+  "If there was a stepB3, we'd get the pipeline for that one by taking the one above, prefixing it with invert(mapB2) and adding mapB2' to the end. And so on.": {
+    "_translate": "如果有一个<code>stepB3</code>，我们可以通过获取上面的管道，前缀加上<code>invert(mapB2)</code>并在末尾添加<code>mapB2'</code>来得到它的管道。依此类推。",
+    "_note": ""
+  },
+  "But when stepB1 inserted some content, and stepB2 did something to that content, then mapping stepB2 through invert(mapB1) will return null, because the inverse of stepB1 deletes the content to which it applies. However, this content is reintroduced later in the pipeline, by mapB1. The Mapping abstraction provides a way to track such pipelines, including the inverse relations between the maps in it. You can map steps through it in such a way that they survive situations like the one above.": {
+    "_translate": "但是当<code>stepB1</code>插入了一些内容，并且<code>stepB2</code>对该内容做了一些处理时，通过<code>invert(mapB1)</code>映射<code>stepB2</code>将返回<code>null</code>，因为<code>stepB1</code>的逆操作<em>删除</em>了它所应用的内容。然而，这些内容稍后会通过<code>mapB1</code>重新引入到管道中。<a href=\"/docs/ref/#transform.Mapping\"><code>Mapping</code></a>抽象提供了一种方法来跟踪这样的管道，包括其中映射的逆关系。你可以通过它映射步骤，使它们在上述情况下得以保留。",
+    "_note": ""
+  },
+  "Even if you have rebased a step, there is no guarantee that it can still be validly applied to the current document. For example, if your step adds a mark, but another step changed the parent node of your target content to be a node that doesn't allow marks, trying to apply your step will fail. The appropriate response to this is usually just to drop the step.": {
+    "_translate": "即使你已经重新定位了一个步骤，也不能保证它仍然可以有效地应用于当前文档。例如，如果你的步骤添加了一个标记，但另一个步骤将目标内容的父节点更改为不允许标记的节点，尝试应用你的步骤将会失败。对此的适当响应通常是直接丢弃该步骤。",
+    "_note": ""
+  },
+  "What makes up the state of an editor? You have your document, of course. And also the current selection. And there needs to be a way to store the fact that the current set of marks has changed, when you for example disable or enable a mark but haven't started typing with that mark yet.": {
+    "_translate": "编辑器的状态由什么组成？当然有你的文档。还有当前的选择。还需要有一种方法来存储当前标记集已更改的事实，例如当你禁用或启用标记但尚未开始使用该标记输入时。",
+    "_note": ""
+  },
+  "Those are the three main components of a ProseMirror state, and exist on state objects as doc, selection, and storedMarks.": {
+    "_translate": "那些是 ProseMirror 状态的三个主要组成部分，并且在状态对象上以 <a href=\"/docs/ref/#state.EditorState.doc\"><code>doc</code></a>、<a href=\"/docs/ref/#state.EditorState.selection\"><code>selection</code></a> 和 <a href=\"/docs/ref/#state.EditorState.storedMarks\"><code>storedMarks</code></a> 的形式存在。",
+    "_note": ""
+  },
+  "But plugins may also need to store state—for example, the undo history has to keep its history of changes. This is why the set of active plugins is also stored in the state, and these plugins can define additional slots for storing their own state.": {
+    "_translate": "但是插件可能也需要存储状态——例如，撤销历史必须保留其更改历史。这就是为什么活动插件集也存储在状态中，这些插件可以定义额外的插槽来存储它们自己的状态。",
+    "_note": ""
+  },
+  "ProseMirror supports several types of selection (and allows 3rd-party code to define new selection types). Selections are represented by instances of (subclasses of) the Selection class. Like documents and other state-related values, they are immutable—to change the selection, you create a new selection object and a new state to hold it.": {
+    "_translate": "ProseMirror 支持多种类型的选区（并允许第三方代码定义新的选区类型）。选区由 <a href=\"/docs/ref/#state.Selection\"><code>Selection</code></a> 类的实例（子类）表示。像文档和其他与状态相关的值一样，它们是不可变的——要更改选区，您需要创建一个新的选区对象和一个新的状态来保存它。",
+    "_note": ""
+  },
+  "The most common type of selection is a text selection, which is used for regular cursors (when anchor and head are the same) or selected text. Both endpoints of a text selection are required to be in inline positions, i.e. pointing into nodes that allow inline content.": {
+    "_translate": "最常见的选择类型是<a href=\"/docs/ref/#state.TextSelection\">文本选择</a>，用于常规光标（当<code>anchor</code>和<code>head</code>相同时）或选中文本。文本选择的两个端点都需要位于内联位置，即指向允许内联内容的节点。",
+    "_note": ""
+  },
+  "Selections have, at the very least, a start (.from) and an end (.to), as positions pointing into the current document. Many selection types also distinguish between the anchor (unmoveable) and head (moveable) side of the selection, so those are also required to exist on every selection object.": {
+    "_translate": "Selections 至少有一个开始（<a href=\"/docs/ref/#state.Selection.from\"><code>.from</code></a>）和一个结束（<a href=\"/docs/ref/#state.Selection.to\"><code>.to</code></a>），作为指向当前文档的位置。许多选择类型还区分选择的<a href=\"/docs/ref/#state.Selection.anchor\"><em>锚点</em></a>（不可移动）和<a href=\"/docs/ref/#state.Selection.head\"><em>头部</em></a>（可移动）两侧，因此这些也需要存在于每个选择对象上。",
+    "_note": ""
+  },
+  "The core library also supports node selections, where a single document node is selected, which you get, for example, when you ctrl/cmd-click a node. Such a selection ranges from the position directly before the node to the position directly after it.": {
+    "_translate": "核心库还支持<a href=\"/docs/ref/#state.NodeSelection\">节点选择</a>，即选择单个文档节点，例如，当你按住ctrl/cmd键点击一个节点时。这样的选择范围从节点前的位置到节点后的位置。",
+    "_note": ""
+  },
+  "During normal editing, new states will be derived from the state before them. You may in some situations, such as loading a new document, want to create a completely new state, but this is the exception.": {
+    "_translate": "在正常编辑过程中，新状态将从之前的状态派生。在某些情况下，例如加载新文档时，您可能希望创建一个全新的状态，但这是例外。",
+    "_note": ""
+  },
+  "State updates happen by applying a transaction to an existing state, producing a new state. Conceptually, they happen in a single shot: given the old state and the transaction, a new value is computed for each component of the state, and those are put together in a new state value.": {
+    "_translate": "状态更新通过<a href=\"/docs/ref/#state.EditorState.apply\">应用</a>一个<a href=\"/docs/ref/#state.Transaction\">事务</a>到现有状态来发生，从而产生一个新状态。从概念上讲，它们是一次性发生的：给定旧状态和事务，为状态的每个组件计算一个新值，并将这些新值组合成一个新的状态值。",
+    "_note": ""
+  },
+  "Transaction is a subclass of Transform, and inherits the way it builds up a new document by applying steps to an initial document. In addition to this, transactions track selection and other state-related components, and get some selection-related convenience methods such as replaceSelection.": {
+    "_translate": "<a href=\"/docs/ref/#state.Transaction\"><code>Transaction</code></a> 是 <a href=\"/docs/ref/#transform.Transform\"><code>Transform</code></a> 的子类，并继承了通过对初始文档应用 <a href=\"/docs/ref/#transform.Step\">步骤</a> 来构建新文档的方式。除此之外，事务还跟踪选择和其他与状态相关的组件，并获得一些与选择相关的便捷方法，例如 <a href=\"/docs/ref/#state.Transaction.replaceSelection\"><code>replaceSelection</code></a>。",
+    "_note": ""
+  },
+  "The easiest way to create a transaction is with the tr getter on an editor state object. This creates an empty transaction based on that state, to which you can then add steps and other updates.": {
+    "_translate": "创建事务的最简单方法是使用编辑器状态对象上的<a href=\"/docs/ref/#state.EditorState.tr\"><code>tr</code>获取器</a>。这会基于该状态创建一个空事务，然后您可以向其中添加步骤和其他更新。",
+    "_note": ""
+  },
+  "By default, the old selection is mapped through each step to produce a new selection, but it is possible to use setSelection to explicitly set a new selection.": {
+    "_translate": "默认情况下，旧选择会通过每一步<a href=\"/docs/ref/#state.Selection.map\">映射</a>来生成新选择，但也可以使用<a href=\"/docs/ref/#state.Transaction.setSelection\"><code>setSelection</code></a>显式设置新选择。",
+    "_note": ""
+  },
+  "Similarly, the set of active marks is automatically cleared after a document or selection change, and can be set using the setStoredMarks or ensureMarks methods.": {
+    "_translate": "类似地，<a href=\"/docs/ref/#state.EditorState.storedMarks\">活动标记集</a>会在文档或选择更改后自动清除，并且可以使用<a href=\"/docs/ref/#state.Transaction.setStoredMarks\"><code>setStoredMarks</code></a>或<a href=\"/docs/ref/#state.Transaction.ensureMarks\"><code>ensureMarks</code></a>方法进行设置。",
+    "_note": ""
+  },
+  "Like Transform methods, many Transaction methods return the transaction itself, for convenient chaining.": {
+    "_translate": "像<code>Transform</code>方法一样，许多<code>Transaction</code>方法返回事务本身，以便于链式调用。",
+    "_note": ""
+  },
+  "Finally, the scrollIntoView method can be used to ensure that, the next time the state is drawn, the selection is scrolled into view. You probably want to do that for most user actions.": {
+    "_translate": "最后，<a href=\"/docs/ref/#state.Transaction.scrollIntoView\"><code>scrollIntoView</code></a> 方法可以用来确保下次绘制状态时，选区会滚动到可视范围内。对于大多数用户操作，你可能都希望这样做。",
+    "_note": ""
+  },
+  "When creating a new state, you can provide an array of plugins to use. These will be stored in the state and any state that is derived from it, and can influence both the way transactions are applied and the way an editor based on this state behaves.": {
+    "_translate": "当<a href=\"/docs/ref/#state.EditorState%5Ecreate\">创建</a>一个新状态时，你可以提供一个插件数组来使用。这些插件将存储在状态中以及从其派生的任何状态中，并且可以影响事务的应用方式以及基于此状态的编辑器的行为。",
+    "_note": ""
+  },
+  "Plugins are instances of the Plugin class, and can model a wide variety of features. The simplest ones just add some props to the editor view, for example to respond to certain events. More complicated ones might add new state to the editor and update it based on transactions.": {
+    "_translate": "插件是<a href=\"/docs/ref/#state.Plugin\"><code>Plugin</code>类</a>的实例，可以建模各种各样的功能。最简单的插件只是向编辑器视图添加一些<a href=\"/docs/ref/#view.EditorProps\">props</a>，例如响应某些事件。更复杂的插件可能会向编辑器添加新的状态，并根据事务更新它。",
+    "_note": ""
+  },
+  "When creating a plugin, you pass it an object specifying its behavior:": {
+    "_translate": "在创建插件时，你需要传递一个<a href=\"/docs/ref/#state.PluginSpec\">对象</a>来指定其行为：",
+    "_note": ""
+  },
+  "When a plugin needs its own state slot, that is defined with a state property:": {
+    "_translate": "当插件需要自己的状态槽时，可以使用<a href=\"/docs/ref/#state.PluginSpec.state\"><code>state</code></a>属性来定义：",
+    "_note": ""
+  },
+  "The plugin in the example defines a very simple piece of state that simply counts the number of transactions that have been applied to a state. The helper function uses the plugin's getState method, which can be used to fetch the plugin state from a full editor state object.": {
+    "_translate": "该示例中的插件定义了一段非常简单的状态，它只是计算已应用于状态的事务数量。辅助函数使用插件的<a href=\"/docs/ref/#state.Plugin.getState\"><code>getState</code></a>方法，该方法可用于从完整的编辑器状态对象中获取插件状态。",
+    "_note": ""
+  },
+  "Because the editor state is a persistent (immutable) object, and plugin state is part of that object, plugin state values must be immutable. I.e. their apply method must return a new value, rather than changing the old, if they need to change, and no other code should change them.": {
+    "_translate": "由于编辑器状态是一个持久（不可变）的对象，并且插件状态是该对象的一部分，因此插件状态值必须是不可变的。也就是说，如果它们需要更改，它们的<code>apply</code>方法必须返回一个新值，而不是更改旧值，并且不应由其他代码更改它们。",
+    "_note": ""
+  },
+  "It is often useful for plugins to add some extra information to a transaction. For example, the undo history, when performing an actual undo, will mark the resulting transaction, so that when the plugin sees it, instead of doing the thing it normally does with changes (adding them to the undo stack), it treats it specially, removing the top item from the undo stack and adding this transaction to the redo stack instead.": {
+    "_translate": "插件通常会为事务添加一些额外的信息是很有用的。例如，当执行实际撤销操作时，撤销历史记录会标记结果事务，这样当插件看到它时，不是像通常那样处理更改（将它们添加到撤销堆栈），而是特别处理它，移除撤销堆栈的顶部项目，并将此事务添加到重做堆栈中。",
+    "_note": ""
+  },
+  "For this purpose, transactions allow metadata to be attached to them. We could update our transaction counter plugin to not count transactions that are marked, like this:": {
+    "_translate": "为此，交易允许\n<a href=\"/docs/ref/#state.Transaction.getMeta\"><em>元数据</em></a>附加到它们。我们\n可以更新我们的交易计数器插件，以不计算标记的交易，如下所示：",
+    "_note": ""
+  },
+  "Keys for metadata properties can be strings, but to avoid name collisions, you are encouraged to use plugin objects. There are some string keys that are given a meaning by the library, for example \"addToHistory\" can be set to false to prevent a transaction from being undoable, and when handling a paste, the editor view will set the \"paste\" property on the resulting transaction to true.": {
+    "_translate": "元数据属性的键可以是字符串，但为了避免名称冲突，建议使用插件对象。有些字符串键被库赋予了特定含义，例如<code>\"addToHistory\"</code>可以设置为<code>false</code>以防止事务可撤销，并且在处理粘贴时，编辑器视图会将结果事务的<code>\"paste\"</code>属性设置为true。",
+    "_note": ""
+  },
+  "A ProseMirror editor view is a user interface component that displays an editor state to the user, and allows them to perform editing actions on it.": {
+    "_translate": "ProseMirror <a href=\"/docs/ref/#view.EditorView\">编辑器视图</a> 是一个用户界面组件，用于向用户显示 <a href=\"#state\">编辑器状态</a>，并允许他们在其上执行编辑操作。",
+    "_note": ""
+  },
+  "The definition of editing actions used by the core view component is rather narrow—it handles direct interaction with the editing surface, such as typing, clicking, copying, pasting, and dragging, but not much beyond that. This means that things like displaying a menu, or even providing a full set of key bindings, lie outside of the responsibility of the core view component, and have to be arranged through plugins.": {
+    "_translate": "核心视图组件使用的<em>编辑操作</em>的定义相当狭窄——它处理与编辑界面的直接交互，例如打字、点击、复制、粘贴和拖动，但除此之外并不多。这意味着显示菜单或甚至提供完整的键绑定集等事情不在核心视图组件的责任范围内，必须通过插件来安排。",
+    "_note": ""
+  },
+  "Browsers allow us to specify that some parts of the DOM are editable, which has the effect of allowing focus and a selection in them, and making it possible to type into them. The view creates a DOM representation of its document (using your schema's toDOM methods by default), and makes it editable. When the editable element is focused, ProseMirror makes sure that the DOM selection corresponds to the selection in the editor state.": {
+    "_translate": "浏览器允许我们指定 DOM 的某些部分是\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/contentEditable\">可编辑的</a>，\n这使得它们可以获得焦点和选择，并且可以在其中输入内容。视图创建其文档的 DOM 表示（默认情况下使用您的模式的<a href=\"/docs/ref/#model.NodeSpec.toDOM\"><code>toDOM</code>方法</a>），并使其可编辑。\n当可编辑元素获得焦点时，ProseMirror 确保\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/API/Selection\">DOM 选择</a>\n与编辑器状态中的选择相对应。",
+    "_note": ""
+  },
+  "It also registers event handlers for many DOM events, which translate the events into the appropriate transactions. For example, when pasting, the pasted content is parsed as a ProseMirror document slice, and then inserted into the document.": {
+    "_translate": "它还为许多 DOM 事件注册了事件处理程序，这些事件会转换为相应的<a href=\"#state.transactions\">事务</a>。例如，在粘贴时，粘贴的内容会作为 ProseMirror 文档片段<a href=\"/docs/ref/#view.EditorProps.clipboardParser\">解析</a>，然后插入到文档中。",
+    "_note": ""
+  },
+  "Many events are also let through as they are, and only then reinterpreted in terms of ProseMirror's data model. The browser is quite good at cursor and selection placement for example (which is a really difficult problem when you factor in bidirectional text), so most cursor-motion related keys and mouse actions are handled by the browser, after which ProseMirror checks what kind of text selection the current DOM selection would correspond to. If that selection is different from the current selection, a transaction that updates the selection is dispatched.": {
+    "_translate": "许多事件也会原样通过，只有<em>然后</em>才根据ProseMirror的数据模型重新解释。例如，浏览器在光标和选择位置方面做得很好（当你考虑到双向文本时，这是一个非常困难的问题），所以大多数与光标移动相关的键和鼠标操作都由浏览器处理，之后ProseMirror会检查当前DOM选择对应的<a href=\"/docs/ref/#state.TextSelection\">文本选择</a>类型。如果该选择与当前选择不同，则会调度一个更新选择的事务。",
+    "_note": ""
+  },
+  "Even typing is usually left to the browser, because interfering with that tends to break spell-checking, autocapitalizing on some mobile interfaces, and other native features. When the browser updates the DOM, the editor notices, re-parses the changed part of the document, and translates the difference into a transaction.": {
+    "_translate": "即使是打字通常也留给浏览器，因为干扰它往往会破坏拼写检查、某些移动界面的自动大写和其他本机功能。当浏览器更新DOM时，编辑器会注意到，重新解析文档的更改部分，并将差异转换为事务。",
+    "_note": ""
+  },
+  "So the editor view displays a given editor state, and when something happens, it creates a transaction and broadcasts this. This transaction is then, typically, used to create a new state, which is given to the view using its updateState method.": {
+    "_translate": "因此，编辑器视图显示给定的编辑器状态，当发生某些事情时，它会创建一个事务并广播该事务。然后，通常使用此事务创建一个新状态，并使用其<a href=\"/docs/ref/#view.EditorView.updateState\"><code>updateState</code></a>方法将新状态提供给视图。",
+    "_note": ""
+  },
+  "This creates a straightforward, cyclic data flow, as opposed to the classic approach (in the JavaScript world) of a host of imperative event handlers, which tends to create a much more complex web of data flows.": {
+    "_translate": "这创建了一个简单的循环数据流，而不是经典的方法（在JavaScript世界中）一大堆命令式事件处理程序，这往往会创建一个更复杂的数据流网络。",
+    "_note": ""
+  },
+  "One way to implement updateState would be to simply redraw the document every time it is called. But for large documents, that would be really slow.": {
+    "_translate": "一种实现<a href=\"/docs/ref/#view.EditorView.updateState\"><code>updateState</code></a>的方法是每次调用时简单地重绘文档。但是对于大型文档，这样会非常慢。",
+    "_note": ""
+  },
+  "It is possible to ‘intercept’ transactions as they are dispatched with the dispatchTransaction prop, in order to wire this cyclic data flow into a larger cycle—if your whole app is using a data flow model like this, as with Redux and similar architectures, you can integrate ProseMirror's transactions in your main action-dispatching cycle, and keep ProseMirror's state in your application ‘store’.": {
+    "_translate": "可以通过<a href=\"/docs/ref/#view.EditorView.dispatch\">拦截</a>事务\n<a href=\"/docs/ref/#view.DirectEditorProps.dispatchTransaction\"><code>dispatchTransaction</code> 属性</a>，\n将这种循环数据流接入到更大的循环中——如果你的整个应用程序使用类似的数据流模型，如\n<a href=\"https://github.com/reactjs/redux\">Redux</a>和类似的架构，\n你可以将ProseMirror的事务集成到你的主要动作分发循环中，并将ProseMirror的状态保存在你的应用程序‘store’中。",
+    "_note": ""
+  },
+  "Since, at the time of updating, the view has access to both the old document and the new, it can compare them, and leave the parts of the DOM that correspond to unchanged nodes alone. ProseMirror does this, allowing it to do very little work for typical updates.": {
+    "_translate": "由于在更新时，视图可以同时访问旧文档和新文档，因此它可以比较它们，并保留与未更改节点对应的DOM部分不变。ProseMirror就是这样做的，使其在典型更新中只需做很少的工作。",
+    "_note": ""
+  },
+  "In some cases, like updates that correspond to typed text, which was already added to the DOM by the browser's own editing actions, ensuring the DOM and state are coherent doesn't require any DOM changes at all. (When such a transaction is canceled or modified somehow, the view will undo the DOM change to make sure the DOM and the state remain synchronized.)": {
+    "_translate": "在某些情况下，比如与键入文本相对应的更新，这些文本已经通过浏览器自身的编辑操作添加到DOM中，确保DOM和状态一致根本不需要进行任何DOM更改。（当这样的事务被取消或以某种方式修改时，视图<em>将</em>撤销DOM更改以确保DOM和状态保持同步。）",
+    "_note": ""
+  },
+  "‘Props’ is a useful, if somewhat vague, term taken from React. Props are like parameters to a UI component. Ideally, the set of props that the component gets completely defines its behavior.": {
+    "_translate": "‘Props’ 是一个有用但有些模糊的术语，取自\n<a href=\"https://facebook.github.io/react/docs/components-and-props.html\">React</a>。\nProps 就像 UI 组件的参数。理想情况下，组件获得的 props 集合完全定义了其行为。",
+    "_note": ""
+  },
+  "Similarly, the DOM selection is only updated when it is actually out of sync with the selection in the state, to avoid disrupting the various pieces of ‘hidden’ state that browsers keep along with the selection (such as that feature where when you arrow down or up past a short line, your horizontal position goes back to where it was when you enter the next long line).": {
+    "_translate": "同样，只有当 DOM 选择实际与状态中的选择不同步时才会更新，以避免干扰浏览器与选择一起保留的各种“隐藏”状态（例如，当你向下或向上箭头经过一条短线时，你的水平位置会回到进入下一条长线时的位置）。",
+    "_note": ""
+  },
+  "As such, the current state is one prop. The value of other props can also vary over time, if the code that controls the component updates them, but aren't considered state, because the component itself won't change them. The updateState method is just a shorthand to updating the state prop.": {
+    "_translate": "因此，当前的<a href=\"/docs/ref/#view.DirectEditorProps.state\">state</a>是一个prop。如果控制组件的代码<a href=\"/docs/ref/#view.EditorView.setProps\">更新</a>了其他prop的值，它们也可能随时间变化，但不被视为<em>state</em>，因为组件本身不会更改它们。<a href=\"/docs/ref/#view.EditorView.updateState\"><code>updateState</code></a>方法只是更新<a href=\"/docs/ref/#view.DirectEditorProps.state\"><code>state</code> prop</a>的简写。",
+    "_note": ""
+  },
+  "Plugins are also allowed to declare props, except for state and dispatchTransaction, which can only be provided directly to the view.": {
+    "_translate": "插件也允许<a href=\"/docs/ref/#state.PluginSpec.props\">声明</a>属性，\n除了<a href=\"/docs/ref/#view.DirectEditorProps.state\"><code>state</code></a>和\n<a href=\"/docs/ref/#view.DirectEditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a>，\n这些只能直接提供给视图。",
+    "_note": ""
+  },
+  "When a given prop is declared multiple times, how it is handled depends on the prop. In general, directly provided props take precedence, after which each plugin gets a turn, in order. For some props, such as domParser, the first value that is found is used, and others are ignored. For handler functions that return a boolean to indicate whether they handled the event, the first one that returns true gets to handle the event. And finally, for some props, such as attributes (which can be used to set attributes on the editable DOM node) and decorations (which we'll get to in the next section), the union of all provided values is used.": {
+    "_translate": "当一个给定的 prop 被多次声明时，它的处理方式取决于该 prop。一般来说，直接提供的 props 优先，然后每个插件依次处理。对于某些 props，例如 <a href=\"/docs/ref/#view.EditorProps.domParser\"><code>domParser</code></a>，使用找到的第一个值，其他的会被忽略。对于返回布尔值以指示是否处理事件的处理函数，第一个返回 true 的函数将处理该事件。最后，对于某些 props，例如 <a href=\"/docs/ref/#view.EditorProps.attributes\"><code>attributes</code></a>（可用于设置可编辑 DOM 节点上的属性）和 <a href=\"/docs/ref/#view.EditorProps.decorations\"><code>decorations</code></a>（我们将在下一节中讨论），使用所有提供值的并集。",
+    "_note": ""
+  },
+  "Decorations give you some control over the way the view draws your document. They are created by returning values from the decorations prop, and come in three types:": {
+    "_translate": "装饰让你可以在一定程度上控制视图绘制文档的方式。它们通过从<a href=\"/docs/ref/#view.EditorProps.decorations\"><code>decorations</code>属性</a>返回值来创建，并且有三种类型：",
+    "_note": ""
+  },
+  "Node decorations add styling or other DOM attributes to a single node's DOM representation.": {
+    "_translate": "<a href=\"/docs/ref/#view.Decoration%5Enode\">节点装饰</a> 为单个节点的 DOM 表现添加样式或其他 DOM 属性。",
+    "_note": ""
+  },
+  "Widget decorations insert a DOM node, which isn't part of the actual document, at a given position.": {
+    "_translate": "<a href=\"/docs/ref/#view.Decoration%5Ewidget\">小部件装饰</a> <em>插入</em> 一个 DOM 节点，该节点不是实际文档的一部分，而是位于给定位置。",
+    "_note": ""
+  },
+  "Inline decorations add styling or attributes, much like node decorations, but to all inline nodes in a given range.": {
+    "_translate": "<a href=\"/docs/ref/#view.Decoration%5Einline\">内联装饰</a> 添加样式或属性，就像节点装饰一样，但应用于给定范围内的所有内联节点。",
+    "_note": ""
+  },
+  "In order to be able to efficiently draw and compare decorations, they need to be provided as a decoration set (which is a data structure that mimics the tree shape of the actual document). You create one using the static create method, providing the document and an array of decoration objects:": {
+    "_translate": "为了能够高效地绘制和比较装饰，它们需要作为<a href=\"/docs/ref/#view.DecorationSet\">装饰集</a>提供（这是一种模仿实际文档树形结构的数据结构）。你可以使用静态<a href=\"/docs/ref/#view.DecorationSet%5Ecreate\"><code>create</code>方法</a>创建一个，提供文档和一个装饰对象数组：",
+    "_note": ""
+  },
+  "When you have a lot of decorations, recreating the set on the fly for every redraw is likely to be too expensive. In such cases, the recommended way to maintain your decorations is to put the set in your plugin's state, map it forward through changes, and only change it when you need to.": {
+    "_translate": "当你有很多装饰时，每次重绘时即时重建这些装饰可能会过于昂贵。在这种情况下，推荐的维护装饰的方法是将装饰集放入插件的状态中，<a href=\"/docs/ref/#view.DecorationSet.map\">通过更改映射</a>它，并且只有在需要时才更改它。",
+    "_note": ""
+  },
+  "This plugin initializes its state to a decoration set that adds a yellow-background inline decoration to every 4th position. That's not terribly useful, but sort of resembles use cases like highlighting search matches or annotated regions.": {
+    "_translate": "此插件将其状态初始化为一个装饰集，该装饰集在每第4个位置添加一个黄色背景的内联装饰。这不是特别有用，但有点类似于突出显示搜索匹配项或注释区域的用例。",
+    "_note": ""
+  },
+  "When a transaction is applied to the state, the plugin state's apply method maps the decoration set forward, causing the decorations to stay in place and ‘fit’ the new document shape. The mapping method is (for typical, local changes) made efficient by exploiting the tree shape of the decoration set—only the parts of the tree that are actually touched by the changes need to be rebuilt.": {
+    "_translate": "当一个事务被应用到状态时，插件状态的\n<a href=\"/docs/ref/#state.StateField.apply\"><code>apply</code> 方法</a> 将装饰集合向前映射，使装饰保持在原位并“适应”新文档的形状。映射方法（对于典型的局部更改）通过利用装饰集合的树形结构来提高效率——只有实际受到更改影响的树的部分需要重建。",
+    "_note": ""
+  },
+  "Finally, the decorations prop simply returns the plugin state, causing the decorations to show up in the view.": {
+    "_translate": "最后，<code>decorations</code>属性只是返回插件状态，导致装饰出现在视图中。",
+    "_note": ""
+  },
+  "(In a real-world plugin, the apply method would also be the place where you add or remove decorations based on new events, possibly by inspecting the changes in the transaction, or based on plugin-specific metadata attached to the transaction.)": {
+    "_translate": "在实际的插件中，<code>apply</code>方法也是你根据新事件<a href=\"/docs/ref/#view.DecorationSet.add\">添加</a>或<a href=\"/docs/ref/#view.DecorationSet.remove\">移除</a>装饰的地方，可能通过检查事务中的更改，或基于附加到事务的插件特定元数据。",
+    "_note": ""
+  },
+  "There is one more way in which you can influence the way the editor view draws your document. Node views make it possible to define a sort of miniature UI components for individual nodes in your document. They allow you to render their DOM, define the way they are updated, and write custom code to react to events.": {
+    "_translate": "还有一种方法可以影响编辑器视图绘制文档的方式。<a href=\"/docs/ref/#view.NodeView\">节点视图</a>使得可以为文档中的单个节点定义一种微型UI组件。它们允许你渲染它们的DOM，定义它们的更新方式，并编写自定义代码来响应事件。",
+    "_note": ""
+  },
+  "The view object that the example defines for image nodes creates its own custom DOM node for the image, with an event handler added, and declares, with a stopEvent method, that ProseMirror should ignore events coming from that DOM node.": {
+    "_translate": "示例为图像节点定义的视图对象为图像创建了自己的自定义DOM节点，添加了一个事件处理程序，并通过<code>stopEvent</code>方法声明ProseMirror应忽略来自该DOM节点的事件。",
+    "_note": ""
+  },
+  "You'll often want interaction with the node to have some effect on the actual node in the document. But to create a transaction that changes a node, you first need to know where that node is. To help with that, node views get passed a getter function that can be used to query their current position in the document. Let's modify the example so that clicking on the node queries you to enter an alt text for the image:": {
+    "_translate": "您通常希望与节点的交互对文档中的实际节点产生一些影响。但是要创建更改节点的事务，首先需要知道该节点的位置。为此，节点视图会传递一个 getter 函数，该函数可用于查询它们在文档中的当前位置。让我们修改示例，使点击节点时查询您输入图像的替代文本：",
+    "_note": ""
+  },
+  "setNodeMarkup is a method that can be used to change the type or set of attributes for the node at a given position. In the example, we use getPos to find our image's current position, and give it a new attribute object with the new alt text.": {
+    "_translate": "<a href=\"/docs/ref/#transform.Transform.setNodeMarkup\"><code>setNodeMarkup</code></a> 是一种方法，可以用来更改给定位置节点的类型或属性集。在这个例子中，我们使用 <code>getPos</code> 来找到图像的当前位置，并给它一个带有新 alt 文本的新属性对象。",
+    "_note": ""
+  },
+  "When a node is updated, the default behavior is to leave its outer DOM structure intact and compare its children to the new set of children, updating or replacing those as needed. A node view can override this with custom behavior, which allows us to do something like changing the class of a paragraph based on its content.": {
+    "_translate": "当节点更新时，默认行为是保持其外部DOM结构不变，并将其子节点与新的一组子节点进行比较，根据需要更新或替换这些子节点。节点视图可以通过自定义行为覆盖此行为，这使我们能够根据段落的内容更改其类。",
+    "_note": ""
+  },
+  "Images never have content, so in our previous example, we didn't need to worry about how that would be rendered. But paragraphs do have content. Node views support two approaches to handling content: you can let the ProseMirror library manage it, or you can manage it entirely yourself. If you provide a contentDOM property, the library will render the node's content into that, and handle content updates. If you don't, the content becomes a black box to the editor, and how you display it and let the user interact with it is entirely up to you.": {
+    "_translate": "图像从来没有内容，所以在我们之前的例子中，我们不需要担心它将如何被渲染。但是段落确实有内容。节点视图支持两种处理内容的方法：你可以让ProseMirror库管理它，或者你可以完全自己管理它。如果你提供一个<a href=\"/docs/ref/#view.NodeView.contentDOM\"><code>contentDOM</code>属性</a>，库将会把节点的内容渲染到那里，并处理内容更新。如果你不提供，内容对编辑器来说就变成了一个黑箱，如何显示它以及让用户与之交互完全取决于你。",
+    "_note": ""
+  },
+  "In this case, we want paragraph content to behave like regular editable text, so the contentDOM property is defined to be the same as the dom property, since the content needs to be rendered directly into the outer node.": {
+    "_translate": "在这种情况下，我们希望段落内容表现得像常规的可编辑文本，因此<code>contentDOM</code>属性被定义为与<code>dom</code>属性相同，因为内容需要直接渲染到外部节点中。",
+    "_note": ""
+  },
+  "The magic happens in the update method. Firstly, this method is responsible for deciding whether the node view can be updated to show the new node at all. This new node may be anything that the editor's update algorithm might try to draw here, so you must verify that this is a node that this node view can handle.": {
+    "_translate": "魔法发生在<a href=\"/docs/ref/#view.NodeView.update\"><code>update</code>方法</a>中。首先，此方法负责决定节点视图<em>是否</em>可以更新以显示新节点。这个新节点可能是编辑器的更新算法可能尝试在此处绘制的任何内容，因此您必须验证这是此节点视图可以处理的节点。",
+    "_note": ""
+  },
+  "The update method in the example first checks whether the new node is a paragraph, and bails out if that's not the case. Then it makes sure that the \"empty\" class is present or absent, depending on the content of the new node, and returns true, to indicate that the update succeeded (at which point the node's content will be updated).": {
+    "_translate": "示例中的<code>update</code>方法首先检查新节点是否是段落，如果不是则退出。然后它确保根据新节点的内容，<code>\"empty\"</code>类存在或不存在，并返回true，以表明更新成功（此时节点的内容将被更新）。",
+    "_note": ""
+  },
+  "In ProseMirror jargon, a command is a function that implements an editing action, which the user can perform by pressing some key combination or interacting with the menu.": {
+    "_translate": "在ProseMirror术语中，<em>命令</em>是实现编辑操作的函数，用户可以通过按下某些键组合或与菜单交互来执行该操作。",
+    "_note": ""
+  },
+  "For practical reasons, commands have a slightly convoluted interface. In their simple form, they are functions taking an editor state and a dispatch function (EditorView.dispatch or some other function that takes transactions), and return a boolean. Here's a very simple example:": {
+    "_translate": "出于实际原因，命令有一个稍微复杂的接口。它们的简单形式是函数，接受一个<a href=\"#state\">编辑器状态</a>和一个<em>分发函数</em>（<a href=\"/docs/ref/#view.EditorView.dispatch\"><code>EditorView.dispatch</code></a>或其他接受事务的函数），并返回一个布尔值。这里有一个非常简单的例子：",
+    "_note": ""
+  },
+  "When a command isn't applicable, it should return false and do nothing. When it is, it should dispatch a transaction and return true. This is used, for example, by the keymap plugin to stop further handling of key events when the command bound to that key has been applied.": {
+    "_translate": "当命令不适用时，它应返回 false 并且不执行任何操作。当适用时，它应分派一个事务并返回 true。例如，<a href=\"/docs/ref/#keymap\">keymap 插件</a> 使用它来在绑定到该键的命令已被应用时停止进一步处理键事件。",
+    "_note": ""
+  },
+  "To be able to query whether a command is applicable for a given state, without actually executing it, the dispatch argument is optional—commands should simply return true without doing anything when they are applicable but no dispatch argument is given. So the example command should actually look like this:": {
+    "_translate": "为了能够查询某个命令是否适用于给定状态，而不实际执行它，<code>dispatch</code> 参数是可选的——当命令适用但没有给定 <code>dispatch</code> 参数时，命令应简单地返回 true 而不做任何事情。所以示例命令实际上应该是这样的：",
+    "_note": ""
+  },
+  "To figure out whether a selection can currently be deleted, you'd call deleteSelection(view.state, null), whereas to actually execute the command, you'd do something like deleteSelection(view.state, view.dispatch). A menu bar could use this to determine which menu items to gray out.": {
+    "_translate": "要确定当前是否可以删除选定内容，可以调用<code>deleteSelection(view.state, null)</code>，而要实际执行命令，可以这样做<code>deleteSelection(view.state, view.dispatch)</code>。菜单栏可以使用此方法来确定哪些菜单项需要变灰。",
+    "_note": ""
+  },
+  "In this form, commands do not get access to the actual editor view—most commands don't need that, and in this way they can be applied and tested in settings that don't have a view available. But some commands do need to interact with the DOM—they might need to query whether a given position is at the end of a textblock, or want to open a dialog positioned relative to the view. For this purpose, most plugins that call commands will give them a third argument, which is the whole view.": {
+    "_translate": "以这种形式，命令无法访问实际的编辑器视图——大多数命令不需要这样做，这样它们可以在没有视图的设置中应用和测试。但是有些命令确实需要与 DOM 交互——它们可能需要<a href=\"/docs/ref/#view.EditorView.endOfTextblock\">查询</a>给定位置是否在文本块的末尾，或者希望打开相对于视图定位的对话框。为此，大多数调用命令的插件会给它们一个<em>第三个</em>参数，即整个视图。",
+    "_note": ""
+  },
+  "That (rather useless) example shows that commands don't have to dispatch a transaction—they are called for their side effect, which is usually to dispatch a transaction, but may also be something else, such as popping up a dialog.": {
+    "_translate": "那个（相当无用的）例子表明命令不<em>必须</em>分派一个事务——它们是为了它们的副作用而被调用的，这<em>通常</em>是为了分派一个事务，但也可能是其他事情，比如弹出一个对话框。",
+    "_note": ""
+  },
+  "When possible, different behavior, even when usually bound to a single key, is put in different commands. The utility function chainCommands can be used to combine a number of commands—they will be tried one after the other until one return true.": {
+    "_translate": "如果可能，即使通常绑定到单个键的不同行为也会放在不同的命令中。实用函数<a href=\"/docs/ref/#commands.chainCommands\"><code>chainCommands</code></a>可以用来组合多个命令——它们会一个接一个地尝试，直到一个返回true。",
+    "_note": ""
+  },
+  "The prosemirror-commands module provides a number of editing commands, from simple ones such as a variant of the deleteSelection command, to rather complicated ones such as joinBackward, which implements the block-joining behavior that should happen when you press backspace at the start of a textblock. It also comes with a basic keymap that binds a number of schema-agnostic commands to the keys that are usually used for them.": {
+    "_translate": "<a href=\"/docs/ref/#commands\"><code>prosemirror-commands</code></a> 模块提供了许多编辑命令，从简单的命令如<a href=\"/docs/ref/#commands.deleteSelection\"><code>deleteSelection</code></a>命令的变体，到相当复杂的命令如<a href=\"/docs/ref/#commands.joinBackward\"><code>joinBackward</code></a>，它实现了当你在文本块的开头按下退格键时应该发生的块连接行为。它还附带了一个<a href=\"/docs/ref/#commands.baseKeymap\">基本键映射</a>，将许多与模式无关的命令绑定到通常用于它们的键上。",
+    "_note": ""
+  },
+  "The commands module also exports a number of command constructors, such as toggleMark, which takes a mark type and optionally a set of attributes, and returns a command function that toggles that mark on the current selection.": {
+    "_translate": "命令模块还导出许多命令构造函数，例如<a href=\"/docs/ref/#commands.toggleMark\"><code>toggleMark</code></a>，它接受一个标记类型和可选的一组属性，并返回一个命令函数，该函数在当前选择上切换该标记。",
+    "_note": ""
+  },
+  "For example, the base keymap binds backspace to the command chain deleteSelection (which kicks in when the selection isn't empty), joinBackward (when the cursor is at the start of a textblock), and selectNodeBackward (which selects the node before the selection, in case the schema forbids the regular joining behavior). When none of these apply, the browser is allowed to run its own backspace behavior, which is the appropriate thing for backspacing things out inside a textblock (so that native spell-check and such don't get confused).": {
+    "_translate": "例如，基本键映射将退格键绑定到命令链\n<a href=\"/docs/ref/#commands.deleteSelection\"><code>deleteSelection</code></a>（当选择不为空时生效），<a href=\"/docs/ref/#commands.joinBackward\"><code>joinBackward</code></a>\n（当光标位于文本块的开头时生效），以及\n<a href=\"/docs/ref/#commands.selectNodeBackward\"><code>selectNodeBackward</code></a>（在选择之前选择节点，以防架构禁止常规的\n连接行为）。当这些都不适用时，浏览器可以运行自己的退格行为，这对于在文本块内退格是合适的（这样本地拼写检查等不会混淆）。",
+    "_note": ""
+  },
+  "Some other modules also export command functions—for example undo and redo from the history module. To customize your editor, or to allow users to interact with custom document nodes, you'll likely want to write your own custom commands as well.": {
+    "_translate": "一些其他模块也导出命令函数——例如<a href=\"/docs/ref/#history.undo\"><code>撤销</code></a>和<a href=\"/docs/ref/#history.redo\"><code>重做</code></a>来自历史模块。要自定义您的编辑器，或允许用户与自定义文档节点交互，您可能也需要编写自己的自定义命令。",
+    "_note": ""
+  },
+  "Real-time collaborative editing allows multiple people to edit the same document at the same time. Changes they make are applied immediately to their local document, and then sent to peers, which merge in these changes automatically (without manual conflict resolution), so that editing can proceed uninterrupted, and the documents keep converging.": {
+    "_translate": "实时协作编辑允许多个人同时编辑同一个文档。他们所做的更改会立即应用到他们的本地文档中，然后发送给其他人，这些更改会自动合并（无需手动解决冲突），以便编辑可以不间断地进行，并且文档保持一致。",
+    "_note": ""
+  },
+  "This guide describes how to wire up ProseMirror's collaborative editing functionality.": {
+    "_translate": "本指南介绍了如何连接ProseMirror的协作编辑功能。",
+    "_note": ""
+  },
+  "ProseMirror's collaborative editing system employs a central authority which determines in which order changes are applied. If two editors make changes concurrently, they will both go to this authority with their changes. The authority will accept the changes from one of them, and broadcast these changes to all editors. The other's changes will not be accepted, and when that editor receives new changes from the server, it'll have to rebase its local changes on top of those from the other editor, and try to submit them again.": {
+    "_translate": "ProseMirror 的协作编辑系统采用一个中央权威来确定更改的应用顺序。如果两个编辑者同时进行更改，他们都会将更改提交给这个权威。权威会接受其中一个编辑者的更改，并将这些更改广播给所有编辑者。另一个编辑者的更改将不会被接受，当该编辑者从服务器接收到新的更改时，它将不得不在其他编辑者的更改之上<a href=\"#transform.rebasing\">重新基准化</a>其本地更改，并尝试再次提交。",
+    "_note": ""
+  },
+  "The role of the central authority is actually rather simple. It must...": {
+    "_translate": "中央权力的角色实际上相当简单。它必须...",
+    "_note": ""
+  },
+  "Track a current document version": {
+    "_translate": "跟踪当前文档版本",
+    "_note": ""
+  },
+  "Accept changes from editors, and when these can be applied, add them to its list of changes": {
+    "_translate": "接受编辑的更改，并在可以应用这些更改时，将它们添加到其更改列表中",
+    "_note": ""
+  },
+  "Provide a way for editors to receive changes since a given version": {
+    "_translate": "为编辑提供一种接收自给定版本以来更改的方法",
+    "_note": ""
+  },
+  "Let's implement a trivial central authority that runs in the same JavaScript environment as the editors.": {
+    "_translate": "让我们实现一个在与编辑器相同的JavaScript环境中运行的简单中央权限。",
+    "_note": ""
+  },
+  "When an editor wants to try and submit their changes to the authority, they can call receiveSteps on it, passing the last version number they received, along with the new changes they added, and their client ID (which is a way for them to later recognize which changes came from them).": {
+    "_translate": "当编辑想要尝试提交他们的更改给权威时，他们可以调用<code>receiveSteps</code>，传递他们收到的最后一个版本号，以及他们添加的新更改和他们的客户端ID（这是一种让他们以后识别哪些更改来自他们的方法）。",
+    "_note": ""
+  },
+  "When the steps are accepted, the client will notice because the authority notifies them that new steps are available, and then give them their own steps. In a real implementation, you could also have receiveSteps return a status, and immediately confirm the sent steps, as an optimization. But the mechanism used here is necessary to guarantee synchronization on unreliable connections, so you should always use it as the base case.": {
+    "_translate": "当步骤被接受时，客户端会注意到，因为权威通知他们有新的步骤可用，然后给他们<em>他们自己的</em>步骤。在实际实现中，你也可以让<code>receiveSteps</code>返回一个状态，并立即确认发送的步骤，作为一种优化。但这里使用的机制是保证在不可靠连接上同步所必需的，所以你应该始终将其用作基本情况。",
+    "_note": ""
+  },
+  "This implementation of an authority keeps an endlessly growing array of steps, the length of which denotes its current version.": {
+    "_translate": "此实现的权限保留了一个不断增长的步骤数组，其长度表示其当前版本。",
+    "_note": ""
+  },
+  "The collab module exports a collab function which returns a plugin that takes care of tracking local changes, receiving remote changes, and indicating when something has to be sent to the central authority.": {
+    "_translate": "<a href=\"/docs/ref/#collab\"><code>collab</code></a> 模块导出一个 <a href=\"/docs/ref/#collab.collab\"><code>collab</code></a> 函数，该函数返回一个插件，用于跟踪本地更改、接收远程更改，并指示何时需要将某些内容发送到中央机构。",
+    "_note": ""
+  },
+  "The collabEditor function creates an editor view that has the collab plugin loaded. Whenever the state is updated, it checks whether there is anything to send to the authority. If so, it sends it.": {
+    "_translate": "<code>collabEditor</code> 函数创建了一个加载了 <code>collab</code> 插件的编辑器视图。每当状态更新时，它会检查是否有任何内容需要发送给权限。如果有，它会发送。",
+    "_note": ""
+  },
+  "It also registers a function that the authority should call when new steps are available, and which creates a transaction that updates our local editor state to reflect those steps.": {
+    "_translate": "它还注册了一个函数，当有新步骤可用时，权限应调用该函数，并创建一个<a href=\"/docs/ref/#state.Transaction\">事务</a>，该事务更新我们的本地编辑器状态以反映这些步骤。",
+    "_note": ""
+  },
+  "When a set of steps gets rejected by the authority, they will remain unconfirmed until, supposedly soon after, we receive new steps from the authority. After that happens, because the onNewSteps callback calls dispatch, which will call our dispatchTransaction function, the code will try to submit its changes again.": {
+    "_translate": "当一组步骤被权威机构拒绝时，它们将保持未确认状态，直到我们从权威机构收到新步骤（应该很快）。在那之后，因为<code>onNewSteps</code>回调调用了<code>dispatch</code>，这将调用我们的<code>dispatchTransaction</code>函数，代码将尝试再次提交其更改。",
+    "_note": ""
+  },
+  "That's all there is to it. Of course, with asynchronous data channels (such as long polling in the collab demo or web sockets), you'll need somewhat more complicated communication and synchronization code. And you'll probably also want your authority to start throwing away steps at some point, so that its memory consumption doesn't grow without bound. But the general approach is fully described by this little example.": {
+    "_translate": "就是这样。当然，对于异步数据通道（例如<a href=\"https://github.com/ProseMirror/website/blob/master/src/collab/client/collab.js\">协作演示</a>中的长轮询或Web套接字），您将需要更复杂的通信和同步代码。而且您可能还希望您的服务器在某个时候开始丢弃步骤，以防止内存消耗无限增长。但总体方法已经完全由这个小例子描述。",
+    "_note": ""
+  }
+}

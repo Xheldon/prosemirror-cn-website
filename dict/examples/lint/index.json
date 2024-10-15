@@ -1,0 +1,42 @@
+{
+  "The browser DOM serves its purpose—representing complex webpages—very well. But its huge scope and loose structure makes it difficult to make assumptions about. A document model that represents a smaller set of documents can be easier to reason about.": {
+    "_translate": "浏览器的DOM很好地实现了其表示复杂网页的目的。但其庞大的范围和松散的结构使得很难进行假设。一个表示较小文档集的文档模型可能更容易理解。",
+    "_note": ""
+  },
+  "This example implements a simple document linter that finds problems in your document, and makes it easy to fix them.": {
+    "_translate": "这个例子实现了一个简单的文档\n<a href=\"https://en.wikipedia.org/wiki/Lint_(software)\">linter</a>，它可以发现文档中的问题，并使其易于修复。",
+    "_note": ""
+  },
+  "This is a sentence ,but the comma isn't in the right place.": {
+    "_translate": "这是一个句子，但逗号不在正确的位置。",
+    "_note": ""
+  },
+  "This is an image without alt text. You can hover over the icons on the right to see what the problem is, click them to select the relevant text, and, obviously, double-click them to automatically fix it (if supported).": {
+    "_translate": "这是一个没有替代文本的图像 <img src=\"/img/smiley.png\">。\n  您可以将鼠标悬停在右侧的图标上查看问题所在，点击它们以选择相关文本，显然，\n  双击它们可以自动修复（如果支持）。",
+    "_note": ""
+  },
+  "The first part of this example is a function that, given a document, produces an array of problems found in that document. We'll use the descendants method to easily iterate over all nodes in a document. Depending on the type of node, different types of problems are checked for.": {
+    "_translate": "这个示例的第一部分是一个函数，给定一个文档，生成一个在该文档中发现的问题数组。我们将使用<a href=\"/docs/ref/#model.Node.descendants\"><code>descendants</code></a>方法轻松迭代文档中的所有节点。根据节点的类型，检查不同类型的问题。",
+    "_note": ""
+  },
+  "The helper utilities that are used to provide fix commands look like this.": {
+    "_translate": "提供修复命令的辅助工具看起来像这样。",
+    "_note": ""
+  },
+  "Each problem is represented as an object with a message, a start, and an end, so that they can be displayed and highlighted. The objects may also optionally have a fix method, which can be called (passing the view) to fix the problem.": {
+    "_translate": "每个问题都表示为一个带有消息、开始和结束的对象，以便它们可以显示和突出显示。对象还可以选择性地具有<code>fix</code>方法，可以调用该方法（传递视图）来解决问题。",
+    "_note": ""
+  },
+  "The way the plugin will work is that it'll keep a set of decorations that highlight problems and inserts an icon next to them. CSS is used to position the icon on the right side of the editor, so that it doesn't interfere with the document flow.": {
+    "_translate": "插件的工作方式是保持一组装饰，突出显示问题并在它们旁边插入一个图标。使用CSS将图标定位在编辑器的右侧，这样它就不会干扰文档流。",
+    "_note": ""
+  },
+  "The problem object is stored in the icon DOM nodes, so that event handlers can access them when handling clicks on the node. We'll make a single click on an icon select the annotated region, and a double click run the fix method.": {
+    "_translate": "问题对象存储在图标的DOM节点中，以便事件处理程序在处理节点上的点击时可以访问它们。我们将使单击图标选择注释区域，双击运行<code>fix</code>方法。",
+    "_note": ""
+  },
+  "Recomputing the whole set of problems, and recreating the set of decorations, on every change isn't very efficient, so for production code you might want to consider an approach that can incrementally update these. That'd be quite a bit more complex, but definitely doable—the transaction can give you the information you need to figure out what part of the document changed.": {
+    "_translate": "重新计算整个问题集，并在每次更改时重新创建装饰集并不是很高效，因此对于生产代码，您可能需要考虑一种可以增量更新这些内容的方法。这会复杂得多，但绝对可行——事务可以为您提供所需的信息，以确定文档的哪一部分发生了变化。",
+    "_note": ""
+  }
+}

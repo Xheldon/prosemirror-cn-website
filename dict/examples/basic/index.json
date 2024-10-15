@@ -1,0 +1,30 @@
+{
+  "Setting up a full editor ‘from scratch’, using only the core libraries, requires quite a lot of code. To be able to get started quickly with a pre-configured editor, we provide the prosemirror-example-setup package, which creates an array of plugins for you, configured to create a passable editing interface for a given schema. In this example, we use the basic schema and extend it with lists.": {
+    "_translate": "从头开始设置一个完整的编辑器，仅使用核心库，需要相当多的代码。为了能够快速开始使用预配置的编辑器，我们提供了<a href=\"https://github.com/prosemirror/prosemirror-example-setup\"><code>prosemirror-example-setup</code></a>包，它为您创建了一组插件，配置为为给定的模式创建一个合格的编辑界面。在这个例子中，我们使用<a href=\"https://github.com/prosemirror/prosemirror-schema-basic\">基本模式</a>并通过<a href=\"https://github.com/prosemirror/prosemirror-schema-list\">列表</a>进行扩展。",
+    "_note": ""
+  },
+  "And this is what it looks like:": {
+    "_translate": "这就是它的样子：",
+    "_note": ""
+  },
+  "This is editable text. You can focus it and start typing.": {
+    "_translate": "这是可编辑的文本。您可以聚焦并开始输入。",
+    "_note": ""
+  },
+  "Block-level structure can be manipulated with key bindings (try ctrl-shift-2 to create a level 2 heading, or enter in an empty textblock to exit the parent block), or through the menu.": {
+    "_translate": "Block-level structure can be manipulated with key bindings (try\n  ctrl-shift-2 to create a level 2 heading, or enter in an empty\n  textblock to exit the parent block), or through the menu.",
+    "_note": ""
+  },
+  "To apply styling, you can select a piece of text and manipulate its styling from the menu. The basic schema supports emphasis, strong text, links, code font, and images.": {
+    "_translate": "要应用样式，您可以选择一段文本并从菜单中操作其样式。基本模式支持<em>强调</em>、<strong>粗体文本</strong>、<a href=\"http://marijnhaverbeke.nl/blog\">链接</a>、<code>代码字体</code>和<img src=\"/img/smiley.png\">图像。",
+    "_note": ""
+  },
+  "Try using the “list” item in the menu to wrap this paragraph in a numbered list.": {
+    "_translate": "尝试使用菜单中的“列表”项将此段落包装在一个编号列表中。",
+    "_note": ""
+  },
+  "These plugins are created by the example setup:": {
+    "_translate": "这些插件是由示例设置创建的：",
+    "_note": ""
+  }
+}

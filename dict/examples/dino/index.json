@@ -1,0 +1,42 @@
+{
+  "ProseMirror allows you to define your own schemas, which includes defining custom document elements. You can use whatever you put in the schema as proper semantic element in your documents.": {
+    "_translate": "ProseMirror允许您定义自己的模式，其中包括定义自定义文档元素。您可以将模式中包含的任何内容用作文档中的适当语义元素。",
+    "_note": ""
+  },
+  "Say you need to include exotic, site-specific elements in your documents. These may be handles to other objects in our system (documents, users, etc), domain-specific widgets, or, in the case of this demo, dinosaurs.": {
+    "_translate": "假设您需要在文档中包含异国情调的、特定于站点的元素。这些可能是我们系统中其他对象（文档、用户等）的句柄、特定领域的小部件，或者在此演示中，是恐龙。",
+    "_note": ""
+  },
+  "This is your dinosaur-enabled editor. The insert menu allows you to insert dinosaurs.": {
+    "_translate": "这是你的恐龙启用编辑器。插入菜单允许你插入恐龙。",
+    "_note": ""
+  },
+  "This paragraph , for example, is full of dinosaurs.": {
+    "_translate": "这个段落 <img class=\"dinosaur\" dino-type=\"stegosaurus\">，例如，\n  <img class=\"dinosaur\" dino-type=\"triceratops\">\n  充满了 <img class=\"dinosaur\" dino-type=\"tyrannosaurus\"> 恐龙。",
+    "_note": ""
+  },
+  "Dinosaur nodes can be selected, copied, pasted, dragged, and so on.": {
+    "_translate": "恐龙节点可以被选择、复制、粘贴、拖动等。",
+    "_note": ""
+  },
+  "Then, we create an actual schema that includes this node, and use that to parse a piece of the HTML page into a ProseMirror document.": {
+    "_translate": "然后，我们创建一个包含此节点的实际模式，并使用它将HTML页面的一部分解析为ProseMirror文档。",
+    "_note": ""
+  },
+  "In this example, we extend the basic schema with a single new node. First, we define a node spec, which describes the node's behavior and its DOM representation.": {
+    "_translate": "在这个例子中，我们扩展了<a href=\"https://github.com/prosemirror/prosemirror-schema-basic\">基础</a>模式，添加了一个新的节点。首先，我们定义了一个<a href=\"/docs/ref/#model.NodeSpec\">节点规范</a>，它描述了节点的行为及其DOM表示。",
+    "_note": ""
+  },
+  "The demo is going to use the example setup module again, to provide the basic plumbing for the editor. But we need new menu items in the insert menu. First, define a command that handles dinosaur insertion.": {
+    "_translate": "演示将再次使用<a href=\"https://github.com/prosemirror/prosemirror-example-setup\">示例设置</a>模块，为编辑器提供基本的管道。但我们需要在插入菜单中添加新的菜单项。首先，定义一个处理恐龙插入的<a href=\"/docs/guide/#commands\">命令</a>。",
+    "_note": ""
+  },
+  "Next, create menu items that call our command.": {
+    "_translate": "接下来，创建调用我们命令的菜单项。",
+    "_note": ""
+  },
+  "Now all that's left to do is creating an editor state and view with our custom schema and menu.": {
+    "_translate": "现在剩下要做的就是用我们自定义的模式和菜单创建一个编辑器状态和视图。",
+    "_note": ""
+  }
+}

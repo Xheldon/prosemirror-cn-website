@@ -1,0 +1,64 @@
+name: Prosemirror 中文翻译
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0' # 每周日的午夜
+
+jobs:
+  check-and-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出当前仓库
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - name: 设置 Git
+        run: |
+          git config --global user.name 'Xheldon'
+          git config --global user.email 'c1006044256@gmail.com'
+
+      - name: 检出 Prisemirror/website 仓库
+        run: |
+          git clone https://github.com/ProseMirror/website.git
+
+      - name: 检查是否有更新
+        id: check_commits
+        run: |
+          cd website
+          git fetch
+          NEW_COMMIT=$(git rev-parse HEAD)
+          cd ..
+          OLD_COMMIT=$(cat last-commit.txt)
+          echo "new_commit=$NEW_COMMIT" >> $GITHUB_ENV
+          echo "old_commit=$OLD_COMMIT" >> $GITHUB_ENV
+          if [ "$NEW_COMMIT" != "$OLD_COMMIT" ]; then
+            echo "New commits found."
+            echo "new_commits=true" >> $GITHUB_ENV
+            echo "$NEW_COMMIT" > last-commit.txt
+          else
+            echo "No new commits."
+            echo "new_commits=false" >> $GITHUB_ENV
+
+      - name: 安装依赖
+        if: env.new_commits == 'true'
+        run: |
+          cd website
+          npm install
+          make
+
+      - name: 构建中文翻译
+        if: env.new_commits == 'true'
+        run: |
+          npm install
+          node index.js
+
+      - name: 推送到 gp 分支
+        if: env.new_commits == 'true'
+        run: |
+          cd website
+          git add pbulic
+          git commit -m "Update build"
+          git push origin HEAD:refs/heads/gp

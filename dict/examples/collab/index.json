@@ -1,0 +1,18 @@
+{
+  "The editor below talks to a simple server-side service to allow real-time collaborative editing. Everybody connected to a given document sees the same document, and has their changes sent over to other people working on the document.": {
+    "_translate": "下面的编辑器与一个简单的服务器端服务通信，以允许实时<a href=\"http://marijnhaverbeke.nl/blog/collaborative-editing.html\">协同编辑</a>。\n连接到给定文档的每个人都能看到相同的文档，并且他们的更改会发送给正在处理该文档的其他人。",
+    "_note": ""
+  },
+  "The demo also (crudely) shows how ProseMirror can be used to implement something like out-of-line annotations. If you select text and click the speech bubble icon in the menu, you'll be prompted to enter an annotation. These are synced to other users and show up as text with yellow background. Put the cursor in an annotation to see what it says.": {
+    "_translate": "演示还（粗略地）展示了如何使用ProseMirror实现类似于行外注释的功能。如果选择文本并点击菜单中的对话框图标，系统会提示您输入注释。这些注释会同步到其他用户，并显示为带有黄色背景的文本。将光标放在注释中以查看其内容。",
+    "_note": ""
+  },
+  "You can find the code for this here.": {
+    "_translate": "你可以在<a href=\"https://github.com/ProseMirror/website/tree/master/src/collab/\">这里</a>找到代码。",
+    "_note": ""
+  },
+  "Disclaimer: Since this demo is open for everybody, you might run into people typing stupid, mean, and disgusting things. Since I'm not going to be able to moderate this, I recommend just hitting delete.": {
+    "_translate": "<strong>免责声明：</strong>由于此演示对所有人开放，您可能会遇到一些人输入愚蠢、刻薄和令人厌恶的内容。由于我无法进行审核，我建议直接删除。",
+    "_note": ""
+  }
+}

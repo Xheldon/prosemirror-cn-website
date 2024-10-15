@@ -1,0 +1,62 @@
+{
+  "This example demonstrates one way to implement something like footnotes in ProseMirror.": {
+    "_translate": "这个例子演示了一种在ProseMirror中实现类似脚注的方法。",
+    "_note": ""
+  },
+  "This paragraph has a footnoteWhich is a piece of text placed at the bottom of a page or chapter, providing additional comments or citations. in it. And anotherSome more footnote text. one.": {
+    "_translate": "这段文字中有一个脚注<footnote>这是放置在页面或章节底部的一段文字，提供额外的<em>评论</em>或<em>引用</em>。</footnote>。还有另一个<footnote>一些更多的脚注文字。</footnote>。",
+    "_note": ""
+  },
+  "Move onto or click on a footnote number to edit it.": {
+    "_translate": "移动到脚注编号或点击它来编辑。",
+    "_note": ""
+  },
+  "Footnotes seem like they should be inline nodes with content—they appear in between other inline content, but their content isn't really part of the textblock around them. Let's define them like this:": {
+    "_translate": "脚注似乎应该是与内容内联的节点——它们出现在其他内联内容之间，但它们的内容并不真正属于它们周围的文本块。让我们这样定义它们：",
+    "_note": ""
+  },
+  "Inline nodes with content are not handled well by the library, at least not by default. You are required to write a node view for them, which somehow manages the way they appear in the editor.": {
+    "_translate": "库默认情况下不能很好地处理带有内容的内联节点。你需要为它们编写一个<a href=\"/docs/guide/#view.node_views\">节点视图</a>，以某种方式管理它们在编辑器中的显示。",
+    "_note": ""
+  },
+  "So that's what we'll do. Footnotes in this example are drawn as numbers. In fact, they are just <footnote> nodes, and we'll rely on CSS to add the numbers.": {
+    "_translate": "所以这就是我们要做的。在这个例子中，脚注被绘制为数字。事实上，它们只是<code>&lt;footnote&gt;</code>节点，我们将依靠CSS来添加数字。",
+    "_note": ""
+  },
+  "Only when the node view is selected does the user get to see and interact with its content (it'll be selected when the user ‘arrows’ onto it, because we set the atom property on the node spec). These two methods handle node selection and deselection the node view.": {
+    "_translate": "只有在选择节点视图时，用户才能看到并与其内容交互（当用户“箭头”指向它时，它将被选中，因为我们在节点规范上设置了<a href=\"/docs/ref/#model.NodeSpec.atom\"><code>atom</code></a>属性）。这两种方法处理节点视图的选择和取消选择。",
+    "_note": ""
+  },
+  "What we'll do is pop up a little sub-editor, which is itself a ProseMirror view, with the node's content. Transactions in this sub-editor are handled specially, in the dispatchInner method.": {
+    "_translate": "我们要做的是弹出一个小的子编辑器，它本身是一个ProseMirror视图，带有节点的内容。在这个子编辑器中的事务会在<code>dispatchInner</code>方法中被特别处理。",
+    "_note": ""
+  },
+  "Mod-z and y are bound to run undo and redo on the outer editor. We'll see in a moment why that works.": {
+    "_translate": "Mod-z 和 y 必须在<em>外部</em>编辑器上运行撤销和重做。\n我们稍后会看到为什么这样做有效。",
+    "_note": ""
+  },
+  "What should happen when the content of the sub-editor changes? We could just take its content and reset the content of the footnote in the outer document to it, but that wouldn't play well with the undo history or collaborative editing.": {
+    "_translate": "当子编辑器的内容发生变化时应该怎么办？我们可以直接获取其内容并将外部文档中脚注的内容重置为它，但这对撤销历史或协作编辑不利。",
+    "_note": ""
+  },
+  "A nicer approach is to simply apply the steps from the inner editor, with an appropriate offset, to the outer document.": {
+    "_translate": "一种更好的方法是简单地将内部编辑器中的步骤应用到外部文档中，并使用适当的偏移量。",
+    "_note": ""
+  },
+  "We have to be careful to handle appended transactions, and to be able to handle updates from the outside editor without creating an infinite loop, the code also understands the transaction flag \"fromOutside\" and disables propagation when it's present.": {
+    "_translate": "我们必须小心处理<a href=\"/docs/ref/#state.PluginSpec.appendTransaction\">附加的事务</a>，并且为了能够处理来自外部编辑器的更新而不创建无限循环，代码还理解事务标志<code>\"fromOutside\"</code>并在其存在时禁用传播。",
+    "_note": ""
+  },
+  "Finally, the nodeview has to handle destruction and queries about which events and mutations should be handled by the outer editor.": {
+    "_translate": "最后，nodeview 必须处理销毁以及关于哪些事件和变更应由外部编辑器处理的查询。",
+    "_note": ""
+  },
+  "To be able to cleanly handle updates from outside (for example through collaborative editing, or when the user undoes something, which is handled by the outer editor), the node view's update method carefully finds the difference between its current content and the content of the new node. It only replaces the changed part, in order to leave the cursor in place whenever possible.": {
+    "_translate": "为了能够干净地处理来自外部的更新（例如通过协作编辑，或当用户撤销某些操作时，这些操作由外部编辑器处理），节点视图的<a href=\"/docs/ref/#view.NodeView.update\"><code>update</code></a>方法会仔细找出其当前内容与新节点内容之间的差异。它只替换更改的部分，以尽可能保持光标位置不变。",
+    "_note": ""
+  },
+  "We can enable our schema and node view like this, to create an actual editor.": {
+    "_translate": "我们可以像这样启用我们的模式和节点视图，以创建一个实际的编辑器。",
+    "_note": ""
+  }
+}

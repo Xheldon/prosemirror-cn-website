@@ -1,0 +1,46 @@
+{
+  "Ideally, when the image is selected, you start the upload but also immediately insert a placeholder into the document. Then, when the upload finishes, that placeholder is replaced with the final image.": {
+    "_translate": "理想情况下，当选择图像时，您开始上传，但也会立即在文档中插入占位符。然后，当上传完成时，该占位符将被最终图像替换。",
+    "_note": ""
+  },
+  "Some types of editing involve asynchronous operations, but you want to present them to your users as a single action. For example, when inserting an image from the user's local filesystem, you won't have access to the actual image until you've uploaded it and created a URL for it. Yet, you don't want to make the user go through the motion of first uploading the image, then waiting for that to complete, and only then inserting the image into the document.": {
+    "_translate": "某些类型的编辑涉及异步操作，但您希望将它们呈现给用户作为单个操作。例如，当从用户的本地文件系统插入图像时，您在上传并为其创建 URL 之前无法访问实际图像。然而，您不希望让用户经历先上传图像，然后等待完成，只有在那之后才将图像插入文档的过程。",
+    "_note": ""
+  },
+  "This paragraph needs an image.": {
+    "_translate": "<p data-x-en=\"_-_-_翻译的特殊case_-_-_\">这段文字需要一张图片。</p>",
+    "_note": ""
+  },
+  "这段文字需要一张图片": {
+    "_translate": "这段文字需要一张图片。",
+    "_note": ""
+  },
+  "Since the upload might take a moment, and the user might make more changes while waiting for it, the placeholder should move along with its context as the document is edited, and when the final image is inserted, it should be put where the placeholder has ended up by that time.": {
+    "_translate": "由于上传可能需要一段时间，并且用户可能会在等待时进行更多更改，占位符应随着文档的编辑与其上下文一起移动，当最终图像插入时，应将其放置在占位符当时所在的位置。",
+    "_note": ""
+  },
+  "The easiest way to do this is to make the placeholder a decoration, so that it only exists in the user's interface. Let's start by writing a plugin that manages such decorations.": {
+    "_translate": "最简单的方法是将占位符设为\n<a href=\"/docs/guide/#view.decorations\">装饰</a>，这样它只存在于\n用户界面中。让我们从编写一个管理\n此类装饰的插件开始。",
+    "_note": ""
+  },
+  "The plugin comes with a function that returns the current position of the placeholder with the given ID, if it still exists.": {
+    "_translate": "该插件带有一个函数，该函数返回具有给定ID的占位符的当前位置（如果它仍然存在）。",
+    "_note": ""
+  },
+  "This is a thin wrapper around a decoration set—it has to be a set because multiple uploads can be in progress at the same time. The meta property for the plugin can be used to add and remove widget decorations by ID.": {
+    "_translate": "这是一个围绕<a href=\"/docs/ref/#view.DecorationSet\">装饰集</a>的薄包装——它必须是一个<em>集</em>，因为可以同时进行多个上传。插件的meta属性可用于通过ID添加和删除小部件装饰。",
+    "_note": ""
+  },
+  "When the file input below the editor is used, this event handler checks some conditions, and fires off the upload when possible.": {
+    "_translate": "当使用编辑器下方的文件输入时，此事件处理程序会检查一些条件，并在可能时启动上传。",
+    "_note": ""
+  },
+  "The core functionality happens in startImageUpload. The utility uploadFile returns a promise that resolves to the uploaded file's URL (in the demo it actually just waits for a bit and then returns a data: URL).": {
+    "_translate": "核心功能发生在<code>startImageUpload</code>。工具<code>uploadFile</code>返回一个承诺，该承诺解析为上传文件的URL（在演示中，它实际上只是等待一会儿，然后返回一个<code>data:</code> URL）。",
+    "_note": ""
+  },
+  "Because the placeholder plugin maps its decorations through transactions, findPlaceholder will get the accurate position of the image, even if the document was modified during the upload.": {
+    "_translate": "因为占位符插件<a href=\"/docs/ref/#view.DecorationSet.map\">映射</a>其装饰通过事务，<code>findPlaceholder</code>将获得图像的准确位置，即使在上传期间文档被修改。",
+    "_note": ""
+  }
+}

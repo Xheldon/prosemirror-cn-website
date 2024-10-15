@@ -1,0 +1,26 @@
+{
+  "An introduction to the concepts used by the ProseMirror library, with examples.": {
+    "_translate": "一个介绍ProseMirror库使用的概念，并附有示例。",
+    "_note": ""
+  },
+  "A full listing and description of the public API exported by the library, per module.": {
+    "_translate": "每个模块导出的公共API的完整列表和描述。",
+    "_note": ""
+  },
+  "Code examples that show how to implement common use cases.": {
+    "_translate": "展示如何实现常见用例的代码示例。",
+    "_note": ""
+  },
+  "The version history of the project, listing all releases and the changes they made.": {
+    "_translate": "项目的版本历史，列出所有发布版本及其所做的更改。",
+    "_note": ""
+  },
+  "About the concept of the project and the collaborative editing technique.": {
+    "_translate": "关于<a href=\"http://marijnhaverbeke.nl/blog/prosemirror.html\">项目的概念</a>和<a href=\"http://marijnhaverbeke.nl/blog/collaborative-editing.html\">协同编辑</a>技术。",
+    "_note": ""
+  },
+  "A discussion board for asking questions and giving feedback.": {
+    "_translate": "一个用于提问和提供反馈的讨论板。",
+    "_note": ""
+  }
+}
