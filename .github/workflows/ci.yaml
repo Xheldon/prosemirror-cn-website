@@ -65,6 +65,8 @@ jobs:
         if: env.new_commits == 'true'
         run: |
           cd website
+          git config --global user.name 'Xheldon'
+          git config --global user.email 'c1006044256@gmail.com'
           rm .gitignore
           git add public
           git commit -m "Update build"
