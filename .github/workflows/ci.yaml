@@ -68,6 +68,7 @@ jobs:
         run: |
           cd website
           rm .gitignore
+          git checkout -b gp
           git add public
           git commit -m "Update build"
-          git push -f origin HEAD:refs/heads/gp
+          git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gp:gp
