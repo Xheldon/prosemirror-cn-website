@@ -69,4 +69,4 @@ jobs:
           git checkout -b gp
           git add public
           git commit -m "Update build"
-          git push -f https://${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} gp:gp
+          git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} gp:gp
