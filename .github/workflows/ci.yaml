@@ -6,7 +6,7 @@ on:
     - cron: '0 0 * * 0' # 每周日的午夜
 
 jobs:
-  构建并发布:
+  Build_and_Publish:
     runs-on: ubuntu-latest
 
     steps:
