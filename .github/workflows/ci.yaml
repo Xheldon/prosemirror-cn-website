@@ -68,4 +68,4 @@ jobs:
           mkdir -p _public && mv -f website/public/* $_
           git add .
           git commit -m "Update build"
-          git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:gp
+          git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:main
