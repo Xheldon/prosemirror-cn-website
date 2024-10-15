@@ -63,12 +63,10 @@ jobs:
 
       - name: 推送到 gp 分支
         if: env.new_commits == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd website
           rm .gitignore
           git checkout -b gp
           git add public
           git commit -m "Update build"
-          git push -f https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gp:gp
+          git push -f https://${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} gp:gp
