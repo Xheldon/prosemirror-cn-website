@@ -1,3 +1,4 @@
-website
-./website/**/*
 node_modules/**/*
+website
+
+.DS_Store

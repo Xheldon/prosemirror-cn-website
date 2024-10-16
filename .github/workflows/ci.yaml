@@ -40,12 +40,16 @@ jobs:
           echo "new_commit=$NEW_COMMIT" >> $GITHUB_ENV
           echo "old_commit=$OLD_COMMIT" >> $GITHUB_ENV
           if [[ "$NEW_COMMIT" != "$OLD_COMMIT" ]]; then
-            echo "发现新的提交。"
+            echo "每周检查发现新的提交"
             echo "new_commits=true" >> $GITHUB_ENV
             echo "$NEW_COMMIT" > last-commit.txt
           else
             echo "没有新的提交。"
             echo "new_commits=false" >> $GITHUB_ENV
+          fi
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo "手动触发更新"
+            echo "new_commits=true" >> $GITHUB_ENV
           fi
 
       - name: 安装依赖

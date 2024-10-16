@@ -20,7 +20,7 @@
     "_note": ""
   },
   "Document schemas allow editing documents with a custom structure without writing your own editor from scratch.": {
-    "_translate": "Document schemas allow editing documents with a custom structure without writing your own editor from scratch.",
+    "_translate": "文档模式允许在不从头编写自己的编辑器的情况下编辑具有自定义结构的文档。",
     "_note": ""
   },
   "A modular architecture makes sure you only load the code you need, and can replace parts of the system as needed.": {
