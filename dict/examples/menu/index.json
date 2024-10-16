@@ -54,5 +54,37 @@
   "The prosemirror-menu package works similarly, but adds support for things like simple drop-down menus and active/inactive icons (to highlight the strong button when strong text is selected).": {
     "_translate": "<a href=\"https://github.com/prosemirror/prosemirror-menu\"><code>prosemirror-menu</code>包</a>的工作方式类似，但增加了对简单下拉菜单和活动/非活动图标的支持（当选择粗体文本时突出显示粗体按钮）。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "Simple editor": {
+    "_translate": "简单编辑器",
+    "_note": ""
+  },
+  "// Create an icon for a heading at the given level": {
+    "_translate": "// 为给定级别的标题创建一个图标",
+    "_note": ""
+  },
+  "// Helper function to create menu icons": {
+    "_translate": "// 辅助函数创建菜单图标",
+    "_note": ""
   }
 }

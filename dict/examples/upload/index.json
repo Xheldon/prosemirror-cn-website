@@ -42,5 +42,61 @@
   "Because the placeholder plugin maps its decorations through transactions, findPlaceholder will get the accurate position of the image, even if the document was modified during the upload.": {
     "_translate": "因为占位符插件<a href=\"/docs/ref/#view.DecorationSet.map\">映射</a>其装饰通过事务，<code>findPlaceholder</code>将获得图像的准确位置，即使在上传期间文档被修改。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "// Adjust decoration positions to changes made by the transaction": {
+    "_translate": "// 调整装饰位置以适应事务所做的更改",
+    "_note": ""
+  },
+  "// See if the transaction adds or removes any placeholders": {
+    "_translate": "// 查看交易是否添加或移除任何占位符",
+    "_note": ""
+  },
+  "// A fresh object to act as the ID for this upload": {
+    "_translate": "// 一个新的对象作为此上传的ID",
+    "_note": ""
+  },
+  "// Replace the selection with a placeholder": {
+    "_translate": "// 用占位符替换选定内容",
+    "_note": ""
+  },
+  "// If the content around the placeholder has been deleted, drop": {
+    "_translate": "// 如果占位符周围的内容已被删除，请删除，直接输出翻译后的内容，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// the image": {
+    "_translate": "// 图像",
+    "_note": ""
+  },
+  "// Otherwise, insert it at the placeholder's position, and remove": {
+    "_translate": "// 否则，将其插入占位符的位置，并删除",
+    "_note": ""
+  },
+  "// the placeholder": {
+    "_translate": "// 占位符",
+    "_note": ""
+  },
+  "// On failure, just clean up the placeholder": {
+    "_translate": "// 失败时，只需清理占位符",
+    "_note": ""
   }
 }

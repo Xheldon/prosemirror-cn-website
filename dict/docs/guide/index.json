@@ -898,5 +898,209 @@
   "That's all there is to it. Of course, with asynchronous data channels (such as long polling in the collab demo or web sockets), you'll need somewhat more complicated communication and synchronization code. And you'll probably also want your authority to start throwing away steps at some point, so that its memory consumption doesn't grow without bound. But the general approach is fully described by this little example.": {
     "_translate": "就是这样。当然，对于异步数据通道（例如<a href=\"https://github.com/ProseMirror/website/blob/master/src/collab/client/collab.js\">协作演示</a>中的长轮询或Web套接字），您将需要更复杂的通信和同步代码。而且您可能还希望您的服务器在某个时候开始丢弃步骤，以防止内存消耗无限增长。但总体方法已经完全由这个小例子描述。",
     "_note": ""
+  },
+  "Contents": {
+    "_translate": "Contents",
+    "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "// (Imports omitted)": {
+    "_translate": "// (Imports omitted)",
+    "_note": ""
+  },
+  "// (Omitted repeated imports)": {
+    "_translate": "// (省略重复的导入)",
+    "_note": ""
+  },
+  "// (The null arguments are where you can specify attributes, if necessary.)": {
+    "_translate": "// (空参数是您可以在必要时指定属性的地方。)",
+    "_note": ""
+  },
+  "// doc holds two paragraphs, containing text \"a\" and \"b\"": {
+    "_translate": "// doc holds two paragraphs, containing text \"a\" and \"b\"",
+    "_note": ""
+  },
+  "// The first paragraph": {
+    "_translate": "// 第一个段落",
+    "_note": ""
+  },
+  "// → 0 0": {
+    "_translate": "// → 0 0，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// From start of first paragraph": {
+    "_translate": "// 从第一个段落开始，直接输出翻译，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// to end of second": {
+    "_translate": "// 结束第二段，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "/* ... and so on */": {
+    "_translate": "/* ... 等等 */",
+    "_note": ""
+  },
+  "// → 1 1": {
+    "_translate": "// → 1 1，直接输出翻译结果，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// and <i> nodes": {
+    "_translate": "// 和 &lt;i&gt; 节点",
+    "_note": ""
+  },
+  "// Match <em> nodes": {
+    "_translate": "// 匹配 &lt;em&gt; 节点，直接输出翻译结果，不要添加任何额外文本。记住，保留所有 HTML 标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// and inline 'font-style: italic'": {
+    "_translate": "// 和内联 'font-style: italic'",
+    "_note": ""
+  },
+  "// → p(\"hello\")": {
+    "_translate": "// → p(\"你好\")",
+    "_note": ""
+  },
+  "// A step that deletes the content between positions 3 and 5": {
+    "_translate": "// 删除位置3和5之间内容的步骤",
+    "_note": ""
+  },
+  "// → p(\"heo\")": {
+    "_translate": "// → p(\"嘿哦\")",
+    "_note": ""
+  },
+  "// Delete between position 5 and 7": {
+    "_translate": "// 删除位置5到7之间",
+    "_note": ""
+  },
+  "// Split the parent node at position 5": {
+    "_translate": "// 在位置5拆分父节点",
+    "_note": ""
+  },
+  "// The modified document": {
+    "_translate": "// 修改后的文档",
+    "_note": ""
+  },
+  "// → 2": {
+    "_translate": "// → 2，直接输出翻译结果，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// Delete 4-5": {
+    "_translate": "// 删除 4-5",
+    "_note": ""
+  },
+  "// → 6": {
+    "_translate": "// → 6，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// → 2 (nothing changes before the change)": {
+    "_translate": "// → 2（在更改之前没有任何变化）",
+    "_note": ""
+  },
+  "// split a node, +2 tokens at 10": {
+    "_translate": "// 拆分一个节点，+2 个标记在 10",
+    "_note": ""
+  },
+  "// -3 tokens at 2": {
+    "_translate": "// -3 tokens at 2，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// → 14": {
+    "_translate": "// → 14，直接输出翻译结果，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// → 3": {
+    "_translate": "// → 3，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// → 9": {
+    "_translate": "// → 9，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// → 7": {
+    "_translate": "// → 7，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// 1, the start of the paragraph": {
+    "_translate": "// 1，段落的开始",
+    "_note": ""
+  },
+  "// An empty paragraph": {
+    "_translate": "// 一个空段落",
+    "_note": ""
+  },
+  "// 25": {
+    "_translate": "// 25，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// Replaces selection with 'hello'": {
+    "_translate": "// 用'hello'替换选择内容",
+    "_note": ""
+  },
+  "// 30": {
+    "_translate": "// 30，直接输出翻译内容，不要任何附加文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// → 8 (moved back)": {
+    "_translate": "// → 8（移回）",
+    "_note": ""
+  },
+  "// → 10": {
+    "_translate": "// → 10，直接输出翻译结果，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// We did not handle this": {
+    "_translate": "// 我们没有处理这个",
+    "_note": ""
+  },
+  "// The app's state": {
+    "_translate": "// 应用的状态",
+    "_note": ""
+  },
+  "// A crude app state update function, which takes an update object,": {
+    "_translate": "// 一个粗略的应用状态更新函数，它接受一个更新对象，",
+    "_note": ""
+  },
+  "// updates the `appState`, and then refreshes the UI.": {
+    "_translate": "// 更新 `appState`，然后刷新 UI。",
+    "_note": ""
+  },
+  "// An even cruder drawing function": {
+    "_translate": "// 一个更粗糙的绘图函数",
+    "_note": ""
+  },
+  "// Enables read-only behavior": {
+    "_translate": "// 启用只读行为",
+    "_note": ""
+  },
+  "// The editor will use this as the node's DOM representation": {
+    "_translate": "// 编辑器将使用此作为节点的DOM表示，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// Apply and accumulate new steps": {
+    "_translate": "// 应用并累积新步骤",
+    "_note": ""
+  },
+  "// Signal listeners": {
+    "_translate": "// 信号监听器，直接输出翻译，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
   }
 }

@@ -3086,5 +3086,73 @@
   "Create a command to sink the list item around the selection down into an inner list.": {
     "_translate": "创建一个命令，将选择范围内的列表项下沉到内部列表中。",
     "_note": ""
+  },
+  "Contents": {
+    "_translate": "Contents",
+    "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "Reference manual": {
+    "_translate": "参考手册",
+    "_note": ""
+  },
+  "determine whether they apply to this state": {
+    "_translate": "确定它们是否适用于该州",
+    "_note": ""
+  },
+  "if dispatch was passed, perform their effect, possibly by passing a transaction to dispatch": {
+    "_translate": "如果传递了<code>dispatch</code>，则执行其效果，可能通过将事务传递给<code>dispatch</code>",
+    "_note": ""
+  },
+  "if not, return false": {
+    "_translate": "如果没有，则返回 false",
+    "_note": ""
+  },
+  "return true": {
+    "_translate": "返回真",
+    "_note": ""
+  },
+  "Enter to newlineInCode, createParagraphNear, liftEmptyBlock, splitBlock": {
+    "_translate": "<strong>输入</strong>到<code>newlineInCode</code>，<code>createParagraphNear</code>，<code>liftEmptyBlock</code>，<code>splitBlock</code>",
+    "_note": ""
+  },
+  "Mod-Enter to exitCode": {
+    "_translate": "<strong>Mod-Enter</strong> 到 <code>exitCode</code>",
+    "_note": ""
+  },
+  "Backspace and Mod-Backspace to deleteSelection, joinBackward, selectNodeBackward": {
+    "_translate": "<strong>退格键</strong> 和 <strong>Mod-退格键</strong> 到 <code>deleteSelection</code>，<code>joinBackward</code>，<code>selectNodeBackward</code>",
+    "_note": ""
+  },
+  "Delete and Mod-Delete to deleteSelection, joinForward, selectNodeForward": {
+    "_translate": "<strong>删除</strong> 和 <strong>Mod-删除</strong> 到 <code>deleteSelection</code>，<code>joinForward</code>，<code>selectNodeForward</code>",
+    "_note": ""
+  },
+  "Mod-Delete to deleteSelection, joinForward, selectNodeForward": {
+    "_translate": "<strong>Mod-删除</strong> 到 <code>deleteSelection</code>，<code>joinForward</code>，<code>selectNodeForward</code>",
+    "_note": ""
+  },
+  "Mod-a to selectAll": {
+    "_translate": "<strong>Mod-a</strong> 到 <code>selectAll</code>",
+    "_note": ""
   }
 }

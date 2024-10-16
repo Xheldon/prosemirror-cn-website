@@ -38,5 +38,69 @@
   "Now all that's left to do is creating an editor state and view with our custom schema and menu.": {
     "_translate": "现在剩下要做的就是用我们自定义的模式和菜单创建一个编辑器状态和视图。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "// The supported types of dinosaurs.": {
+    "_translate": "// 支持的恐龙类型。",
+    "_note": ""
+  },
+  "// Dinosaurs have one attribute, their type, which must be one of": {
+    "_translate": "// 恐龙有一个属性，它们的类型，必须是其中之一",
+    "_note": ""
+  },
+  "// the types defined above.": {
+    "_translate": "// 上面定义的类型。",
+    "_note": ""
+  },
+  "// Brontosaurs are still the default dino.": {
+    "_translate": "// 雷龙仍然是默认的恐龙。",
+    "_note": ""
+  },
+  "// These nodes are rendered as images with a `dino-type` attribute.": {
+    "_translate": "// 这些节点被渲染为带有 `dino-type` 属性的图像。",
+    "_note": ""
+  },
+  "// There are pictures for all dino types under /img/dino/.": {
+    "_translate": "// 所有恐龙类型的图片都在 /img/dino/ 下。",
+    "_note": ""
+  },
+  "// When parsing, such an image, if its type matches one of the known": {
+    "_translate": "// 解析时，如果图像的类型与已知类型之一匹配，直接输出翻译结果，不添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// types, is converted to a dino node.": {
+    "_translate": "// 类型，转换为一个 dino 节点。",
+    "_note": ""
+  },
+  "// Ask example-setup to build its basic menu": {
+    "_translate": "// 询问 example-setup 构建其基本菜单",
+    "_note": ""
+  },
+  "// Add a dino-inserting item for each type of dino": {
+    "_translate": "// 为每种类型的恐龙添加一个插入项",
+    "_note": ""
+  },
+  "// Pass exampleSetup our schema and the menu we created": {
+    "_translate": "// 传递示例设置我们的架构和我们创建的菜单",
+    "_note": ""
   }
 }

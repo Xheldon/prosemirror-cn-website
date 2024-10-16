@@ -1,5 +1,6 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
+const path = require('path');
 
 exports.translate = async (text, { key, file }) => {
   return new Promise((resolve) => {
@@ -28,8 +29,8 @@ exports.translate = async (text, { key, file }) => {
       top_p: 0.95,
       max_tokens: 4096,
     });
-    const apiKey = secrets.OPENAI_API_KEY;
-    const url = secrets.OPENAI_URL;
+    const apiKey = 'd38159a7dfa94a2b9c29fc80489c50ec';
+    const url = 'https://xhelper-ai-4o.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview';
     const res = spawn('curl', [
       url,
       '-H',
@@ -50,12 +51,13 @@ exports.translate = async (text, { key, file }) => {
         if (!translate) {
           console.error(`ai 翻译失败: [${text}] -> [${result}]`);
           // Note: 创建一个 error.txt ，如果不存在则创建
-          if (!fs.existsSync('error.txt')) {
-            fs.writeFileSync('error.txt', '');
+          const errorPath = path.resolve(__dirname,'error.txt');
+          if (!fs.existsSync(errorPath)) {
+            fs.writeFileSync(errorPath, '');
           }
           // Note：追加到文件
           fs.appendFileSync(
-            'error.txt',
+            errorPath,
             `[${file}-${key}]: ${text} -> ${result}\n`
           );
           resolve('_-_-_-_-_-_');

@@ -26,6 +26,9 @@
         content: "译者注: ";
         font-weight: 900;
     }
+    a.logo {
+        position: relative;
+    }
     a.logo::after {
         content: '中文';
         position: absolute;
@@ -67,8 +70,9 @@
             nav.appendChild(a);
         }
         const banner = document.createElement("div");
+        banner.id = "banner-info";
         // Note: 整站通知
-        banner.innerHTML = `<div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a href="https://prosemirror-old.xheldon.com${location.pathname}" target="_blank">原始翻译地址</a></div>`;
+        banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${location.pathname}" target="_blank">原始翻译地址</a>`;
         const header = document.querySelector('header');
         if (header) {
             header.parentNode.insertBefore(banner, header);

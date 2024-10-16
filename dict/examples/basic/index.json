@@ -26,5 +26,57 @@
   "These plugins are created by the example setup:": {
     "_translate": "这些插件是由示例设置创建的：",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "// create a schema with list support.": {
+    "_translate": "// 创建一个支持列表的模式。",
+    "_note": ""
+  },
+  "// Mix the nodes from prosemirror-schema-list into the basic schema to": {
+    "_translate": "// 将prosemirror-schema-list中的节点混合到基本模式中",
+    "_note": ""
+  },
+  "Hello ProseMirror": {
+    "_translate": "你好，ProseMirror",
+    "_note": ""
+  },
+  "Input rules, which are input macros that fire when certain patterns are typed. In this case, it is set up to provide things like smart quotes and some Markdown-like behavior, such as starting a blockquote when you type “> ”.": {
+    "_translate": "<a href=\"/docs/ref/#inputrules\">输入规则</a>，即在输入特定模式时触发的输入宏。在这种情况下，它被设置为提供智能引号和一些类似Markdown的行为，例如在输入“&gt; ”时启动引用块。",
+    "_note": ""
+  },
+  "Keymaps with the base bindings and custom bindings for common mark and node types, such as mod-i to enable emphasis and ctrl-shift-1 to make the current textblock a heading.": {
+    "_translate": "<a href=\"/docs/ref/#keymap\">键映射</a> 与 <a href=\"/docs/ref/#commands.baseKeymap\">基本绑定</a> 以及常见标记和节点类型的自定义绑定，例如 mod-i 启用强调和 ctrl-shift-1 将当前文本块设为标题。",
+    "_note": ""
+  },
+  "The drop cursor and gap cursor plugins.": {
+    "_translate": "<a href=\"https://github.com/prosemirror/prosemirror-dropcursor\">拖放光标</a>和<a href=\"/docs/ref/#gapcursor\">间隙光标</a>插件。",
+    "_note": ""
+  },
+  "The undo history.": {
+    "_translate": "<a href=\"/docs/ref/#history\">撤销历史</a>。",
+    "_note": ""
+  },
+  "A menu bar (which is another module that is meant more for demos than for production), with menu items for common tasks and schema elements.": {
+    "_translate": "<a href=\"https://github.com/prosemirror/prosemirror-menu\">菜单栏</a>（这是另一个更适合演示而非生产的模块），包含用于常见任务和模式元素的菜单项。",
+    "_note": ""
   }
 }

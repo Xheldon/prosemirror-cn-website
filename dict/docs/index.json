@@ -22,5 +22,29 @@
   "A discussion board for asking questions and giving feedback.": {
     "_translate": "一个用于提问和提供反馈的讨论板。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "Other resources": {
+    "_translate": "其他资源",
+    "_note": ""
   }
 }

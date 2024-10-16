@@ -38,5 +38,53 @@
   "Recomputing the whole set of problems, and recreating the set of decorations, on every change isn't very efficient, so for production code you might want to consider an approach that can incrementally update these. That'd be quite a bit more complex, but definitely doable—the transaction can give you the information you need to figure out what part of the document changed.": {
     "_translate": "重新计算整个问题集，并在每次更改时重新创建装饰集并不是很高效，因此对于生产代码，您可能需要考虑一种可以增量更新这些内容的方法。这会复杂得多，但绝对可行——事务可以为您提供所需的信息，以确定文档的哪一部分发生了变化。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "Lint example": {
+    "_translate": "Lint 示例",
+    "_note": ""
+  },
+  "// Words you probably shouldn't use": {
+    "_translate": "// 你可能不应该使用的词语",
+    "_note": ""
+  },
+  "// For each node in the document": {
+    "_translate": "// 对于文档中的每个节点，直接输出翻译，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_note": ""
+  },
+  "// Matches punctuation with a space before it": {
+    "_translate": "// 匹配标点符号，前面有一个空格",
+    "_note": ""
+  },
+  "// Scan text nodes for suspicious patterns": {
+    "_translate": "// 扫描文本节点以查找可疑模式",
+    "_note": ""
+  },
+  "// Ensure images have alt text": {
+    "_translate": "// 确保图像有替代文本",
+    "_note": ""
+  },
+  "// Check whether heading levels fit under the current level": {
+    "_translate": "// 检查标题级别是否适合当前级别",
+    "_note": ""
   }
 }

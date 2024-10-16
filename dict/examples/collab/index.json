@@ -14,5 +14,25 @@
   "Disclaimer: Since this demo is open for everybody, you might run into people typing stupid, mean, and disgusting things. Since I'm not going to be able to moderate this, I recommend just hitting delete.": {
     "_translate": "<strong>免责声明：</strong>由于此演示对所有人开放，您可能会遇到一些人输入愚蠢、刻薄和令人厌恶的内容。由于我无法进行审核，我建议直接删除。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
   }
 }

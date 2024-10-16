@@ -138,5 +138,29 @@
   "持续开发由这些公司支持：": {
     "_translate": "持续开发由这些公司支持：",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "A toolkit for building rich-text editors on the web": {
+    "_translate": "一个用于在网页上构建富文本编辑器的工具包",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
   }
 }

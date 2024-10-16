@@ -42,5 +42,25 @@
   "(To make them usable, you'd also need some kind of commands to create and join sections, but that is left out of the scope of this example.)": {
     "_translate": "为了使它们可用，您还需要某种命令来创建和加入部分，但这不在本示例的范围内。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
   }
 }

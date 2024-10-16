@@ -102,5 +102,33 @@
   "一个或多或少稳定的协作编辑器，支持共享注释。": {
     "_translate": "一个或多或少稳定的协作编辑器，支持共享注释。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Examples of what ProseMirror can do, and how to do it": {
+    "_translate": "ProseMirror 的示例及其实现方法",
+    "_note": ""
+  },
+  "More advanced examples": {
+    "_translate": "更高级的例子",
+    "_note": ""
   }
 }

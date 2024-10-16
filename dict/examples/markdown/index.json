@@ -38,5 +38,29 @@
   "最后，我们可以连接一些单选按钮，以允许用户在这两种表示之间切换。": {
     "_translate": "最后，我们可以连接一些单选按钮，以允许用户在这两种表示之间切换。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "This is a comment written in [Markdown](http://commonmark.org). *You* may know the syntax for inserting a link, but does your whole audience? So you can give people the **choice** to use a more familiar, discoverable interface.": {
+    "_translate": "这是一个用[Markdown](http://commonmark.org)写的评论。*你*可能知道插入链接的语法，但你的整个观众都知道吗？\n\n所以你可以给人们一个更熟悉、更易发现的界面的**选择**。",
+    "_note": ""
   }
 }

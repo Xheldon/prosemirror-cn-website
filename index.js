@@ -25,10 +25,6 @@ const defaultConfig = (more) => {
 };
 const config = {
   'website/public/index.html': [
-    {
-      container: 'header',
-      selector: 'h1'
-    },
     ...defaultConfig()
   ],
   'website/public/examples/index.html': [
@@ -52,7 +48,6 @@ const semaphore = new Semaphore(MAX_CONCURRENT);
 // 使用 glob 模块来匹配文件
 let files;
 files = glob.sync(path.resolve(__dirname, `website/public/**/index.html`));
-
 Promise.all(
   files.map((file) => {
     return new Promise((rootResolve) => {

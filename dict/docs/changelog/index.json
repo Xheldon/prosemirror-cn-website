@@ -4202,5 +4202,25 @@
   "Fix display corruption caused by using the wrong state as previous version during IME.": {
     "_translate": "修复在使用IME期间由于使用错误状态作为先前版本而导致的显示损坏。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
   }
 }

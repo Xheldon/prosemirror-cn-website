@@ -82,5 +82,45 @@
   "The command that inserts a star first checks whether the schema allows one to be inserted at the cursor position (using canReplaceWith), and if so, replaces the selection with a newly created star node.": {
     "_translate": "该命令在插入星号之前，首先检查模式是否允许在光标位置插入星号（使用\n<a href=\"/docs/ref/#model.Node.canReplaceWith\"><code>canReplaceWith</code></a>），如果允许，则用新创建的星号节点替换选区。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub，",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "// Get a range around the selected blocks": {
+    "_translate": "// 获取选定块周围的范围",
+    "_note": ""
+  },
+  "// See if it is possible to wrap that range in a note group": {
+    "_translate": "// 查看是否可以将该范围包装在一个注释组中",
+    "_note": ""
+  },
+  "// If not, the command doesn't apply": {
+    "_translate": "// 如果没有，该命令不适用",
+    "_note": ""
+  },
+  "// create the step that does the actual wrapping.": {
+    "_translate": "// 创建执行实际包装的步骤。",
+    "_note": ""
+  },
+  "// Otherwise, dispatch a transaction, using the `wrap` method to": {
+    "_translate": "// 否则，使用 `wrap` 方法调度一个事务，",
+    "_note": ""
   }
 }

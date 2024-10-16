@@ -6,13 +6,139 @@
 </head><body><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active">Examples</a>
-      <a href="/docs/">Documentation</a>
-      <a href="https://discuss.prosemirror.net/">Discuss</a>
-      <a href="https://github.com/prosemirror">GitHub</a>
-      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
+      <a href="/docs/" data-x-en="Documentation">文档</a>
+      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
+      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
+      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
     </div>
-  </nav></header><article><h1>Dinos in the document</h1>
+  </nav></header><article>
+<style>
+    /* hover 显示原文 */
+    p[data-x-en]::after {
+        content: attr(data-en);
+        display: block;
+        font-size: 12px;
+        transition: all .2s .3s;
+        visibility: hidden;
+        opacity: 0;
+        background: #cccccc;
+        z-index: 1;
+        border-radius: 4px;
+        padding: 5px 10px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+    /* 译者注释内容 */
+    p[type="comment"] {
+        border-radius: 4px;
+        padding: 5px 10px;
+        font-size: 12px;
+        background: #eee;
+    }
+    p[type="comment"]::before {
+        content: "译者注: ";
+        font-weight: 900;
+    }
+    a.logo {
+        position: relative;
+    }
+    a.logo::after {
+        content: '中文';
+        position: absolute;
+        left: calc(100% + 5px);
+        font-size: 14px;
+        width: 50px;
+        top: -5px;
+    }
+    #banner-info {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: #fff;
+        font-size: 14px;
+        padding: 5px 0;
+    }
+    #add-info {
+        font-size: 14px;
+    }
+    blockquote {
+        border-left: 5px solid #ccc;
+        padding-left: 10px;
+        margin-left: 0;
+    }
+</style>
+<script>
+    window.addEventListener("load", function() {
+        // Note: 修改 nav 部分，增加译者博客地址
+        const nav = document.querySelector("header .navlinks");
+        if (nav) {
+            const a = document.createElement("a");
+            a.href = "https://www.xheldon.com";
+            a.target = "_blank";
+            a.textContent = "译者";
+            nav.appendChild(a);
+        }
+        const banner = document.createElement("div");
+        banner.id = "banner-info";
+        // Note: 整站通知
+        banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${location.pathname}" target="_blank">原始翻译地址</a>`;
+        const header = document.querySelector('header');
+        if (header) {
+            header.parentNode.insertBefore(banner, header);
+        }
+
+        // Note: 指南和接口文档增加译者前言
+        const add = document.createElement("div");
+        add.id = "add-info";
+        add.innerHTML = `<blockquote>
+本手册/文档采用 GPT-4o + 人工方式翻译。每周检查一次原仓库或手动更新，<a href="https://github.com/Xheldon/prosemirror-cn-website" target="_blank">欢迎 Star 和 PR</a>。
+</blockquote>
+<b>译者前言：</b>
+<ol>
+<li><b>鼠标悬浮在中文上会出现英文原文，方便读者在觉得翻译质量不行的时候直接查看原文（欢迎 PR 更好的翻译）。</b></li>
+<li><b>因为有些接口需要上下文，因此译者的增加了注释以对此进行额外的说明，以灰色背景块显示出来，代表了译者对某个接口的理解。</b></li>
+<li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/">赏杯咖啡钱</a> 。</b></li>
+<li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
+</ol>
+<hr>`; 
+        if (location.pathname.includes("docs/ref") ) {
+            const h2 = document.querySelector(`#part_top h2`);
+            if (h2) {
+                h2.parentNode.insertBefore(add, h2);
+            }
+        }
+        if (location.pathname.includes("docs/guide") ) {
+            const h1 = document.querySelector(`article h1`);
+            if (h1) {
+                h1.parentNode.insertBefore(add, h1);
+            }
+        }
+        // Note: 增加 google 统计/广告（要吃饭呀）
+        const head = document.querySelector("head");
+        if (head) {
+            // Note: 谷歌统计
+            const script = document.createElement("script");
+            script.async = true;
+            script.src = "https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X";
+            head.appendChild(script);
+            const script2 = document.createElement("script");
+            script2.innerHTML = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')`
+            head.appendChild(script2);
+            // Note: 谷歌广告
+            const script3 = document.createElement("script");
+            script3.async = true;
+            script3.crossorigin = "anonymous";
+            script3.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411";
+            head.appendChild(script3);
+        }
+    });
+</script><h1>Dinos in the document</h1>
 <p data-x-en="Say you need to include exotic, site-specific elements in your documents. These may be handles to other objects in our system (documents, users, etc), domain-specific widgets, or, in the case of this demo, dinosaurs.">假设您需要在文档中包含异国情调的、特定于站点的元素。这些可能是我们系统中其他对象（文档、用户等）的句柄、特定领域的小部件，或者在此演示中，是恐龙。</p>
 <p data-x-en="ProseMirror allows you to define your own schemas, which includes defining custom document elements. You can use whatever you put in the schema as proper semantic element in your documents.">ProseMirror允许您定义自己的模式，其中包括定义自定义文档元素。您可以将模式中包含的任何内容用作文档中的适当语义元素。</p>
 <style>
@@ -27,27 +153,27 @@
   <p data-x-en="Dinosaur nodes can be selected, copied, pasted, dragged, and so on.">恐龙节点可以被选择、复制、粘贴、拖动等。</p>
 </div>
 <p data-x-en="In this example, we extend the basic schema with a single new node. First, we define a node spec, which describes the node's behavior and its DOM representation.">在这个例子中，我们扩展了<a href="https://github.com/prosemirror/prosemirror-schema-basic">基础</a>模式，添加了一个新的节点。首先，我们定义了一个<a href="/docs/ref/#model.NodeSpec">节点规范</a>，它描述了节点的行为及其DOM表示。</p>
-<pre><code class="language-javascript"><span class="tok-comment">// The supported types of dinosaurs.</span>
+<pre><code class="language-javascript"><span class="tok-comment" data-x-en="// The supported types of dinosaurs.">// 支持的恐龙类型。</span>
 <span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">dinos</span> <span class="tok-operator">=</span> <span class="tok-punctuation">[</span><span class="tok-string">"brontosaurus"</span><span class="tok-punctuation">,</span> <span class="tok-string">"stegosaurus"</span><span class="tok-punctuation">,</span> <span class="tok-string">"triceratops"</span><span class="tok-punctuation">,</span>
                <span class="tok-string">"tyrannosaurus"</span><span class="tok-punctuation">,</span> <span class="tok-string">"pterodactyl"</span><span class="tok-punctuation">]</span>
 
 <span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">dinoNodeSpec</span> <span class="tok-operator">=</span> <span class="tok-punctuation">{</span>
-  <span class="tok-comment">// Dinosaurs have one attribute, their type, which must be one of</span>
-  <span class="tok-comment">// the types defined above.</span>
-  <span class="tok-comment">// Brontosaurs are still the default dino.</span>
+  <span class="tok-comment" data-x-en="// Dinosaurs have one attribute, their type, which must be one of">// 恐龙有一个属性，它们的类型，必须是其中之一</span>
+  <span class="tok-comment" data-x-en="// the types defined above.">// 上面定义的类型。</span>
+  <span class="tok-comment" data-x-en="// Brontosaurs are still the default dino.">// 雷龙仍然是默认的恐龙。</span>
   <span class="tok-propertyName tok-definition">attrs</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">type</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">default</span><span class="tok-punctuation">:</span> <span class="tok-string">"brontosaurus"</span><span class="tok-punctuation">}</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">inline</span><span class="tok-punctuation">:</span> <span class="tok-bool">true</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">group</span><span class="tok-punctuation">:</span> <span class="tok-string">"inline"</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">draggable</span><span class="tok-punctuation">:</span> <span class="tok-bool">true</span><span class="tok-punctuation">,</span>
 
-  <span class="tok-comment">// These nodes are rendered as images with a `dino-type` attribute.</span>
-  <span class="tok-comment">// There are pictures for all dino types under /img/dino/.</span>
+  <span class="tok-comment" data-x-en="// These nodes are rendered as images with a `dino-type` attribute.">// 这些节点被渲染为带有 `dino-type` 属性的图像。</span>
+  <span class="tok-comment" data-x-en="// There are pictures for all dino types under /img/dino/.">// 所有恐龙类型的图片都在 /img/dino/ 下。</span>
   <span class="tok-propertyName tok-definition">toDOM</span><span class="tok-punctuation">:</span> <span class="tok-variableName tok-definition">node</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">[</span><span class="tok-string">"img"</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-string">"dino-type"</span><span class="tok-punctuation">:</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-punctuation">,</span>
                           <span class="tok-propertyName tok-definition">src</span><span class="tok-punctuation">:</span> <span class="tok-string">"/img/dino/"</span> <span class="tok-operator">+</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span> <span class="tok-operator">+</span> <span class="tok-string">".png"</span><span class="tok-punctuation">,</span>
                           <span class="tok-propertyName tok-definition">title</span><span class="tok-punctuation">:</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-punctuation">,</span>
                           <span class="tok-propertyName tok-definition">class</span><span class="tok-punctuation">:</span> <span class="tok-string">"dinosaur"</span><span class="tok-punctuation">}</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span>
-  <span class="tok-comment">// When parsing, such an image, if its type matches one of the known</span>
-  <span class="tok-comment">// types, is converted to a dino node.</span>
+  <span class="tok-comment" data-x-en="// When parsing, such an image, if its type matches one of the known">// 解析时，如果图像的类型与已知类型之一匹配，直接输出翻译结果，不添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
+  <span class="tok-comment" data-x-en="// types, is converted to a dino node.">// 类型，转换为一个 dino 节点。</span>
   <span class="tok-propertyName tok-definition">parseDOM</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">{</span>
     <span class="tok-propertyName tok-definition">tag</span><span class="tok-punctuation">:</span> <span class="tok-string">"img[dino-type]"</span><span class="tok-punctuation">,</span>
     <span class="tok-propertyName tok-definition">getAttrs</span><span class="tok-punctuation">:</span> <span class="tok-variableName tok-definition">dom</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
@@ -87,9 +213,9 @@
 <pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">MenuItem</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-menu"</span>
 <span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">buildMenuItems</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-example-setup"</span>
 
-<span class="tok-comment">// Ask example-setup to build its basic menu</span>
+<span class="tok-comment" data-x-en="// Ask example-setup to build its basic menu">// 询问 example-setup 构建其基本菜单</span>
 <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">menu</span> <span class="tok-operator">=</span> <span class="tok-variableName">buildMenuItems</span><span class="tok-punctuation">(</span><span class="tok-variableName">dinoSchema</span><span class="tok-punctuation">)</span>
-<span class="tok-comment">// Add a dino-inserting item for each type of dino</span>
+<span class="tok-comment" data-x-en="// Add a dino-inserting item for each type of dino">// 为每种类型的恐龙添加一个插入项</span>
 <span class="tok-variableName">dinos</span><span class="tok-operator">.</span><span class="tok-propertyName">forEach</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">name</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">menu</span><span class="tok-operator">.</span><span class="tok-propertyName">insertMenu</span><span class="tok-operator">.</span><span class="tok-propertyName">content</span><span class="tok-operator">.</span><span class="tok-propertyName">push</span><span class="tok-punctuation">(</span><span class="tok-keyword">new</span> <span class="tok-variableName">MenuItem</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
   <span class="tok-propertyName tok-definition">title</span><span class="tok-punctuation">:</span> <span class="tok-string">"Insert "</span> <span class="tok-operator">+</span> <span class="tok-variableName">name</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">label</span><span class="tok-punctuation">:</span> <span class="tok-variableName">name</span><span class="tok-operator">.</span><span class="tok-propertyName">charAt</span><span class="tok-punctuation">(</span><span class="tok-number">0</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">toUpperCase</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-operator">+</span> <span class="tok-variableName">name</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
@@ -105,7 +231,7 @@
 <span class="tok-variableName">window</span><span class="tok-operator">.</span><span class="tok-propertyName">view</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">EditorView</span><span class="tok-punctuation">(</span><span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">querySelector</span><span class="tok-punctuation">(</span><span class="tok-string">"#editor"</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span>
   <span class="tok-propertyName tok-definition">state</span><span class="tok-punctuation">:</span> <span class="tok-variableName">EditorState</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
     <span class="tok-propertyName tok-definition">doc</span><span class="tok-punctuation">:</span> <span class="tok-variableName">startDoc</span><span class="tok-punctuation">,</span>
-    <span class="tok-comment">// Pass exampleSetup our schema and the menu we created</span>
+    <span class="tok-comment" data-x-en="// Pass exampleSetup our schema and the menu we created">// 传递示例设置我们的架构和我们创建的菜单</span>
     <span class="tok-propertyName tok-definition">plugins</span><span class="tok-punctuation">:</span> <span class="tok-variableName">exampleSetup</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">schema</span><span class="tok-punctuation">:</span> <span class="tok-variableName">dinoSchema</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">menuContent</span><span class="tok-punctuation">:</span> <span class="tok-variableName">menu</span><span class="tok-operator">.</span><span class="tok-propertyName">fullMenu</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
   <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
 <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>

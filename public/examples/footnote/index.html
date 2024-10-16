@@ -6,13 +6,139 @@
 </head><body><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active">Examples</a>
-      <a href="/docs/">Documentation</a>
-      <a href="https://discuss.prosemirror.net/">Discuss</a>
-      <a href="https://github.com/prosemirror">GitHub</a>
-      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
+      <a href="/docs/" data-x-en="Documentation">文档</a>
+      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
+      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
+      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
     </div>
-  </nav></header><article><h1>Editing footnotes</h1>
+  </nav></header><article>
+<style>
+    /* hover 显示原文 */
+    p[data-x-en]::after {
+        content: attr(data-en);
+        display: block;
+        font-size: 12px;
+        transition: all .2s .3s;
+        visibility: hidden;
+        opacity: 0;
+        background: #cccccc;
+        z-index: 1;
+        border-radius: 4px;
+        padding: 5px 10px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+    /* 译者注释内容 */
+    p[type="comment"] {
+        border-radius: 4px;
+        padding: 5px 10px;
+        font-size: 12px;
+        background: #eee;
+    }
+    p[type="comment"]::before {
+        content: "译者注: ";
+        font-weight: 900;
+    }
+    a.logo {
+        position: relative;
+    }
+    a.logo::after {
+        content: '中文';
+        position: absolute;
+        left: calc(100% + 5px);
+        font-size: 14px;
+        width: 50px;
+        top: -5px;
+    }
+    #banner-info {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: #fff;
+        font-size: 14px;
+        padding: 5px 0;
+    }
+    #add-info {
+        font-size: 14px;
+    }
+    blockquote {
+        border-left: 5px solid #ccc;
+        padding-left: 10px;
+        margin-left: 0;
+    }
+</style>
+<script>
+    window.addEventListener("load", function() {
+        // Note: 修改 nav 部分，增加译者博客地址
+        const nav = document.querySelector("header .navlinks");
+        if (nav) {
+            const a = document.createElement("a");
+            a.href = "https://www.xheldon.com";
+            a.target = "_blank";
+            a.textContent = "译者";
+            nav.appendChild(a);
+        }
+        const banner = document.createElement("div");
+        banner.id = "banner-info";
+        // Note: 整站通知
+        banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${location.pathname}" target="_blank">原始翻译地址</a>`;
+        const header = document.querySelector('header');
+        if (header) {
+            header.parentNode.insertBefore(banner, header);
+        }
+
+        // Note: 指南和接口文档增加译者前言
+        const add = document.createElement("div");
+        add.id = "add-info";
+        add.innerHTML = `<blockquote>
+本手册/文档采用 GPT-4o + 人工方式翻译。每周检查一次原仓库或手动更新，<a href="https://github.com/Xheldon/prosemirror-cn-website" target="_blank">欢迎 Star 和 PR</a>。
+</blockquote>
+<b>译者前言：</b>
+<ol>
+<li><b>鼠标悬浮在中文上会出现英文原文，方便读者在觉得翻译质量不行的时候直接查看原文（欢迎 PR 更好的翻译）。</b></li>
+<li><b>因为有些接口需要上下文，因此译者的增加了注释以对此进行额外的说明，以灰色背景块显示出来，代表了译者对某个接口的理解。</b></li>
+<li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/">赏杯咖啡钱</a> 。</b></li>
+<li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
+</ol>
+<hr>`; 
+        if (location.pathname.includes("docs/ref") ) {
+            const h2 = document.querySelector(`#part_top h2`);
+            if (h2) {
+                h2.parentNode.insertBefore(add, h2);
+            }
+        }
+        if (location.pathname.includes("docs/guide") ) {
+            const h1 = document.querySelector(`article h1`);
+            if (h1) {
+                h1.parentNode.insertBefore(add, h1);
+            }
+        }
+        // Note: 增加 google 统计/广告（要吃饭呀）
+        const head = document.querySelector("head");
+        if (head) {
+            // Note: 谷歌统计
+            const script = document.createElement("script");
+            script.async = true;
+            script.src = "https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X";
+            head.appendChild(script);
+            const script2 = document.createElement("script");
+            script2.innerHTML = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')`
+            head.appendChild(script2);
+            // Note: 谷歌广告
+            const script3 = document.createElement("script");
+            script3.async = true;
+            script3.crossorigin = "anonymous";
+            script3.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411";
+            head.appendChild(script3);
+        }
+    });
+</script><h1>Editing footnotes</h1>
 <p data-x-en="This example demonstrates one way to implement something like footnotes in ProseMirror.">这个例子演示了一种在ProseMirror中实现类似脚注的方法。</p>
 <style>
   .ProseMirror {
@@ -67,8 +193,8 @@
   <span class="tok-propertyName tok-definition">group</span><span class="tok-punctuation">:</span> <span class="tok-string">"inline"</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">content</span><span class="tok-punctuation">:</span> <span class="tok-string">"text*"</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">inline</span><span class="tok-punctuation">:</span> <span class="tok-bool">true</span><span class="tok-punctuation">,</span>
-  <span class="tok-comment">// This makes the view treat the node as a leaf, even though it</span>
-  <span class="tok-comment">// technically has content</span>
+  <span class="tok-comment" data-x-en="// This makes the view treat the node as a leaf, even though it">// 这使得视图将节点视为叶子，即使它</span>
+  <span class="tok-comment" data-x-en="// technically has content">// 技术上有内容</span>
   <span class="tok-propertyName tok-definition">atom</span><span class="tok-punctuation">:</span> <span class="tok-bool">true</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">toDOM</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">[</span><span class="tok-string">"footnote"</span><span class="tok-punctuation">,</span> <span class="tok-number">0</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">parseDOM</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">tag</span><span class="tok-punctuation">:</span> <span class="tok-string">"footnote"</span><span class="tok-punctuation">}</span><span class="tok-punctuation">]</span>
@@ -87,14 +213,14 @@
 
 <span class="tok-keyword">class</span> <span class="tok-className">FootnoteView</span> <span class="tok-punctuation">{</span>
   <span class="tok-propertyName tok-definition">constructor</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">getPos</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-    <span class="tok-comment">// We'll need these later</span>
+    <span class="tok-comment" data-x-en="// We'll need these later">// 我们以后会需要这些</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span> <span class="tok-operator">=</span> <span class="tok-variableName">node</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">outerView</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">getPos</span> <span class="tok-operator">=</span> <span class="tok-variableName">getPos
 
-    </span><span class="tok-comment">// The node's representation in the editor (empty, for now)</span>
+    </span><span class="tok-comment" data-x-en="// The node's representation in the editor (empty, for now)">// 节点在编辑器中的表示（目前为空）</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span> <span class="tok-operator">=</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">"footnote"</span><span class="tok-punctuation">)</span>
-    <span class="tok-comment">// These are used when the footnote is selected</span>
+    <span class="tok-comment" data-x-en="// These are used when the footnote is selected">// 这些在选择脚注时使用</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">innerView</span> <span class="tok-operator">=</span> <span class="tok-keyword">null</span>
   <span class="tok-punctuation">}</span>
 </code></pre>
@@ -113,12 +239,12 @@
 <p data-x-en="Mod-z and y are bound to run undo and redo on the outer editor. We'll see in a moment why that works.">Mod-z 和 y 必须在<em>外部</em>编辑器上运行撤销和重做。
 我们稍后会看到为什么这样做有效。</p>
 <pre><code class="language-javascript">  <span class="tok-variableName">open</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-    <span class="tok-comment">// Append a tooltip to the outer node</span>
+    <span class="tok-comment" data-x-en="// Append a tooltip to the outer node">// 将工具提示附加到外部节点</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">tooltip</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dom</span><span class="tok-operator">.</span><span class="tok-propertyName">appendChild</span><span class="tok-punctuation">(</span><span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">"div"</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
     <span class="tok-variableName">tooltip</span><span class="tok-operator">.</span><span class="tok-propertyName">className</span> <span class="tok-operator">=</span> <span class="tok-string">"footnote-tooltip"</span>
-    <span class="tok-comment">// And put a sub-ProseMirror into that</span>
+    <span class="tok-comment" data-x-en="// And put a sub-ProseMirror into that">// 并将一个子ProseMirror放入其中</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">innerView</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">EditorView</span><span class="tok-punctuation">(</span><span class="tok-variableName">tooltip</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span>
-      <span class="tok-comment">// You can use any node as an editor document</span>
+      <span class="tok-comment" data-x-en="// You can use any node as an editor document">// 您可以使用任何节点作为编辑器文档，直接输出翻译结果，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
       <span class="tok-propertyName tok-definition">state</span><span class="tok-punctuation">:</span> <span class="tok-variableName">EditorState</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
         <span class="tok-propertyName tok-definition">doc</span><span class="tok-punctuation">:</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span><span class="tok-punctuation">,</span>
         <span class="tok-propertyName tok-definition">plugins</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">[</span><span class="tok-variableName">keymap</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
@@ -126,13 +252,13 @@
           <span class="tok-string">"Mod-y"</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">redo</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">outerView</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">outerView</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">)</span>
         <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">]</span>
       <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
-      <span class="tok-comment">// This is the magic part</span>
+      <span class="tok-comment" data-x-en="// This is the magic part">// 这是神奇的部分，直接输出翻译内容，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
       <span class="tok-propertyName tok-definition">dispatchTransaction</span><span class="tok-punctuation">:</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatchInner</span><span class="tok-operator">.</span><span class="tok-propertyName">bind</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
       <span class="tok-propertyName tok-definition">handleDOMEvents</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
         <span class="tok-propertyName tok-definition">mousedown</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
-          <span class="tok-comment">// Kludge to prevent issues due to the fact that the whole</span>
-          <span class="tok-comment">// footnote is node-selected (and thus DOM-selected) when</span>
-          <span class="tok-comment">// the parent editor is focused.</span>
+          <span class="tok-comment" data-x-en="// Kludge to prevent issues due to the fact that the whole">// 权宜之计以防止由于整个事实而导致的问题</span>
+          <span class="tok-comment" data-x-en="// footnote is node-selected (and thus DOM-selected) when">// 脚注是节点选择的（因此也是DOM选择的）当</span>
+          <span class="tok-comment" data-x-en="// the parent editor is focused.">// 父编辑器已聚焦。</span>
           <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">outerView</span><span class="tok-operator">.</span><span class="tok-propertyName">hasFocus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">innerView</span><span class="tok-operator">.</span><span class="tok-propertyName">focus</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
         <span class="tok-punctuation">}</span>
       <span class="tok-punctuation">}</span>

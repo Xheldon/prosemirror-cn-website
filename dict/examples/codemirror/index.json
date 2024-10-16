@@ -62,5 +62,49 @@
   "Handling cursor motion from the outer to the inner editor must be done with a keymap on the outer editor, because the browser's native behavior won't handle this. The arrowHandler function uses the endOfTextblock method to determine, in a bidi-text-aware way, whether the cursor is at the end of a given textblock. If it is, and the next block is a code block, the selection is moved into it.": {
     "_translate": "处理从外部编辑器到内部编辑器的光标移动必须在外部编辑器上使用键映射，因为浏览器的原生行为无法处理这一点。<code>arrowHandler</code>函数使用<a href=\"/docs/ref/#view.EditorView.endOfTextblock\"><code>endOfTextblock</code>方法</a>以双向文本感知的方式确定光标是否位于给定文本块的末尾。如果是，并且下一个块是代码块，则将选择移动到其中。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "The code block is a code editor": {
+    "_translate": "代码块是一个代码编辑器",
+    "_note": ""
+  },
+  "// Create a CodeMirror instance": {
+    "_translate": "// 创建一个CodeMirror实例",
+    "_note": ""
+  },
+  "// Store for later": {
+    "_translate": "// 稍后存储",
+    "_note": ""
+  },
+  "// The editor's outer node is our DOM representation": {
+    "_translate": "// 编辑器的外部节点是我们的DOM表示",
+    "_note": ""
+  },
+  "// This flag is used to avoid an update loop between the outer and": {
+    "_translate": "// 此标志用于避免外部和之间的更新循环",
+    "_note": ""
+  },
+  "// inner editor": {
+    "_translate": "// 内部编辑器",
+    "_note": ""
   }
 }

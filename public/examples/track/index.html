@@ -6,15 +6,141 @@
 </head><body><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active">Examples</a>
-      <a href="/docs/">Documentation</a>
-      <a href="https://discuss.prosemirror.net/">Discuss</a>
-      <a href="https://github.com/prosemirror">GitHub</a>
-      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
+      <a href="/docs/" data-x-en="Documentation">文档</a>
+      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
+      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
+      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
     </div>
-  </nav></header><article><h1>Tracking changes</h1>
+  </nav></header><article>
+<style>
+    /* hover 显示原文 */
+    p[data-x-en]::after {
+        content: attr(data-en);
+        display: block;
+        font-size: 12px;
+        transition: all .2s .3s;
+        visibility: hidden;
+        opacity: 0;
+        background: #cccccc;
+        z-index: 1;
+        border-radius: 4px;
+        padding: 5px 10px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+    }
+    /* 译者注释内容 */
+    p[type="comment"] {
+        border-radius: 4px;
+        padding: 5px 10px;
+        font-size: 12px;
+        background: #eee;
+    }
+    p[type="comment"]::before {
+        content: "译者注: ";
+        font-weight: 900;
+    }
+    a.logo {
+        position: relative;
+    }
+    a.logo::after {
+        content: '中文';
+        position: absolute;
+        left: calc(100% + 5px);
+        font-size: 14px;
+        width: 50px;
+        top: -5px;
+    }
+    #banner-info {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: #fff;
+        font-size: 14px;
+        padding: 5px 0;
+    }
+    #add-info {
+        font-size: 14px;
+    }
+    blockquote {
+        border-left: 5px solid #ccc;
+        padding-left: 10px;
+        margin-left: 0;
+    }
+</style>
+<script>
+    window.addEventListener("load", function() {
+        // Note: 修改 nav 部分，增加译者博客地址
+        const nav = document.querySelector("header .navlinks");
+        if (nav) {
+            const a = document.createElement("a");
+            a.href = "https://www.xheldon.com";
+            a.target = "_blank";
+            a.textContent = "译者";
+            nav.appendChild(a);
+        }
+        const banner = document.createElement("div");
+        banner.id = "banner-info";
+        // Note: 整站通知
+        banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${location.pathname}" target="_blank">原始翻译地址</a>`;
+        const header = document.querySelector('header');
+        if (header) {
+            header.parentNode.insertBefore(banner, header);
+        }
+
+        // Note: 指南和接口文档增加译者前言
+        const add = document.createElement("div");
+        add.id = "add-info";
+        add.innerHTML = `<blockquote>
+本手册/文档采用 GPT-4o + 人工方式翻译。每周检查一次原仓库或手动更新，<a href="https://github.com/Xheldon/prosemirror-cn-website" target="_blank">欢迎 Star 和 PR</a>。
+</blockquote>
+<b>译者前言：</b>
+<ol>
+<li><b>鼠标悬浮在中文上会出现英文原文，方便读者在觉得翻译质量不行的时候直接查看原文（欢迎 PR 更好的翻译）。</b></li>
+<li><b>因为有些接口需要上下文，因此译者的增加了注释以对此进行额外的说明，以灰色背景块显示出来，代表了译者对某个接口的理解。</b></li>
+<li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/">赏杯咖啡钱</a> 。</b></li>
+<li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
+</ol>
+<hr>`; 
+        if (location.pathname.includes("docs/ref") ) {
+            const h2 = document.querySelector(`#part_top h2`);
+            if (h2) {
+                h2.parentNode.insertBefore(add, h2);
+            }
+        }
+        if (location.pathname.includes("docs/guide") ) {
+            const h1 = document.querySelector(`article h1`);
+            if (h1) {
+                h1.parentNode.insertBefore(add, h1);
+            }
+        }
+        // Note: 增加 google 统计/广告（要吃饭呀）
+        const head = document.querySelector("head");
+        if (head) {
+            // Note: 谷歌统计
+            const script = document.createElement("script");
+            script.async = true;
+            script.src = "https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X";
+            head.appendChild(script);
+            const script2 = document.createElement("script");
+            script2.innerHTML = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')`
+            head.appendChild(script2);
+            // Note: 谷歌广告
+            const script3 = document.createElement("script");
+            script3.async = true;
+            script3.crossorigin = "anonymous";
+            script3.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411";
+            head.appendChild(script3);
+        }
+    });
+</script><h1>Tracking changes</h1>
 <p data-x-en="Changes are first-class values in ProseMirror. You can hold on to them, and do things with them. Such as rebasing them across other changes, inverting them, or inspecting them to see what they did.">变化在ProseMirror中是一级值。你可以保留它们，并对它们进行操作。例如<a href="/docs/guide/#transform.rebasing">重新基准化</a>它们，反转它们，或检查它们以查看它们的作用。</p>
-<p data-x-en="This example uses those properties to allow you to “commit” your changes, to revert individual commits, and to find out which commit a piece of text originates from.">此示例使用这些属性允许您“提交”您的更改，恢复单个提交，并找出某段文本的提交来源。</p>
+<p data-x-en="This example uses those properties to allow you to “commit” your changes, to revert individual commits, and to find out which commit a piece of text originates from.">此示例使用这些属性允许您“提交”您的更改，恢复单个提交，并找出某段文本的提交来源。</p><p type="comment" data-x-en=""><strong>译者注：下方编辑器内容为 js 生成，因此不翻译其内的内容</strong></p>
 <style>
   .commit {
     margin-bottom: 4px;
@@ -65,35 +191,35 @@
 <p data-x-en="The first thing we need is a way to track the commit history. An editor plugin works well for this, since it can observe changes as they come in. This is what the plugin's state value looks like:">我们首先需要的是一种跟踪提交历史的方法。一个编辑器插件对此非常有效，因为它可以观察到变化的到来。这是插件的状态值的样子：</p>
 <pre><code class="language-javascript"><span class="tok-keyword">class</span> <span class="tok-className">TrackState</span> <span class="tok-punctuation">{</span>
   <span class="tok-propertyName tok-definition">constructor</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">blameMap</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">commits</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">uncommittedSteps</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">uncommittedMaps</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-    <span class="tok-comment">// The blame map is a data structure that lists a sequence of</span>
-    <span class="tok-comment">// document ranges, along with the commit that inserted them. This</span>
-    <span class="tok-comment">// can be used to, for example, highlight the part of the document</span>
-    <span class="tok-comment">// that was inserted by a commit.</span>
+    <span class="tok-comment" data-x-en="// The blame map is a data structure that lists a sequence of">// 责任图是一个数据结构，列出了一系列</span>
+    <span class="tok-comment" data-x-en="// document ranges, along with the commit that inserted them. This">// 文档范围，以及插入它们的提交。</span>
+    <span class="tok-comment" data-x-en="// can be used to, for example, highlight the part of the document">// 可以用于，例如，突出文档的部分</span>
+    <span class="tok-comment" data-x-en="// that was inserted by a commit.">// 那是由一次提交插入的。</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">blameMap</span> <span class="tok-operator">=</span> <span class="tok-variableName">blameMap
-    </span><span class="tok-comment">// The commit history, as an array of objects.</span>
+    </span><span class="tok-comment" data-x-en="// The commit history, as an array of objects.">// 提交历史，作为一个对象数组。</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span> <span class="tok-operator">=</span> <span class="tok-variableName">commits</span>
-    <span class="tok-comment">// Inverted steps and their maps corresponding to the changes that</span>
-    <span class="tok-comment">// have been made since the last commit.</span>
+    <span class="tok-comment" data-x-en="// Inverted steps and their maps corresponding to the changes that">// 反向步骤及其对应于更改的映射</span>
+    <span class="tok-comment" data-x-en="// have been made since the last commit.">// 自上次提交以来已做出。</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span> <span class="tok-operator">=</span> <span class="tok-variableName">uncommittedSteps</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedMaps</span> <span class="tok-operator">=</span> <span class="tok-variableName">uncommittedMaps</span>
   <span class="tok-punctuation">}</span>
 
-  <span class="tok-comment">// Apply a transform to this state</span>
+  <span class="tok-comment" data-x-en="// Apply a transform to this state">// 将此状态应用转换</span>
   <span class="tok-propertyName tok-definition">applyTransform</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">transform</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-    <span class="tok-comment">// Invert the steps in the transaction, to be able to save them in</span>
-    <span class="tok-comment">// the next commit</span>
+    <span class="tok-comment" data-x-en="// Invert the steps in the transaction, to be able to save them in">// 反转交易中的步骤，以便能够保存它们</span>
+    <span class="tok-comment" data-x-en="// the next commit">// 下一个提交</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">inverted</span> <span class="tok-operator">=</span>
       <span class="tok-variableName">transform</span><span class="tok-operator">.</span><span class="tok-propertyName">steps</span><span class="tok-operator">.</span><span class="tok-propertyName">map</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">step</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">i</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">step</span><span class="tok-operator">.</span><span class="tok-propertyName">invert</span><span class="tok-punctuation">(</span><span class="tok-variableName">transform</span><span class="tok-operator">.</span><span class="tok-propertyName">docs</span><span class="tok-punctuation">[</span><span class="tok-variableName">i</span><span class="tok-punctuation">]</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">newBlame</span> <span class="tok-operator">=</span> <span class="tok-variableName">updateBlameMap</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">blameMap</span><span class="tok-punctuation">,</span> <span class="tok-variableName">transform</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">)</span>
-    <span class="tok-comment">// Create a new state—since these are part of the editor state, a</span>
-    <span class="tok-comment">// persistent data structure, they must not be mutated.</span>
+    <span class="tok-comment" data-x-en="// Create a new state—since these are part of the editor state, a">// 创建一个新状态——因为这些是编辑器状态的一部分，</span>
+    <span class="tok-comment" data-x-en="// persistent data structure, they must not be mutated.">// 持久化数据结构，它们不能被改变。</span>
     <span class="tok-keyword">return</span> <span class="tok-keyword">new</span> <span class="tok-variableName">TrackState</span><span class="tok-punctuation">(</span><span class="tok-variableName">newBlame</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-punctuation">,</span>
                           <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span><span class="tok-operator">.</span><span class="tok-propertyName">concat</span><span class="tok-punctuation">(</span><span class="tok-variableName">inverted</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
                           <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedMaps</span><span class="tok-operator">.</span><span class="tok-propertyName">concat</span><span class="tok-punctuation">(</span><span class="tok-variableName">transform</span><span class="tok-operator">.</span><span class="tok-propertyName">mapping</span><span class="tok-operator">.</span><span class="tok-propertyName">maps</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
   <span class="tok-punctuation">}</span>
 
-  <span class="tok-comment">// When a transaction is marked as a commit, this is used to put any</span>
-  <span class="tok-comment">// uncommitted steps into a new commit.</span>
+  <span class="tok-comment" data-x-en="// When a transaction is marked as a commit, this is used to put any">// 当事务被标记为提交时，这用于放置任何</span>
+  <span class="tok-comment" data-x-en="// uncommitted steps into a new commit.">// 未提交的步骤进入一个新的提交。</span>
   <span class="tok-propertyName tok-definition">applyCommit</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">message</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">time</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
     <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span> <span class="tok-operator">==</span> <span class="tok-number">0</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-keyword">this</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">commit</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Commit</span><span class="tok-punctuation">(</span><span class="tok-variableName">message</span><span class="tok-punctuation">,</span> <span class="tok-variableName">time</span><span class="tok-punctuation">,</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span><span class="tok-punctuation">,</span>
@@ -126,32 +252,32 @@
 <span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">revertCommit</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">commit</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">trackState</span> <span class="tok-operator">=</span> <span class="tok-variableName">trackPlugin</span><span class="tok-operator">.</span><span class="tok-propertyName">getState</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-punctuation">)</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">index</span> <span class="tok-operator">=</span> <span class="tok-variableName">trackState</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-operator">.</span><span class="tok-propertyName">indexOf</span><span class="tok-punctuation">(</span><span class="tok-variableName">commit</span><span class="tok-punctuation">)</span>
-  <span class="tok-comment">// If this commit is not in the history, we can't revert it</span>
+  <span class="tok-comment" data-x-en="// If this commit is not in the history, we can't revert it">// 如果此提交不在历史记录中，我们无法还原它</span>
   <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">index</span> <span class="tok-operator">==</span> <span class="tok-operator">-</span><span class="tok-number">1</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span>
 
-  <span class="tok-comment">// Reverting is only possible if there are no uncommitted changes</span>
+  <span class="tok-comment" data-x-en="// Reverting is only possible if there are no uncommitted changes">// 只有在没有未提交的更改时才能恢复</span>
   <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">trackState</span><span class="tok-operator">.</span><span class="tok-propertyName">uncommittedSteps</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">)</span>
     <span class="tok-keyword">return</span> <span class="tok-variableName">alert</span><span class="tok-punctuation">(</span><span class="tok-string">"Commit your changes first!"</span><span class="tok-punctuation">)</span>
 
-  <span class="tok-comment">// This is the mapping from the document as it was at the start of</span>
-  <span class="tok-comment">// the commit to the current document.</span>
+  <span class="tok-comment" data-x-en="// This is the mapping from the document as it was at the start of">// 这是文档开始时的映射</span>
+  <span class="tok-comment" data-x-en="// the commit to the current document.">// 提交到当前文档。</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">remap</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Mapping</span><span class="tok-punctuation">(</span><span class="tok-variableName">trackState</span><span class="tok-operator">.</span><span class="tok-propertyName">commits</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-variableName">index</span><span class="tok-punctuation">)</span>
                           <span class="tok-operator">.</span><span class="tok-propertyName">reduce</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">maps</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">c</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-variableName">maps</span><span class="tok-operator">.</span><span class="tok-propertyName">concat</span><span class="tok-punctuation">(</span><span class="tok-variableName">c</span><span class="tok-operator">.</span><span class="tok-propertyName">maps</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">]</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">tr</span> <span class="tok-operator">=</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span>
-  <span class="tok-comment">// Build up a transaction that includes all (inverted) steps in this</span>
-  <span class="tok-comment">// commit, rebased to the current document. They have to be applied</span>
-  <span class="tok-comment">// in reverse order.</span>
+  <span class="tok-comment" data-x-en="// Build up a transaction that includes all (inverted) steps in this">// 构建一个包含所有（反向）步骤的事务</span>
+  <span class="tok-comment" data-x-en="// commit, rebased to the current document. They have to be applied">// 提交，已重新基于当前文档。他们必须被应用</span>
+  <span class="tok-comment" data-x-en="// in reverse order.">// 反向顺序。</span>
   <span class="tok-keyword">for</span> <span class="tok-punctuation">(</span><span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">i</span> <span class="tok-operator">=</span> <span class="tok-variableName">commit</span><span class="tok-operator">.</span><span class="tok-propertyName">steps</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span> <span class="tok-operator">-</span> <span class="tok-number">1</span><span class="tok-punctuation">;</span> <span class="tok-variableName">i</span> <span class="tok-operator">&gt;=</span> <span class="tok-number">0</span><span class="tok-punctuation">;</span> <span class="tok-variableName">i</span><span class="tok-operator">--</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-    <span class="tok-comment">// The mapping is sliced to not include maps for this step and the</span>
-    <span class="tok-comment">// ones before it.</span>
+    <span class="tok-comment" data-x-en="// The mapping is sliced to not include maps for this step and the">// 映射被切片以不包括此步骤的映射和</span>
+    <span class="tok-comment" data-x-en="// ones before it.">// 之前的那些。</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">remapped</span> <span class="tok-operator">=</span> <span class="tok-variableName">commit</span><span class="tok-operator">.</span><span class="tok-propertyName">steps</span><span class="tok-punctuation">[</span><span class="tok-variableName">i</span><span class="tok-punctuation">]</span><span class="tok-operator">.</span><span class="tok-propertyName">map</span><span class="tok-punctuation">(</span><span class="tok-variableName">remap</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-variableName">i</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
     <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-operator">!</span><span class="tok-variableName">remapped</span><span class="tok-punctuation">)</span> <span class="tok-keyword">continue</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">result</span> <span class="tok-operator">=</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">maybeStep</span><span class="tok-punctuation">(</span><span class="tok-variableName">remapped</span><span class="tok-punctuation">)</span>
-    <span class="tok-comment">// If the step can be applied, add its map to our mapping</span>
-    <span class="tok-comment">// pipeline, so that subsequent steps are mapped over it.</span>
+    <span class="tok-comment" data-x-en="// If the step can be applied, add its map to our mapping">// 如果可以应用该步骤，请将其映射添加到我们的映射中</span>
+    <span class="tok-comment" data-x-en="// pipeline, so that subsequent steps are mapped over it.">// 管道，以便后续步骤映射到其上。</span>
     <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">result</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">)</span> <span class="tok-variableName">remap</span><span class="tok-operator">.</span><span class="tok-propertyName">appendMap</span><span class="tok-punctuation">(</span><span class="tok-variableName">remapped</span><span class="tok-operator">.</span><span class="tok-propertyName">getMap</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-variableName">i</span><span class="tok-punctuation">)</span>
   <span class="tok-punctuation">}</span>
-  <span class="tok-comment">// Add a commit message and dispatch.</span>
+  <span class="tok-comment" data-x-en="// Add a commit message and dispatch.">// 添加提交信息并分发。</span>
   <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">docChanged</span><span class="tok-punctuation">)</span>
     <span class="tok-variableName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setMeta</span><span class="tok-punctuation">(</span><span class="tok-variableName">trackPlugin</span><span class="tok-punctuation">,</span> <span class="tok-string2">`Revert '</span><span class="tok-punctuation">${</span><span class="tok-variableName">commit</span><span class="tok-operator">.</span><span class="tok-propertyName">message</span><span class="tok-punctuation">}</span><span class="tok-string2">'`</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
 <span class="tok-punctuation">}</span>

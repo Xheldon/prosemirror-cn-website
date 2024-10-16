@@ -30,5 +30,53 @@
   "Whenever the editor state updates, it checks whether it needs to update the tooltip. The positioning calculations are a bit involved, but such is life with CSS. Basically, it uses ProseMirror's coordsAtPos method to find the screen coordinates of the selection, and uses those to set a left and bottom property relative to the tooltip's offset parent, which is the nearest absolutely or relatively positioned parent.": {
     "_translate": "每当编辑器状态更新时，它会检查是否需要更新工具提示。定位计算有点复杂，但这就是使用 CSS 的生活。基本上，它使用 ProseMirror 的<a href=\"/docs/ref/#view.EditorView.coordsAtPos\"><code>coordsAtPos</code>方法</a>来找到选择的屏幕坐标，并使用这些坐标来设置相对于工具提示的偏移父元素的<code>left</code>和<code>bottom</code>属性，该父元素是最近的绝对或相对定位的父元素。",
     "_note": ""
+  },
+  "Examples": {
+    "_translate": "示例",
+    "_note": ""
+  },
+  "Documentation": {
+    "_translate": "文档",
+    "_note": ""
+  },
+  "Discuss": {
+    "_translate": "讨论",
+    "_note": ""
+  },
+  "GitHub": {
+    "_translate": "GitHub",
+    "_note": ""
+  },
+  "Twitter": {
+    "_translate": "Twitter",
+    "_note": ""
+  },
+  "// Don't do anything if the document/selection didn't change": {
+    "_translate": "// 如果文档/选择没有变化，则不执行任何操作",
+    "_note": ""
+  },
+  "// Hide the tooltip if the selection is empty": {
+    "_translate": "// 如果选择为空，则隐藏工具提示",
+    "_note": ""
+  },
+  "// Otherwise, reposition it and update its content": {
+    "_translate": "// 否则，重新定位并更新其内容",
+    "_note": ""
+  },
+  "// These are in screen coordinates": {
+    "_translate": "// 这些是屏幕坐标",
+    "_note": ""
+  },
+  "// The box in which the tooltip is positioned, to use as base": {
+    "_translate": "// 工具提示框所在的盒子，用作基础",
+    "_note": ""
+  },
+  "// Find a center-ish x position from the selection endpoints (when": {
+    "_translate": "// 从选择的端点找到一个中心位置",
+    "_note": ""
+  },
+  "// crossing lines, end may be more to the left)": {
+    "_translate": "// 交叉线，结束可能更多地在左边",
+    "_note": ""
   }
 }
