@@ -44,12 +44,13 @@ jobs:
             echo "new_commits=true" >> $GITHUB_ENV
             echo "$NEW_COMMIT" > last-commit.txt
           else
-            echo "没有新的提交。"
-            echo "new_commits=false" >> $GITHUB_ENV
-          fi
-          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            echo "手动触发更新"
-            echo "new_commits=true" >> $GITHUB_ENV
+            if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+              echo "手动触发更新"
+              echo "new_commits=true" >> $GITHUB_ENV
+            else
+              echo "没有新的提交。"
+              echo "new_commits=false" >> $GITHUB_ENV
+            fi
           fi
 
       - name: 安装依赖
@@ -69,7 +70,7 @@ jobs:
         if: env.new_commits == 'true'
         run: |
           git checkout -b temp
-          mkdir -p docs && cp -R website/public/* $_
+          mkdir -p public && cp -R website/public/* $_
           git add .
-          git commit -m "Update build"
+          git commit -m "更新文档"
           git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:main
