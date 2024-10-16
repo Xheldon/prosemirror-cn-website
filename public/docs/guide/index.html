@@ -8,7 +8,7 @@
     <a class="logo" href="/">ProseMirror</a>
     <div class="navlinks"><a class="toc-toggle" data-x-en="Contents">Contents</a><a href="/examples/" data-x-en="Examples">示例</a>
       <a href="/docs/" class="active" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
+      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">讨论</a>
       <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
       <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
     </div>
@@ -140,7 +140,7 @@ addEventListener("load", function() {
 <ol>
 <li><b>鼠标悬浮在中文上会出现英文原文，方便读者在觉得翻译质量不行的时候直接查看原文（欢迎 PR 更好的翻译）。</b></li>
 <li><b>因为有些接口需要上下文，因此译者的增加了注释以对此进行额外的说明，以灰色背景块显示出来，代表了译者对某个接口的理解。</b></li>
-<li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/">赏杯咖啡钱</a> 。</b></li>
+<li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/" target="_blank">赏杯咖啡钱</a> 。</b></li>
 <li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
 </ol>
 <hr>`; 
@@ -405,7 +405,7 @@ content.</li>
 <p data-x-en="What kind of node is allowed where is determined by the document's schema. To programmatically create nodes, you must go through the schema, for example using the node and text methods.">什么类型的节点被允许在哪里是由文档的<a href="#schema">模式</a>决定的。要以编程方式创建节点，必须通过模式，例如使用<a href="/docs/ref/#model.Schema.node"><code>node</code></a>和<a href="/docs/ref/#model.Schema.text"><code>text</code></a>方法。</p>
 <pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">schema</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-schema-basic"</span>
 
-<span class="tok-comment" data-x-en="// (The null arguments are where you can specify attributes, if necessary.)">_-_-_-_-_-_</span>
+<span class="tok-comment" data-x-en="// (The null arguments are where you can specify attributes, if necessary.)">// (空参数是您可以在必要时指定属性的地方。)</span>
 <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">doc</span> <span class="tok-operator">=</span> <span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span><span class="tok-punctuation">(</span><span class="tok-string">"doc"</span><span class="tok-punctuation">,</span> <span class="tok-keyword">null</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span>
   <span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span><span class="tok-punctuation">(</span><span class="tok-string">"paragraph"</span><span class="tok-punctuation">,</span> <span class="tok-keyword">null</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">[</span><span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">text</span><span class="tok-punctuation">(</span><span class="tok-string">"One."</span><span class="tok-punctuation">)</span><span class="tok-punctuation">]</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
   <span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">node</span><span class="tok-punctuation">(</span><span class="tok-string">"horizontal_rule"</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
@@ -449,10 +449,7 @@ content.</li>
 <p data-x-en="To handle things like copy-paste and drag-drop, it is necessary to be able to talk about a slice of document, i.e. the content between two positions. Such a slice differs from a full node or fragment in that some of the nodes at its start or end may be ‘open’.">为了处理复制粘贴和拖放等操作，有必要能够讨论文档的一个片段，即两个位置之间的内容。这样的片段不同于完整的节点或片段，因为它的开始或结束处的一些节点可能是“开放的”。</p>
 <p data-x-en="For example, if you select from the middle of one paragraph to the middle of the next one, the slice you've selected has two paragraphs in it, the first one open at the start, the second open at the end, whereas if you node-select a paragraph, you've selected a closed node. It may be the case that the content in such open nodes violates the schema constraints, if treated like the node's full content, because some required nodes fell outside of the slice.">例如，如果你从一个段落的中间选择到下一个段落的中间，你选择的片段中包含两个段落，第一个段落在开始处是开放的，第二个段落在结束处是开放的，而如果你节点选择一个段落，你选择的是一个封闭的节点。如果将这些开放节点中的内容视为节点的全部内容，可能会违反模式约束，因为某些必需的节点落在了片段之外。</p>
 <p data-x-en="The Slice data structure is used to represent such slices. It stores a fragment along with an open depth on both sides. You can use the slice method on nodes to cut a slice out of a document."><a href="/docs/ref/#model.Slice"><code>Slice</code></a> 数据结构用于表示这样的切片。它存储一个 <a href="/docs/ref/#model.Fragment">fragment</a> 以及两边的 <a href="/docs/ref/#model.Slice.openStart">open depth</a>。你可以在节点上使用 <a href="/docs/ref/#model.Node.slice"><code>slice</code> 方法</a> 从文档中切出一个切片。</p>
-<pre><code class="language-javascript"><span class="tok-comment" data-x-en="// doc holds two paragraphs, containing text &quot;a&quot; and &quot;b&quot;">// doc holds two paragraphs, containing text "a" and "b"，Output translation directly without any additional text. Remember, Keep ALL HTML TAG AND ATTRIBUTE, ONLY TRANSLATE CONTENT!
-
-<p>一个</p>
-<p>乙</p></span>
+<pre><code class="language-javascript"><span class="tok-comment" data-x-en="// doc holds two paragraphs, containing text &quot;a&quot; and &quot;b&quot;">// doc holds two paragraphs, containing text "a" and "b"</span>
 <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">slice1</span> <span class="tok-operator">=</span> <span class="tok-variableName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-number">0</span><span class="tok-punctuation">,</span> <span class="tok-number">3</span><span class="tok-punctuation">)</span> <span class="tok-comment" data-x-en="// The first paragraph">// 第一个段落</span>
 <span class="tok-variableName">console</span><span class="tok-operator">.</span><span class="tok-propertyName">log</span><span class="tok-punctuation">(</span><span class="tok-variableName">slice1</span><span class="tok-operator">.</span><span class="tok-propertyName">openStart</span><span class="tok-punctuation">,</span> <span class="tok-variableName">slice1</span><span class="tok-operator">.</span><span class="tok-propertyName">openEnd</span><span class="tok-punctuation">)</span> <span class="tok-comment" data-x-en="// → 0 0">// → 0 0，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
 <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">slice2</span> <span class="tok-operator">=</span> <span class="tok-variableName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">slice</span><span class="tok-punctuation">(</span><span class="tok-number">1</span><span class="tok-punctuation">,</span> <span class="tok-number">5</span><span class="tok-punctuation">)</span> <span class="tok-comment" data-x-en="// From start of first paragraph">// 从第一个段落开始，直接输出翻译，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
