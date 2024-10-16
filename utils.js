@@ -29,8 +29,8 @@ exports.translate = async (text, { key, file }) => {
       top_p: 0.95,
       max_tokens: 4096,
     });
-    const apiKey = 'd38159a7dfa94a2b9c29fc80489c50ec';
-    const url = 'https://xhelper-ai-4o.openai.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-02-15-preview';
+    const apiKey = secrets.OPENAI_API_KEY;
+    const url = secrets.OPENAI_URL;
     const res = spawn('curl', [
       url,
       '-H',
