@@ -1,5 +1,12 @@
 <style>
     /* hover 显示原文 */
+    p[data-x-en] {
+        position: relative;
+    }
+    p[data-x-en]:hover::after {
+        visibility: visible;
+        opacity: 1;
+    }
     p[data-x-en]::after {
         content: attr(data-en);
         display: block;
@@ -26,10 +33,10 @@
         content: "译者注: ";
         font-weight: 900;
     }
-    a.logo {
+    header a.logo {
         position: relative;
     }
-    a.logo::after {
+    header a.logo::after {
         content: '中文';
         position: absolute;
         left: calc(100% + 5px);
