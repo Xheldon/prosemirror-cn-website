@@ -60,7 +60,7 @@ addEventListener("load", function() {
         opacity: 1;
     }
     p[data-x-en]::after {
-        content: attr(data-en);
+        content: attr(data-x-en);
         display: block;
         font-size: 12px;
         transition: all .2s .3s;
@@ -107,6 +107,7 @@ addEventListener("load", function() {
         background: #fff;
         font-size: 14px;
         padding: 5px 0;
+        z-index: 99;
     }
     #add-info {
         font-size: 14px;
