@@ -15,33 +15,30 @@ const MAX_CONCURRENT = 2;
 
 // Note: 配置各个文件需要翻译的节点选择器，如果不存在，则默认翻译页面首个 article 中的全部 p 标签内容
 const defaultConfig = (more) => {
-  return [{
-    container: 'header',
-    selector: 'h1, .navlinks a'
-  }, {
-    container: 'article',
-    selector: `p, div#content h3, pre span.tok-comment${more ? `, ${more}` : ''}`
-  }]
+  return [
+    {
+      container: 'header',
+      selector: 'h1, .navlinks a',
+    },
+    {
+      container: 'article',
+      selector: `p, div#content h3, pre span.tok-comment${
+        more ? `, ${more}` : ''
+      }`,
+    },
+  ];
 };
 const config = {
-  'website/public/index.html': [
-    ...defaultConfig()
-  ],
-  'website/public/examples/index.html': [
-    ...defaultConfig('h2')
-  ],
-  'website/public/examples/basic/index.html': [
-    ...defaultConfig('ul li')
-  ],
+  'website/public/index.html': [...defaultConfig()],
+  'website/public/examples/index.html': [...defaultConfig('h2')],
+  'website/public/examples/basic/index.html': [...defaultConfig('ul li')],
   'website/public/examples/markdown/index.html': [
-    ...defaultConfig('textarea#content')
+    ...defaultConfig('textarea#content'),
   ],
   'website/public/docs/ref/index.html': [
-    ...defaultConfig('ul li, #part_top h2')
+    ...defaultConfig('ul li, #part_top h2'),
   ],
-  'website/public/docs/index.html': [
-    ...defaultConfig('h2')
-  ],
+  'website/public/docs/index.html': [...defaultConfig('h2')],
 };
 
 const semaphore = new Semaphore(MAX_CONCURRENT);
@@ -62,19 +59,22 @@ Promise.all(
 
       // Note: 如果 config 中的路径文件不存在，则使用默认，否则使用 config 配置文件
       let list = [];
-      list = (config[key] || defaultConfig()).map((c) => {
-        const container = document.querySelector(c.container);
-        if (!container) {
-          console.log(`${file} 未找到 ${c.container} 标签`);
-          return;
-        }
-        return [...container.querySelectorAll(c.selector)] || [];
-      }).flat().filter(Boolean);
+      list = (config[key] || defaultConfig())
+        .map((c) => {
+          const container = document.querySelector(c.container);
+          if (!container) {
+            console.log(`${file} 未找到 ${c.container} 标签`);
+            return;
+          }
+          return [...container.querySelectorAll(c.selector)] || [];
+        })
+        .flat()
+        .filter(Boolean);
       if (!list.length) {
         console.log(`${file} 不存在可翻译内容，中断`);
         return;
       }
-      
+
       const dictPath = file
         .replace('.html', '.json')
         .replace('public', 'dict')
@@ -108,8 +108,6 @@ Promise.all(
               if (dict[pureText]._note) {
                 const note = document.createElement('p');
                 note.setAttribute('type', 'comment');
-                // Note: 二次翻译的时候防止翻译注释
-                note.setAttribute('data-x-en', '');
                 note.innerHTML = dict[pureText]._note;
                 item.parentNode.insertBefore(note, item.nextSibling);
               }

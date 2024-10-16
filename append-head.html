@@ -1,95 +1,96 @@
 <style>
-    /* hover 显示原文 */
-    p[data-x-en] {
-        position: relative;
-    }
-    p[data-x-en]:hover::after {
-        visibility: visible;
-        opacity: 1;
-    }
-    p[data-x-en]::after {
-        content: attr(data-x-en);
-        display: block;
-        font-size: 12px;
-        transition: all .2s .3s;
-        visibility: hidden;
-        opacity: 0;
-        background: #cccccc;
-        z-index: 1;
-        border-radius: 4px;
-        padding: 5px 10px;
-        position: absolute;
-        top: 100%;
-        left: 0;
-    }
-    /* 译者注释内容 */
-    p[type="comment"] {
-        border-radius: 4px;
-        padding: 5px 10px;
-        font-size: 12px;
-        background: #eee;
-    }
-    p[type="comment"]::before {
-        content: "译者注: ";
-        font-weight: 900;
-    }
-    header a.logo {
-        position: relative;
-    }
-    header a.logo::after {
-        content: '中文';
-        position: absolute;
-        left: calc(100% + 5px);
-        font-size: 14px;
-        width: 50px;
-        top: -5px;
-    }
-    #banner-info {
-        position: fixed;
-        top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        background: #fff;
-        font-size: 14px;
-        padding: 5px 0;
-        z-index: 99;
-    }
-    #add-info {
-        font-size: 14px;
-    }
-    blockquote {
-        border-left: 5px solid #ccc;
-        padding-left: 10px;
-        margin-left: 0;
-    }
+  /* hover 显示原文 */
+  p[data-x-en] {
+    position: relative;
+  }
+  p[data-x-en]:hover::after {
+    visibility: visible;
+    opacity: 1;
+  }
+  p[data-x-en]::after {
+    content: attr(data-x-en);
+    display: block;
+    font-size: 12px;
+    transition: all 0.2s 0.3s;
+    visibility: hidden;
+    opacity: 0;
+    background: #cccccc;
+    z-index: 99;
+    border-radius: 4px;
+    padding: 5px 10px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+  /* 译者注释内容 */
+  p[type='comment'] {
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    background: #eee;
+  }
+  p[type='comment']::before {
+    content: '译者注: ';
+    font-weight: 900;
+  }
+  header a.logo {
+    position: relative;
+  }
+  header a.logo::after {
+    content: '中文';
+    position: absolute;
+    left: calc(100% + 5px);
+    font-size: 14px;
+    width: 50px;
+    top: -5px;
+  }
+  #banner-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: #fff;
+    font-size: 14px;
+    padding: 5px 0;
+    z-index: 999;
+  }
+  #add-info {
+    font-size: 14px;
+  }
+  blockquote {
+    border-left: 5px solid #ccc;
+    padding-left: 10px;
+    margin-left: 0;
+  }
 </style>
 <script>
-    window.addEventListener("load", function() {
-        // Note: 修改 nav 部分，增加译者博客地址
-        const nav = document.querySelector("header .navlinks");
-        if (nav) {
-            const a = document.createElement("a");
-            a.href = "https://www.xheldon.com";
-            a.target = "_blank";
-            a.textContent = "译者";
-            nav.appendChild(a);
-        }
-        const banner = document.createElement("div");
-        banner.id = "banner-info";
-        // Note: 整站通知
-        banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${location.pathname}" target="_blank">原始翻译地址</a>`;
-        const header = document.querySelector('header');
-        if (header) {
-            header.parentNode.insertBefore(banner, header);
-        }
+  window.addEventListener('load', function () {
+    // Note: 修改 nav 部分，增加译者博客地址
+    const nav = document.querySelector('header .navlinks');
+    if (nav) {
+      const a = document.createElement('a');
+      a.href = 'https://www.xheldon.com';
+      a.target = '_blank';
+      a.textContent = '译者';
+      nav.appendChild(a);
+    }
+    const banner = document.createElement('div');
+    banner.id = 'banner-info';
+    // Note: 整站通知
+    const p = location.pathname.replace('/index.html', '');
+    banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}/index.json" target="_blank">我来翻译！</a>`;
+    const header = document.querySelector('header');
+    if (header) {
+      header.parentNode.insertBefore(banner, header);
+    }
 
-        // Note: 指南和接口文档增加译者前言
-        const add = document.createElement("div");
-        add.id = "add-info";
-        add.innerHTML = `<blockquote>
+    // Note: 指南和接口文档增加译者前言
+    const add = document.createElement('div');
+    add.id = 'add-info';
+    add.innerHTML = `<blockquote>
 本手册/文档采用 GPT-4o + 人工方式翻译。每周检查一次原仓库或手动更新，<a href="https://github.com/Xheldon/prosemirror-cn-website" target="_blank">欢迎 Star 和 PR</a>。
 </blockquote>
 <b>译者前言：</b>
@@ -99,36 +100,37 @@
 <li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/" target="_blank">赏杯咖啡钱</a> 。</b></li>
 <li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
 </ol>
-<hr>`; 
-        if (location.pathname.includes("docs/ref") ) {
-            const h2 = document.querySelector(`#part_top h2`);
-            if (h2) {
-                h2.parentNode.insertBefore(add, h2);
-            }
-        }
-        if (location.pathname.includes("docs/guide") ) {
-            const h1 = document.querySelector(`article h1`);
-            if (h1) {
-                h1.parentNode.insertBefore(add, h1);
-            }
-        }
-        // Note: 增加 google 统计/广告（要吃饭呀）
-        const head = document.querySelector("head");
-        if (head) {
-            // Note: 谷歌统计
-            const script = document.createElement("script");
-            script.async = true;
-            script.src = "https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X";
-            head.appendChild(script);
-            const script2 = document.createElement("script");
-            script2.innerHTML = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')`
-            head.appendChild(script2);
-            // Note: 谷歌广告
-            const script3 = document.createElement("script");
-            script3.async = true;
-            script3.crossorigin = "anonymous";
-            script3.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411";
-            head.appendChild(script3);
-        }
-    });
+<hr>`;
+    if (location.pathname.includes('docs/ref')) {
+      const h2 = document.querySelector(`#part_top h2`);
+      if (h2) {
+        h2.parentNode.insertBefore(add, h2);
+      }
+    }
+    if (location.pathname.includes('docs/guide')) {
+      const h1 = document.querySelector(`article h1`);
+      if (h1) {
+        h1.parentNode.insertBefore(add, h1);
+      }
+    }
+    // Note: 增加 google 统计/广告（要吃饭呀）
+    const head = document.querySelector('head');
+    if (head) {
+      // Note: 谷歌统计
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X';
+      head.appendChild(script);
+      const script2 = document.createElement('script');
+      script2.innerHTML = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')`;
+      head.appendChild(script2);
+      // Note: 谷歌广告
+      const script3 = document.createElement('script');
+      script3.async = true;
+      script3.crossorigin = 'anonymous';
+      script3.src =
+        'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411';
+      head.appendChild(script3);
+    }
+  });
 </script>
