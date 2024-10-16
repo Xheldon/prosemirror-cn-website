@@ -69,7 +69,7 @@ jobs:
         if: env.new_commits == 'true'
         run: |
           git checkout -b temp
-          mkdir -p docs && mv -f website/public/* $_
+          mkdir -p docs && cp -R website/public/* $_
           git add .
           git commit -m "Update build"
           git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:main
