@@ -5,7 +5,7 @@
   },
   "This example uses those properties to allow you to “commit” your changes, to revert individual commits, and to find out which commit a piece of text originates from.": {
     "_translate": "此示例使用这些属性允许您“提交”您的更改，恢复单个提交，并找出某段文本的提交来源。",
-    "_note": ""
+    "_note": "<strong>译者注：下方编辑器内容为 js 生成，因此不翻译其内的内容</strong>"
   },
   "Hover over commits to highlight the text they introduced.": {
     "_translate": "将鼠标悬停在提交上以突出显示它们引入的文本。",

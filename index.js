@@ -13,6 +13,41 @@ const { translate } = require('./utils');
 const args = process.argv.slice(2);
 const MAX_CONCURRENT = 2;
 
+// Note: 配置各个文件需要翻译的节点选择器，如果不存在，则默认翻译页面首个 article 中的全部 p 标签内容
+const defaultConfig = (more) => {
+  return [{
+    container: 'header',
+    selector: 'h1, .navlinks a'
+  }, {
+    container: 'article',
+    selector: `p, div#content h3, pre span.tok-comment${more ? `, ${more}` : ''}`
+  }]
+};
+const config = {
+  'website/public/index.html': [
+    {
+      container: 'header',
+      selector: 'h1'
+    },
+    ...defaultConfig()
+  ],
+  'website/public/examples/index.html': [
+    ...defaultConfig('h2')
+  ],
+  'website/public/examples/basic/index.html': [
+    ...defaultConfig('ul li')
+  ],
+  'website/public/examples/markdown/index.html': [
+    ...defaultConfig('textarea#content')
+  ],
+  'website/public/docs/ref/index.html': [
+    ...defaultConfig('ul li, #part_top h2')
+  ],
+  'website/public/docs/index.html': [
+    ...defaultConfig('h2')
+  ],
+};
+
 const semaphore = new Semaphore(MAX_CONCURRENT);
 // 使用 glob 模块来匹配文件
 let files;
@@ -26,15 +61,25 @@ Promise.all(
         console.error('文件不存在');
         process.exit(1);
       }
-
+      const key = path.relative(__dirname, file);
       const dom = new JSDOM(rawString);
       const document = dom.window.document;
 
-      const article = document.querySelector('article');
-      // TODO: 不同文件需要翻译的节点不一样，通过配置传入
-      if (!article) console.log(`${file} 未找到 article 标签`);
-      // Note: 二次翻译就不再翻了
-      const list = article.querySelectorAll('p:not([data-x-en])');
+      // Note: 如果 config 中的路径文件不存在，则使用默认，否则使用 config 配置文件
+      let list = [];
+      list = (config[key] || defaultConfig()).map((c) => {
+        const container = document.querySelector(c.container);
+        if (!container) {
+          console.log(`${file} 未找到 ${c.container} 标签`);
+          return;
+        }
+        return [...container.querySelectorAll(c.selector)] || [];
+      }).flat().filter(Boolean);
+      if (!list.length) {
+        console.log(`${file} 不存在可翻译内容，中断`);
+        return;
+      }
+      
       const dictPath = file
         .replace('.html', '.json')
         .replace('public', 'dict')

@@ -48,7 +48,7 @@
     "_note": ""
   },
   "The actual menu items might look like this, for a basic menu with strong, emphasis, and block type buttons.": {
-    "_translate": "实际的菜单项可能如下所示，用于包含<strong>、<em>和<blockquote>类型按钮的基本菜单。",
+    "_translate": "实际的菜单项可能如下所示，用于包含 strong、emphasis 和 block 类型按钮的基本菜单。",
     "_note": ""
   },
   "The prosemirror-menu package works similarly, but adds support for things like simple drop-down menus and active/inactive icons (to highlight the strong button when strong text is selected).": {

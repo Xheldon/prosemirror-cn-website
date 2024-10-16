@@ -12,7 +12,7 @@
     "_note": ""
   },
   "Block-level structure can be manipulated with key bindings (try ctrl-shift-2 to create a level 2 heading, or enter in an empty textblock to exit the parent block), or through the menu.": {
-    "_translate": "Block-level structure can be manipulated with key bindings (try\n  ctrl-shift-2 to create a level 2 heading, or enter in an empty\n  textblock to exit the parent block), or through the menu.",
+    "_translate": "块级结构可以通过键绑定进行操作（试试 ctrl-shift-2 创建一个二级标题，或在空文本块中按回车退出父块），也可以通过菜单进行操作。",
     "_note": ""
   },
   "To apply styling, you can select a piece of text and manipulate its styling from the menu. The basic schema supports emphasis, strong text, links, code font, and images.": {

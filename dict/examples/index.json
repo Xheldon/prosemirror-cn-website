@@ -48,8 +48,8 @@
     "_note": ""
   },
   "A more or less solid collaborative editor, with support for shared annotations.": {
-    "_translate": "【暂不可用，点击下方注释跳转到原始地址】一个或多或少稳定的协作编辑器，支持共享注释。",
-    "_note": "<a href='https://prosemirror.net/examples/collab/#edit-Example' _traget='_blank'>协同示例</a>"
+    "_translate": "【暂不可用，点击下方链接跳转到原始地址】一个或多或少稳定的协作编辑器，支持共享注释。",
+    "_note": "<a href='https://prosemirror.net/examples/collab/#edit-Example' _traget='_blank'>原始文档协同示例</a>"
   },
   "使用示例配置设置一个最小的富文本编辑器。": {
     "_translate": "使用示例配置设置一个最小的富文本编辑器。",

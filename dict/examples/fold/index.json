@@ -1,7 +1,7 @@
 {
   "This example shows how to use node decorations to influence the behavior of node views. Specifically, we'll define a plugin that allows the user to fold some nodes (hiding their content).": {
     "_translate": "这个例子展示了如何使用节点装饰来影响节点视图的行为。具体来说，我们将定义一个插件，允许用户<em>折叠</em>一些节点（隐藏它们的内容）。",
-    "_note": ""
+    "_note": "<strong>译者注：下方编辑器内容为 js 生成，因此不翻译其内的内容</strong>"
   },
   "We start by modifying the basic schema so that the top level consists of a sequence of sections, each of which must contain a heading followed by some arbitrary blocks.": {
     "_translate": "我们首先修改基本模式，使顶层由一系列部分组成，每个部分必须包含一个标题，后跟一些任意的块。",
