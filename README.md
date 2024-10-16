@@ -1,4 +1,35 @@
-# 中文
+# English
+
+## Prosemirror Chinese Documentation
+
+1. Based on Azure GPT-4o-128k + manual correction translation.
+2. Comments are manually added.
+
+## PR Instructions
+
+1. Only need to maintain the index.json files in the dict directory; if you feel the translation is incorrect, feel free to submit a PR.
+2. Modify \_translate in index.json as needed.
+3. \_translate is the translated content, and \_note is your understanding of it as an annotation.\_note field supports HTML format and will be directly rendered below the original text.
+
+## CI Steps
+
+1. Pull from the original repository Prosemirror/website, compare with last-commit.txt; if there are updates, proceed to the next step; if not, interrupt CI.
+2. cd into website, follow instructions from the original repository: after `npm i` + `make`, various index.html files will be built in the publish directory.
+3. After running `npm i` in root directory, run index.js to query dictionary files (index.json) in dict directories that match paths with those under public for Chinese replacement; if fields aren't found, perform AI translation and update dictionary.
+4. Move `website/public` directory up one level into `public` directory and push remotely to trigger Vercel's build update.
+
+## Local Build Instructions
+
+1. Follow above CI steps until reaching third step
+2. cd into website and run `npm run devserver -- --port 8888`; then open port 8888 for viewing—if everything looks good execute fourth step of above CI process.
+
+## Notes To Prevent Future Forgetfulness On My Part
+
+1. This project's CI can be triggered two ways: manually or via weekly checks once per week
+   2.CI may modify files within dict directories along with generating new index.htmls overwriting same-path/same-name ones inside public
+   3.CI commits modifications back into this repo triggering Vercel updates hence merges cannot trigger here
+
+# 中文说明
 
 ## Prosemirror 中文文档
 
@@ -28,34 +59,3 @@
 1. 本项目 CI 有两种触发方式：手动触发和每周检查一次。
 2. ci 可能会修改 dict 目录中的文件，以及新产生 index.html 覆盖 public 中的同路径同名文件。
 3. ci 会将修改再次提交到本仓库中，以触发 Vercel 的更新，因此本仓库不能通过 Merge 触发。
-
-# English
-
-## Prosemirror Chinese Documentation
-
-1. Based on Azure GPT-4o-128k + manual correction translation.
-2. Comments are manually added.
-
-## PR Instructions
-
-1. Only need to maintain the index.json files in the dict directory; if you feel the translation is incorrect, feel free to submit a PR.
-2. Modify \_translate in index.json as needed.
-3. \_translate is the translated content, and \_note is your understanding of it as an annotation.\_note field supports HTML format and will be directly rendered below the original text.
-
-## CI Steps
-
-1. Pull from the original repository Prosemirror/website, compare with last-commit.txt; if there are updates, proceed to the next step; if not, interrupt CI.
-2. cd into website, follow instructions from the original repository: after `npm i` + `make`, various index.html files will be built in the publish directory.
-3. After running `npm i` in root directory, run index.js to query dictionary files (index.json) in dict directories that match paths with those under public for Chinese replacement; if fields aren't found, perform AI translation and update dictionary.
-4. Move public directory within website up one level into docs directory and push remotely to trigger Vercel's build update.
-
-## Local Build Instructions
-
-1. Follow above CI steps until reaching third step
-2. cd into website and run `npm run devserver -- --port 8888`; then open port 8888 for viewing—if everything looks good execute fourth step of above CI process.
-
-## Notes To Prevent Future Forgetfulness On My Part
-
-1. This project's CI can be triggered two ways: manually or via weekly checks once per week
-   2.CI may modify files within dict directories along with generating new index.htmls overwriting same-path/same-name ones inside public
-   3.CI commits modifications back into this repo triggering Vercel updates hence merges cannot trigger here
