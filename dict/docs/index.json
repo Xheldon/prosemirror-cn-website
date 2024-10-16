@@ -1,7 +1,7 @@
 {
   "An introduction to the concepts used by the ProseMirror library, with examples.": {
     "_translate": "一个介绍ProseMirror库使用的概念，并附有示例。",
-    "_note": "注释测试的地方，理论上应该是个 HTML 格式。"
+    "_note": "点<a href=\"https://www.xheldon.com/tech/prosemirror-guide-chinese.html\" target=\"_blank\">这里</a>查看原始翻译指南。"
   },
   "A full listing and description of the public API exported by the library, per module.": {
     "_translate": "每个模块导出的公共API的完整列表和描述。",
