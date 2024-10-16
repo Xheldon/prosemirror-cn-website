@@ -96,7 +96,7 @@
     banner.id = 'banner-info';
     // Note: 整站通知
     const p = location.pathname.replace('/index.html', '');
-    banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}/index.json" target="_blank">我来翻译！</a>`;
+    banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}index.json" target="_blank">我来翻译！</a>`;
     const header = document.querySelector('header');
     if (header) {
       header.parentNode.insertBefore(banner, header);
@@ -152,7 +152,7 @@
   <li>
     <a href="guide/" class="blocklink">
       <h3>Library guide</h3>
-      <p data-x-en="An introduction to the concepts used by the ProseMirror library, with examples.">一个介绍ProseMirror库使用的概念，并附有示例。</p><p type="comment">注释测试的地方，理论上应该是个 HTML 格式。</p>
+      <p data-x-en="An introduction to the concepts used by the ProseMirror library, with examples.">一个介绍ProseMirror库使用的概念，并附有示例。</p><p type="comment">点<a href="https://www.xheldon.com/tech/prosemirror-guide-chinese.html" target="_blank">这里</a>查看原始翻译指南。</p>
     </a>
   </li>
   <li>

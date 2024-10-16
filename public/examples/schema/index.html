@@ -9,7 +9,7 @@
     <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
       <a href="/docs/" data-x-en="Documentation">文档</a>
       <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">讨论</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub，</a>
+      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
       <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
     </div>
   </nav></header><article>
@@ -96,7 +96,7 @@
     banner.id = 'banner-info';
     // Note: 整站通知
     const p = location.pathname.replace('/index.html', '');
-    banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}/index.json" target="_blank">我来翻译！</a>`;
+    banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}index.json" target="_blank">我来翻译！</a>`;
     const header = document.querySelector('header');
     if (header) {
       header.parentNode.insertBefore(banner, header);
