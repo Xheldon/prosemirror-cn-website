@@ -58,7 +58,7 @@ jobs:
         run: |
           cd website
           npm install
-          cat website/templates/head.html append-head.html > website/templates/head.html
+          cat ../append-head.html >> templates/head.html
           make
 
       - name: 构建中文翻译
