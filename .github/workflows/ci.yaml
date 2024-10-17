@@ -73,5 +73,5 @@ jobs:
           git checkout -b temp
           mkdir -p public && cp -R website/public/* $_
           git add .
-          git commit -m "更新文档"
+          git commit -m "更新文档[bot]"
           git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:main
