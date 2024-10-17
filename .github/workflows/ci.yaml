@@ -72,7 +72,7 @@ jobs:
         run: |
           git checkout -b temp
           rm -rf public
-          mkdir -p public && cp -R website/public/* public
+          mkdir -p public && cp vercel.sh public && cp -R website/public/* public
           git add .
           git commit -m "更新文档[bot]"
           git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:main
