@@ -109,7 +109,7 @@ Promise.all(
       const banner = document.createElement('div');
       banner.id = 'banner-info';
       // Note: 整站通知
-      const p = key.replace('website/public', '').replace('index.html', '/');
+      const p = key.replace('website/public', '').replace('index.html', '');
       banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}index.json" target="_blank">我来翻译！</a>`;
       const header = document.querySelector('header');
       if (header) {
