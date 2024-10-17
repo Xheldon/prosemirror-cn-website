@@ -1,17 +1,17 @@
-<!DOCTYPE html><html lang="en-US"><head><meta charset="utf8">
-<meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="ProseMirror"><meta property="og:type" content="website"><meta property="og:url" content="https://prosemirror.net/"><meta property="og:image" content="https://prosemirror.net/img/picture.png"><meta property="og:description" content="In-browser structured text editing component"><title>ProseMirror</title>
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta property="og:title" content="ProseMirror 中文"><meta property="og:type" content="website"><meta property="og:url" content="https://prosemirror.xheldon.com"><meta property="og:image" content="https://prosemirror.xheldon.com/img/picture.png"><meta property="og:description" content="基于浏览器的结构化文本编辑器组件"><title>ProseMirror</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="/css/site.css">
 
-</head><body><header class="frontpage">
+<script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/index.json" target="_blank">我来翻译！</a></div><header class="frontpage">
   <nav>
     <a class="logo" href="/">ProseMirror</a>
     <div class="navlinks"><a href="/examples/" data-x-en="Examples">示例</a>
       <a href="/docs/" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">讨论</a>
+      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
       <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
       <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    </div>
+    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
   </nav><h1 data-x-en="A toolkit for building rich-text editors on the web">一个用于在网页上构建富文本编辑器的工具包</h1>
     <div id="editor"></div></header><article>
 <style>
@@ -81,75 +81,7 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style>
-<script>
-  window.addEventListener('load', function () {
-    // Note: 修改 nav 部分，增加译者博客地址
-    const nav = document.querySelector('header .navlinks');
-    if (nav) {
-      const a = document.createElement('a');
-      a.href = 'https://www.xheldon.com';
-      a.target = '_blank';
-      a.textContent = '译者';
-      nav.appendChild(a);
-    }
-    const banner = document.createElement('div');
-    banner.id = 'banner-info';
-    // Note: 整站通知
-    const p = location.pathname.replace('/index.html', '');
-    banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文，<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}index.json" target="_blank">我来翻译！</a>`;
-    const header = document.querySelector('header');
-    if (header) {
-      header.parentNode.insertBefore(banner, header);
-    }
-
-    // Note: 指南和接口文档增加译者前言
-    const add = document.createElement('div');
-    add.id = 'add-info';
-    add.innerHTML = `<blockquote>
-本手册/文档采用 GPT-4o + 人工方式翻译。每周检查一次原仓库或手动更新，<a href="https://github.com/Xheldon/prosemirror-cn-website" target="_blank">欢迎 Star 和 PR</a>。
-</blockquote>
-<b>译者前言：</b>
-<ol>
-<li><b>鼠标悬浮在中文上会出现英文原文，方便读者在觉得翻译质量不行的时候直接查看原文（欢迎 PR 更好的翻译）。</b></li>
-<li><b>因为有些接口需要上下文，因此译者的增加了注释以对此进行额外的说明，以灰色背景块显示出来，代表了译者对某个接口的理解。</b></li>
-<li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/" target="_blank">赏杯咖啡钱</a> 。</b></li>
-<li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
-</ol>
-<hr>`;
-    if (location.pathname.includes('docs/ref')) {
-      const h2 = document.querySelector(`#part_top h2`);
-      if (h2) {
-        h2.parentNode.insertBefore(add, h2);
-      }
-    }
-    if (location.pathname.includes('docs/guide')) {
-      const h1 = document.querySelector(`article h1`);
-      if (h1) {
-        h1.parentNode.insertBefore(add, h1);
-      }
-    }
-    // Note: 增加 google 统计/广告（要吃饭呀）
-    const head = document.querySelector('head');
-    if (head) {
-      // Note: 谷歌统计
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X';
-      head.appendChild(script);
-      const script2 = document.createElement('script');
-      script2.innerHTML = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')`;
-      head.appendChild(script2);
-      // Note: 谷歌广告
-      const script3 = document.createElement('script');
-      script3.async = true;
-      script3.crossorigin = 'anonymous';
-      script3.src =
-        'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411';
-      head.appendChild(script3);
-    }
-  });
-</script><style>
+</style><style>
   .ProseMirror { padding: 2px 20px; min-height: 180px; outline: none; }
   p.callout {
     padding: 0 20px 0 15px;
