@@ -20,8 +20,9 @@
 
 ## Local Build Instructions
 
-1. Follow above CI steps until reaching third step
-2. cd into website and run `npm run devserver -- --port 8888`; then open port 8888 for viewing—if everything looks good execute fourth step of above CI process.
+1. Replace `secrets.OPENAI_API_KEY` and `secrets.OPENAI_URL` in `utils.js` with your own.
+2. Execute `./local.sh` (requires execution permissions).
+3. Check if each `index.html` under the `website/public` directory is functioning properly.
 
 ## Notes To Prevent Future Forgetfulness On My Part
 
@@ -51,8 +52,9 @@
 
 ## 本地构建说明
 
-1. 按照上述的 CI 步骤，运行到第三步后
-2. cd 到 website，运行 `npm run devserver -- --port 8888` 之后打开 `8888` 端口即可查看，没问题的话执行上面 CI 步骤的第四步即可。
+1. 替换 `utils.js` 中的 `secrets.OPENAI_API_KEY` 和 `secrets.OPENAI_URL` 为你自己的。
+2. 执行 `./local.sh`（需要执行权限）。
+2. 检查 `website/public` 目录下的各个 `index.html` 是否正常。
 
 ## 防止将来我自己忘记的备注
 
