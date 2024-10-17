@@ -40,7 +40,7 @@ const config = {
     ...defaultConfig('ul li, #part_top h2')
   ],
   'website/public/docs/index.html': [
-    ...defaultConfig('h2')
+    ...defaultConfig('h2, h3')
   ],
 };
 
@@ -130,16 +130,29 @@ Promise.all(
   <li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
   </ol>
   <hr>`;
-      if (p.includes('docs/ref')) {
+      if (key.includes('docs/ref/index.html')) {
         const h2 = document.querySelector(`#part_top h2`);
         if (h2) {
           h2.parentNode.insertBefore(add, h2);
         }
       }
-      if (p.includes('docs/guide')) {
+      if (key.includes('docs/guide/index.html')) {
         const h1 = document.querySelector(`article h1`);
         if (h1) {
           h1.parentNode.insertBefore(add, h1);
+        }
+      }
+      if (key.includes('docs/index.html')) {
+        const ul = document.querySelector('article .grid-list')?.[1];
+        if (ul) {
+          const li = document.createElement('li');
+          li.innerHTML = `<li>
+    <a href="https://www.xheldon.com/" class="blocklink">
+      <h3>译者博客</h3>
+      <p data-x-en="ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问">ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问</p>
+    </a>
+  </li>`;
+          li.parentNode.insertBefore(add, li);
         }
       }
 
@@ -191,9 +204,9 @@ Promise.all(
               if (dict[pureText]._note) {
                 const note = document.createElement('p');
                 note.setAttribute('type', 'comment');
-                // Note: 二次翻译的时候防止翻译注释
-                note.setAttribute('data-x-en', '');
                 note.innerHTML = dict[pureText]._note;
+                // Note: jsdom 的 insertBefore 跟实际的 dom 操作有差异，如果第二个参数是 null，则会插入到父级后面
+                //  所以下面的判定就先注释，正文如果有问题再说
                 item.parentNode.insertBefore(note, item.nextSibling);
               }
               resolve();

@@ -1,7 +1,7 @@
 {
   "An introduction to the concepts used by the ProseMirror library, with examples.": {
     "_translate": "一个介绍ProseMirror库使用的概念，并附有示例。",
-    "_note": "点<a href=\"https://www.xheldon.com/tech/prosemirror-guide-chinese.html\" target=\"_blank\">这里</a>查看原始翻译指南。"
+    "_note": "人工修正 AI 翻译需要时间，可以点 <a href=\"https://www.xheldon.com/tech/prosemirror-guide-chinese.html\" target=\"_blank\">这里</a> 查看原始的人工翻译。"
   },
   "A full listing and description of the public API exported by the library, per module.": {
     "_translate": "每个模块导出的公共API的完整列表和描述。",
@@ -49,6 +49,34 @@
   },
   "译者": {
     "_translate": "译者",
+    "_note": ""
+  },
+  "Library guide": {
+    "_translate": "ProseMirror 中文指南",
+    "_note": ""
+  },
+  "Reference manual": {
+    "_translate": "API 文档",
+    "_note": ""
+  },
+  "Change log": {
+    "_translate": "版本更新记录",
+    "_note": ""
+  },
+  "Blog posts": {
+    "_translate": "ProseMirror 作者的博客（英文）",
+    "_note": ""
+  },
+  "Forum": {
+    "_translate": "官方论坛（英文）",
+    "_note": ""
+  },
+  "译者博客": {
+    "_translate": "译者博客",
+    "_note": ""
+  },
+  "ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问": {
+    "_translate": "ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问",
     "_note": ""
   }
 }
