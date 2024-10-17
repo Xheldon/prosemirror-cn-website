@@ -143,12 +143,10 @@ Promise.all(
         const ul = document.querySelectorAll('article .grid-list')?.[1];
         if (ul) {
           const li = document.createElement('li');
-          li.innerHTML = `<li>
-    <a href="https://www.xheldon.com/" class="blocklink">
+          li.innerHTML = `<a href="https://www.xheldon.com/" class="blocklink">
       <h3>译者博客</h3>
       <p data-x-en="ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问">ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问</p>
-    </a>
-  </li>`;
+    </a>`;
           ul.appendChild(li);
         }
       }
