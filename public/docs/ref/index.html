@@ -107,9 +107,9 @@ addEventListener("load", function() {
     align-items: center;
     justify-content: center;
     width: 100%;
-    background: #fff;
-    font-size: 14px;
-    padding: 5px 0;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    padding: 0;
     z-index: 999;
   }
   #add-info {
@@ -3049,7 +3049,7 @@ addEventListener("load", function() {
 </dd><dt id="transform.Transform.split">
   <code><strong><a href="#transform.Transform.split">split</a></strong>(<div class="breaktype"><a id="transform.Transform.split^pos" href="#transform.Transform.split^pos"><span class="param">pos</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, </div><div class="breaktype"><a id="transform.Transform.split^depth" href="#transform.Transform.split^depth"><span class="param">depth</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = 1</span>, </div><div class="breaktype"><a id="transform.Transform.split^typesAfter" href="#transform.Transform.split^typesAfter"><span class="param">typesAfter</span></a>⁠?:&nbsp;({<span class="prop">type</span>:&nbsp;<a href="#model.NodeType"><span class="type">NodeType</span></a>, <span class="prop">attrs</span>⁠?:&nbsp;<a href="#model.Attrs"><span class="type">Attrs</span></a>} | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null"><span class="prim">null</span></a>)[]</div>) →&nbsp;<a href="#transform.Transform"><span class="type">Transform</span></a></code></dt>
 
-<dd><p data-x-en="Split the node at the given position, and optionally, if depth is greater than one, any number of nodes above that. By default, the parts split off will inherit the node type of the original node. This can be changed by passing an array of types and attributes to use after the split.">分割给定位置的节点，如果传入了 <code>depth</code> 参数，且其大于 1，则任何数量的节点在它之上（？？？）。 默认情况下，被分割部分的节点类型将会继承原始的节点类型，但是也可以通过传入一个类型数组和 attributes 来在分割后设置其上。</p><div type="comment">这句英文原文也不通顺。</div>
+<dd><p data-x-en="Split the node at the given position, and optionally, if depth is greater than one, any number of nodes above that. By default, the parts split off will inherit the node type of the original node. This can be changed by passing an array of types and attributes to use after the split.">在给定位置拆分节点，并且如果 depth 大于 1，还可以选择性地拆分其上方的任意数量的节点。默认情况下，拆分出的部分将继承原始节点的节点类型。这可以通过传递一个类型和属性数组来更改，以便在拆分后使用。</p>
 </dd><dt id="transform.Transform.addMark">
   <code><strong><a href="#transform.Transform.addMark">addMark</a></strong>(<a id="transform.Transform.addMark^from" href="#transform.Transform.addMark^from"><span class="param">from</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, <a id="transform.Transform.addMark^to" href="#transform.Transform.addMark^to"><span class="param">to</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, <a id="transform.Transform.addMark^mark" href="#transform.Transform.addMark^mark"><span class="param">mark</span></a>:&nbsp;<a href="#model.Mark"><span class="type">Mark</span></a>) →&nbsp;<a href="#transform.Transform"><span class="type">Transform</span></a></code></dt>
 
