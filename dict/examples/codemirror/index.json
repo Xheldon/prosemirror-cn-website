@@ -106,5 +106,9 @@
   "// inner editor": {
     "_translate": "// 内部编辑器",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }

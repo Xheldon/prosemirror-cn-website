@@ -78,5 +78,13 @@
   "A menu bar (which is another module that is meant more for demos than for production), with menu items for common tasks and schema elements.": {
     "_translate": "<a href=\"https://github.com/prosemirror/prosemirror-menu\">菜单栏</a>（这是另一个更适合演示而非生产的模块），包含用于常见任务和模式元素的菜单项。",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
+  },
+  "Setting up an editor": {
+    "_translate": "配置一个编辑器",
+    "_note": ""
   }
 }

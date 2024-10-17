@@ -1671,7 +1671,7 @@
     "_translate": "修复在IE11中compositionend时DOM和状态选择不匹配的错误。",
     "_note": ""
   },
-  "Make sure handleDrop](https://prosemirror.xheldon.com/docs/ref/#view.EditorProps.handleDrop) is called even when there's nothing on the clipboard.": {
+  "Make sure handleDrop](https://prosemirror.net/docs/ref/#view.EditorProps.handleDrop) is called even when there's nothing on the clipboard.": {
     "_translate": "确保 <code>handleDrop</code>](https://prosemirror.xheldon.com/docs/ref/#view.EditorProps.handleDrop) 即使在剪贴板上没有任何内容时也会被调用。",
     "_note": ""
   },
@@ -3335,7 +3335,7 @@
     "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#transform.Transform.addMark\"><code>addMark</code></a> 不再假设标记总是<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#model.MarkSpec.excludes\">排除</a>它们自己。",
     "_note": ""
   },
-  "replaceRange](https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#transform.Transform.replaceRange) and deleteRange will no longer expand the range across isolating node boundaries.": {
+  "replaceRange](https://prosemirror.net/docs/ref/version/0.21.0.html#transform.Transform.replaceRange) and deleteRange will no longer expand the range across isolating node boundaries.": {
     "_translate": "<code>replaceRange</code>](https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#transform.Transform.replaceRange) 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#transform.Transform.deleteRange\"><code>deleteRange</code></a> 将不再跨隔离节点边界扩展范围。",
     "_note": ""
   },
@@ -4221,6 +4221,10 @@
   },
   "Twitter": {
     "_translate": "Twitter",
+    "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
     "_note": ""
   }
 }

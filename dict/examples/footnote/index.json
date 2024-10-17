@@ -126,5 +126,9 @@
   "// the parent editor is focused.": {
     "_translate": "// 父编辑器已聚焦。",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }

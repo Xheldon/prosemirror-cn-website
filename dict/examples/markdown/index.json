@@ -62,5 +62,9 @@
   "This is a comment written in [Markdown](http://commonmark.org). *You* may know the syntax for inserting a link, but does your whole audience? So you can give people the **choice** to use a more familiar, discoverable interface.": {
     "_translate": "这是一个用[Markdown](http://commonmark.org)写的评论。*你*可能知道插入链接的语法，但你的整个观众都知道吗？\n\n所以你可以给人们一个更熟悉、更易发现的界面的**选择**。",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }

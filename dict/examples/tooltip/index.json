@@ -78,5 +78,9 @@
   "// crossing lines, end may be more to the left)": {
     "_translate": "// 交叉线，结束可能更多地在左边",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }

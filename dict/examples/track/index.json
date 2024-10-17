@@ -158,5 +158,9 @@
   "// Add a commit message and dispatch.": {
     "_translate": "// 添加提交信息并分发。",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }

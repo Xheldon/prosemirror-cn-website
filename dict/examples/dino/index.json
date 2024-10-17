@@ -102,5 +102,9 @@
   "// Pass exampleSetup our schema and the menu we created": {
     "_translate": "// 传递示例设置我们的架构和我们创建的菜单",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }

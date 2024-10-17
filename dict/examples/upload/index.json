@@ -98,5 +98,9 @@
   "// On failure, just clean up the placeholder": {
     "_translate": "// 失败时，只需清理占位符",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }

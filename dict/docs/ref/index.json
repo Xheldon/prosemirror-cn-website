@@ -3154,5 +3154,9 @@
   "Mod-a to selectAll": {
     "_translate": "<strong>Mod-a</strong> 到 <code>selectAll</code>",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }

@@ -122,5 +122,9 @@
   "// Otherwise, dispatch a transaction, using the `wrap` method to": {
     "_translate": "// 否则，使用 `wrap` 方法调度一个事务，",
     "_note": ""
+  },
+  "译者": {
+    "_translate": "译者",
+    "_note": ""
   }
 }
