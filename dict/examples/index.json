@@ -134,5 +134,57 @@
   "译者": {
     "_translate": "译者",
     "_note": ""
+  },
+  "Basics": {
+    "_translate": "基础示例",
+    "_note": ""
+  },
+  "Dinos in the document": {
+    "_translate": "文档中的恐龙",
+    "_note": ""
+  },
+  "Friendly Markdown": {
+    "_translate": "友好的 Markdown 支持",
+    "_note": ""
+  },
+  "Tooltip": {
+    "_translate": "实现一个动态工具提示",
+    "_note": ""
+  },
+  "Image upload": {
+    "_translate": "图片上传",
+    "_note": ""
+  },
+  "Schema from scratch": {
+    "_translate": "从头开始编写 Schema",
+    "_note": ""
+  },
+  "Writing your own menu": {
+    "_translate": "自定义菜单",
+    "_note": ""
+  },
+  "Foldable nodes": {
+    "_translate": "可折叠的节点",
+    "_note": ""
+  },
+  "Embedded code editor": {
+    "_translate": "嵌入另一个代码编辑器",
+    "_note": ""
+  },
+  "Linter": {
+    "_translate": "文档检查器",
+    "_note": ""
+  },
+  "Editing footnotes": {
+    "_translate": "可编辑的脚注",
+    "_note": ""
+  },
+  "Track changes": {
+    "_translate": "跟踪变动",
+    "_note": ""
+  },
+  "Collaborative editing": {
+    "_translate": "协作编辑（暂不可用）",
+    "_note": ""
   }
 }

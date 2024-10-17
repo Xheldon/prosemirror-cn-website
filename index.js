@@ -30,7 +30,7 @@ const defaultConfig = (more) => {
 };
 const config = {
   'website/public/index.html': [...defaultConfig()],
-  'website/public/examples/index.html': [...defaultConfig('h2')],
+  'website/public/examples/index.html': [...defaultConfig('h2, h3')],
   'website/public/examples/basic/index.html': [...defaultConfig('ul li, h1')],
   'website/public/examples/markdown/index.html': [
     ...defaultConfig('textarea#content'),
@@ -196,7 +196,9 @@ Promise.all(
               if (dict[pureText]._translate) {
                 item.innerHTML = dict[pureText]._translate;
                 // Note: hover 显示原文，不需要 html 标签
-                item.setAttribute('data-x-en', pureText);
+                if (item.tagName === 'P' || item.tagName === 'LI') {
+                  item.setAttribute('data-x-en', pureText);
+                }
               }
               // Note: 如果有注释，则插入到当前 p 后面
               if (dict[pureText]._note) {
