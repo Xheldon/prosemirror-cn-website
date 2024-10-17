@@ -15,32 +15,41 @@ const MAX_CONCURRENT = 2;
 
 // Note: 配置各个文件需要翻译的节点选择器，如果不存在，则默认翻译页面首个 article 中的全部 p 标签内容
 const defaultConfig = (more) => {
-  return [
-    {
-      container: 'header',
-      selector: 'h1, .navlinks a',
-    },
-    {
-      container: 'article',
-      selector: `p, div#content h3, pre span.tok-comment${
-        more ? `, ${more}` : ''
-      }`,
-    },
-  ];
+  return [{
+    container: 'header',
+    selector: 'h1, .navlinks a'
+  }, {
+    container: 'article',
+    selector: `p, div#content h3, pre span.tok-comment${more ? `, ${more}` : ''}`
+  }]
 };
 const config = {
-  'website/public/index.html': [...defaultConfig()],
-  'website/public/examples/index.html': [...defaultConfig('h2')],
-  'website/public/examples/basic/index.html': [...defaultConfig('ul li')],
+  'website/public/index.html': [
+    ...defaultConfig()
+  ],
+  'website/public/examples/index.html': [
+    ...defaultConfig('h2')
+  ],
+  'website/public/examples/basic/index.html': [
+    ...defaultConfig('ul li, h1')
+  ],
   'website/public/examples/markdown/index.html': [
-    ...defaultConfig('textarea#content'),
+    ...defaultConfig('textarea#content')
   ],
   'website/public/docs/ref/index.html': [
-    ...defaultConfig('ul li, #part_top h2'),
+    ...defaultConfig('ul li, #part_top h2')
   ],
-  'website/public/docs/index.html': [...defaultConfig('h2')],
+  'website/public/docs/index.html': [
+    ...defaultConfig('h2')
+  ],
 };
 
+const propertyMap = {
+  'og:title': 'ProseMirror 中文',
+  'og:url': 'https://prosemirror.xheldon.com',
+  'og:image': 'https://prosemirror.xheldon.com/img/picture.png',
+  'og:description': '基于浏览器的结构化文本编辑器组件',
+};
 const semaphore = new Semaphore(MAX_CONCURRENT);
 // 使用 glob 模块来匹配文件
 let files;
@@ -57,24 +66,98 @@ Promise.all(
       const dom = new JSDOM(rawString);
       const document = dom.window.document;
 
+      // Note: 修改 head 部分的 meta 信息
+      document.querySelector('html').setAttribute('lang', 'zh-CN')
+      const head = document.querySelector('head');
+      if (head) {
+        const metas = head.querySelectorAll('meta');
+        if (metas.length) {
+          metas.forEach((meta) => {
+            const property = meta.getAttribute('property');
+            if (property && propertyMap[property]) {
+              meta.setAttribute('content', propertyMap[property]);
+            }
+          });
+        }
+        // Note: 增加 google 统计/广告（要吃饭呀）
+        // Note: 谷歌统计
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X';
+        head.appendChild(script);
+        const script2 = document.createElement('script');
+        script2.innerHTML = `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')`;
+        head.appendChild(script2);
+        // Note: 谷歌广告
+        const script3 = document.createElement('script');
+        script3.async = true;
+        script3.crossorigin = 'anonymous';
+        script3.src =
+          'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411';
+        head.appendChild(script3);
+      }
+
+      // Note: 修改 nav 部分，增加译者博客地址
+      const nav = document.querySelector('header .navlinks');
+      if (nav) {
+        const a = document.createElement('a');
+        a.href = 'https://www.xheldon.com';
+        a.target = '_blank';
+        a.textContent = '译者';
+        nav.appendChild(a);
+      }
+      const banner = document.createElement('div');
+      banner.id = 'banner-info';
+      // Note: 整站通知
+      const p = key.replace('website/public', '').replace('index.html', '/');
+      banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}index.json" target="_blank">我来翻译！</a>`;
+      const header = document.querySelector('header');
+      if (header) {
+        header.parentNode.insertBefore(banner, header);
+      }
+
+      // Note: 指南和接口文档增加译者前言
+      const add = document.createElement('div');
+      add.id = 'add-info';
+      add.innerHTML = `<blockquote>
+  本手册/文档采用 GPT-4o + 人工方式翻译。每周检查一次原仓库或手动更新，<a href="https://github.com/Xheldon/prosemirror-cn-website" target="_blank">欢迎 Star 和 PR</a>。
+  </blockquote>
+  <b>译者前言：</b>
+  <ol>
+  <li><b>鼠标悬浮在中文上会出现英文原文，方便读者在觉得翻译质量不行的时候直接查看原文（欢迎 PR 更好的翻译）。</b></li>
+  <li><b>因为有些接口需要上下文，因此译者的增加了注释以对此进行额外的说明，以灰色背景块显示出来，代表了译者对某个接口的理解。</b></li>
+  <li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/" target="_blank">赏杯咖啡钱</a> 。</b></li>
+  <li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
+  </ol>
+  <hr>`;
+      if (p.includes('docs/ref')) {
+        const h2 = document.querySelector(`#part_top h2`);
+        if (h2) {
+          h2.parentNode.insertBefore(add, h2);
+        }
+      }
+      if (p.includes('docs/guide')) {
+        const h1 = document.querySelector(`article h1`);
+        if (h1) {
+          h1.parentNode.insertBefore(add, h1);
+        }
+      }
+
       // Note: 如果 config 中的路径文件不存在，则使用默认，否则使用 config 配置文件
       let list = [];
-      list = (config[key] || defaultConfig())
-        .map((c) => {
-          const container = document.querySelector(c.container);
-          if (!container) {
-            console.log(`${file} 未找到 ${c.container} 标签`);
-            return;
-          }
-          return [...container.querySelectorAll(c.selector)] || [];
-        })
-        .flat()
-        .filter(Boolean);
+      list = (config[key] || defaultConfig()).map((c) => {
+        const container = document.querySelector(c.container);
+        if (!container) {
+          console.log(`${file} 未找到 ${c.container} 标签`);
+          return;
+        }
+        return [...container.querySelectorAll(c.selector)] || [];
+      }).flat().filter(Boolean);
       if (!list.length) {
         console.log(`${file} 不存在可翻译内容，中断`);
         return;
       }
-
+      
       const dictPath = file
         .replace('.html', '.json')
         .replace('public', 'dict')
@@ -108,6 +191,8 @@ Promise.all(
               if (dict[pureText]._note) {
                 const note = document.createElement('p');
                 note.setAttribute('type', 'comment');
+                // Note: 二次翻译的时候防止翻译注释
+                note.setAttribute('data-x-en', '');
                 note.innerHTML = dict[pureText]._note;
                 item.parentNode.insertBefore(note, item.nextSibling);
               }

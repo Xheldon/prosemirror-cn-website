@@ -1671,8 +1671,8 @@
     "_translate": "修复在IE11中compositionend时DOM和状态选择不匹配的错误。",
     "_note": ""
   },
-  "Make sure handleDrop](https://prosemirror.net/docs/ref/#view.EditorProps.handleDrop) is called even when there's nothing on the clipboard.": {
-    "_translate": "确保 <code>handleDrop</code>](https://prosemirror.net/docs/ref/#view.EditorProps.handleDrop) 即使在剪贴板上没有任何内容时也会被调用。",
+  "Make sure handleDrop](https://prosemirror.xheldon.com/docs/ref/#view.EditorProps.handleDrop) is called even when there's nothing on the clipboard.": {
+    "_translate": "确保 <code>handleDrop</code>](https://prosemirror.xheldon.com/docs/ref/#view.EditorProps.handleDrop) 即使在剪贴板上没有任何内容时也会被调用。",
     "_note": ""
   },
   "Fix a bug where reconfiguring a view in a way that changed both the active node views and the attributes of the top node left the old attributes active.": {
@@ -1760,11 +1760,11 @@
     "_note": ""
   },
   "The NodeType method hasRequiredAttrs is now public.": {
-    "_translate": "<code>NodeType</code> 方法 <a href=\"https://prosemirror.net/docs/ref/#model.NodeType.hasRequiredAttrs\"><code>hasRequiredAttrs</code></a> 现在是公开的。",
+    "_translate": "<code>NodeType</code> 方法 <a href=\"https://prosemirror.xheldon.com/docs/ref/#model.NodeType.hasRequiredAttrs\"><code>hasRequiredAttrs</code></a> 现在是公开的。",
     "_note": ""
   },
   "Element and attribute names in DOMOutputSpec structures can now contain namespaces.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.DOMOutputSpec\"><code>DOMOutputSpec</code></a> 结构中的元素和属性名称现在可以包含命名空间。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.DOMOutputSpec\"><code>DOMOutputSpec</code></a> 结构中的元素和属性名称现在可以包含命名空间。",
     "_note": ""
   },
   "Fix an issue where, since version 1.7.4 of prosemirror-model, splitBlock fails to create the expected new textblock in some schemas.": {
@@ -1896,7 +1896,7 @@
     "_note": ""
   },
   "The mutation records passed to ignoreMutation now contain the old attribute value.": {
-    "_translate": "传递给<a href=\"https://prosemirror.net/docs/ref/#view.NodeView.ignoreMutation\"><code>ignoreMutation</code></a>的突变记录现在包含旧的属性值。",
+    "_translate": "传递给<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.NodeView.ignoreMutation\"><code>ignoreMutation</code></a>的突变记录现在包含旧的属性值。",
     "_note": ""
   },
   "Upgrade w3c-keyname package dependency.": {
@@ -2012,7 +2012,7 @@
     "_note": ""
   },
   "Mapping.invert is now part of the documented API (it was intented to be public from the start, but a typo prevented it from showing up in the docs).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#transform.Mapping.invert\"><code>Mapping.invert</code></a> 现在是文档化的 API 的一部分（它从一开始就打算公开，但由于一个拼写错误导致它没有出现在文档中）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.Mapping.invert\"><code>Mapping.invert</code></a> 现在是文档化的 API 的一部分（它从一开始就打算公开，但由于一个拼写错误导致它没有出现在文档中）。",
     "_note": ""
   },
   "replaceRange now more aggressively expands the replaced region if replace fails to place the slice.": {
@@ -2040,7 +2040,7 @@
     "_note": ""
   },
   "Node views can now ignore selection change events through their ignoreMutation callback.": {
-    "_translate": "节点视图现在可以通过其<a href=\"https://prosemirror.net/docs/ref/#view.NodeView.ignoreMutation\"><code>ignoreMutation</code></a>回调忽略选择更改事件。",
+    "_translate": "节点视图现在可以通过其<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.NodeView.ignoreMutation\"><code>ignoreMutation</code></a>回调忽略选择更改事件。",
     "_note": ""
   },
   "Transaction.setSelection now immediately checks whether the given selection points into the proper document, rather than silently accepting an invalid selection.": {
@@ -2144,11 +2144,11 @@
     "_note": ""
   },
   "Fix a crash caused by using a position potentially outside the document in splitBlock.": {
-    "_translate": "修复由于在<a href=\"https://prosemirror.net/docs/ref/#commands.splitBlock\"><code>splitBlock</code></a>中使用可能在文档外的位置而导致的崩溃。",
+    "_translate": "修复由于在<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.splitBlock\"><code>splitBlock</code></a>中使用可能在文档外的位置而导致的崩溃。",
     "_note": ""
   },
   "Fix a regression where all plugin views were recreated when calling setProps.": {
-    "_translate": "修复了调用<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.setProps\"><code>setProps</code></a>时所有插件视图都会重新创建的回归问题。",
+    "_translate": "修复了调用<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.setProps\"><code>setProps</code></a>时所有插件视图都会重新创建的回归问题。",
     "_note": ""
   },
   "Fix a bug where, if the document was changed at exactly the right moment, handleClickOn could be called with null as the node.": {
@@ -2156,7 +2156,7 @@
     "_note": ""
   },
   "The insertText method now collapses the selection to the end of the inserted text, even when given explicit start/end positions.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#state.Transaction.insertText\"><code>insertText</code></a> 方法现在将选择范围折叠到插入文本的末尾，即使给定了明确的开始/结束位置。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#state.Transaction.insertText\"><code>insertText</code></a> 方法现在将选择范围折叠到插入文本的末尾，即使给定了明确的开始/结束位置。",
     "_note": ""
   },
   "Fix a bug where updating to a reconfigured state would not recreate the view's plugin views.": {
@@ -2188,7 +2188,7 @@
     "_note": ""
   },
   "Fixes an issue where changes to the nodeViews prop weren't noticed when using updateState to update the view.": {
-    "_translate": "修复了使用<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.updateState\"><code>updateState</code></a>更新视图时，未能注意到<a href=\"https://prosemirror.net/docs/ref/#view.EditorProps.nodeViews\"><code>nodeViews</code> prop</a>更改的问题。",
+    "_translate": "修复了使用<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.updateState\"><code>updateState</code></a>更新视图时，未能注意到<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorProps.nodeViews\"><code>nodeViews</code> prop</a>更改的问题。",
     "_note": ""
   },
   "Fix issue where sometimes moving the selection back its last position with the mouse failed to update ProseMirror's selection state.": {
@@ -2196,7 +2196,7 @@
     "_note": ""
   },
   "No longer call deselectNode on already-destroyed node views.": {
-    "_translate": "不再对已销毁的节点视图调用<a href=\"https://prosemirror.net/docs/ref/#view.NodeView.deselectNode\"><code>deselectNode</code></a>。",
+    "_translate": "不再对已销毁的节点视图调用<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.NodeView.deselectNode\"><code>deselectNode</code></a>。",
     "_note": ""
   },
   "Make sure images and links don't render whatever happens to be in node.attrs to the DOM.": {
@@ -2208,7 +2208,7 @@
     "_note": ""
   },
   "The handlePaste prop is now activated even when the default parser can't make any sense of the clipboard content.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.EditorProps.handlePaste\"><code>handlePaste</code></a> 属性现在即使在默认解析器无法理解剪贴板内容时也会被激活。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorProps.handlePaste\"><code>handlePaste</code></a> 属性现在即使在默认解析器无法理解剪贴板内容时也会被激活。",
     "_note": ""
   },
   "Fix a bug where decorations splitting a text node would sometimes confuse the display updater and make decorated nodes disappear.": {
@@ -2216,7 +2216,7 @@
     "_note": ""
   },
   "Multiple transformPastedHTML props are now all properly called in order, rather than only the first one.": {
-    "_translate": "多个<a href=\"https://prosemirror.net/docs/ref/#view.EditorProps.transformPastedHTML\"><code>transformPastedHTML</code></a>属性现在都按顺序正确调用，而不仅仅是第一个。",
+    "_translate": "多个<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorProps.transformPastedHTML\"><code>transformPastedHTML</code></a>属性现在都按顺序正确调用，而不仅仅是第一个。",
     "_note": ""
   },
   "Fixes an issue where invalid change positions were computed when a composition happened concurrently with a change that inserted content at the same position.": {
@@ -2224,11 +2224,11 @@
     "_note": ""
   },
   "EditorView.coordsAtPos is now more accurate in right-to-left text on Chrome and Firefox.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.coordsAtPos\"><code>EditorView.coordsAtPos</code></a> 现在在 Chrome 和 Firefox 上对从右到左的文本更准确。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.coordsAtPos\"><code>EditorView.coordsAtPos</code></a> 现在在 Chrome 和 Firefox 上对从右到左的文本更准确。",
     "_note": ""
   },
   "EditorView.coordsAtPos returns more accurate coordinates when querying the position directly after a line wrap point.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.coordsAtPos\"><code>EditorView.coordsAtPos</code></a> 在查询换行点之后的位置时返回更准确的坐标。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.coordsAtPos\"><code>EditorView.coordsAtPos</code></a> 在查询换行点之后的位置时返回更准确的坐标。",
     "_note": ""
   },
   "Fix an issue where clicking directly in front of a node selection doesn't clear the node selection markup.": {
@@ -2256,15 +2256,15 @@
     "_note": ""
   },
   "Fix a bug where endOfTextblock spuriously returns true when the cursor is in a mark.": {
-    "_translate": "修复一个错误，当光标在标记中时，<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a> 错误地返回 true。",
+    "_translate": "修复一个错误，当光标在标记中时，<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a> 错误地返回 true。",
     "_note": ""
   },
   "posAtCoords will no longer return null when called with coordinates outside the browser's viewport. (It will still return null for coordinates outside of the editor's bounding box.)": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.posAtCoords\"><code>posAtCoords</code></a> 在使用浏览器视口外的坐标调用时将不再返回 <code>null</code>。（对于编辑器边界框外的坐标，它<em>仍然</em>会返回 null。）",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.posAtCoords\"><code>posAtCoords</code></a> 在使用浏览器视口外的坐标调用时将不再返回 <code>null</code>。（对于编辑器边界框外的坐标，它<em>仍然</em>会返回 null。）",
     "_note": ""
   },
   "endOfTextblock now works on textblocks that are the editor's top-level node.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a> 现在适用于作为编辑器顶级节点的文本块。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a> 现在适用于作为编辑器顶级节点的文本块。",
     "_note": ""
   },
   "Pressing shift-left/right next to a selectable node no longer selects the node instead of creating a text selection across it.": {
@@ -2284,7 +2284,7 @@
     "_note": ""
   },
   "Mark specs now support a property spanning which, when set to false, prevents the mark's DOM markup from spanning multiple nodes, so that a separate wrapper is created for each adjacent marked node.": {
-    "_translate": "Mark 规格现在支持一个属性 <a href=\"https://prosemirror.net/docs/ref/#model.MarkSpec.spanning\"><code>spanning</code></a>，当设置为 <code>false</code> 时，防止标记的 DOM 标记跨越多个节点，从而为每个相邻的标记节点创建一个单独的包装器。",
+    "_translate": "Mark 规格现在支持一个属性 <a href=\"https://prosemirror.xheldon.com/docs/ref/#model.MarkSpec.spanning\"><code>spanning</code></a>，当设置为 <code>false</code> 时，防止标记的 DOM 标记跨越多个节点，从而为每个相邻的标记节点创建一个单独的包装器。",
     "_note": ""
   },
   "Fix an issue where node selections on uneditable nodes couldn't be copied or cut on Chrome.": {
@@ -2292,7 +2292,7 @@
     "_note": ""
   },
   "The editable view now recognizes the spanning mark property.": {
-    "_translate": "可编辑视图现在识别<a href=\"https://prosemirror.net/docs/ref/#model.MarkSpec.spanning\"><code>spanning</code></a>标记属性。",
+    "_translate": "可编辑视图现在识别<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.MarkSpec.spanning\"><code>spanning</code></a>标记属性。",
     "_note": ""
   },
   "Inline code containing backticks is now serialized wrapped in the appropriate amount of backticks.": {
@@ -2464,11 +2464,11 @@
     "_note": ""
   },
   "Prevent ContentMatch.findWrapping from returning node types with required attributes.": {
-    "_translate": "防止<a href=\"https://prosemirror.net/docs/ref/#model.ContentMatch.findWrapping\"><code>ContentMatch.findWrapping</code></a>返回具有必需属性的节点类型。",
+    "_translate": "防止<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.ContentMatch.findWrapping\"><code>ContentMatch.findWrapping</code></a>返回具有必需属性的节点类型。",
     "_note": ""
   },
   "Fixes situation where a vertical endOfTextblock query could get confused by nearby widgets or complex parent node representation.": {
-    "_translate": "修复了垂直<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a>查询可能被附近的小部件或复杂的父节点表示所混淆的情况。",
+    "_translate": "修复了垂直<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a>查询可能被附近的小部件或复杂的父节点表示所混淆的情况。",
     "_note": ""
   },
   "Don't blanket-forbid gap cursors next to textblocks": {
@@ -2524,7 +2524,7 @@
     "_note": ""
   },
   "receiveTransaction now supports a mapSelectionBackward option that makes it so that text selections are mapped to stay in place when remote changes insert content at their position.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#collab.receiveTransaction\"><code>receiveTransaction</code></a> 现在支持 <code>mapSelectionBackward</code> 选项，使得当远程更改在其位置插入内容时，文本选择能够保持不变。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#collab.receiveTransaction\"><code>receiveTransaction</code></a> 现在支持 <code>mapSelectionBackward</code> 选项，使得当远程更改在其位置插入内容时，文本选择能够保持不变。",
     "_note": ""
   },
   "Fix an issue where Firefox would create an extra cursor position when arrow-keying through a widget.": {
@@ -2564,7 +2564,7 @@
     "_note": ""
   },
   "Adds a new node spec property, toDebugString, making it possible to customize your nodes' toString behavior.": {
-    "_translate": "添加一个新的节点规范属性，<a href=\"https://prosemirror.net/docs/ref/#model.NodeSpec.toDebugString\"><code>toDebugString</code></a>，使得可以自定义节点的<code>toString</code>行为。",
+    "_translate": "添加一个新的节点规范属性，<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.NodeSpec.toDebugString\"><code>toDebugString</code></a>，使得可以自定义节点的<code>toString</code>行为。",
     "_note": ""
   },
   "Fix issue where menu items would still execute their command when clicked even if disabled.": {
@@ -2588,11 +2588,11 @@
     "_note": ""
   },
   "Fix issue where replaceRange might create invalid nodes.": {
-    "_translate": "修复<a href=\"https://prosemirror.net/docs/ref/#transform.Transform.replaceRange\"><code>replaceRange</code></a>可能创建无效节点的问题。",
+    "_translate": "修复<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.Transform.replaceRange\"><code>replaceRange</code></a>可能创建无效节点的问题。",
     "_note": ""
   },
   "Fix issues in the new dropPoint function.": {
-    "_translate": "修复新<a href=\"https://prosemirror.net/docs/ref/#transform.dropPoint\"><code>dropPoint</code></a>函数中的问题。",
+    "_translate": "修复新<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.dropPoint\"><code>dropPoint</code></a>函数中的问题。",
     "_note": ""
   },
   "Make sure Safari version detection for clipboard support also works in iOS webview.": {
@@ -2600,15 +2600,15 @@
     "_note": ""
   },
   "Transform.getMirror, usable in obscure circumstances for inspecting the mirroring structure or a transform, is now a public method.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#transform.Transform.getMirror\"><code>Transform.getMirror</code></a>，在特殊情况下用于检查镜像结构或变换，现在是一个公共方法。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.Transform.getMirror\"><code>Transform.getMirror</code></a>，在特殊情况下用于检查镜像结构或变换，现在是一个公共方法。",
     "_note": ""
   },
   "New utility function dropPoint, which tries to find a valid position for dropping a slice near a given document position.": {
-    "_translate": "新的实用函数<a href=\"https://prosemirror.net/docs/ref/#transform.dropPoint\"><code>dropPoint</code></a>，尝试在给定的文档位置附近找到一个有效的切片放置位置。",
+    "_translate": "新的实用函数<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.dropPoint\"><code>dropPoint</code></a>，尝试在给定的文档位置附近找到一个有效的切片放置位置。",
     "_note": ""
   },
   "Use shared implementation of dropPoint to handle finding a drop position.": {
-    "_translate": "使用共享实现的<a href=\"https://prosemirror.net/docs/ref/#transform.dropPoint\"><code>dropPoint</code></a>来处理查找放置位置。",
+    "_translate": "使用共享实现的<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.dropPoint\"><code>dropPoint</code></a>来处理查找放置位置。",
     "_note": ""
   },
   "Enable use of browser clipboard API on Mobile Safari version 11 and up, which makes cut work on that platform and should generally improve clipboard handling.": {
@@ -2644,7 +2644,7 @@
     "_note": ""
   },
   "handleKeyDown will now get notified of key events happening directly after a composition ends.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.EditorProps.handleKeyDown\"><code>handleKeyDown</code></a> 现在将在组合结束后直接收到键事件通知。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorProps.handleKeyDown\"><code>handleKeyDown</code></a> 现在将在组合结束后直接收到键事件通知。",
     "_note": ""
   },
   "The package can now be loaded in a web worker context (where navigator is defined but document isn't) without crashing.": {
@@ -2660,7 +2660,7 @@
     "_note": ""
   },
   "DOMParser.parseSlice can now correctly parses marks at the top level again.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.DOMParser.parseSlice\"><code>DOMParser.parseSlice</code></a> 现在可以再次正确解析顶层的标记。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.DOMParser.parseSlice\"><code>DOMParser.parseSlice</code></a> 现在可以再次正确解析顶层的标记。",
     "_note": ""
   },
   "Fix mouse-selecting (in IE and Edge) from the end of links and other positions that cause a cursor wrapper.": {
@@ -2668,31 +2668,31 @@
     "_note": ""
   },
   "ParseRule.getContent is now passed the parser schema as second argument.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.ParseRule.getContent\"><code>ParseRule.getContent</code></a> 现在将解析器模式作为第二个参数传递。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.ParseRule.getContent\"><code>ParseRule.getContent</code></a> 现在将解析器模式作为第二个参数传递。",
     "_note": ""
   },
   "Widget decorations with the same key are now considered equivalent, even if their other spec fields differ.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.Decoration%5Ewidget\">小部件装饰</a> 具有相同 <a href=\"https://prosemirror.net/docs/ref/#view.Decoration%5Ewidget%5Espec.key\">键</a> 现在被认为是等效的，即使它们的其他规格字段不同。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.Decoration%5Ewidget\">小部件装饰</a> 具有相同 <a href=\"https://prosemirror.xheldon.com/docs/ref/#view.Decoration%5Ewidget%5Espec.key\">键</a> 现在被认为是等效的，即使它们的其他规格字段不同。",
     "_note": ""
   },
   "The new EditorView.posAtDOM method can be used to find the document position corresponding to a given DOM position.": {
-    "_translate": "新的<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.posAtDOM\"><code>EditorView.posAtDOM</code>方法</a>可用于查找与给定DOM位置对应的文档位置。",
+    "_translate": "新的<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.posAtDOM\"><code>EditorView.posAtDOM</code>方法</a>可用于查找与给定DOM位置对应的文档位置。",
     "_note": ""
   },
   "The new EditorView.nodeDOM method gives you the DOM node that is used to represent a specific node in the document.": {
-    "_translate": "新的<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.nodeDOM\"><code>EditorView.nodeDOM</code>方法</a>为您提供用于表示文档中特定节点的DOM节点。",
+    "_translate": "新的<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.nodeDOM\"><code>EditorView.nodeDOM</code>方法</a>为您提供用于表示文档中特定节点的DOM节点。",
     "_note": ""
   },
   "Decoration.widget now accepts a function as second argument, which can be used to delay rendering of the widget until the document is drawn (at which point a reference to the view is available).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.Decoration%5Ewidget\"><code>Decoration.widget</code></a> 现在接受一个函数作为第二个参数，可以用来延迟小部件的渲染，直到文档被绘制（此时视图的引用可用）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.Decoration%5Ewidget\"><code>Decoration.widget</code></a> 现在接受一个函数作为第二个参数，可以用来延迟小部件的渲染，直到文档被绘制（此时视图的引用可用）。",
     "_note": ""
   },
   "The getPos function passed to a node view constructor can now be called immediately (it used to return undefined until rendering had finished).": {
-    "_translate": "<code>getPos</code> 函数传递给 <a href=\"https://prosemirror.net/docs/ref/#view.editorProps.nodeViews\">节点视图构造函数</a> 现在可以立即调用（以前在渲染完成之前返回未定义）。",
+    "_translate": "<code>getPos</code> 函数传递给 <a href=\"https://prosemirror.xheldon.com/docs/ref/#view.editorProps.nodeViews\">节点视图构造函数</a> 现在可以立即调用（以前在渲染完成之前返回未定义）。",
     "_note": ""
   },
   "The function used to render a widget is now passed a getPos method that event handlers can use to figure out where in the DOM the widget is.": {
-    "_translate": "用于渲染<a href=\"https://prosemirror.net/docs/ref/#view.Decoration%5Ewidget\">小部件</a>的函数现在传递了一个<code>getPos</code>方法，事件处理程序可以使用该方法来确定小部件在DOM中的位置。",
+    "_translate": "用于渲染<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.Decoration%5Ewidget\">小部件</a>的函数现在传递了一个<code>getPos</code>方法，事件处理程序可以使用该方法来确定小部件在DOM中的位置。",
     "_note": ""
   },
   "Fix crash when serializing marks with line breaks inside of them.": {
@@ -2704,7 +2704,7 @@
     "_note": ""
   },
   "Transform.setBlockType no longer drops marks on the nodes it updates.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#transform.Transform.setBlockType\"><code>Transform.setBlockType</code></a> 不再丢弃它更新的节点上的标记。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.Transform.setBlockType\"><code>Transform.setBlockType</code></a> 不再丢弃它更新的节点上的标记。",
     "_note": ""
   },
   "DOMParser can now parse marks on block nodes.": {
@@ -2712,51 +2712,51 @@
     "_note": ""
   },
   "Fixes an issue where joinBackward might create a selection pointing into the old document.": {
-    "_translate": "修复了一个问题，即<a href=\"https://prosemirror.net/docs/ref/#commands.joinBackward\"><code>joinBackward</code></a>可能会创建一个指向旧文档的选择。",
+    "_translate": "修复了一个问题，即<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.joinBackward\"><code>joinBackward</code></a>可能会创建一个指向旧文档的选择。",
     "_note": ""
   },
   "Fix a bug that made replaceStep unable to generate wrapper nodes in some circumstances.": {
-    "_translate": "修复了一个错误，该错误导致<a href=\"https://prosemirror.net/docs/ref/#transform.replaceStep\"><code>replaceStep</code></a>在某些情况下无法生成包装节点。",
+    "_translate": "修复了一个错误，该错误导致<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.replaceStep\"><code>replaceStep</code></a>在某些情况下无法生成包装节点。",
     "_note": ""
   },
   "EditorState.create now accepts a storedMark option to set the state's stored marks.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#state.EditorState%5Ecreate\"><code>EditorState.create</code></a> 现在接受一个 <code>storedMark</code> 选项来设置状态的存储标记。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#state.EditorState%5Ecreate\"><code>EditorState.create</code></a> 现在接受一个 <code>storedMark</code> 选项来设置状态的存储标记。",
     "_note": ""
   },
   "Fixes an issue where replaceStep could generate slices that internally violated the schema.": {
-    "_translate": "修复了<a href=\"https://prosemirror.net/docs/ref/#transform.replaceStep\"><code>replaceStep</code></a>可能生成内部违反模式的切片的问题。",
+    "_translate": "修复了<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.replaceStep\"><code>replaceStep</code></a>可能生成内部违反模式的切片的问题。",
     "_note": ""
   },
   "EditorState.toJSON and fromJSON persist the set of stored marks, when available.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#state.EditorState.toJSON\"><code>EditorState.toJSON</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/#state.EditorState%5EfromJSON\"><code>fromJSON</code></a> 在可用时会持久化存储的标记集。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#state.EditorState.toJSON\"><code>EditorState.toJSON</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/#state.EditorState%5EfromJSON\"><code>fromJSON</code></a> 在可用时会持久化存储的标记集。",
     "_note": ""
   },
   "The setBlockType command command is now considered applicable when any of the selected textblocks can be changed (it used to only look at the first one).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#commands.setBlockType\"><code>setBlockType</code> command</a> 命令现在被认为是适用的，当<em>任何</em>选定的文本块可以更改时（以前只查看第一个）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.setBlockType\"><code>setBlockType</code> command</a> 命令现在被认为是适用的，当<em>任何</em>选定的文本块可以更改时（以前只查看第一个）。",
     "_note": ""
   },
   "Fix crash when calling splitBlock when the selection isn't in a block node (by disabling the command in that case).": {
-    "_translate": "修复在选择不在块节点时调用<a href=\"https://prosemirror.net/docs/ref/#commands.splitBlock\"><code>splitBlock</code></a>时崩溃的问题（在这种情况下禁用该命令）。",
+    "_translate": "修复在选择不在块节点时调用<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.splitBlock\"><code>splitBlock</code></a>时崩溃的问题（在这种情况下禁用该命令）。",
     "_note": ""
   },
   "Fixes an issue where joinForward might create a selection pointing into the old document.": {
-    "_translate": "修复了一个问题，其中<a href=\"https://prosemirror.net/docs/ref/#commands.joinForward\"><code>joinForward</code></a>可能会创建一个指向旧文档的选择。",
+    "_translate": "修复了一个问题，其中<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.joinForward\"><code>joinForward</code></a>可能会创建一个指向旧文档的选择。",
     "_note": ""
   },
   "ContentMatch.defaultType, a way to get a matching node type at a content match position, is now public.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.ContentMatch.defaultType\"><code>ContentMatch.defaultType</code></a>，一种在内容匹配位置获取匹配节点类型的方法，现在已公开。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.ContentMatch.defaultType\"><code>ContentMatch.defaultType</code></a>，一种在内容匹配位置获取匹配节点类型的方法，现在已公开。",
     "_note": ""
   },
   "Transform.deleteRange will cover unmatched opening at the start of the deleted range.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#transform.Transform.deleteRange\"><code>Transform.deleteRange</code></a> 将覆盖删除范围开始处的不匹配开头。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.Transform.deleteRange\"><code>Transform.deleteRange</code></a> 将覆盖删除范围开始处的不匹配开头。",
     "_note": ""
   },
   "ContentMatch objects now have an edgeCount property and an edge method, providing direct access to the finite automaton structure.": {
-    "_translate": "<code>ContentMatch</code> 对象现在有一个 <a href=\"https://prosemirror.net/docs/ref/#model.ContentMatch.edgeCount\"><code>edgeCount</code></a> 属性和一个 <a href=\"https://prosemirror.net/docs/ref/#model.ContentMatch.edge\"><code>edge</code></a> 方法，提供对有限自动机结构的直接访问。",
+    "_translate": "<code>ContentMatch</code> 对象现在有一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/#model.ContentMatch.edgeCount\"><code>edgeCount</code></a> 属性和一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/#model.ContentMatch.edge\"><code>edge</code></a> 方法，提供对有限自动机结构的直接访问。",
     "_note": ""
   },
   "Fixes a bug that caused wrapInList to split list items in the wrong place.": {
-    "_translate": "修复了一个导致<a href=\"https://prosemirror.net/docs/ref/#schema-list.wrapInList\"><code>wrapInList</code></a>在错误位置拆分列表项的错误。",
+    "_translate": "修复了一个导致<a href=\"https://prosemirror.xheldon.com/docs/ref/#schema-list.wrapInList\"><code>wrapInList</code></a>在错误位置拆分列表项的错误。",
     "_note": ""
   },
   "Throw errors, rather than constructing invalid objects, when deserializing from invalid JSON data.": {
@@ -2768,7 +2768,7 @@
     "_note": ""
   },
   "rangeHasMark now always returns false for empty ranges.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.Node.rangeHasMark\"><code>rangeHasMark</code></a> 现在对于空范围总是返回 false。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.Node.rangeHasMark\"><code>rangeHasMark</code></a> 现在对于空范围总是返回 false。",
     "_note": ""
   },
   "The DOM renderer no longer needlessly splits mark nodes when starting a non-rendered mark.": {
@@ -2776,19 +2776,19 @@
     "_note": ""
   },
   "DOMSerializer now allows DOM specs for marks to have holes in them, to specify the precise position where their content should be rendered.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.DOMSerializer\"><code>DOMSerializer</code></a> 现在允许标记的 <a href=\"https://prosemirror.net/docs/ref/#model.DOMOutputSpec\">DOM 规范</a> 中有空洞，以指定其内容应呈现的精确位置。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.DOMSerializer\"><code>DOMSerializer</code></a> 现在允许标记的 <a href=\"https://prosemirror.xheldon.com/docs/ref/#model.DOMOutputSpec\">DOM 规范</a> 中有空洞，以指定其内容应呈现的精确位置。",
     "_note": ""
   },
   "The base position parameter to Node.nodesBetween and Fragment.nodesBetween is now part of the public interface.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.Node.nodesBetween\"><code>Node.nodesBetween</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/#model.Fragment.nodesBetween\"><code>Fragment.nodesBetween</code></a> 的基位置参数现在是公共接口的一部分。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.Node.nodesBetween\"><code>Node.nodesBetween</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/#model.Fragment.nodesBetween\"><code>Fragment.nodesBetween</code></a> 的基位置参数现在是公共接口的一部分。",
     "_note": ""
   },
   "replaceStep will now return null rather than an empty step when it fails to place the slice.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#transform.replaceStep\"><code>replaceStep</code></a> 现在在无法放置切片时将返回 null 而不是一个空步骤。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.replaceStep\"><code>replaceStep</code></a> 现在在无法放置切片时将返回 null 而不是一个空步骤。",
     "_note": ""
   },
   "Avoid duplicating defining parent nodes in replaceRange.": {
-    "_translate": "避免在<a href=\"https://prosemirror.net/docs/ref/#tranform.Transform.replaceRange\"><code>replaceRange</code></a>中重复定义父节点。",
+    "_translate": "避免在<a href=\"https://prosemirror.xheldon.com/docs/ref/#tranform.Transform.replaceRange\"><code>replaceRange</code></a>中重复定义父节点。",
     "_note": ""
   },
   "Fix a problem where updating the state of a non-editable view would not set the selection, causing problems when the DOM was updated in a way that disrupted the DOM selection.": {
@@ -2804,7 +2804,7 @@
     "_note": ""
   },
   "Fixes a bug that prevented decorations inside node views with a contentDOM property from being drawn.": {
-    "_translate": "修复了一个阻止带有<a href=\"https://prosemirror.net/docs/ref/#view.NodeView.contentDOM\"><code>contentDOM</code>属性</a>的节点视图内部装饰被绘制的错误。",
+    "_translate": "修复了一个阻止带有<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.NodeView.contentDOM\"><code>contentDOM</code>属性</a>的节点视图内部装饰被绘制的错误。",
     "_note": ""
   },
   "Fixes an issue where, on Firefox, depending on a race condition, the skipping over insignificant DOM nodes done at keypress was canceled again before the keypress took effect.": {
@@ -2816,11 +2816,11 @@
     "_note": ""
   },
   "The DOM structure for marks is no longer constrained to a single node. Mark views can have a contentDOM property, and mark spec toDOM methods can return structures with holes.": {
-    "_translate": "标记的DOM结构不再局限于单个节点。<a href=\"https://prosemirror.net/docs/ref/#view.NodeView\">标记视图</a>可以有一个<code>contentDOM</code>属性，并且<a href=\"https://prosemirror.net/docs/ref/#model.MarkSpec\">标记规范</a><code>toDOM</code>方法可以返回带有空洞的结构。",
+    "_translate": "标记的DOM结构不再局限于单个节点。<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.NodeView\">标记视图</a>可以有一个<code>contentDOM</code>属性，并且<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.MarkSpec\">标记规范</a><code>toDOM</code>方法可以返回带有空洞的结构。",
     "_note": ""
   },
   "Widget decorations are now wrapped in the marks of the node after them when their side option is >= 0.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.Decoration%5Ewidget\">小部件装饰</a>现在在其<a href=\"https://prosemirror.net/docs/ref/#view.Decoration%5Ewidget%5Espec.side\"><code>side</code>选项</a>为 &gt;= 0 时被它们后面的节点的标记包裹。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.Decoration%5Ewidget\">小部件装饰</a>现在在其<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.Decoration%5Ewidget%5Espec.side\"><code>side</code>选项</a>为 &gt;= 0 时被它们后面的节点的标记包裹。",
     "_note": ""
   },
   "Fix a bug that could corrupt the history when rebasing changes because of collaborative editing.": {
@@ -2828,7 +2828,7 @@
     "_note": ""
   },
   "Widget decorations may now specify a marks option to set the precise set of marks they should be wrapped in.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.Decoration%5Ewidget\">小部件装饰</a>现在可以指定一个<a href=\"https://prosemirror.net/docs/ref/#view.Decoration%5Ewidget%5Espec.marks\"><code>marks</code>选项</a>来设置它们应该包裹的精确标记集。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.Decoration%5Ewidget\">小部件装饰</a>现在可以指定一个<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.Decoration%5Ewidget%5Espec.marks\"><code>marks</code>选项</a>来设置它们应该包裹的精确标记集。",
     "_note": ""
   },
   "Fixes a bug that prevented the menu bar from properly unregistering its \"scroll\" event handlers when destroyed.": {
@@ -2884,11 +2884,11 @@
     "_note": ""
   },
   "Fix crash in splitBlock when defaultContentType returns null.": {
-    "_translate": "修复当<code>defaultContentType</code>返回null时<a href=\"https://prosemirror.net/docs/ref/#commands.splitBlock\"><code>splitBlock</code></a>的崩溃问题。",
+    "_translate": "修复当<code>defaultContentType</code>返回null时<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.splitBlock\"><code>splitBlock</code></a>的崩溃问题。",
     "_note": ""
   },
   "Fixes a crash in replace.": {
-    "_translate": "修复了在<a href=\"https://prosemirror.net/docs/ref/#transform.Transform.replace\"><code>replace</code></a>中的崩溃问题。",
+    "_translate": "修复了在<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.Transform.replace\"><code>replace</code></a>中的崩溃问题。",
     "_note": ""
   },
   "Improve preservation of open and closed nodes in slices taken from the clipboard.": {
@@ -2896,11 +2896,11 @@
     "_note": ""
   },
   "EditorState.toJSON now accepts a string or number as argument to support the way JSON.stringify can call it.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#state.EditorState.toJSON\"><code>EditorState.toJSON</code></a> 现在接受字符串或数字作为参数，以支持 <code>JSON.stringify</code> 调用它的方式。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#state.EditorState.toJSON\"><code>EditorState.toJSON</code></a> 现在接受字符串或数字作为参数，以支持 <code>JSON.stringify</code> 调用它的方式。",
     "_note": ""
   },
   "Pressing delete in front of an isolating node no longer opens it.": {
-    "_translate": "按下删除键时，位于<a href=\"https://prosemirror.net/docs/ref/#model.NodeSpec.isolating\">隔离</a>节点前不再打开它。",
+    "_translate": "按下删除键时，位于<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.NodeSpec.isolating\">隔离</a>节点前不再打开它。",
     "_note": ""
   },
   "Work around a Chrome cursor motion bug by making sure nodes don't get a contenteditable=false attribute.": {
@@ -2916,11 +2916,11 @@
     "_note": ""
   },
   "Fix issue where Decoration.map would in some situations with nested nodes incorrectly map decoration positions.": {
-    "_translate": "修复在某些嵌套节点情况下<a href=\"https://prosemirror.net/docs/ref/#view.DecorationSet.map\"><code>Decoration.map</code></a>会错误地映射装饰位置的问题。",
+    "_translate": "修复在某些嵌套节点情况下<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.DecorationSet.map\"><code>Decoration.map</code></a>会错误地映射装饰位置的问题。",
     "_note": ""
   },
   "Slice.maxOpen now has a second argument that can be used to prevent it from opening isolating nodes.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.Slice%5EmaxOpen\"><code>Slice.maxOpen</code></a> 现在有了第二个参数，可以用来防止它打开隔离节点。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.Slice%5EmaxOpen\"><code>Slice.maxOpen</code></a> 现在有了第二个参数，可以用来防止它打开隔离节点。",
     "_note": ""
   },
   "Pasting from an external source no longer opens isolating nodes like table cells.": {
@@ -2932,11 +2932,11 @@
     "_note": ""
   },
   "DecorationSet.remove now uses a proper deep compare to determine if widgets are the same (it used to compare by identity).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#view.DecorationSet.remove\"><code>DecorationSet.remove</code></a> 现在使用适当的深度比较来确定小部件是否相同（以前是通过身份比较）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.DecorationSet.remove\"><code>DecorationSet.remove</code></a> 现在使用适当的深度比较来确定小部件是否相同（以前是通过身份比较）。",
     "_note": ""
   },
   "Fix issue where joinBackward would sometimes create an invalid selection.": {
-    "_translate": "修复<a href=\"https://prosemirror.net/docs/ref/#commands.joinBackward\"><code>joinBackward</code></a>有时会创建无效选择的问题。",
+    "_translate": "修复<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.joinBackward\"><code>joinBackward</code></a>有时会创建无效选择的问题。",
     "_note": ""
   },
   "Fix issue where a character might be selected after overwriting across block nodes.": {
@@ -2968,7 +2968,7 @@
     "_note": ""
   },
   "splitBlock no longer crashes when used in a block that's it's parent node's only allowed child.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#commands.splitBlock\"><code>splitBlock</code></a> 在用于其父节点唯一允许的子节点的块时不再崩溃。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.splitBlock\"><code>splitBlock</code></a> 在用于其父节点唯一允许的子节点的块时不再崩溃。",
     "_note": ""
   },
   "Fix test for whether a node can be selected when arrowing onto it from the right.": {
@@ -2976,15 +2976,15 @@
     "_note": ""
   },
   "Calling posAtCoords while a read from the DOM is pending will no longer return a malformed result.": {
-    "_translate": "调用<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.posAtCoords\"><code>posAtCoords</code></a>时，如果有来自DOM的读取正在进行，将不再返回格式错误的结果。",
+    "_translate": "调用<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.posAtCoords\"><code>posAtCoords</code></a>时，如果有来自DOM的读取正在进行，将不再返回格式错误的结果。",
     "_note": ""
   },
   "ReplaceError instances now properly inherit from Error.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.ReplaceError\"><code>ReplaceError</code></a> 实例现在正确地继承自 <code>Error</code>。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.ReplaceError\"><code>ReplaceError</code></a> 实例现在正确地继承自 <code>Error</code>。",
     "_note": ""
   },
   "The errors raised by Transform.step now properly inherit from Error.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#transform.Transform.step\"><code>Transform.step</code></a> 现在引发的错误正确地继承自 Error。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.Transform.step\"><code>Transform.step</code></a> 现在引发的错误正确地继承自 Error。",
     "_note": ""
   },
   "Deleting the last character in a list item no longer results in a spurious hard_break node on Safari.": {
@@ -3024,15 +3024,15 @@
     "_note": ""
   },
   "ParseRule.context may now include multiple, pipe-separated context expressions.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#model.ParseRule.context\"><code>ParseRule.context</code></a> 现在可以包含多个用竖线分隔的上下文表达式。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#model.ParseRule.context\"><code>ParseRule.context</code></a> 现在可以包含多个用竖线分隔的上下文表达式。",
     "_note": ""
   },
   "When setBlockType comes across a textblock that can't be changed due to schema constraints, it skips it instead of failing.": {
-    "_translate": "当<a href=\"https://prosemirror.net/docs/ref/#transform.Transform.setBlockType\"><code>setBlockType</code></a>遇到由于模式限制而无法更改的文本块时，它会跳过该文本块而不是失败。",
+    "_translate": "当<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.Transform.setBlockType\"><code>setBlockType</code></a>遇到由于模式限制而无法更改的文本块时，它会跳过该文本块而不是失败。",
     "_note": ""
   },
   "canSplit now returns false when the requested split goes through isolating nodes.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#transform.canSplit\"><code>canSplit</code></a> 现在当请求的分割穿过隔离节点时返回 false。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#transform.canSplit\"><code>canSplit</code></a> 现在当请求的分割穿过隔离节点时返回 false。",
     "_note": ""
   },
   "Dragging nodes with a node view that handles its own mouse events should work better now.": {
@@ -3064,15 +3064,15 @@
     "_note": ""
   },
   "The dragging property of a view, which contains information about editor content being dragged, is now part of the public interface.": {
-    "_translate": "视图的<a href=\"https://prosemirror.net/docs/ref/#view.EditorView.dragging\"><code>dragging</code></a>属性，现在包含有关正在拖动的编辑器内容的信息，已成为公共接口的一部分。",
+    "_translate": "视图的<a href=\"https://prosemirror.xheldon.com/docs/ref/#view.EditorView.dragging\"><code>dragging</code></a>属性，现在包含有关正在拖动的编辑器内容的信息，已成为公共接口的一部分。",
     "_note": ""
   },
   "The setBlockType command can now be used to change the types of multiple selected textblocks (rather than only one).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/#commands.setBlockType\"><code>setBlockType</code> 命令</a>现在可以用于更改多个选定文本块的类型（而不仅仅是一个）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.setBlockType\"><code>setBlockType</code> 命令</a>现在可以用于更改多个选定文本块的类型（而不仅仅是一个）。",
     "_note": ""
   },
   "The platform-dependent versions of the base keymap are now exported separately as pcBaseKeymap and macBaseKeymap.": {
-    "_translate": "平台相关版本的<a href=\"https://prosemirror.net/docs/ref/#commands.baseKeymap\">base keymap</a>现在分别作为<a href=\"https://prosemirror.net/docs/ref/#commands.pcBaseKeymap\"><code>pcBaseKeymap</code></a>和<a href=\"https://prosemirror.net/docs/ref/#commands.macBaseKeymap\"><code>macBaseKeymap</code></a>导出。",
+    "_translate": "平台相关版本的<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.baseKeymap\">base keymap</a>现在分别作为<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.pcBaseKeymap\"><code>pcBaseKeymap</code></a>和<a href=\"https://prosemirror.xheldon.com/docs/ref/#commands.macBaseKeymap\"><code>macBaseKeymap</code></a>导出。",
     "_note": ""
   },
   "Valid gap cursor positions are not determined in a way that allows them inside nested nodes. By default, any position where a textblock can be inserted is valid gap cursor position.": {
@@ -3084,11 +3084,11 @@
     "_note": ""
   },
   "The setNodeType method on transforms is now more descriptively called setNodeMarkup. The old name will continue to work with a warning until the next release.": {
-    "_translate": "transforms 上的 <code>setNodeType</code> 方法现在更具描述性地称为 <a href=\"https://prosemirror.net/docs/ref/version/0.24.0.html#transform.Transform.setNodeMarkup\"><code>setNodeMarkup</code></a>。旧名称将在下一个版本发布之前继续使用，但会有警告。",
+    "_translate": "transforms 上的 <code>setNodeType</code> 方法现在更具描述性地称为 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.24.0.html#transform.Transform.setNodeMarkup\"><code>setNodeMarkup</code></a>。旧名称将在下一个版本发布之前继续使用，但会有警告。",
     "_note": ""
   },
   "The clipboardTextParser prop is now passed a context position.": {
-    "_translate": "The <a href=\"https://prosemirror.net/docs/ref/version/0.24.0.html#view.EditorProps.clipboardTextParser\"><code>clipboardTextParser</code></a> 属性现在传递一个上下文位置。",
+    "_translate": "The <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.24.0.html#view.EditorProps.clipboardTextParser\"><code>clipboardTextParser</code></a> 属性现在传递一个上下文位置。",
     "_note": ""
   },
   "It is no longer necessary to manually enable the preserveItems option to the history plugin when using collaborative editing. (This behavior is now automatically enabled when necessary.)": {
@@ -3100,19 +3100,19 @@
     "_note": ""
   },
   "ResolvedPos.marks no longer takes a parameter (you probably want marksAcross if you were passing true there).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.ResolvedPos.marks\"><code>ResolvedPos.marks</code></a> 不再接受参数（如果你之前传递了 true，你可能需要 <a href=\"https://prosemirror.net/doc/ref/version/0.23.0.html#model.ResolvedPos.marksAcross\"><code>marksAcross</code></a>）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.ResolvedPos.marks\"><code>ResolvedPos.marks</code></a> 不再接受参数（如果你之前传递了 true，你可能需要 <a href=\"https://prosemirror.xheldon.com/doc/ref/version/0.23.0.html#model.ResolvedPos.marksAcross\"><code>marksAcross</code></a>）。",
     "_note": ""
   },
   "Attribute and mark constraints in content expressions are no longer supported (this also means the prosemirror-schema-table package, which relied on them, is no longer supported). In this release, mark constraints are still (approximately) recognized with a warning, when present.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.NodeSpec.content\">内容表达式</a>中的属性和标记约束不再受支持（这也意味着依赖它们的<code>prosemirror-schema-table</code>包不再受支持）。在此版本中，标记约束在存在时仍会（大致）被识别并发出警告。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.NodeSpec.content\">内容表达式</a>中的属性和标记约束不再受支持（这也意味着依赖它们的<code>prosemirror-schema-table</code>包不再受支持）。在此版本中，标记约束在存在时仍会（大致）被识别并发出警告。",
     "_note": ""
   },
   "ContentMatch.validEnd is now a property rather than a method.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.ContentMatch.validEnd\"><code>ContentMatch.validEnd</code></a> 现在是一个属性而不是一个方法。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.ContentMatch.validEnd\"><code>ContentMatch.validEnd</code></a> 现在是一个属性而不是一个方法。",
     "_note": ""
   },
   "ContentMatch objects lost a number of methods: matchNode, matchToEnd, findWrappingFor (which can be easily emulated using the remaining API), and allowsMark, which is now the responsibility of node types instead.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.ContentMatch\"><code>ContentMatch</code></a> 对象失去了许多方法：<code>matchNode</code>、<code>matchToEnd</code>、<code>findWrappingFor</code>（可以使用剩余的 API 轻松模拟）和 <code>allowsMark</code>，现在这是 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.NodeType.allowsMarkType\">节点类型</a> 的责任。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.ContentMatch\"><code>ContentMatch</code></a> 对象失去了许多方法：<code>matchNode</code>、<code>matchToEnd</code>、<code>findWrappingFor</code>（可以使用剩余的 API 轻松模拟）和 <code>allowsMark</code>，现在这是 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.NodeType.allowsMarkType\">节点类型</a> 的责任。",
     "_note": ""
   },
   "The compute method for attributes is no longer supported.": {
@@ -3120,7 +3120,7 @@
     "_note": ""
   },
   "ContentMatch.findWrapping now returns an array of plain node types, with no attribute information (since this is no longer necessary).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.ContentMatch.findWrapping\"><code>ContentMatch.findWrapping</code></a> 现在返回一个普通节点类型的数组，没有属性信息（因为这不再是必要的）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.ContentMatch.findWrapping\"><code>ContentMatch.findWrapping</code></a> 现在返回一个普通节点类型的数组，没有属性信息（因为这不再是必要的）。",
     "_note": ""
   },
   "Fragments no longer have an offsetAt method.": {
@@ -3128,11 +3128,11 @@
     "_note": ""
   },
   "DOMParser.schemaRules is no longer public (use fromSchema and get the resulting parser's rules property instead).": {
-    "_translate": "<code>DOMParser.schemaRules</code> 不再是公开的（请使用 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.DOMParser%5EfromSchema\"><code>fromSchema</code></a> 并获取生成的解析器的 <code>rules</code> 属性）。",
+    "_translate": "<code>DOMParser.schemaRules</code> 不再是公开的（请使用 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.DOMParser%5EfromSchema\"><code>fromSchema</code></a> 并获取生成的解析器的 <code>rules</code> 属性）。",
     "_note": ""
   },
   "The DOM parser option topStart has been replaced by topMatch.": {
-    "_translate": "DOM 解析器选项 <code>topStart</code> 已被 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.ParseOptions.topMatch\"><code>topMatch</code></a> 取代。",
+    "_translate": "DOM 解析器选项 <code>topStart</code> 已被 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.ParseOptions.topMatch\"><code>topMatch</code></a> 取代。",
     "_note": ""
   },
   "Fix issue where whitespace at node boundaries was sometimes dropped during content parsing.": {
@@ -3140,7 +3140,7 @@
     "_note": ""
   },
   "The DOMSerializer methods nodesFromSchema and marksFromSchema are no longer public (construct a serializer with fromSchema and read its nodes and marks properties instead).": {
-    "_translate": "<code>DOMSerializer</code> 方法 <code>nodesFromSchema</code> 和 <code>marksFromSchema</code> 不再是公开的（使用 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.DOMSerializer%5EfromSchema\"><code>fromSchema</code></a> 构造一个序列化器，并读取其 <code>nodes</code> 和 <code>marks</code> 属性）。",
+    "_translate": "<code>DOMSerializer</code> 方法 <code>nodesFromSchema</code> 和 <code>marksFromSchema</code> 不再是公开的（使用 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.DOMSerializer%5EfromSchema\"><code>fromSchema</code></a> 构造一个序列化器，并读取其 <code>nodes</code> 和 <code>marks</code> 属性）。",
     "_note": ""
   },
   "Attribute default values of undefined are now allowed.": {
@@ -3148,43 +3148,43 @@
     "_note": ""
   },
   "contentElement in parse rules may now be a function.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.ParseRule.contentElement\"><code>contentElement</code></a> 在解析规则中现在可以是一个函数。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.ParseRule.contentElement\"><code>contentElement</code></a> 在解析规则中现在可以是一个函数。",
     "_note": ""
   },
   "The new method ResolvedPos.marksAcross can be used to find the set of marks that should be preserved after a deletion.": {
-    "_translate": "新的方法<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.ResolvedPos.marksAcross\"><code>ResolvedPos.marksAcross</code></a>可以用来找到删除后应保留的标记集。",
+    "_translate": "新的方法<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.ResolvedPos.marksAcross\"><code>ResolvedPos.marksAcross</code></a>可以用来找到删除后应保留的标记集。",
     "_note": ""
   },
   "Content expressions are now a regular language, meaning all the operators can be nested and composed as desired, and a bunch of constraints on what could appear next to what have been lifted.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.NodeSpec.content\">内容表达式</a>现在是一个常规语言，这意味着所有的操作符都可以根据需要嵌套和组合，并且对相邻内容的限制已经被取消。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.NodeSpec.content\">内容表达式</a>现在是一个常规语言，这意味着所有的操作符都可以根据需要嵌套和组合，并且对相邻内容的限制已经被取消。",
     "_note": ""
   },
   "Allowed marks are now specified per node, rather than in content expressions, using the marks property on the node spec.": {
-    "_translate": "允许的标记现在是针对每个节点指定的，而不是在内容表达式中，使用节点规范中的<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.NodeSpec.marks\"><code>marks</code></a>属性。",
+    "_translate": "允许的标记现在是针对每个节点指定的，而不是在内容表达式中，使用节点规范中的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.NodeSpec.marks\"><code>marks</code></a>属性。",
     "_note": ""
   },
   "The starting content match for a node type now lives in NodeType.contentMatch.": {
-    "_translate": "节点类型的起始内容匹配现在位于<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.NodeType.contentMatch\"><code>NodeType.contentMatch</code></a>。",
+    "_translate": "节点类型的起始内容匹配现在位于<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.NodeType.contentMatch\"><code>NodeType.contentMatch</code></a>。",
     "_note": ""
   },
   "Node types received new methods allowsMarkType, allowsMarks, and allowedMarks, which tell you about the marks that node supports.": {
-    "_translate": "节点类型接收了新方法 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.NodeType.allowsMarkType\"><code>allowsMarkType</code></a>、<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.NodeType.allowsMarks\"><code>allowsMarks</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.NodeType.allowedMarks\"><code>allowedMarks</code></a>，这些方法告诉你节点支持的标记。",
+    "_translate": "节点类型接收了新方法 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.NodeType.allowsMarkType\"><code>allowsMarkType</code></a>、<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.NodeType.allowsMarks\"><code>allowsMarks</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.NodeType.allowedMarks\"><code>allowedMarks</code></a>，这些方法告诉你节点支持的标记。",
     "_note": ""
   },
   "The style property on parse rules may now have the form \"font-style=italic\" to only match styles that have the value after the equals sign.": {
-    "_translate": "解析规则中的<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#model.ParseRule.style\"><code>style</code></a>属性现在可以采用<code>\"font-style=italic\"</code>的形式，仅匹配等号后面的值的样式。",
+    "_translate": "解析规则中的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#model.ParseRule.style\"><code>style</code></a>属性现在可以采用<code>\"font-style=italic\"</code>的形式，仅匹配等号后面的值的样式。",
     "_note": ""
   },
   "Steps no longer have an offset method. Map them through a map created with StepMap.offset instead.": {
-    "_translate": "步骤不再具有<code>offset</code>方法。请通过使用<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#transform.StepMap%5Eoffset\"><code>StepMap.offset</code></a>创建的映射来映射它们。",
+    "_translate": "步骤不再具有<code>offset</code>方法。请通过使用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#transform.StepMap%5Eoffset\"><code>StepMap.offset</code></a>创建的映射来映射它们。",
     "_note": ""
   },
   "Step.toJSON no longer has a default implementation.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#transform.Step.toJSON\"><code>Step.toJSON</code></a> 不再有默认实现。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#transform.Step.toJSON\"><code>Step.toJSON</code></a> 不再有默认实现。",
     "_note": ""
   },
   "The clearMarkup method on Transform is no longer supported (you probably needed clearIncompatible anyway).": {
-    "_translate": "<code>clearMarkup</code> 方法在 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#transform.Transform\"><code>Transform</code></a> 中不再支持（你可能需要 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#transform.Transform.clearIncompatible\"><code>clearIncompatible</code></a>）。",
+    "_translate": "<code>clearMarkup</code> 方法在 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#transform.Transform\"><code>Transform</code></a> 中不再支持（你可能需要 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#transform.Transform.clearIncompatible\"><code>clearIncompatible</code></a>）。",
     "_note": ""
   },
   "Pasting a list item at the start of a non-empty textblock now wraps the textblock in a list.": {
@@ -3192,19 +3192,19 @@
     "_note": ""
   },
   "Marks on open nodes at the left of a slice are no longer dropped by Transform.replace.": {
-    "_translate": "切片左侧开放节点上的标记不再被<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#transform.Transform.replace\"><code>Transform.replace</code></a>丢弃。",
+    "_translate": "切片左侧开放节点上的标记不再被<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#transform.Transform.replace\"><code>Transform.replace</code></a>丢弃。",
     "_note": ""
   },
   "StepMap now has a static method offset, which can be used to create a map that offsets all positions by a given distance.": {
-    "_translate": "<code>StepMap</code> 现在有一个静态方法 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#transform.StepMap%5Eoffset\"><code>offset</code></a>，可以用来创建一个将所有位置偏移给定距离的映射。",
+    "_translate": "<code>StepMap</code> 现在有一个静态方法 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#transform.StepMap%5Eoffset\"><code>offset</code></a>，可以用来创建一个将所有位置偏移给定距离的映射。",
     "_note": ""
   },
   "Transform objects now have a clearIncompatible method that can help make sure a node's content matches another node type.": {
-    "_translate": "Transform 对象现在有一个 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#transform.Transform.clearIncompatible\"><code>clearIncompatible</code></a> 方法，可以帮助确保一个节点的内容与另一个节点类型匹配。",
+    "_translate": "Transform 对象现在有一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#transform.Transform.clearIncompatible\"><code>clearIncompatible</code></a> 方法，可以帮助确保一个节点的内容与另一个节点类型匹配。",
     "_note": ""
   },
   "The onFocus, onBlur, and handleContextMenu props are no longer supported. You can achieve their effect with the handleDOMEvents prop.": {
-    "_translate": "<code>onFocus</code>、<code>onBlur</code> 和 <code>handleContextMenu</code> 属性不再支持。你可以使用 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#view.EditorProps.handleDOMEvents\"><code>handleDOMEvents</code></a> 属性来实现它们的效果。",
+    "_translate": "<code>onFocus</code>、<code>onBlur</code> 和 <code>handleContextMenu</code> 属性不再支持。你可以使用 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#view.EditorProps.handleDOMEvents\"><code>handleDOMEvents</code></a> 属性来实现它们的效果。",
     "_note": ""
   },
   "Fixes occasional crash when reading the selection in Firefox.": {
@@ -3224,19 +3224,19 @@
     "_note": ""
   },
   "Adds a new view prop, handleScrollToSelection to override the behavior of scrolling the selection into view.": {
-    "_translate": "添加一个新的视图属性，<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#view.EditorProps.handleScrollToSelection\"><code>handleScrollToSelection</code></a>，以覆盖将选区滚动到视图中的行为。",
+    "_translate": "添加一个新的视图属性，<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#view.EditorProps.handleScrollToSelection\"><code>handleScrollToSelection</code></a>，以覆盖将选区滚动到视图中的行为。",
     "_note": ""
   },
   "The new editor prop clipboardTextSerializer allows you to override the way a piece of document is converted to clipboard text.": {
-    "_translate": "新的编辑器属性 <a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#view.EditorProps.clipboardTextSerializer\"><code>clipboardTextSerializer</code></a> 允许您覆盖将文档片段转换为剪贴板文本的方式。",
+    "_translate": "新的编辑器属性 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#view.EditorProps.clipboardTextSerializer\"><code>clipboardTextSerializer</code></a> 允许您覆盖将文档片段转换为剪贴板文本的方式。",
     "_note": ""
   },
   "Adds the editor prop clipboardTextParser, which can be used to define your own parsing strategy for clipboard text content.": {
-    "_translate": "添加编辑器属性<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#view.EditorProps.clipboardTextParser\"><code>clipboardTextParser</code></a>，可以用来定义剪贴板文本内容的解析策略。",
+    "_translate": "添加编辑器属性<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#view.EditorProps.clipboardTextParser\"><code>clipboardTextParser</code></a>，可以用来定义剪贴板文本内容的解析策略。",
     "_note": ""
   },
   "DecorationSet.find now supports passing a predicate to filter decorations by spec.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#view.DecorationSet.find\"><code>DecorationSet.find</code></a> 现在支持传递谓词以通过 spec 过滤装饰。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#view.DecorationSet.find\"><code>DecorationSet.find</code></a> 现在支持传递谓词以通过 spec 过滤装饰。",
     "_note": ""
   },
   "Schema-specific rule-builders blockQuoteRule, orderedListRule, bulletListRule, codeBlockRule, and headingRule, along with the allInputRules array, are no longer included in this module.": {
@@ -3248,15 +3248,15 @@
     "_note": ""
   },
   "baseKeymap no longer binds keys for joinUp, joinDown, lift, and selectParentNode.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#commands.baseKeymap\"><code>baseKeymap</code></a> 不再绑定 <code>joinUp</code>、<code>joinDown</code>、<code>lift</code> 和 <code>selectParentNode</code> 的按键。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#commands.baseKeymap\"><code>baseKeymap</code></a> 不再绑定 <code>joinUp</code>、<code>joinDown</code>、<code>lift</code> 和 <code>selectParentNode</code> 的按键。",
     "_note": ""
   },
   "New commands selectNodeForward and selectNodeBackward added.": {
-    "_translate": "新增命令<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#commands.selectNodeForward\"><code>selectNodeForward</code></a>和<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#commands.selectNodeBackward\"><code>selectNodeBackward</code></a>。",
+    "_translate": "新增命令<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#commands.selectNodeForward\"><code>selectNodeForward</code></a>和<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#commands.selectNodeBackward\"><code>selectNodeBackward</code></a>。",
     "_note": ""
   },
   "The splitListItem command now splits the parent list item when executed in a (trailing) empty list item in a nested list.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.23.0.html#schema-list.splitListItem\"><code>splitListItem</code> 命令</a> 现在在嵌套列表中的（尾随）空列表项中执行时会拆分父列表项。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.23.0.html#schema-list.splitListItem\"><code>splitListItem</code> 命令</a> 现在在嵌套列表中的（尾随）空列表项中执行时会拆分父列表项。",
     "_note": ""
   },
   "Invisible selections that don't cover any content (i.e., a cursor) are now properly hidden.": {
@@ -3276,31 +3276,31 @@
     "_note": ""
   },
   "Fix crash in canSplit when an array containing null fields is passed as fourth argument.": {
-    "_translate": "修复在将包含空字段的数组作为第四个参数传递时，<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#transform.canSplit\"><code>canSplit</code></a> 崩溃的问题。",
+    "_translate": "修复在将包含空字段的数组作为第四个参数传递时，<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#transform.canSplit\"><code>canSplit</code></a> 崩溃的问题。",
     "_note": ""
   },
   "When using parseSlice, inline DOM content wrapped in block elements for which no parse rule is defined will now be properly wrapped in a textblock node.": {
-    "_translate": "当使用<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#model.DOMParser.parseSlice\"><code>parseSlice</code></a>时，未定义解析规则的块元素中包裹的内联DOM内容现在将被正确地包裹在一个文本块节点中。",
+    "_translate": "当使用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#model.DOMParser.parseSlice\"><code>parseSlice</code></a>时，未定义解析规则的块元素中包裹的内联DOM内容现在将被正确地包裹在一个文本块节点中。",
     "_note": ""
   },
   "Resolved positions now have a doc accessor to easily get their root node.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#model.ResolvedPos\">解析位置</a> 现在有一个 <a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#model.ResolvedPos.doc\"><code>doc</code></a> 访问器，可以轻松获取它们的根节点。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#model.ResolvedPos\">解析位置</a> 现在有一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#model.ResolvedPos.doc\"><code>doc</code></a> 访问器，可以轻松获取它们的根节点。",
     "_note": ""
   },
   "Parse rules now support a namespace property to match XML namespaces.": {
-    "_translate": "解析规则现在支持<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#model.ParseRule.namespace\"><code>namespace</code>属性</a>以匹配XML命名空间。",
+    "_translate": "解析规则现在支持<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#model.ParseRule.namespace\"><code>namespace</code>属性</a>以匹配XML命名空间。",
     "_note": ""
   },
   "The NodeRange constructor is now public (whereas before you could only construct these through blockRange).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#model.NodeRange\"><code>NodeRange</code></a> 构造函数现在是公开的（之前你只能通过 <a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#model.ResolvedPos.blockRange\"><code>blockRange</code></a> 构造这些）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#model.NodeRange\"><code>NodeRange</code></a> 构造函数现在是公开的（之前你只能通过 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#model.ResolvedPos.blockRange\"><code>blockRange</code></a> 构造这些）。",
     "_note": ""
   },
   "canSplit now returns false when given custom after-split node types that don't match the content at that point.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#transform.canSplit\"><code>canSplit</code></a> 现在在给定自定义的分割后节点类型与该点内容不匹配时返回 false。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#transform.canSplit\"><code>canSplit</code></a> 现在在给定自定义的分割后节点类型与该点内容不匹配时返回 false。",
     "_note": ""
   },
   "Fixes canLift incorrectly returning null when lifting into an isolating node.": {
-    "_translate": "修复了<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#transform.canLift\"><code>canLift</code></a>在提升到隔离节点时错误地返回null的问题。",
+    "_translate": "修复了<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#transform.canLift\"><code>canLift</code></a>在提升到隔离节点时错误地返回null的问题。",
     "_note": ""
   },
   "Fix an issue where moving the cursor through a text widget causes the editor to lose the selection in Chrome.": {
@@ -3312,7 +3312,7 @@
     "_note": ""
   },
   "Destroying a mounted editor view no longer leaks event handlers.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#view.EditorView.destroy\">销毁</a>一个<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#view.EditorView.constructor\">挂载的</a>编辑器视图不再泄漏事件处理程序。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#view.EditorView.destroy\">销毁</a>一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#view.EditorView.constructor\">挂载的</a>编辑器视图不再泄漏事件处理程序。",
     "_note": ""
   },
   "Display updates for regular, non-composition input are now synchronous, which should reduce flickering when, for example, updating decorations in response to typing.": {
@@ -3328,15 +3328,15 @@
     "_note": ""
   },
   "Editor views now have a domAtPos method, which gives you the DOM position corresponding to a given document position.": {
-    "_translate": "编辑器视图现在有一个<a href=\"https://prosemirror.net/docs/ref/version/0.22.0.html#view.EditorView.domAtPos\"><code>domAtPos</code>方法</a>，它为您提供与给定文档位置对应的DOM位置。",
+    "_translate": "编辑器视图现在有一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.22.0.html#view.EditorView.domAtPos\"><code>domAtPos</code>方法</a>，它为您提供与给定文档位置对应的DOM位置。",
     "_note": ""
   },
   "addMark no longer assumes marks always exclude only themselves.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#transform.Transform.addMark\"><code>addMark</code></a> 不再假设标记总是<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#model.MarkSpec.excludes\">排除</a>它们自己。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#transform.Transform.addMark\"><code>addMark</code></a> 不再假设标记总是<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#model.MarkSpec.excludes\">排除</a>它们自己。",
     "_note": ""
   },
-  "replaceRange](https://prosemirror.net/docs/ref/version/0.21.0.html#transform.Transform.replaceRange) and deleteRange will no longer expand the range across isolating node boundaries.": {
-    "_translate": "<code>replaceRange</code>](https://prosemirror.net/docs/ref/version/0.21.0.html#transform.Transform.replaceRange) 和 <a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#transform.Transform.deleteRange\"><code>deleteRange</code></a> 将不再跨隔离节点边界扩展范围。",
+  "replaceRange](https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#transform.Transform.replaceRange) and deleteRange will no longer expand the range across isolating node boundaries.": {
+    "_translate": "<code>replaceRange</code>](https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#transform.Transform.replaceRange) 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#transform.Transform.deleteRange\"><code>deleteRange</code></a> 将不再跨隔离节点边界扩展范围。",
     "_note": ""
   },
   "Copying and pasting table cells on Edge no longer strips the table structure.": {
@@ -3344,27 +3344,27 @@
     "_note": ""
   },
   "Mark serializing functions now get a second parameter that indicates whether the mark's content is inline or block nodes.": {
-    "_translate": "Mark <a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#model.MarkSpec.toDOM\">序列化函数</a> 现在获得第二个参数，该参数指示标记的内容是内联节点还是块节点。",
+    "_translate": "Mark <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#model.MarkSpec.toDOM\">序列化函数</a> 现在获得第二个参数，该参数指示标记的内容是内联节点还是块节点。",
     "_note": ""
   },
   "The openLeft and openRight properties of Slice objects have been renamed to openStart and openEnd to avoid confusion in right-to-left text. The old names will continue to work with a warning until the next release.": {
-    "_translate": "<code>Slice</code> 对象的 <code>openLeft</code> 和 <code>openRight</code> 属性已重命名为 <a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#model.Slice.openStart\"><code>openStart</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#model.Slice.openEnd\"><code>openEnd</code></a> 以避免在从右到左的文本中产生混淆。旧名称将在下一个版本发布之前继续使用，但会有警告。",
+    "_translate": "<code>Slice</code> 对象的 <code>openLeft</code> 和 <code>openRight</code> 属性已重命名为 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#model.Slice.openStart\"><code>openStart</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#model.Slice.openEnd\"><code>openEnd</code></a> 以避免在从右到左的文本中产生混淆。旧名称将在下一个版本发布之前继续使用，但会有警告。",
     "_note": ""
   },
   "Setting a mark serializer to null in a DOMSerializer can now be used to omit that mark when serializing.": {
-    "_translate": "在<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#model.DOMSerializer\"><code>DOMSerializer</code></a>中将标记序列化器设置为<code>null</code>现在可以在序列化时省略该标记。",
+    "_translate": "在<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#model.DOMSerializer\"><code>DOMSerializer</code></a>中将标记序列化器设置为<code>null</code>现在可以在序列化时省略该标记。",
     "_note": ""
   },
   "Node specs support a new property isolating, which is used to disable editing actions like backspacing and lifting across such a node's boundaries.": {
-    "_translate": "节点规范支持一个新属性<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#model.NodeSpec.isolating\"><code>isolating</code></a>，用于禁用跨越此类节点边界的编辑操作，如退格和提升。",
+    "_translate": "节点规范支持一个新属性<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#model.NodeSpec.isolating\"><code>isolating</code></a>，用于禁用跨越此类节点边界的编辑操作，如退格和提升。",
     "_note": ""
   },
   "Selection.atStart, and atEnd no longer take a second textOnly parameter.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#state.Selection%5EatStart\"><code>Selection.atStart</code></a>，和<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#state.Selection%5EatEnd\"><code>atEnd</code></a>不再接受第二个<code>textOnly</code>参数。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#state.Selection%5EatStart\"><code>Selection.atStart</code></a>，和<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#state.Selection%5EatEnd\"><code>atEnd</code></a>不再接受第二个<code>textOnly</code>参数。",
     "_note": ""
   },
   "Selection.near, atStart, and atEnd will now fall back to returning an AllSelection when unable to find a valid selection. This removes the (undocumented) requirement that documents always contain a valid selection position (though you'll probably still want to maintain this for practical UI reasons).": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#state.Selection%5Enear\"><code>Selection.near</code></a>、<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#state.Selection%5EatStart\"><code>atStart</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#state.Selection%5EatEnd\"><code>atEnd</code></a> 现在将在无法找到有效选择时返回 <a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#state.AllSelection\"><code>AllSelection</code></a>。这消除了文档始终包含有效选择位置的（未记录的）要求（尽管出于实际的用户界面原因，您可能仍然希望保持这一点）。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#state.Selection%5Enear\"><code>Selection.near</code></a>、<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#state.Selection%5EatStart\"><code>atStart</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#state.Selection%5EatEnd\"><code>atEnd</code></a> 现在将在无法找到有效选择时返回 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#state.AllSelection\"><code>AllSelection</code></a>。这消除了文档始终包含有效选择位置的（未记录的）要求（尽管出于实际的用户界面原因，您可能仍然希望保持这一点）。",
     "_note": ""
   },
   "The associative option to widget decorations is no longer supported. To make a widget left-associative, set its side option to a negative number. associative will continue to work with a warning until the next release.": {
@@ -3376,7 +3376,7 @@
     "_note": ""
   },
   "Widget decorations now support a side option that controls which side of them the cursor is drawn, where they move when content is inserted at their position, and the order in which they appear relative to other widgets at the same position.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.21.0.html#view.Decoration%5Ewidget\">小部件装饰</a>现在支持一个<code>side</code>选项，该选项控制光标绘制在它们的哪一侧，当内容插入到它们的位置时它们的移动方式，以及它们相对于同一位置的其他小部件的出现顺序。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.21.0.html#view.Decoration%5Ewidget\">小部件装饰</a>现在支持一个<code>side</code>选项，该选项控制光标绘制在它们的哪一侧，当内容插入到它们的位置时它们的移动方式，以及它们相对于同一位置的其他小部件的出现顺序。",
     "_note": ""
   },
   "Fix a bug that prevented the DOM selection from being updated when the new position was near the old one in some circumstances.": {
@@ -3412,7 +3412,7 @@
     "_note": ""
   },
   "Newlines in the text are now normalized to spaces when parsing except when you set preserveWhitespace to \"full\" in your options or in a parse rule.": {
-    "_translate": "Newlines in the text are now normalized to spaces when parsing except when you set <code>preserveWhitespace</code> to <code>\"full\"</code> in your <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#model.DOMParser.parse\">options</a> or in a <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#model.ParseRule.preserveWhitespace\">parse rule</a>.",
+    "_translate": "Newlines in the text are now normalized to spaces when parsing except when you set <code>preserveWhitespace</code> to <code>\"full\"</code> in your <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#model.DOMParser.parse\">options</a> or in a <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#model.ParseRule.preserveWhitespace\">parse rule</a>.",
     "_note": ""
   },
   "Fixes a problem where triple-clicking the editor would sometimes cause the scroll position to inexplicably jump around on IE11.": {
@@ -3424,11 +3424,11 @@
     "_note": ""
   },
   "Resolved positions now have max and min methods to easily find a maximum or minimum position.": {
-    "_translate": "已解决的位置现在有<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#model.ResolvedPos.max\"><code>max</code></a>和<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#model.ResolvedPos.min\"><code>min</code></a>方法，可以轻松找到最大或最小位置。",
+    "_translate": "已解决的位置现在有<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#model.ResolvedPos.max\"><code>max</code></a>和<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#model.ResolvedPos.min\"><code>min</code></a>方法，可以轻松找到最大或最小位置。",
     "_note": ""
   },
   "Fragments now have nodesBetween and descendants methods, providing the same functionality as the methods by the same name on nodes.": {
-    "_translate": "Fragments 现在有 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#model.Fragment.nodesBetween\"><code>nodesBetween</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#model.Fragments.descendants\"><code>descendants</code></a> 方法，提供与节点上同名方法相同的功能。",
+    "_translate": "Fragments 现在有 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#model.Fragment.nodesBetween\"><code>nodesBetween</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#model.Fragments.descendants\"><code>descendants</code></a> 方法，提供与节点上同名方法相同的功能。",
     "_note": ""
   },
   "Fixes issue where replacing would sometimes unexpectedly split nodes.": {
@@ -3436,35 +3436,35 @@
     "_note": ""
   },
   "Selection.near no longer accepts a textOnly parameter.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.Selection%5Enear\"><code>Selection.near</code></a> 不再接受 <code>textOnly</code> 参数。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.Selection%5Enear\"><code>Selection.near</code></a> 不再接受 <code>textOnly</code> 参数。",
     "_note": ""
   },
   "TextSelection.between may now return a node selection when the document does not contain a valid cursor position.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.TextSelection%5Ebetween\"><code>TextSelection.between</code></a> 现在可能会在文档不包含有效光标位置时返回节点选择。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.TextSelection%5Ebetween\"><code>TextSelection.between</code></a> 现在可能会在文档不包含有效光标位置时返回节点选择。",
     "_note": ""
   },
   "Selection objects now implement a content method that returns their content. This is used to determine what ends up on the clipboard when the selection is copied or dragged.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#model.Selection\"><code>Selection</code></a> 对象现在实现了一个 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#model.Selection.content\"><code>content</code></a> 方法，该方法返回它们的内容。这用于确定在选择内容被复制或拖动时，最终会出现在剪贴板上的内容。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#model.Selection\"><code>Selection</code></a> 对象现在实现了一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#model.Selection.content\"><code>content</code></a> 方法，该方法返回它们的内容。这用于确定在选择内容被复制或拖动时，最终会出现在剪贴板上的内容。",
     "_note": ""
   },
   "Selections may now specify multiple ranges that they cover, to generalize to more types of selections. The Selection superclass constructor takes an array of ranges as optional third argument.": {
-    "_translate": "选择现在可以指定它们覆盖的多个<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.Selection.ranges\">范围</a>，以推广到更多类型的选择。<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.Selection\"><code>Selection</code></a>超类构造函数将一个<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.SelectionRange\">范围</a>数组作为可选的第三个参数。",
+    "_translate": "选择现在可以指定它们覆盖的多个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.Selection.ranges\">范围</a>，以推广到更多类型的选择。<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.Selection\"><code>Selection</code></a>超类构造函数将一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.SelectionRange\">范围</a>数组作为可选的第三个参数。",
     "_note": ""
   },
   "Selections gained new methods replace and replaceWith to provide subclasses more control over how selections of that type respond to being deleted or overwritten.": {
-    "_translate": "Selections 获得了新的方法 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.Selection.replace\"><code>replace</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.Selection.replaceWith\"><code>replaceWith</code></a>，以便子类可以更好地控制该类型的选择在被删除或覆盖时的响应。",
+    "_translate": "Selections 获得了新的方法 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.Selection.replace\"><code>replace</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.Selection.replaceWith\"><code>replaceWith</code></a>，以便子类可以更好地控制该类型的选择在被删除或覆盖时的响应。",
     "_note": ""
   },
   "Selections have a new method getBookmark that custom selection classes can implement to allow the undo history to accurately store and restore them.": {
-    "_translate": "选择有一个新的方法<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.Selection.getBookmark\"><code>getBookmark</code></a>，自定义选择类可以实现该方法，以便撤销历史能够准确地存储和恢复它们。",
+    "_translate": "选择有一个新的方法<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.Selection.getBookmark\"><code>getBookmark</code></a>，自定义选择类可以实现该方法，以便撤销历史能够准确地存储和恢复它们。",
     "_note": ""
   },
   "The new selection class AllSelection can be used to select the entire document.": {
-    "_translate": "新的选择类<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.AllSelection\"><code>AllSelection</code></a>可以用来选择整个文档。",
+    "_translate": "新的选择类<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.AllSelection\"><code>AllSelection</code></a>可以用来选择整个文档。",
     "_note": ""
   },
   "The inclusiveLeft and inclusiveRight options to inline decorations were renamed to inclusiveStart and inclusiveEnd so that they also make sense in right-to-left text. The old names work with a warning until the next release.": {
-    "_translate": "<code>inclusiveLeft</code> 和 <code>inclusiveRight</code> 选项被重命名为 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#view.Decoration%5Einline%5Espec.inclusiveStart\"><code>inclusiveStart</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#view.Decoration%5Einline%5Espec.inclusiveEnd\"><code>inclusiveEnd</code></a>，以便它们在从右到左的文本中也有意义。旧名称在下一个版本发布之前会带有警告。",
+    "_translate": "<code>inclusiveLeft</code> 和 <code>inclusiveRight</code> 选项被重命名为 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#view.Decoration%5Einline%5Espec.inclusiveStart\"><code>inclusiveStart</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#view.Decoration%5Einline%5Espec.inclusiveEnd\"><code>inclusiveEnd</code></a>，以便它们在从右到左的文本中也有意义。旧名称在下一个版本发布之前会带有警告。",
     "_note": ""
   },
   "Fixes reading of selection in Chrome in a shadow DOM.": {
@@ -3484,15 +3484,15 @@
     "_note": ""
   },
   "The new props handlePaste and handleDrop can be used to override drop and paste behavior.": {
-    "_translate": "新的道具 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#view.EditorProps.handlePaste\"><code>handlePaste</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#view.EditorProps.handleDrop\"><code>handleDrop</code></a> 可用于覆盖粘贴和拖放行为。",
+    "_translate": "新的道具 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#view.EditorProps.handlePaste\"><code>handlePaste</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#view.EditorProps.handleDrop\"><code>handleDrop</code></a> 可用于覆盖粘贴和拖放行为。",
     "_note": ""
   },
   "The input rules plugin no longer implicitly binds backspace to undo the last applied rule.": {
-    "_translate": "输入规则<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#inputrules.inputRules\">插件</a>不再隐式地将退格键绑定到撤销最后应用的规则。",
+    "_translate": "输入规则<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#inputrules.inputRules\">插件</a>不再隐式地将退格键绑定到撤销最后应用的规则。",
     "_note": ""
   },
   "This module now exposes a command undoInputRule, which will revert an input rule when run directly after one was applied.": {
-    "_translate": "此模块现在公开了一个命令<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#inputrules.undoInputRule\"><code>undoInputRule</code></a>，该命令将在输入规则应用后直接运行时还原该输入规则。",
+    "_translate": "此模块现在公开了一个命令<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#inputrules.undoInputRule\"><code>undoInputRule</code></a>，该命令将在输入规则应用后直接运行时还原该输入规则。",
     "_note": ""
   },
   "Appended transactions no longer generate undo history events.": {
@@ -3500,11 +3500,11 @@
     "_note": ""
   },
   "The new selectAll command, bound to Mod-a in the base keymap, sets the selection to an AllSelection.": {
-    "_translate": "新的<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#commands.selectAll\"><code>selectAll</code>命令</a>，在基础键映射中绑定到Mod-a，将选择设置为<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#state.AllSelection\"><code>AllSelection</code></a>。",
+    "_translate": "新的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#commands.selectAll\"><code>selectAll</code>命令</a>，在基础键映射中绑定到Mod-a，将选择设置为<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#state.AllSelection\"><code>AllSelection</code></a>。",
     "_note": ""
   },
   "The liftListItem command can now lift items out of a list entirely, when the parent node isn't another list.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.20.0.html#schema-list.liftListItem\"><code>liftListItem</code></a> 命令现在可以将项目完全从列表中提升出来，当父节点不是另一个列表时。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.20.0.html#schema-list.liftListItem\"><code>liftListItem</code></a> 命令现在可以将项目完全从列表中提升出来，当父节点不是另一个列表时。",
     "_note": ""
   },
   "Fixes a number of issues with characters being duplicated or disappearing when typing on mark boundaries.": {
@@ -3516,19 +3516,19 @@
     "_note": ""
   },
   "MarkSpec.inclusiveRight was replaced by inclusive, which behaves slightly differently. inclusiveRight will be interpreted as inclusive (with a warning) until the next release.": {
-    "_translate": "<code>MarkSpec.inclusiveRight</code> 被 <a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#model.MarkSpec.inclusive\"><code>inclusive</code></a> 取代，其行为略有不同。<code>inclusiveRight</code> 将被解释为 <code>inclusive</code>（带有警告）直到下一个版本发布。",
+    "_translate": "<code>MarkSpec.inclusiveRight</code> 被 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#model.MarkSpec.inclusive\"><code>inclusive</code></a> 取代，其行为略有不同。<code>inclusiveRight</code> 将被解释为 <code>inclusive</code>（带有警告）直到下一个版本发布。",
     "_note": ""
   },
   "The new inlineContent property on nodes and node types tells you whether a node type supports inline content.": {
-    "_translate": "新的<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#model.Node.inlineContent\"><code>inlineContent</code></a>属性在节点和节点类型上告诉你节点类型是否支持内联内容。",
+    "_translate": "新的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#model.Node.inlineContent\"><code>inlineContent</code></a>属性在节点和节点类型上告诉你节点类型是否支持内联内容。",
     "_note": ""
   },
   "MarkSpec.inclusive can now be used to control whether content inserted at the boundary of a mark receives that mark.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#model.MarkSpec.inclusive\"><code>MarkSpec.inclusive</code></a> 现在可以用来控制在标记边界插入的内容是否接收该标记。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#model.MarkSpec.inclusive\"><code>MarkSpec.inclusive</code></a> 现在可以用来控制在标记边界插入的内容是否接收该标记。",
     "_note": ""
   },
   "Parse rule context restrictions can now use node groups, not just node names, to specify valid context.": {
-    "_translate": "解析规则 <a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#model.ParseRule.context\"><code>context</code></a> 限制现在可以使用节点 <a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#model.NodeSpec.group\">组</a>，不仅仅是节点名称，以指定有效的上下文。",
+    "_translate": "解析规则 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#model.ParseRule.context\"><code>context</code></a> 限制现在可以使用节点 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#model.NodeSpec.group\">组</a>，不仅仅是节点名称，以指定有效的上下文。",
     "_note": ""
   },
   "Selection.between is now called TextSelection.between, and only returns text selections.": {
@@ -3536,27 +3536,27 @@
     "_note": ""
   },
   "The JSON representation of selections changed. fromJSON will continue to understand the old representation, but if your own code touches the JSON data, you'll have to adjust it.": {
-    "_translate": "选择的 JSON 表示发生了变化。<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#state.Selection%5EfromJSON\"><code>fromJSON</code></a> 将继续理解旧的表示，但如果您的代码涉及 JSON 数据，您将需要进行调整。",
+    "_translate": "选择的 JSON 表示发生了变化。<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#state.Selection%5EfromJSON\"><code>fromJSON</code></a> 将继续理解旧的表示，但如果您的代码涉及 JSON 数据，您将需要进行调整。",
     "_note": ""
   },
   "All Selection objects now have $head/$anchor properties, so those can no longer be used to recognize text selections (use $cursor or instanceof).": {
-    "_translate": "所有 <code>Selection</code> 对象现在都有 <a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#state.Selection.$head\"><code>$head</code></a>/<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#state.Selection.$anchor\"><code>$anchor</code></a> 属性，因此这些属性不能再用于识别文本选择（请使用 <a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#state.TextSelection.$cursor\"><code>$cursor</code></a> 或 <code>instanceof</code>）。",
+    "_translate": "所有 <code>Selection</code> 对象现在都有 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#state.Selection.$head\"><code>$head</code></a>/<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#state.Selection.$anchor\"><code>$anchor</code></a> 属性，因此这些属性不能再用于识别文本选择（请使用 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#state.TextSelection.$cursor\"><code>$cursor</code></a> 或 <code>instanceof</code>）。",
     "_note": ""
   },
   "It is now possible to write your own Selection subclasses and set the editor selection to an instance of them (provided you implement all required methods and register them with Selection.jsonID).": {
-    "_translate": "现在可以编写自己的<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#state.Selection\"><code>Selection</code></a>子类，并将编辑器选择设置为它们的实例（前提是您实现所有必需的方法并使用<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#state.Selection%5EjsonID\"><code>Selection.jsonID</code></a>注册它们）。",
+    "_translate": "现在可以编写自己的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#state.Selection\"><code>Selection</code></a>子类，并将编辑器选择设置为它们的实例（前提是您实现所有必需的方法并使用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#state.Selection%5EjsonID\"><code>Selection.jsonID</code></a>注册它们）。",
     "_note": ""
   },
   "Text selections now have a $cursor getter which returns a position only if this is a cursor selection.": {
-    "_translate": "文本选择现在有一个<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#state.TextSelection.$cursor\"><code>$cursor</code></a> getter，只有在这是一个光标选择时才返回一个位置。",
+    "_translate": "文本选择现在有一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#state.TextSelection.$cursor\"><code>$cursor</code></a> getter，只有在这是一个光标选择时才返回一个位置。",
     "_note": ""
   },
   "The new Transaction.ensureMarks method makes it easier to ensure given set of active marks without needlessly setting storedMarks.": {
-    "_translate": "新的<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#state.Transaction.ensureMarks\"><code>Transaction.ensureMarks</code></a>方法使得在不需要无谓地设置<code>storedMarks</code>的情况下确保给定的一组活动标记变得更加容易。",
+    "_translate": "新的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#state.Transaction.ensureMarks\"><code>Transaction.ensureMarks</code></a>方法使得在不需要无谓地设置<code>storedMarks</code>的情况下确保给定的一组活动标记变得更加容易。",
     "_note": ""
   },
   "endOfTextblock no longer always returns false for horizontal motion on non-cursor selections, but checks the position of the selection head instead.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a> 不再总是对非光标选择的水平移动返回 false，而是检查选择头的位置。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a> 不再总是对非光标选择的水平移动返回 false，而是检查选择头的位置。",
     "_note": ""
   },
   "Typing after adding/removing a mark no longer briefly shows the new text with the wrong marks.": {
@@ -3564,7 +3564,7 @@
     "_note": ""
   },
   "posAtCoords is now more reliable on modern browsers by using browser APIs.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#view.EditorView.posAtCoords\"><code>posAtCoords</code></a> 现在通过使用浏览器 API 在现代浏览器上更加可靠。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#view.EditorView.posAtCoords\"><code>posAtCoords</code></a> 现在通过使用浏览器 API 在现代浏览器上更加可靠。",
     "_note": ""
   },
   "Fix a bug where the view would in some circumstances leave superfluous DOM nodes around inside marks.": {
@@ -3572,7 +3572,7 @@
     "_note": ""
   },
   "You can now override the selection the editor creates for a given DOM selection with the createSelectionBetween prop.": {
-    "_translate": "您现在可以使用<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#view.EditorProps.createSelectionBetween\"><code>createSelectionBetween</code></a>属性覆盖编辑器为给定DOM选择创建的选择。",
+    "_translate": "您现在可以使用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#view.EditorProps.createSelectionBetween\"><code>createSelectionBetween</code></a>属性覆盖编辑器为给定DOM选择创建的选择。",
     "_note": ""
   },
   "You can now use strings (as well as numbers) as client IDs (this already worked, but now the documentation reflects this).": {
@@ -3580,7 +3580,7 @@
     "_note": ""
   },
   "A new function closeHistory can be used to force separation of history events at the start of a given transaction.": {
-    "_translate": "一个新的函数<a href=\"https://prosemirror.net/docs/ref/version/0.19.0.html#history.closeHistory\"><code>closeHistory</code></a>可以用来在给定事务开始时强制分隔历史事件。",
+    "_translate": "一个新的函数<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.19.0.html#history.closeHistory\"><code>closeHistory</code></a>可以用来在给定事务开始时强制分隔历史事件。",
     "_note": ""
   },
   "Calling joinBackward at the start of a node that can't be joined no longer raises an error.": {
@@ -3592,67 +3592,67 @@
     "_note": ""
   },
   "schema.nodeSpec and schema.markSpec have been deprecated in favor of schema.spec. The properties still work with a warning in this release, but will be dropped in the next.": {
-    "_translate": "<code>schema.nodeSpec</code> 和 <code>schema.markSpec</code> 已被弃用，取而代之的是 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.Schema.spec\"><code>schema.spec</code></a>。这些属性在此版本中仍然可以使用，但会有警告提示，并将在下一个版本中被移除。",
+    "_translate": "<code>schema.nodeSpec</code> 和 <code>schema.markSpec</code> 已被弃用，取而代之的是 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.Schema.spec\"><code>schema.spec</code></a>。这些属性在此版本中仍然可以使用，但会有警告提示，并将在下一个版本中被移除。",
     "_note": ""
   },
   "Node objects now have a check method which can be used to assert that they conform to the schema.": {
-    "_translate": "<code>Node</code> 对象现在有一个 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.Node.check\"><code>check</code></a> 方法，可以用来断言它们符合模式。",
+    "_translate": "<code>Node</code> 对象现在有一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.Node.check\"><code>check</code></a> 方法，可以用来断言它们符合模式。",
     "_note": ""
   },
   "Node specs now support an atom property, and nodes an isAtom accessor, which is currently only used to determine whether such nodes should be directly selectable (for example when they are rendered as an uneditable node view).": {
-    "_translate": "节点规范现在支持一个<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.NodeSpec.atom\"><code>atom</code>属性</a>，节点支持一个<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.Node.isAtom\"><code>isAtom</code>访问器</a>，目前仅用于确定此类节点是否应直接可选（例如，当它们呈现为不可编辑的节点视图时）。",
+    "_translate": "节点规范现在支持一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.NodeSpec.atom\"><code>atom</code>属性</a>，节点支持一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.Node.isAtom\"><code>isAtom</code>访问器</a>，目前仅用于确定此类节点是否应直接可选（例如，当它们呈现为不可编辑的节点视图时）。",
     "_note": ""
   },
   "Mark specs now support a group property, and marks can be referred to by group name in content specs.": {
-    "_translate": "Mark 规范现在支持 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.MarkSpec.group\"><code>group</code></a> 属性，并且标记可以在内容规范中通过组名引用。",
+    "_translate": "Mark 规范现在支持 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.MarkSpec.group\"><code>group</code></a> 属性，并且标记可以在内容规范中通过组名引用。",
     "_note": ""
   },
   "The new excludes field on mark specs can be used to control the marks that this mark may coexist with. Mark type objects also gained an excludes method to querty this relation.": {
-    "_translate": "新的<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.MarkSpec.excludes\"><code>excludes</code></a>字段可以用来控制此标记可以共存的标记。标记类型对象还增加了一个<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.MarkType.excludes\"><code>excludes</code><em>方法</em></a>来查询这种关系。",
+    "_translate": "新的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.MarkSpec.excludes\"><code>excludes</code></a>字段可以用来控制此标记可以共存的标记。标记类型对象还增加了一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.MarkType.excludes\"><code>excludes</code><em>方法</em></a>来查询这种关系。",
     "_note": ""
   },
   "The Schema class now provides its whole spec under its spec property.": {
-    "_translate": "<code>Schema</code> 类现在通过其 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.SchemaSpec\">spec</a> 属性提供其完整的 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.Schema.spec\"><code>spec</code></a>。",
+    "_translate": "<code>Schema</code> 类现在通过其 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.SchemaSpec\">spec</a> 属性提供其完整的 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.Schema.spec\"><code>spec</code></a>。",
     "_note": ""
   },
   "The name of a schema's default top-level node is now configurable. You can use schema.topNodeType to retrieve the top node type.": {
-    "_translate": "模式的默认顶级节点的名称现在是<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.SchemaSpec.topNode\">可配置的</a>。您可以使用<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.Schema.topNodeType\"><code>schema.topNodeType</code></a>来检索顶级节点类型。",
+    "_translate": "模式的默认顶级节点的名称现在是<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.SchemaSpec.topNode\">可配置的</a>。您可以使用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.Schema.topNodeType\"><code>schema.topNodeType</code></a>来检索顶级节点类型。",
     "_note": ""
   },
   "Transform.setNodeType now takes an optional argument to set the new node's attributes.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#transform.Transform.setNodeType\"><code>Transform.setNodeType</code></a> 现在接受一个可选参数来设置新节点的属性。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#transform.Transform.setNodeType\"><code>Transform.setNodeType</code></a> 现在接受一个可选参数来设置新节点的属性。",
     "_note": ""
   },
   "Parse rules now support a context field that can be used to only make the rule match inside certain ancestor nodes.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.ParseRule\">解析规则</a>现在支持一个<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#model.ParseRule.context\"><code>context</code>字段</a>，可以用来仅在某些祖先节点内使规则匹配。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.ParseRule\">解析规则</a>现在支持一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#model.ParseRule.context\"><code>context</code>字段</a>，可以用来仅在某些祖先节点内使规则匹配。",
     "_note": ""
   },
   "Steps now provide an offset method, which makes it possible to create a copy the step with its position offset by a given amount.": {
-    "_translate": "步骤现在提供了一个<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#transform.Step.offset\"><code>offset</code></a>方法，这使得可以创建一个步骤的副本，并将其位置偏移给定的量。",
+    "_translate": "步骤现在提供了一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#transform.Step.offset\"><code>offset</code></a>方法，这使得可以创建一个步骤的副本，并将其位置偏移给定的量。",
     "_note": ""
   },
   "docChanged is now a property on the Transform class, rather than its Transaction subclass.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#transform.Transform.docChanged\"><code>docChanged</code></a> 现在是 <code>Transform</code> 类的一个属性，而不是其 <code>Transaction</code> 子类的属性。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#transform.Transform.docChanged\"><code>docChanged</code></a> 现在是 <code>Transform</code> 类的一个属性，而不是其 <code>Transaction</code> 子类的属性。",
     "_note": ""
   },
   "Mapping instances now have invert and appendMappingInverted methods to make mapping through them in reverse easier.": {
-    "_translate": "<code>Mapping</code> 实例现在有 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#transform.Mapping.invert\"><code>invert</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#transform.Mapping.appendMappingInverted\"><code>appendMappingInverted</code></a> 方法，使通过它们进行反向映射更容易。",
+    "_translate": "<code>Mapping</code> 实例现在有 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#transform.Mapping.invert\"><code>invert</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#transform.Mapping.appendMappingInverted\"><code>appendMappingInverted</code></a> 方法，使通过它们进行反向映射更容易。",
     "_note": ""
   },
   "Plugin objects now store their spec under a spec instead of an options property. The options property still works with a warning in this release.": {
-    "_translate": "插件对象现在将其规范存储在<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#state.PluginSpec.spec\"><code>spec</code></a>下，而不是<code>options</code>属性下。在此版本中，<code>options</code>属性仍然可以使用，但会有警告。",
+    "_translate": "插件对象现在将其规范存储在<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#state.PluginSpec.spec\"><code>spec</code></a>下，而不是<code>options</code>属性下。在此版本中，<code>options</code>属性仍然可以使用，但会有警告。",
     "_note": ""
   },
   "Decoration objects now store their definition object under spec, not options. The old property name still works, with a warning, until the next release.": {
-    "_translate": "<code>Decoration</code> 对象现在将其定义对象存储在 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#Decoration.spec\"><code>spec</code></a> 下，而不是 <code>options</code>。旧的属性名称仍然有效，但会有警告，直到下一个版本发布。",
+    "_translate": "<code>Decoration</code> 对象现在将其定义对象存储在 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#Decoration.spec\"><code>spec</code></a> 下，而不是 <code>options</code>。旧的属性名称仍然有效，但会有警告，直到下一个版本发布。",
     "_note": ""
   },
   "Fix bug where calling focus when there was a text selection would sometimes result in state.selection receiving an incorrect value.": {
-    "_translate": "修复在有文本选择时调用<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#view.EditorView.focus\"><code>focus</code></a>有时会导致<code>state.selection</code>接收到错误值的错误。",
+    "_translate": "修复在有文本选择时调用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#view.EditorView.focus\"><code>focus</code></a>有时会导致<code>state.selection</code>接收到错误值的错误。",
     "_note": ""
   },
   "EditorView.props now has its state property updated when you call updateState.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#view.EditorView.props\"><code>EditorView.props</code></a> 现在在调用 <code>updateState</code> 时其 <code>state</code> 属性会更新。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#view.EditorView.props\"><code>EditorView.props</code></a> 现在在调用 <code>updateState</code> 时其 <code>state</code> 属性会更新。",
     "_note": ""
   },
   "Putting decorations on or inside a node view with an update method now works.": {
@@ -3660,19 +3660,19 @@
     "_note": ""
   },
   "Plugin view update methods are now passed the view's previous state as second argument.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#state.PluginSpec.view\">插件视图</a>更新方法现在将视图的先前状态作为第二个参数传递。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#state.PluginSpec.view\">插件视图</a>更新方法现在将视图的先前状态作为第二个参数传递。",
     "_note": ""
   },
   "The place agument to the EditorView constructor can now be an object with a mount property to directly provide the node that should be made editable.": {
-    "_translate": "<code>place</code> 参数到 <a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#view.EditorView\"><code>EditorView</code> 构造函数</a> 现在可以是一个带有 <code>mount</code> 属性的对象，以直接提供应设置为可编辑的节点。",
+    "_translate": "<code>place</code> 参数到 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#view.EditorView\"><code>EditorView</code> 构造函数</a> 现在可以是一个带有 <code>mount</code> 属性的对象，以直接提供应设置为可编辑的节点。",
     "_note": ""
   },
   "The new EditorView.setProps method makes it easier to update individual props.": {
-    "_translate": "新的<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#view.EditorView.setProps\"><code>EditorView.setProps</code>方法</a>使更新单个属性变得更容易。",
+    "_translate": "新的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#view.EditorView.setProps\"><code>EditorView.setProps</code>方法</a>使更新单个属性变得更容易。",
     "_note": ""
   },
   "Add a keydownHandler function, which takes a keymap and produces a handleKeydown prop-style function.": {
-    "_translate": "添加一个<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#keymap.keydownHandler\"><code>keydownHandler</code></a>函数，该函数接受一个键映射并生成一个<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#view.EditorProps.handleKeydown\"><code>handleKeydown</code>属性</a>样式的函数。",
+    "_translate": "添加一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#keymap.keydownHandler\"><code>keydownHandler</code></a>函数，该函数接受一个键映射并生成一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#view.EditorProps.handleKeydown\"><code>handleKeydown</code>属性</a>样式的函数。",
     "_note": ""
   },
   "Fix a problem where simultaneous collaborative editing could break the undo history.": {
@@ -3680,19 +3680,19 @@
     "_note": ""
   },
   "sendableSteps now also returns information about the original transactions that produced the steps.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#collab.sendableSteps\"><code>sendableSteps</code></a> 现在也返回有关生成这些步骤的原始事务的信息。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#collab.sendableSteps\"><code>sendableSteps</code></a> 现在也返回有关生成这些步骤的原始事务的信息。",
     "_note": ""
   },
   "New command splitBlockKeepMarks which splits a block but preserves the marks at the cursor.": {
-    "_translate": "新命令<a href=\"https://prosemirror.net/docs/ref/version/0.18.0.html#commands.splitBlockKeepMarks\"><code>splitBlockKeepMarks</code></a>，该命令可以拆分块但保留光标处的标记。",
+    "_translate": "新命令<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.18.0.html#commands.splitBlockKeepMarks\"><code>splitBlockKeepMarks</code></a>，该命令可以拆分块但保留光标处的标记。",
     "_note": ""
   },
   "Transaction.scrolledIntoView no longer always returns true.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html##state.Transaction.scrolledIntoView\"><code>Transaction.scrolledIntoView</code></a> 不再总是返回 true。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html##state.Transaction.scrolledIntoView\"><code>Transaction.scrolledIntoView</code></a> 不再总是返回 true。",
     "_note": ""
   },
   "Selection.near now takes a third textOnly argument, as the docs already claimed.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#state.Selection%5Eneard\"><code>Selection.near</code></a> 现在接受第三个 <code>textOnly</code> 参数，正如文档中已经提到的。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#state.Selection%5Eneard\"><code>Selection.near</code></a> 现在接受第三个 <code>textOnly</code> 参数，正如文档中已经提到的。",
     "_note": ""
   },
   "Fixes crash in the code that maintains the scroll position when the document is empty or hidden.": {
@@ -3700,7 +3700,7 @@
     "_note": ""
   },
   "Transactions that shouldn't scroll the selection into view now no longer do so.": {
-    "_translate": "不应<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#state.transaction.scrollIntoView\">滚动选择到视图中</a>的事务现在不再这样做。",
+    "_translate": "不应<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#state.transaction.scrollIntoView\">滚动选择到视图中</a>的事务现在不再这样做。",
     "_note": ""
   },
   "Fixes bug where widget decorations would sometimes get parsed as content when editing near them.": {
@@ -3736,7 +3736,7 @@
     "_note": ""
   },
   "Make sure toggleMark also works in the top-level node (when it is a textblock).": {
-    "_translate": "确保 <a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#commands.toggleMark\"><code>toggleMark</code></a> 也在顶级节点（当它是文本块时）工作。",
+    "_translate": "确保 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#commands.toggleMark\"><code>toggleMark</code></a> 也在顶级节点（当它是文本块时）工作。",
     "_note": ""
   },
   "Fix issue where a document update that left the selection in the same place sometimes led to an incorrect DOM selection.": {
@@ -3744,51 +3744,51 @@
     "_note": ""
   },
   "Make sure EditorView.focus doesn't cause the browser to scroll the top of the editor into view.": {
-    "_translate": "确保<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#view.EditorView.focus\"><code>EditorView.focus</code></a>不会导致浏览器滚动到编辑器的顶部。",
+    "_translate": "确保<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#view.EditorView.focus\"><code>EditorView.focus</code></a>不会导致浏览器滚动到编辑器的顶部。",
     "_note": ""
   },
   "Node.marksAt was replaced with ResolvedPos.marks. It still works (with a warning) in this release, but will be removed in the next one.": {
-    "_translate": "<code>Node.marksAt</code> 被替换为 <a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#model.ResolvedPos.marks\"><code>ResolvedPos.marks</code></a>。在此版本中它仍然可以使用（会有警告），但将在下一个版本中被移除。",
+    "_translate": "<code>Node.marksAt</code> 被替换为 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#model.ResolvedPos.marks\"><code>ResolvedPos.marks</code></a>。在此版本中它仍然可以使用（会有警告），但将在下一个版本中被移除。",
     "_note": ""
   },
   "The way state is updated was changed. Instead of applying an action (a raw object with a type property), it is now done by applying a Transaction.": {
-    "_translate": "状态更新的方式已更改。现在不再是应用一个带有<code>type</code>属性的原始对象，而是通过<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#state.EditorState.apply\">应用</a>一个<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#state.Transaction\"><code>Transaction</code></a>来完成。",
+    "_translate": "状态更新的方式已更改。现在不再是应用一个带有<code>type</code>属性的原始对象，而是通过<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#state.EditorState.apply\">应用</a>一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#state.Transaction\"><code>Transaction</code></a>来完成。",
     "_note": ""
   },
   "The EditorTransform class was renamed Transaction, and extended to allow changing the set of stored marks and attaching custom metadata.": {
-    "_translate": "<code>EditorTransform</code> 类被重命名为 <a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#state.Transaction\"><code>Transaction</code></a>，并扩展以允许更改存储的标记集和附加自定义元数据。",
+    "_translate": "<code>EditorTransform</code> 类被重命名为 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#state.Transaction\"><code>Transaction</code></a>，并扩展以允许更改存储的标记集和附加自定义元数据。",
     "_note": ""
   },
   "Plugins now accept a filterTransaction option that can be used to filter out transactions as they come in.": {
-    "_translate": "插件现在接受一个<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#state.Plugin.constructor%5Eoptions.filterTransaction\"><code>filterTransaction</code></a>选项，可以用来过滤传入的事务。",
+    "_translate": "插件现在接受一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#state.Plugin.constructor%5Eoptions.filterTransaction\"><code>filterTransaction</code></a>选项，可以用来过滤传入的事务。",
     "_note": ""
   },
   "Plugins also got an appendTransaction option making it possible to follow up transactions with another transaction.": {
-    "_translate": "插件还获得了一个<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#state.Plugin.constructor%5Eoptions.appendTransaction\"><code>appendTransaction</code></a>选项，使得可以用另一个事务跟进事务。",
+    "_translate": "插件还获得了一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#state.Plugin.constructor%5Eoptions.appendTransaction\"><code>appendTransaction</code></a>选项，使得可以用另一个事务跟进事务。",
     "_note": ""
   },
   "The handleDOMEvent prop has been dropped in favor of the handleDOMEvents (plural) prop.": {
-    "_translate": "<code>handleDOMEvent</code> 属性已被弃用，取而代之的是 <a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#view.EditorProps.handleDOMEvents\"><code>handleDOMEvents</code></a>（复数）属性。",
+    "_translate": "<code>handleDOMEvent</code> 属性已被弃用，取而代之的是 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#view.EditorProps.handleDOMEvents\"><code>handleDOMEvents</code></a>（复数）属性。",
     "_note": ""
   },
   "The onChange prop has been replaced by a dispatchTransaction prop (which takes a transaction instead of an action).": {
-    "_translate": "<code>onChange</code> 属性已被 <a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#view.EditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a> 属性取代（它接受一个事务而不是一个动作）。",
+    "_translate": "<code>onChange</code> 属性已被 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#view.EditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a> 属性取代（它接受一个事务而不是一个动作）。",
     "_note": ""
   },
   "Added support for a handleDOMEvents prop, which allows you to provide handler functions per DOM event, and works even for events that the editor doesn't normally add a handler for.": {
-    "_translate": "增加了对<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#view.EditorProps.handleDOMEvents\"><code>handleDOMEvents</code>属性</a>的支持，允许您为每个DOM事件提供处理函数，即使是编辑器通常不添加处理程序的事件也能正常工作。",
+    "_translate": "增加了对<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#view.EditorProps.handleDOMEvents\"><code>handleDOMEvents</code>属性</a>的支持，允许您为每个DOM事件提供处理函数，即使是编辑器通常不添加处理程序的事件也能正常工作。",
     "_note": ""
   },
   "Add view method dispatch, which provides a convenient way to dispatch transactions.": {
-    "_translate": "添加视图方法<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#view.EditorView.dispatch\"><code>dispatch</code></a>，提供了一种方便的方式来分发事务。",
+    "_translate": "添加视图方法<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#view.EditorView.dispatch\"><code>dispatch</code></a>，提供了一种方便的方式来分发事务。",
     "_note": ""
   },
   "Widget decorations now accept an option associative which can be used to configure on which side of content inserted at their position they end up.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#view.Decoration.widget\">小部件装饰</a> 现在接受一个选项 <code>associative</code>，可以用来配置在其位置插入的内容的哪一侧结束。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#view.Decoration.widget\">小部件装饰</a> 现在接受一个选项 <code>associative</code>，可以用来配置在其位置插入的内容的哪一侧结束。",
     "_note": ""
   },
   "The dispatchTransaction (used to be onAction) prop is now optional, and will default to simply applying the transaction to the current view state.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#view.EditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a>（以前是<code>onAction</code>）属性现在是可选的，默认情况下只会将事务应用于当前视图状态。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#view.EditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a>（以前是<code>onAction</code>）属性现在是可选的，默认情况下只会将事务应用于当前视图状态。",
     "_note": ""
   },
   "Typing immediately after deleting text now preserves the marks of the deleted text.": {
@@ -3800,11 +3800,11 @@
     "_note": ""
   },
   "The dispatch function passed to commands is now passed a Transaction, not an action object.": {
-    "_translate": "传递给命令的<code>dispatch</code>函数现在传递的是<a href=\"https://prosemirror.net/docs/ref/version/0.17.0.html#state.Transaction\"><code>Transaction</code></a>，而不是一个动作对象。",
+    "_translate": "传递给命令的<code>dispatch</code>函数现在传递的是<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.17.0.html#state.Transaction\"><code>Transaction</code></a>，而不是一个动作对象。",
     "_note": ""
   },
   "Plugins now take a view option that can be used to interact with the editor view.": {
-    "_translate": "插件现在接受一个<a href=\"https://prosemirror.net/docs/ref/version/0.16.0.html#state.Plugin.constructor%5Eoptions.view\"><code>view</code>选项</a>，可以用来与<a href=\"https://prosemirror.net/docs/ref/version/0.16.0.html#view.EditorView\">编辑器视图</a>交互。",
+    "_translate": "插件现在接受一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#state.Plugin.constructor%5Eoptions.view\"><code>view</code>选项</a>，可以用来与<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#view.EditorView\">编辑器视图</a>交互。",
     "_note": ""
   },
   "Solve problem where setting a node selection would trigger a DOM read, leading to the selection being reset.": {
@@ -3812,7 +3812,7 @@
     "_note": ""
   },
   "The spellcheck, label, and class props are now replaced by an attributes prop.": {
-    "_translate": "<code>spellcheck</code>、<code>label</code> 和 <code>class</code> 属性现在被 <a href=\"https://prosemirror.net/docs/ref/version/0.16.0.html#view.EditorProps.attributes\"><code>attributes</code> 属性</a> 取代。",
+    "_translate": "<code>spellcheck</code>、<code>label</code> 和 <code>class</code> 属性现在被 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#view.EditorProps.attributes\"><code>attributes</code> 属性</a> 取代。",
     "_note": ""
   },
   "Ignoring/aborting an action should no longer lead to the DOM being stuck in an outdated state.": {
@@ -3832,11 +3832,11 @@
     "_note": ""
   },
   "Add a new editor prop editable which controls whether the editor's contentEditable behavior is enabled.": {
-    "_translate": "添加一个新的编辑器属性<a href=\"https://prosemirror.net/docs/ref/version/0.16.0.html#view.EditorProps.editable\"><code>editable</code></a>，用于控制编辑器的<code>contentEditable</code>行为是否启用。",
+    "_translate": "添加一个新的编辑器属性<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#view.EditorProps.editable\"><code>editable</code></a>，用于控制编辑器的<code>contentEditable</code>行为是否启用。",
     "_note": ""
   },
   "Plugins and props can now set any DOM attribute on the outer editor node using the attributes prop.": {
-    "_translate": "插件和道具现在可以使用<a href=\"https://prosemirror.net/docs/ref/version/0.16.0.html#view.EditorProps.attributes\"><code>attributes</code>道具</a>在外部编辑器节点上设置任何DOM属性。",
+    "_translate": "插件和道具现在可以使用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#view.EditorProps.attributes\"><code>attributes</code>道具</a>在外部编辑器节点上设置任何DOM属性。",
     "_note": ""
   },
   "Node view constructors and update methods now have access to the node's wrapping decorations, which can be used to pass information to a node view without encoding it in the document.": {
@@ -3844,7 +3844,7 @@
     "_note": ""
   },
   "Attributes added or removed by node and inline decorations no longer cause the nodes inside of them to be fully redrawn, making node views more stable and allowing CSS transitions to be used.": {
-    "_translate": "由节点和内联<a href=\"https://prosemirror.net/docs/ref/version/0.16.0.html#view.Decoration\">装饰</a>添加或移除的属性不再导致其内部的节点被完全重绘，使节点视图更加稳定并允许使用CSS过渡。",
+    "_translate": "由节点和内联<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#view.Decoration\">装饰</a>添加或移除的属性不再导致其内部的节点被完全重绘，使节点视图更加稳定并允许使用CSS过渡。",
     "_note": ""
   },
   "ResolvedPos.atNodeBoundary is deprecated and will be removed in the next release. Use textOffset > 0 instead.": {
@@ -3852,7 +3852,7 @@
     "_note": ""
   },
   "Parse rules associated with a schema can now specify a priority to influence the order in which they are applied.": {
-    "_translate": "解析规则与模式相关联，现在可以指定一个<a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#model.ParseRule.priority\"><code>优先级</code></a>来影响它们的应用顺序。",
+    "_translate": "解析规则与模式相关联，现在可以指定一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#model.ParseRule.priority\"><code>优先级</code></a>来影响它们的应用顺序。",
     "_note": ""
   },
   "Fix bug where pasted/inserted content would sometimes get incorrectly closed at the right side.": {
@@ -3860,7 +3860,7 @@
     "_note": ""
   },
   "Resolved positions have a new getter textOffset to find their position within a text node (if any).": {
-    "_translate": "已解析的位置有一个新的 getter <a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#model.ResolvedPos.textOffset\"><code>textOffset</code></a> 来查找它们在文本节点中的位置（如果有）。",
+    "_translate": "已解析的位置有一个新的 getter <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#model.ResolvedPos.textOffset\"><code>textOffset</code></a> 来查找它们在文本节点中的位置（如果有）。",
     "_note": ""
   },
   "Selection actions no longer scroll the new selection into view by default (they never were supposed to, but due to a bug they did). Add a scrollIntoView property to the action to get this behavior.": {
@@ -3888,7 +3888,7 @@
     "_note": ""
   },
   "Improve tracking of DOM nodes that have been touched by user changes, so that updateState can reliably fix them.": {
-    "_translate": "改进对已被用户更改触及的DOM节点的跟踪，以便<a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#view.EditorView.updateState\"><code>updateState</code></a>可以可靠地修复它们。",
+    "_translate": "改进对已被用户更改触及的DOM节点的跟踪，以便<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#view.EditorView.updateState\"><code>updateState</code></a>可以可靠地修复它们。",
     "_note": ""
   },
   "Changes to the document that happen while dragging editor content no longer break moving of the content.": {
@@ -3908,7 +3908,7 @@
     "_note": ""
   },
   "Introduces an endOfTextblock method on views, which can be used to find out in a bidi- and layout-aware way whether the selection is on the edge of a textblock.": {
-    "_translate": "引入了视图上的<a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a>方法，可以用来以双向和布局感知的方式确定选择是否在文本块的边缘。",
+    "_translate": "引入了视图上的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#view.EditorView.endOfTextblock\"><code>endOfTextblock</code></a>方法，可以用来以双向和布局感知的方式确定选择是否在文本块的边缘。",
     "_note": ""
   },
   "Drops suppport for delete(Char|Word)(Before|After) and move(Back|For)ward, since we are now letting the browser handle those natively.": {
@@ -3916,15 +3916,15 @@
     "_note": ""
   },
   "The joinForward and joinBackward commands can now strip out markup and nodes that aren't allowed in the joined node.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#commands.joinForward\"><code>joinForward</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#commands.joinBackward\"><code>joinBackward</code></a> 命令现在可以去除在合并节点中不允许的标记和节点。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#commands.joinForward\"><code>joinForward</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#commands.joinBackward\"><code>joinBackward</code></a> 命令现在可以去除在合并节点中不允许的标记和节点。",
     "_note": ""
   },
   "A new command exitCode allows a user to exit a code block by creating a new paragraph below it.": {
-    "_translate": "一个新的命令<a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#commands.exitCode\"><code>exitCode</code></a>允许用户通过在其下方创建一个新段落来退出代码块。",
+    "_translate": "一个新的命令<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#commands.exitCode\"><code>exitCode</code></a>允许用户通过在其下方创建一个新段落来退出代码块。",
     "_note": ""
   },
   "The joinForward and joinBackward commands now use a bidirectional-text-aware way to determine whether the cursor is at the proper side of its parent textblock when they are passed a view.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#commands.joinForward\"><code>joinForward</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.15.0.html#commands.joinBackward\"><code>joinBackward</code></a> 命令现在使用一种双向文本感知的方式来确定当它们被传递一个视图时，光标是否在其父文本块的正确一侧。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#commands.joinForward\"><code>joinForward</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.15.0.html#commands.joinBackward\"><code>joinBackward</code></a> 命令现在使用一种双向文本感知的方式来确定当它们被传递一个视图时，光标是否在其父文本块的正确一侧。",
     "_note": ""
   },
   "Fix issue where node decorations would stick around in the DOM after the decoration was removed.": {
@@ -3936,7 +3936,7 @@
     "_note": ""
   },
   "DOMParser.parseSlice will now ignore whitespace-only text nodes at the top of the slice.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#model.DOMParser.parseSlice\"><code>DOMParser.parseSlice</code></a> 现在将忽略切片顶部仅包含空白的文本节点。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#model.DOMParser.parseSlice\"><code>DOMParser.parseSlice</code></a> 现在将忽略切片顶部仅包含空白的文本节点。",
     "_note": ""
   },
   "Fix a bug where inverted selections weren't created in the DOM correctly.": {
@@ -3952,47 +3952,47 @@
     "_note": ""
   },
   "Parse rules now support skip (skip outer element, parse content) and getContent (compute content using custom code) properties.": {
-    "_translate": "解析规则现在支持<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#model.ParseRule.skip\"><code>skip</code></a>（跳过外部元素，解析内容）和<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#model.ParseRule.getContent\"><code>getContent</code></a>（使用自定义代码计算内容）属性。",
+    "_translate": "解析规则现在支持<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#model.ParseRule.skip\"><code>skip</code></a>（跳过外部元素，解析内容）和<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#model.ParseRule.getContent\"><code>getContent</code></a>（使用自定义代码计算内容）属性。",
     "_note": ""
   },
   "The DOMSerializer class now exports a static renderSpec method that can help render DOM spec arrays.": {
-    "_translate": "<code>DOMSerializer</code> 类现在导出一个静态的 <a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#model.DOMSerializer%5ErenderSpec\"><code>renderSpec</code></a> 方法，可以帮助渲染 DOM 规范数组。",
+    "_translate": "<code>DOMSerializer</code> 类现在导出一个静态的 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#model.DOMSerializer%5ErenderSpec\"><code>renderSpec</code></a> 方法，可以帮助渲染 DOM 规范数组。",
     "_note": ""
   },
   "Selection actions now have a time field and an (optional) origin field.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#state.SelectionAction\">选择操作</a> 现在有一个 <code>time</code> 字段和一个（可选的）<code>origin</code> 字段。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#state.SelectionAction\">选择操作</a> 现在有一个 <code>time</code> 字段和一个（可选的）<code>origin</code> 字段。",
     "_note": ""
   },
   "Wrapping decorations are now created using the nodeName property. The wrapper property is no longer supported.": {
-    "_translate": "包装装饰现在使用<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.DecorationAttrs.nodeName\"><code>nodeName</code></a>属性创建。不再支持<code>wrapper</code>属性。",
+    "_translate": "包装装饰现在使用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.DecorationAttrs.nodeName\"><code>nodeName</code></a>属性创建。不再支持<code>wrapper</code>属性。",
     "_note": ""
   },
   "The onUnmountDOM prop is no longer supported (use a node view with a destroy method instead).": {
-    "_translate": "<code>onUnmountDOM</code> 属性不再支持（请改用带有 <a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.NodeView.destroy\"><code>destroy</code></a> 方法的节点视图）。",
+    "_translate": "<code>onUnmountDOM</code> 属性不再支持（请改用带有 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.NodeView.destroy\"><code>destroy</code></a> 方法的节点视图）。",
     "_note": ""
   },
   "The domSerializer prop is no longer supported. Use node views to configure editor-specific node representations.": {
-    "_translate": "<code>domSerializer</code> 属性不再支持。使用 <a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.EditorProps.nodeViews\">节点视图</a> 来配置特定于编辑器的节点表示。",
+    "_translate": "<code>domSerializer</code> 属性不再支持。使用 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.EditorProps.nodeViews\">节点视图</a> 来配置特定于编辑器的节点表示。",
     "_note": ""
   },
   "Widget decorations can now be given a key property to prevent unneccesary redraws.": {
-    "_translate": "Widget 装饰现在可以给一个 <a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.Decoration.widget%5Eoptions.key\"><code>key</code></a> 属性以防止不必要的重绘。",
+    "_translate": "Widget 装饰现在可以给一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.Decoration.widget%5Eoptions.key\"><code>key</code></a> 属性以防止不必要的重绘。",
     "_note": ""
   },
   "The EditorView class now has a destroy method for cleaning up.": {
-    "_translate": "<code>EditorView</code> 类现在有一个 <a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.EditorView.destroy\"><code>destroy</code></a> 方法用于清理。",
+    "_translate": "<code>EditorView</code> 类现在有一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.EditorView.destroy\"><code>destroy</code></a> 方法用于清理。",
     "_note": ""
   },
   "Widget decorations now support a stopEvent option that can be used to control which DOM events that pass through them should be ignored by the editor view.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.Decoration%5Ewidget\">小部件装饰</a>现在支持<code>stopEvent</code>选项，可以用来控制哪些通过它们的DOM事件应该被编辑器视图忽略。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.Decoration%5Ewidget\">小部件装饰</a>现在支持<code>stopEvent</code>选项，可以用来控制哪些通过它们的DOM事件应该被编辑器视图忽略。",
     "_note": ""
   },
   "The handleClickOn prop and friends now receive a direct boolean argument that indicates whether the node was clicked directly.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.EditorProps.handleClickOn\"><code>handleClickOn</code></a> 属性和相关属性现在接收一个 <code>direct</code> 布尔参数，该参数指示节点是否被直接点击。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.EditorProps.handleClickOn\"><code>handleClickOn</code></a> 属性和相关属性现在接收一个 <code>direct</code> 布尔参数，该参数指示节点是否被直接点击。",
     "_note": ""
   },
   "You can now specify custom node views for an editor view, which give you control over the way node of a given type are represented in the DOM. See the related RFC.": {
-    "_translate": "你现在可以<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.EditorProps.nodeViews\">指定</a>自定义<a href=\"https://prosemirror.net/docs/ref/version/0.14.0.html#view.NodeView\">节点视图</a>用于编辑器视图，这样你可以控制特定类型节点在DOM中的表示方式。请参阅相关的<a href=\"https://discuss.prosemirror.net/t/rfc-node-views-to-manage-the-representation-of-nodes/463\">RFC</a>。",
+    "_translate": "你现在可以<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.EditorProps.nodeViews\">指定</a>自定义<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.14.0.html#view.NodeView\">节点视图</a>用于编辑器视图，这样你可以控制特定类型节点在DOM中的表示方式。请参阅相关的<a href=\"https://discuss.prosemirror.net/t/rfc-node-views-to-manage-the-representation-of-nodes/463\">RFC</a>。",
     "_note": ""
   },
   "Fixes an issue where widget decorations in the middle of text nodes would sometimes disappear.": {
@@ -4004,59 +4004,59 @@
     "_note": ""
   },
   "ResolvedPos.sameDepth is now called ResolvedPos.sharedDepth, and takes a raw, unresolved position as argument.": {
-    "_translate": "<code>ResolvedPos.sameDepth</code> 现在被称为 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.ResolvedPos.sharedDepth\"><code>ResolvedPos.sharedDepth</code></a>，并且需要一个原始的、未解析的位置作为参数。",
+    "_translate": "<code>ResolvedPos.sameDepth</code> 现在被称为 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.ResolvedPos.sharedDepth\"><code>ResolvedPos.sharedDepth</code></a>，并且需要一个原始的、未解析的位置作为参数。",
     "_note": ""
   },
   "DOMSerializer's nodes and marks properties are now public.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.DOMSerializer\"><code>DOMSerializer</code></a>的<code>nodes</code>和<code>marks</code>属性现在是公开的。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.DOMSerializer\"><code>DOMSerializer</code></a>的<code>nodes</code>和<code>marks</code>属性现在是公开的。",
     "_note": ""
   },
   "ContentMatch.findWrapping now takes a third argument, marks. There's a new method findWrappingFor that accepts a whole node.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.ContentMatch.findWrapping\"><code>ContentMatch.findWrapping</code></a> 现在接受第三个参数，<code>marks</code>。有一个新方法 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.ContentMatch.findWrappingFor\"><code>findWrappingFor</code></a>，它接受一个完整的节点。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.ContentMatch.findWrapping\"><code>ContentMatch.findWrapping</code></a> 现在接受第三个参数，<code>marks</code>。有一个新方法 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.ContentMatch.findWrappingFor\"><code>findWrappingFor</code></a>，它接受一个完整的节点。",
     "_note": ""
   },
   "Adds Slice.maxOpen static method to create maximally open slices.": {
-    "_translate": "添加 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.Slice%5EmaxOpen\"><code>Slice.maxOpen</code></a> 静态方法以创建最大开放的切片。",
+    "_translate": "添加 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.Slice%5EmaxOpen\"><code>Slice.maxOpen</code></a> 静态方法以创建最大开放的切片。",
     "_note": ""
   },
   "DOM parser objects now have a parseSlice method which parses an HTML fragment into a Slice, rather than trying to create a whole document from it.": {
-    "_translate": "DOM 解析器对象现在有一个 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.DOMParser.parseSlice\"><code>parseSlice</code></a> 方法，该方法将 HTML 片段解析为 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.Slice\"><code>Slice</code></a>，而不是尝试从中创建整个文档。",
+    "_translate": "DOM 解析器对象现在有一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.DOMParser.parseSlice\"><code>parseSlice</code></a> 方法，该方法将 HTML 片段解析为 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.Slice\"><code>Slice</code></a>，而不是尝试从中创建整个文档。",
     "_note": ""
   },
   "Fix issue where Transform.replace would, in specific circumstances, unneccessarily drop content.": {
-    "_translate": "修复在特定情况下<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#transform.Transform.replace\"><code>Transform.replace</code></a>会不必要地丢弃内容的问题。",
+    "_translate": "修复在特定情况下<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#transform.Transform.replace\"><code>Transform.replace</code></a>会不必要地丢弃内容的问题。",
     "_note": ""
   },
   "The new Transform method replaceRange, replaceRangeWith, and deleteRange provide a way to replace and delete content in a 'do what I mean' way, automatically expanding the replaced region over empty parent nodes and including the parent nodes in the inserted content when appropriate.": {
-    "_translate": "新的<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#transform.Transform\"><code>Transform</code></a>方法<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#transform.Transform.replaceRange\"><code>replaceRange</code></a>、<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#transform.Transform.replaceRangeWith\"><code>replaceRangeWith</code></a>和<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#transform.Transform.deleteRange\"><code>deleteRange</code></a>提供了一种“按我所想”的方式来替换和删除内容，自动扩展被替换区域到空的父节点，并在适当的时候将父节点包含在插入的内容中。",
+    "_translate": "新的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#transform.Transform\"><code>Transform</code></a>方法<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#transform.Transform.replaceRange\"><code>replaceRange</code></a>、<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#transform.Transform.replaceRangeWith\"><code>replaceRangeWith</code></a>和<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#transform.Transform.deleteRange\"><code>deleteRange</code></a>提供了一种“按我所想”的方式来替换和删除内容，自动扩展被替换区域到空的父节点，并在适当的时候将父节点包含在插入的内容中。",
     "_note": ""
   },
   "EditorTransform.replaceSelection now takes a slice, no longer a node. The new replaceSelectionWith method should be used to replace the selection with a node. Until the next release, calling it the old way will still work and emit a warning.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.EditorTransform.replaceSelection\"><code>EditorTransform.replaceSelection</code></a> 现在接受一个 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.Slice\">slice</a>，不再是一个节点。新的 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.EditorTransform.replaceSelectionWith\"><code>replaceSelectionWith</code></a> 方法应该用于用节点替换选区。在下一个版本发布之前，以旧方式调用它仍然有效并会发出警告。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.EditorTransform.replaceSelection\"><code>EditorTransform.replaceSelection</code></a> 现在接受一个 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.Slice\">slice</a>，不再是一个节点。新的 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.EditorTransform.replaceSelectionWith\"><code>replaceSelectionWith</code></a> 方法应该用于用节点替换选区。在下一个版本发布之前，以旧方式调用它仍然有效并会发出警告。",
     "_note": ""
   },
   "The documentation for applyAction now actually reflects the arguments this method is given.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.StateField.applyAction\"><code>applyAction</code></a> 的文档现在实际反映了此方法所给的参数。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.StateField.applyAction\"><code>applyAction</code></a> 的文档现在实际反映了此方法所给的参数。",
     "_note": ""
   },
   "A state field's applyAction method is now passed the previous state as 4th argument, so that it has access to the new doc and selection.": {
-    "_translate": "一个状态字段的<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.StateField.applyAction\"><code>applyAction</code></a>方法现在将上一个状态作为第四个参数传递，以便它可以访问新的文档和选择。",
+    "_translate": "一个状态字段的<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.StateField.applyAction\"><code>applyAction</code></a>方法现在将上一个状态作为第四个参数传递，以便它可以访问新的文档和选择。",
     "_note": ""
   },
   "EditorTransform.replaceSelection now accepts a slice (or, as before, as a node), and uses a revised algorithm, relying on the defining node flag.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.EditorTransform.replaceSelection\"><code>EditorTransform.replaceSelection</code></a> 现在接受一个切片（或者像以前一样，作为一个节点），并使用一个修订后的算法，依赖于 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#model.NodeSpec.defining\"><code>defining</code></a> 节点标志。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.EditorTransform.replaceSelection\"><code>EditorTransform.replaceSelection</code></a> 现在接受一个切片（或者像以前一样，作为一个节点），并使用一个修订后的算法，依赖于 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#model.NodeSpec.defining\"><code>defining</code></a> 节点标志。",
     "_note": ""
   },
   "The TextSelection and NodeSelection classes now have a static create convenience method for creating selections from unresolved positions.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.TextSelection\"><code>TextSelection</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.NodeSelection\"><code>NodeSelection</code></a> 类现在有一个静态的 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.TextSelection%5Ecreate\"><code>create</code></a> 便捷方法，用于从未解析的位置创建选择。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.TextSelection\"><code>TextSelection</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.NodeSelection\"><code>NodeSelection</code></a> 类现在有一个静态的 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.TextSelection%5Ecreate\"><code>create</code></a> 便捷方法，用于从未解析的位置创建选择。",
     "_note": ""
   },
   "Allow transform actions to be extended during dispatch using extendTransformAction. Introduce sealed flag to indicate when this is not safe.": {
-    "_translate": "允许在调度期间使用<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.extendTransformAction\"><code>extendTransformAction</code></a>扩展<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.TransformAction\">转换操作</a>。引入<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.TransformAction.sealed\"><code>sealed</code></a>标志以指示何时不安全。",
+    "_translate": "允许在调度期间使用<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.extendTransformAction\"><code>extendTransformAction</code></a>扩展<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.TransformAction\">转换操作</a>。引入<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.TransformAction.sealed\"><code>sealed</code></a>标志以指示何时不安全。",
     "_note": ""
   },
   "A new utility function NodeSelection.isSelectable can be used to test whether a node can be the target of a node selection.": {
-    "_translate": "一个新的实用函数<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#state.NodeSelection.isSelectable\"><code>NodeSelection.isSelectable</code></a>可以用来测试一个节点是否可以成为节点选择的目标。",
+    "_translate": "一个新的实用函数<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#state.NodeSelection.isSelectable\"><code>NodeSelection.isSelectable</code></a>可以用来测试一个节点是否可以成为节点选择的目标。",
     "_note": ""
   },
   "Pasting text into a code block will now insert the raw text.": {
@@ -4076,15 +4076,15 @@
     "_note": ""
   },
   "DecorationSet.map now takes an options object which allows you to specify an onRemove callback to be notified when remapping drops decorations.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#view.DecorationSet.map\"><code>DecorationSet.map</code></a> 现在接受一个选项对象，该对象允许您指定一个 <code>onRemove</code> 回调，以便在重新映射删除装饰时通知您。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#view.DecorationSet.map\"><code>DecorationSet.map</code></a> 现在接受一个选项对象，该对象允许您指定一个 <code>onRemove</code> 回调，以便在重新映射删除装饰时通知您。",
     "_note": ""
   },
   "The transformPastedHTML and transformPastedText props were (re-)added, and can be used to clean up pasted content.": {
-    "_translate": "The <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#view.EditorProps.transformPastedHTML\"><code>transformPastedHTML</code></a> 和 <a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#view.EditorProps.transformPastedText\"><code>transformPastedText</code></a> 属性被（重新）添加，可以用来清理粘贴的内容。",
+    "_translate": "The <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#view.EditorProps.transformPastedHTML\"><code>transformPastedHTML</code></a> 和 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#view.EditorProps.transformPastedText\"><code>transformPastedText</code></a> 属性被（重新）添加，可以用来清理粘贴的内容。",
     "_note": ""
   },
   "The autoJoin function allows you to wrap command functions so that when the command makes nodes of a certain type occur next to each other, they are automatically joined.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.13.0.html#commands.autoJoin\"><code>autoJoin</code></a> 函数允许你包装命令函数，这样当命令使某种类型的节点彼此相邻时，它们会自动合并。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.13.0.html#commands.autoJoin\"><code>autoJoin</code></a> 函数允许你包装命令函数，这样当命令使某种类型的节点彼此相邻时，它们会自动合并。",
     "_note": ""
   },
   "Inline decorations that span across an empty textblock no longer crash the display drawing code.": {
@@ -4120,7 +4120,7 @@
     "_note": ""
   },
   "The interace to EditorState.toJSON and EditorState.fromJSON has changed.": {
-    "_translate": "The interace to\n<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#state.EditorState.toJSON\"><code>EditorState.toJSON</code></a> 和\n<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#state.EditorState.fromJSON\"><code>EditorState.fromJSON</code></a> 已经改变。",
+    "_translate": "The interace to\n<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#state.EditorState.toJSON\"><code>EditorState.toJSON</code></a> 和\n<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#state.EditorState.fromJSON\"><code>EditorState.fromJSON</code></a> 已经改变。",
     "_note": ""
   },
   "Mapped positions now count as deleted when the token to the side specified by the assoc parameter is deleted, rather than when both tokens around them are deleted. (This is usually what you already wanted anyway.)": {
@@ -4128,7 +4128,7 @@
     "_note": ""
   },
   "The way plugins declare their state field has changed. Only one state field per plugin is supported, and state fields no longer have hard-coded names. Plugin.getState is the way to access plugin state now.": {
-    "_translate": "插件声明其<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#state.Plugin.constructor.options.state\">state字段</a>的方式已更改。每个插件只支持一个state字段，并且state字段不再有硬编码名称。<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#state.Plugin.getState\"><code>Plugin.getState</code></a>是现在访问插件状态的方式。",
+    "_translate": "插件声明其<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#state.Plugin.constructor.options.state\">state字段</a>的方式已更改。每个插件只支持一个state字段，并且state字段不再有硬编码名称。<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#state.Plugin.getState\"><code>Plugin.getState</code></a>是现在访问插件状态的方式。",
     "_note": ""
   },
   "Plugin dependencies are no longer supported.": {
@@ -4136,7 +4136,7 @@
     "_note": ""
   },
   "Plugin.reconfigure is gone. Plugins are now always created with new Plugin.": {
-    "_translate": "<code>Plugin.reconfigure</code> 已经消失。插件现在总是使用 <a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#state.Plugin.constructor\"><code>new Plugin</code></a> 创建。",
+    "_translate": "<code>Plugin.reconfigure</code> 已经消失。插件现在总是使用 <a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#state.Plugin.constructor\"><code>new Plugin</code></a> 创建。",
     "_note": ""
   },
   "Plugins no longer have a config field.": {
@@ -4148,11 +4148,11 @@
     "_note": ""
   },
   "Plugin keys can now be used to find plugins by identity.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#state.PluginKey\">插件键</a>现在可以用来通过身份查找插件。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#state.PluginKey\">插件键</a>现在可以用来通过身份查找插件。",
     "_note": ""
   },
   "Transform actions now have a time field containing the timestamp when the change was made.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#state.TransformAction\">转换操作</a>现在有一个<code>time</code>字段，包含更改发生时的时间戳。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#state.TransformAction\">转换操作</a>现在有一个<code>time</code>字段，包含更改发生时的时间戳。",
     "_note": ""
   },
   "Reduce reliance on shift-state tracking to minimize damage when it gets out of sync.": {
@@ -4160,7 +4160,7 @@
     "_note": ""
   },
   "The return value of EditorView.posAtCoords changed to contain an inside property pointing at the innermost node that the coordinates are inside of. (Note that the docs for this method were wrong in the previous release.)": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#view.EditorView.posAtCoords\"><code>EditorView.posAtCoords</code></a> 的返回值已更改为包含一个指向坐标所在最内层节点的 <code>inside</code> 属性。（请注意，此方法的文档在上一个版本中是错误的。）",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#view.EditorView.posAtCoords\"><code>EditorView.posAtCoords</code></a> 的返回值已更改为包含一个指向坐标所在最内层节点的 <code>inside</code> 属性。（请注意，此方法的文档在上一个版本中是错误的。）",
     "_note": ""
   },
   "Fix bug that'd produce bogus document positions for DOM positions inside non-document nodes.": {
@@ -4172,7 +4172,7 @@
     "_note": ""
   },
   "Implement decorations, a way to influence the way the document is drawn. Add the decorations prop to specify them.": {
-    "_translate": "实现<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#view.Decoration\">装饰</a>，一种影响文档绘制方式的方法。添加<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#view.EditorProps.decorations\"><code>decorations</code>属性</a>来指定它们。",
+    "_translate": "实现<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#view.Decoration\">装饰</a>，一种影响文档绘制方式的方法。添加<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#view.EditorProps.decorations\"><code>decorations</code>属性</a>来指定它们。",
     "_note": ""
   },
   "Key names are now based on KeyboardEvent.key instead of .code. This means that, for character-producing keys, you'll want to use the character typed, not the key name. So Ctrl-Z now means uppercase Z, and you'll usually want Ctrl-z instead. Single-quoted key names are no longer supported.": {
@@ -4180,7 +4180,7 @@
     "_note": ""
   },
   "The history export is now a function that creates a history plugin, rather than a plugin instance.": {
-    "_translate": "<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#history.history\"><code>history</code></a> 导出现在是一个创建历史插件的函数，而不是一个插件实例。",
+    "_translate": "<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#history.history\"><code>history</code></a> 导出现在是一个创建历史插件的函数，而不是一个插件实例。",
     "_note": ""
   },
   "Fix crash when backspacing into nodes with complex content expressions.": {
@@ -4188,7 +4188,7 @@
     "_note": ""
   },
   "Add a newGroupDelay plugin option. This brings back the behavior where pausing between edits will automatically cause the history to put subsequent changes in a new undo event.": {
-    "_translate": "添加一个<a href=\"https://prosemirror.net/docs/ref/version/0.12.0.html#history.history%5Econfig.newGroupDelay\"><code>newGroupDelay</code></a>插件选项。这将恢复在编辑之间暂停时，历史记录会自动将后续更改放入新的撤销事件中的行为。",
+    "_translate": "添加一个<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.12.0.html#history.history%5Econfig.newGroupDelay\"><code>newGroupDelay</code></a>插件选项。这将恢复在编辑之间暂停时，历史记录会自动将后续更改放入新的撤销事件中的行为。",
     "_note": ""
   },
   "Don't treat <b style=font-weight: normal> as strong when parsing. (Google Docs puts such ridiculous HTML on the clipboard.)": {
@@ -4196,7 +4196,7 @@
     "_note": ""
   },
   "Pass actual event object to handleDOMEvent, rather than just its name.": {
-    "_translate": "将实际事件对象传递给<a href=\"https://prosemirror.net/docs/ref/version/0.11.0.html#view.EditorProps.handleDOMEvent\"><code>handleDOMEvent</code></a>，而不仅仅是它的名称。",
+    "_translate": "将实际事件对象传递给<a href=\"https://prosemirror.xheldon.com/docs/ref/version/0.11.0.html#view.EditorProps.handleDOMEvent\"><code>handleDOMEvent</code></a>，而不仅仅是它的名称。",
     "_note": ""
   },
   "Fix display corruption caused by using the wrong state as previous version during IME.": {
@@ -4212,7 +4212,7 @@
     "_note": ""
   },
   "Discuss": {
-    "_translate": "讨论",
+    "_translate": "论坛",
     "_note": ""
   },
   "GitHub": {
