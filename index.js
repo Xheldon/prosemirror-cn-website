@@ -15,33 +15,30 @@ const MAX_CONCURRENT = 2;
 
 // Note: 配置各个文件需要翻译的节点选择器，如果不存在，则默认翻译页面首个 article 中的全部 p 标签内容
 const defaultConfig = (more) => {
-  return [{
-    container: 'header',
-    selector: 'h1, .navlinks a'
-  }, {
-    container: 'article',
-    selector: `p, div#content h3, pre span.tok-comment${more ? `, ${more}` : ''}`
-  }]
+  return [
+    {
+      container: 'header',
+      selector: 'h1, .navlinks a',
+    },
+    {
+      container: 'article',
+      selector: `p, div#content h3, pre span.tok-comment${
+        more ? `, ${more}` : ''
+      }`,
+    },
+  ];
 };
 const config = {
-  'website/public/index.html': [
-    ...defaultConfig()
-  ],
-  'website/public/examples/index.html': [
-    ...defaultConfig('h2')
-  ],
-  'website/public/examples/basic/index.html': [
-    ...defaultConfig('ul li, h1')
-  ],
+  'website/public/index.html': [...defaultConfig()],
+  'website/public/examples/index.html': [...defaultConfig('h2')],
+  'website/public/examples/basic/index.html': [...defaultConfig('ul li, h1')],
   'website/public/examples/markdown/index.html': [
-    ...defaultConfig('textarea#content')
+    ...defaultConfig('textarea#content'),
   ],
   'website/public/docs/ref/index.html': [
-    ...defaultConfig('ul li, #part_top h2')
+    ...defaultConfig('ul li, #part_top h2'),
   ],
-  'website/public/docs/index.html': [
-    ...defaultConfig('h2, h3')
-  ],
+  'website/public/docs/index.html': [...defaultConfig('h2, h3')],
 };
 
 const propertyMap = {
@@ -67,7 +64,7 @@ Promise.all(
       const document = dom.window.document;
 
       // Note: 修改 head 部分的 meta 信息
-      document.querySelector('html').setAttribute('lang', 'zh-CN')
+      document.querySelector('html').setAttribute('lang', 'zh-CN');
       const head = document.querySelector('head');
       if (head) {
         const metas = head.querySelectorAll('meta');
@@ -143,7 +140,7 @@ Promise.all(
         }
       }
       if (key.includes('docs/index.html')) {
-        const ul = document.querySelector('article .grid-list')?.[1];
+        const ul = document.querySelectorAll('article .grid-list')?.[1];
         if (ul) {
           const li = document.createElement('li');
           li.innerHTML = `<li>
@@ -152,25 +149,28 @@ Promise.all(
       <p data-x-en="ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问">ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问</p>
     </a>
   </li>`;
-          li.parentNode.insertBefore(add, li);
+          ul.appendChild(li);
         }
       }
 
       // Note: 如果 config 中的路径文件不存在，则使用默认，否则使用 config 配置文件
       let list = [];
-      list = (config[key] || defaultConfig()).map((c) => {
-        const container = document.querySelector(c.container);
-        if (!container) {
-          console.log(`${file} 未找到 ${c.container} 标签`);
-          return;
-        }
-        return [...container.querySelectorAll(c.selector)] || [];
-      }).flat().filter(Boolean);
+      list = (config[key] || defaultConfig())
+        .map((c) => {
+          const container = document.querySelector(c.container);
+          if (!container) {
+            console.log(`${file} 未找到 ${c.container} 标签`);
+            return;
+          }
+          return [...container.querySelectorAll(c.selector)] || [];
+        })
+        .flat()
+        .filter(Boolean);
       if (!list.length) {
         console.log(`${file} 不存在可翻译内容，中断`);
         return;
       }
-      
+
       const dictPath = file
         .replace('.html', '.json')
         .replace('public', 'dict')
@@ -205,9 +205,15 @@ Promise.all(
                 const note = document.createElement('p');
                 note.setAttribute('type', 'comment');
                 note.innerHTML = dict[pureText]._note;
-                // Note: jsdom 的 insertBefore 跟实际的 dom 操作有差异，如果第二个参数是 null，则会插入到父级后面
-                //  所以下面的判定就先注释，正文如果有问题再说
-                item.parentNode.insertBefore(note, item.nextSibling);
+                // Note: 如果 p 本身在 a 标签里面，而 p 内又有 a 标签，那么实际渲染的时候会发生意外当的情况
+                if (item.parentNode.tagName === 'A') {
+                  item.parentNode?.parentNode?.insertBefore(
+                    note,
+                    item.parentNode?.nextSibling
+                  );
+                } else {
+                  item.parentNode.insertBefore(note, item.nextSibling);
+                }
               }
               resolve();
             } else {
