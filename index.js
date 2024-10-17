@@ -202,7 +202,7 @@ Promise.all(
               }
               // Note: 如果有注释，则插入到当前 p 后面
               if (dict[pureText]._note) {
-                const note = document.createElement('p');
+                const note = document.createElement('div');
                 note.setAttribute('type', 'comment');
                 note.innerHTML = dict[pureText]._note;
                 // Note: 如果 p 本身在 a 标签里面，而 p 内又有 a 标签，那么实际渲染的时候会发生意外当的情况
