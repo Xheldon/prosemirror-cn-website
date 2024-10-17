@@ -16,7 +16,7 @@
     "_note": ""
   },
   "ProseMirror keeps all editor state (the things, basically, that would be required to create an editor just like the current one) in a single object. That object is updated (creating a new state) by applying transactions to it.": {
-    "_translate": "ProseMirror 使用一个单独的大 <a href=\"#state.EditorState\">对象</a> 来保持对编辑器所有 state 的引用（基本上来说，需要创建一个与当前编辑器相同的编辑器）。\n这个对象通过应用一个 <a href=\"#state.Transaction\">transactions</a> 来更新（即创建一个新的 state）。",
+    "_translate": "ProseMirror 使用一个单独的大 <a href=\"#state.EditorState\">对象</a> 来保持对编辑器所有 state 的引用（基本上来说，需要创建一个与当前编辑器相同的编辑器）。 这个对象通过应用一个 <a href=\"#state.Transaction\">transactions</a> 来更新（即创建一个新的 state）。",
     "_note": "transactions 按惯例在写代码的或者看源码的时候被缩写成 tr"
   },
   "The state of a ProseMirror editor is represented by an object of this type. A state is a persistent data structure—it isn't updated, but rather a new state value is computed from an old one using the apply method.": {
@@ -52,7 +52,7 @@
     "_note": ""
   },
   "Verbose variant of apply that returns the precise transactions that were applied (which might be influenced by the transaction hooks of plugins) along with the new state.": {
-    "_translate": "<a href=\"#state.EditorState.apply\"><code>apply</code></a> 的复杂版。该接口返回将应用到旧 state 以产生新 state 的每一个 transactions\n（其返回解构可能被插件的 <a href=\"#state.PluginSpec.filterTransaction\">transaction hooks</a> 影响。）",
+    "_translate": "<a href=\"#state.EditorState.apply\"><code>apply</code></a> 的复杂版。该接口返回将应用到旧 state 以产生新 state 的每一个 transactions （其返回解构可能被插件的 <a href=\"#state.PluginSpec.filterTransaction\">transaction hooks</a> 影响。）",
     "_note": ""
   },
   "Start a transaction from this state.": {
@@ -60,7 +60,7 @@
     "_note": "该 transaction 是一个 getter 函数，每次调用都会 new 一个新的 transaction。"
   },
   "Create a new state based on this one, but with an adjusted set of active plugins. State fields that exist in both sets of plugins are kept unchanged. Those that no longer exist are dropped, and those that are new are initialized using their init method, passing in the new configuration object..": {
-    "_translate": "基于当前的 state 新建一个新的 state，只是新的 state 的中的字段会由传入的 plugins 重新配置。新旧两组 plugins 中的 state 字段中都存在的字段保持不变。\n（相比于旧的 plugins 中）不再存在的字段将会被丢弃，新增的字段将会使用 plugin 的 state 对象的 <a href=\"#state.StateField.init\"><code>init</code></a> 方法进行初始化后作为新的 state 字段。",
+    "_translate": "基于当前的 state 新建一个新的 state，只是新的 state 的中的字段会由传入的 plugins 重新配置。新旧两组 plugins 中的 state 字段中都存在的字段保持不变。 （相比于旧的 plugins 中）不再存在的字段将会被丢弃，新增的字段将会使用 plugin 的 state 对象的 <a href=\"#state.StateField.init\"><code>init</code></a> 方法进行初始化后作为新的 state 字段。",
     "_note": "plugin 配置对象有一个 state 字段，其有两个方法，一个是 init 用来初始化 state；一个是 apply，用来决定如何更新 state。此 create 方法对于新增的 plugin 会调用其 state 的 init 方法进行初始化，以生成编辑器的 state。"
   },
   "New set of active plugins.": {
@@ -72,12 +72,12 @@
     "_note": ""
   },
   "Serialize this state to JSON. If you want to serialize the state of plugins, pass an object mapping property names to use in the resulting JSON object to plugin objects. The argument may also be a string or number, in which case it is ignored, to support the way JSON.stringify calls toString methods.": {
-    "_translate": "将 state 对象序列化成 JSON 对象。如果你想序列化 plugin 的 state，则需要传递一个有着属性名-插件的映射关系的对象，该对象的属性名就会出现在返回值结果对象中。\n参数也可以是字符串或者数字，但这种情况下参数会被忽略，以支持以 <code>JSON.stringify</code> 的方式调用 <code>toString</code> 方法。",
+    "_translate": "将 state 对象序列化成 JSON 对象。如果你想序列化 plugin 的 state，则需要传递一个有着属性名-插件的映射关系的对象，该对象的属性名就会出现在返回值结果对象中。 参数也可以是字符串或者数字，但这种情况下参数会被忽略，以支持以 <code>JSON.stringify</code> 的方式调用 <code>toString</code> 方法。",
     "_note": "如果想序列化 plugin 的 state，需要 plugin 的 state 对象有提供 toJSON 方法，该方法的参数是 plugin 的 key。doc 和 selection 是保留字段，不能作为参数对象的属性名。"
   },
   "Deserialize a JSON representation of a state. config should have at least a schema field, and should contain array of plugins to initialize the state with. pluginFields can be used to deserialize the state of plugins, by associating plugin instances with the property names they use in the JSON object.": {
-    "_translate": "反序列化一个 state 的 JSON 表示。<code>config</code> 至少应该有一个 <code>schema</code> 字段，并且应该包含用来初始化 state 的 plugin 数组。\n<code>pluginField</code> 参数通过在 JSON 对象中的属性名与 plugin 实例对应的方式来反序列化 plugin 的 state。",
-    "_note": "pluginFields 中的属性名如果对应到了某个 plugin 的 key（string），则会调用对应 plugin 的 state 的 fromJSON 方法，\n如果没有对应到任一个 plugin 的 key，则会直接调 plugin 的 state 的 init 方法，前者参数是 config、插件对应的 json 和根据 config 生成的编辑器 state；后者参数是 config 和根据 config 生成的编辑器的 state。"
+    "_translate": "反序列化一个 state 的 JSON 表示。<code>config</code> 至少应该有一个 <code>schema</code> 字段，并且应该包含用来初始化 state 的 plugin 数组。 <code>pluginField</code> 参数通过在 JSON 对象中的属性名与 plugin 实例对应的方式来反序列化 plugin 的 state。",
+    "_note": "pluginFields 中的属性名如果对应到了某个 plugin 的 key（string），则会调用对应 plugin 的 state 的 fromJSON 方法， 如果没有对应到任一个 plugin 的 key，则会直接调 plugin 的 state 的 init 方法，前者参数是 config、插件对应的 json 和根据 config 生成的编辑器 state；后者参数是 config 和根据 config 生成的编辑器的 state。"
   },
   "The schema to use.": {
     "_translate": "反序列化用到的 schema。",
@@ -112,7 +112,7 @@
     "_note": ""
   },
   "An editor state transaction, which can be applied to a state to create an updated state. Use EditorState.tr to create an instance.": {
-    "_translate": "一个编辑器 state 的 transaction 可以被用来应用到 state 以创建一个更新的 state。\n使用 <a href=\"#state.EditorState.tr\"><code>EditorState.tr</code></a> 来创建一个 transaction 实例。",
+    "_translate": "一个编辑器 state 的 transaction 可以被用来应用到 state 以创建一个更新的 state。 使用 <a href=\"#state.EditorState.tr\"><code>EditorState.tr</code></a> 来创建一个 transaction 实例。",
     "_note": "EditorState.tr 是一个 getter 函数，每次调用都会 new 一个新的。"
   },
   "Transactions track changes to the document (they are a subclass of Transform), but also other state changes, like selection updates and adjustments of the set of stored marks. In addition, you can store metadata properties in a transaction, which are extra pieces of information that client code or plugins can use to describe what a transaction represents, so that they can update their own state accordingly.": {
@@ -148,7 +148,7 @@
     "_note": ""
   },
   "Make sure the current stored marks or, if that is null, the marks at the selection, match the given set of marks. Does nothing if this is already the case.": {
-    "_translate": "确保 transaction 设置的 stored marks 或者如果 transaction 没有设置 stored marks 的话，确保光标位置的 marks，与参数给定的 marks 一致。\n如果一致的话什么也不做。",
+    "_translate": "确保 transaction 设置的 stored marks 或者如果 transaction 没有设置 stored marks 的话，确保光标位置的 marks，与参数给定的 marks 一致。 如果一致的话什么也不做。",
     "_note": "如果不一致的话，就让它们一致--这也是「确保」的含义。"
   },
   "Add a mark to the set of stored marks.": {
@@ -204,7 +204,7 @@
     "_note": ""
   },
   "True when this transaction has had scrollIntoView called on it.": {
-    "_translate": "True when this transaction has had\n                <code>scrollIntoView</code> called on it.",
+    "_translate": "True when this transaction has had                 <code>scrollIntoView</code> called on it.",
     "_note": ""
   },
   "In some cases, the editor view is passed as a third argument.": {
@@ -212,7 +212,7 @@
     "_note": ""
   },
   "A ProseMirror selection can be one of several types. This module defines types for classical text selections (of which cursors are a special case) and node selections, where a specific document node is selected. It is possible to extend the editor with custom selection types.": {
-    "_translate": "一个 ProseMirror selection 可以是多种不同类型的选区。这个模块定义了一个基础文本选区 <a href=\"#state.TextSelection\">text selections</a>（当然，光标是其中的一个特殊状态，即 selection 的内容为空）\n和节点选区 <a href=\"#state.NodeSelection\"><em>node</em> selections</a> ，表示一个文档节点被选中。可以通过扩展 selection 父类来实现自定义的 selection 类型。",
+    "_translate": "一个 ProseMirror selection 可以是多种不同类型的选区。这个模块定义了一个基础文本选区 <a href=\"#state.TextSelection\">text selections</a>（当然，光标是其中的一个特殊状态，即 selection 的内容为空） 和节点选区 <a href=\"#state.NodeSelection\"><em>node</em> selections</a> ，表示一个文档节点被选中。可以通过扩展 selection 父类来实现自定义的 selection 类型。",
     "_note": ""
   },
   "Superclass for editor selections. Every selection type should extend this. Should not be instantiated directly.": {
@@ -277,18 +277,18 @@
   },
   "Replace the selection with a slice or, if no slice is given, delete the selection. Will append to the given transaction.": {
     "_translate": "用给定的 slice 替换当前选区，如果没有给 slice，则删除选区。该操作会附加到给定 transaction 最后。",
-    "_note": "替换后会将新的选区（光标）放到插入的内容的右侧。如果插入的内容是一个 inline 节点，则向右寻找该节点后面的位置。\n如果不是 inline 节点，则向左寻找。"
+    "_note": "替换后会将新的选区（光标）放到插入的内容的右侧。如果插入的内容是一个 inline 节点，则向右寻找该节点后面的位置。 如果不是 inline 节点，则向左寻找。"
   },
   "Replace the selection with the given node, appending the changes to the given transaction.": {
     "_translate": "用给定的 node 替换当前选区，该操作会附加到给定的 transaction 最后。",
     "_note": ""
   },
   "Convert the selection to a JSON representation. When implementing this for a custom selection class, make sure to give the object a type property whose value matches the ID under which you registered your class.": {
-    "_translate": "将当前选区转换成 JSON 表示的格式。当在自己实现的 selection 类中实现此方法的时候，需要确保给这个返回的对象一个 <code>type</code> 属性，\n属性值是你 <a href=\"#state.Selection%5EjsonID\">注册</a> selection 时候的 ID。",
+    "_translate": "将当前选区转换成 JSON 表示的格式。当在自己实现的 selection 类中实现此方法的时候，需要确保给这个返回的对象一个 <code>type</code> 属性， 属性值是你 <a href=\"#state.Selection%5EjsonID\">注册</a> selection 时候的 ID。",
     "_note": ""
   },
   "Get a bookmark for this selection, which is a value that can be mapped without having access to a current document, and later resolved to a real selection for a given document again. (This is used mostly by the history to track and restore old selections.) The default implementation of this method just converts the selection to a text selection and returns the bookmark for that.": {
-    "_translate": "获取一个选区的 <a href=\"#state.SelectionBookmark\">bookmark</a>，它是一个无需访问当前 document 即可被 mapped\n然后再在 mapped 后通过给定一个 document 再解析成一个真实选区的值。（这个方法最可能被用在 history 中，以进行\n选区追踪和恢复旧选区）该方法的默认实现仅仅是转换当前选区为一个文本选区，然后返回文本选区的 bookmark。",
+    "_translate": "获取一个选区的 <a href=\"#state.SelectionBookmark\">bookmark</a>，它是一个无需访问当前 document 即可被 mapped 然后再在 mapped 后通过给定一个 document 再解析成一个真实选区的值。（这个方法最可能被用在 history 中，以进行 选区追踪和恢复旧选区）该方法的默认实现仅仅是转换当前选区为一个文本选区，然后返回文本选区的 bookmark。",
     "_note": ""
   },
   "Controls whether, when a selection of this type is active in the browser, the selected range should be visible to the user. Defaults to true.": {
@@ -296,7 +296,7 @@
     "_note": ""
   },
   "Find a valid cursor or leaf node selection starting at the given position and searching back if dir is negative, and forward if positive. When textOnly is true, only consider cursor selections. Will return null when no valid selection position is found.": {
-    "_translate": "在给定的位置寻找一个可用的光标或叶节点选区，如果 <code>dir</code> 参数是负的则往左寻找，如果是正的则向右寻找。当 <code>textOnly</code> 是 true 的时候，则只考虑光标选区。\n如果没有可用的选区位置，则返回 null。",
+    "_translate": "在给定的位置寻找一个可用的光标或叶节点选区，如果 <code>dir</code> 参数是负的则往左寻找，如果是正的则向右寻找。当 <code>textOnly</code> 是 true 的时候，则只考虑光标选区。 如果没有可用的选区位置，则返回 null。",
     "_note": "此方法对在粘贴或者一番操作后，不知道应该将光标放到哪个合适的位置时的情况尤为有用，它会自动寻找一个合适的位置，而不用手动 setSelection，对此种情况还有用的一个方法是下面的 near 方法。"
   },
   "Find a valid cursor or leaf node selection near the given position. Searches forward first by default, but if bias is negative, it will search backwards first.": {
@@ -316,11 +316,11 @@
     "_note": ""
   },
   "To be able to deserialize selections from JSON, custom selection classes must register themselves with an ID string, so that they can be disambiguated. Try to pick something that's unlikely to clash with classes from other modules.": {
-    "_translate": "为了能够从 JSON 中反序列化一个选区，自定义的 selection 类必须用一个字符串 ID 来注册自己，以消除歧义。\n尽量要用一个不会与其他模块的类名冲突的字符串。",
+    "_translate": "为了能够从 JSON 中反序列化一个选区，自定义的 selection 类必须用一个字符串 ID 来注册自己，以消除歧义。 尽量要用一个不会与其他模块的类名冲突的字符串。",
     "_note": ""
   },
   "A text selection represents a classical editor selection, with a head (the moving side) and anchor (immobile side), both of which point into textblock nodes. It can be empty (a regular cursor position).": {
-    "_translate": "一个文本选区代表一个典型的编辑器选区，其有一个 head（移动的一侧）和一个 anchor（不动的一侧），二者都\n指向一个文本块节点。它可以是空的（此时表示一个正常的光标位置）。",
+    "_translate": "一个文本选区代表一个典型的编辑器选区，其有一个 head（移动的一侧）和一个 anchor（不动的一侧），二者都 指向一个文本块节点。它可以是空的（此时表示一个正常的光标位置）。",
     "_note": "文本块节点，即文本节点的直接父节点。如定义了 doc > p > text，则文本块节点即 p 节点。"
   },
   "Construct a text selection between the given points.": {
@@ -336,7 +336,7 @@
     "_note": ""
   },
   "Return a text selection that spans the given positions or, if they aren't text positions, find a text selection near them. bias determines whether the method searches forward (default) or backwards (negative number) first. Will fall back to calling Selection.near when the document doesn't contain a valid text position.": {
-    "_translate": "返回一个跨越给定 anchor 和 head 位置的选区，如果它们不是一个文本位置，则调用 findFrom 就近寻找一个可用的文本选区。\n<code>bias</code> 决定就近向哪个方向寻找，默认是向左，值为负时是向右。如果文档不包含一个可用的文本位置，\n则调用 <a href=\"#state.Selection%5Enear\"><code>Selection.near</code></a> 方法。",
+    "_translate": "返回一个跨越给定 anchor 和 head 位置的选区，如果它们不是一个文本位置，则调用 findFrom 就近寻找一个可用的文本选区。 <code>bias</code> 决定就近向哪个方向寻找，默认是向左，值为负时是向右。如果文档不包含一个可用的文本位置， 则调用 <a href=\"#state.Selection%5Enear\"><code>Selection.near</code></a> 方法。",
     "_note": ""
   },
   "Create a node selection. Does not verify the validity of its argument.": {
@@ -344,7 +344,7 @@
     "_note": "因为不会验证参数的可用性，所以需要保证参数 $pos 是一个 resolved 过的可用 pos。"
   },
   "A node selection is a selection that points at a single node. All nodes marked selectable can be the target of a node selection. In such a selection, from and to point directly before and after the selected node, anchor equals from, and head equals to..": {
-    "_translate": "一个 node （节点）选区是一个指向单独节点的选区。所有的配置为 <a href=\"#model.NodeSpec.selectable\">selectable</a>\n的 node 节点都可以是一个 node 选区的目标。在这个类型的选区中，<code>from</code> 和 <code>to</code> 直接指向选择节点的前面和后面，\n<code>anchor</code> 等于 <code>from</code>，<code>head</code> 等于 <code>to</code>。",
+    "_translate": "一个 node （节点）选区是一个指向单独节点的选区。所有的配置为 <a href=\"#model.NodeSpec.selectable\">selectable</a> 的 node 节点都可以是一个 node 选区的目标。在这个类型的选区中，<code>from</code> 和 <code>to</code> 直接指向选择节点的前面和后面， <code>anchor</code> 等于 <code>from</code>，<code>head</code> 等于 <code>to</code>。",
     "_note": "node 选区就是当选中一个节点的时候的选区类型。"
   },
   "The selected node.": {
@@ -392,7 +392,7 @@
     "_note": ""
   },
   "Resolve the bookmark to a real selection again. This may need to do some error checking and may fall back to a default (usually TextSelection.between) if mapping made the bookmark invalid.": {
-    "_translate": "将该 bookmark 再解析成一个真实选区。可能需要做一些错误检查，并且如果 mapping 后该 bookmark 变得不可用的话，则会回滚到\n默认行为（通常是 <a href=\"#state.TextSelection%5Ebetween\"><code>TextSelection.between</code></a>）。",
+    "_translate": "将该 bookmark 再解析成一个真实选区。可能需要做一些错误检查，并且如果 mapping 后该 bookmark 变得不可用的话，则会回滚到 默认行为（通常是 <a href=\"#state.TextSelection%5Ebetween\"><code>TextSelection.between</code></a>）。",
     "_note": ""
   },
   "To make it easy to package and enable extra editor functionality, ProseMirror has a plugin system.": {
@@ -412,11 +412,11 @@
     "_note": ""
   },
   "Can be used to make this a keyed plugin. You can have only one plugin with a given key in a given state, but it is possible to access the plugin's configuration and state through the key, without having access to the plugin instance object.": {
-    "_translate": "可以被用来唯一确定一个 plugin。在一个给定的 state 你只能有一个给定 key 的 plugin。\n你可以通过这个 key 而不用访问插件实例来访问该插件的配置和 state。",
+    "_translate": "可以被用来唯一确定一个 plugin。在一个给定的 state 你只能有一个给定 key 的 plugin。 你可以通过这个 key 而不用访问插件实例来访问该插件的配置和 state。",
     "_note": ""
   },
   "When the plugin needs to interact with the editor view, or set something up in the DOM, use this field. The function will be called when the plugin's state is associated with an editor view.": {
-    "_translate": "当插件需要与编辑器视图交互的时候，或者需要在 DOM 上设置一些东西的时候，使用这个字段。\n当插件的 state 与编辑器 view 有关联的时候将会调用该函数。",
+    "_translate": "当插件需要与编辑器视图交互的时候，或者需要在 DOM 上设置一些东西的时候，使用这个字段。 当插件的 state 与编辑器 view 有关联的时候将会调用该函数。",
     "_note": ""
   },
   "When present, this will be called before a transaction is applied by the state, allowing the plugin to cancel it (by returning false).": {
@@ -424,7 +424,7 @@
     "_note": ""
   },
   "Allows the plugin to append another transaction to be applied after the given array of transactions. When another plugin appends a transaction after this was called, it is called again with the new state and new transactions—but only the new transactions, i.e. it won't be passed transactions that it already saw.": {
-    "_translate": "允许这个插件附加另一个 transaction 到将要被应用的 transactions 数组的末尾上去。\n当另一个 plugin 又附加了一个 transaction 且其在当前 plugin 之后调用，\n则当前 plugin 的该函数会再调用一次。但是仅含新的 transaction 和新的 state。也即是，它不会再将之前处理过的 transaction 再处理一次。",
+    "_translate": "允许这个插件附加另一个 transaction 到将要被应用的 transactions 数组的末尾上去。 当另一个 plugin 又附加了一个 transaction 且其在当前 plugin 之后调用， 则当前 plugin 的该函数会再调用一次。但是仅含新的 transaction 和新的 state。也即是，它不会再将之前处理过的 transaction 再处理一次。",
     "_note": ""
   },
   "Additional properties are allowed on plugin specs, which can be read via Plugin.spec.": {
@@ -432,15 +432,15 @@
     "_note": ""
   },
   "A plugin spec may provide a state field (under its state property) of this type, which describes the state it wants to keep. Functions provided here are always called with the plugin instance as their this binding.": {
-    "_translate": "插件可能会提供一个该配置类型的 state 字段（在它的 <a href=\"#state.PluginSpec.state\"><code>state</code></a> 属性上）。\n它描述了插件想要持有的 state。该字段下的方法调用的时候，其 <code>this</code> 指向插件实例。",
+    "_translate": "插件可能会提供一个该配置类型的 state 字段（在它的 <a href=\"#state.PluginSpec.state\"><code>state</code></a> 属性上）。 它描述了插件想要持有的 state。该字段下的方法调用的时候，其 <code>this</code> 指向插件实例。",
     "_note": ""
   },
   "Initialize the value of the field. config will be the object passed to EditorState.create. Note that instance is a half-initialized state instance, and will not have values for plugin fields initialized after this one.": {
-    "_translate": "初始化插件的 state。<code>config</code> 是传递给 <a href=\"#state.EditorState%5Ecreate\"><code>EditorState.create</code></a> 的对象。\n记住：<code>instance</code> 是一个半初始化的 state 实例，在当前插件之后初始化的插件在此时将不会有值。",
+    "_translate": "初始化插件的 state。<code>config</code> 是传递给 <a href=\"#state.EditorState%5Ecreate\"><code>EditorState.create</code></a> 的对象。 记住：<code>instance</code> 是一个半初始化的 state 实例，在当前插件之后初始化的插件在此时将不会有值。",
     "_note": "因此在新建 state 的时候，插件的顺序至关重要。"
   },
   "Apply the given transaction to this state field, producing a new field value. Note that the newState argument is again a partially constructed state does not yet contain the state from plugins coming after this one.": {
-    "_translate": "应用给定的 transaction 到插件的 state 字段，以产生一个新的 state。\n记住，<code>newState</code> 参数再一次的，是一个部分构造的 state，它不会包含当前插件之后还未初始化的插件的 state。",
+    "_translate": "应用给定的 transaction 到插件的 state 字段，以产生一个新的 state。 记住，<code>newState</code> 参数再一次的，是一个部分构造的 state，它不会包含当前插件之后还未初始化的插件的 state。",
     "_note": ""
   },
   "Convert this field to JSON. Optional, can be left off to disable JSON serialization for the field.": {
@@ -457,7 +457,7 @@
   },
   "Called whenever the view's state is updated.": {
     "_translate": "编辑器 view 一更新就调用该函数。",
-    "_note": "编辑器 view 更新可能是用户的操作如输入内容，或者编辑器的操作，如由事件触发的 transaction 更新视图，\n此处可以拿到编辑器的 view 和应用 transaction 之前的 state。"
+    "_note": "编辑器 view 更新可能是用户的操作如输入内容，或者编辑器的操作，如由事件触发的 transaction 更新视图， 此处可以拿到编辑器的 view 和应用 transaction 之前的 state。"
   },
   "Called when the view is destroyed or receives a state with different plugins.": {
     "_translate": "当 state 对象被重新配置而不再含该插件或者编辑器视图被销毁的时候调用该函数。",
@@ -512,8 +512,8 @@
     "_note": "新建编辑器的第一步就是 new 一个 EditorView。"
   },
   "Create a view. place may be a DOM node that the editor should be appended to, a function that will place it into the document, or an object whose mount property holds the node to use as the document container. If it is null, the editor will not be added to the document.": {
-    "_translate": "新建一个 view 视图，<code>place</code> 参数可能是一个 DOM 节点，表示编辑器的挂载点，或者一个函数，则编辑器将会被挂载在文档根节点\n或者一个对象，它的 <code>mount</code> 属性的值表示编辑器的挂载 DOM，而如果是 <code>null</code>，编辑器将不会被放到文档中。",
-    "_note": "place 是一个函数的时候，函数的参数是通过 document.createElement('div') 新建的一个 DOM 节点，\n该节点将会作为函数的唯一参数传入，该节点还未被放入真实文档中，需要你手动放入。"
+    "_translate": "新建一个 view 视图，<code>place</code> 参数可能是一个 DOM 节点，表示编辑器的挂载点，或者一个函数，则编辑器将会被挂载在文档根节点 或者一个对象，它的 <code>mount</code> 属性的值表示编辑器的挂载 DOM，而如果是 <code>null</code>，编辑器将不会被放到文档中。",
+    "_note": "place 是一个函数的时候，函数的参数是通过 document.createElement('div') 新建的一个 DOM 节点， 该节点将会作为函数的唯一参数传入，该节点还未被放入真实文档中，需要你手动放入。"
   },
   "The view's current state.": {
     "_translate": "编辑器当前的 <a href=\"#state.EditorState\">state</a>。",
@@ -533,7 +533,7 @@
   },
   "Holds true when a composition is active.": {
     "_translate": "当 <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/IME_handling_guide\">composition</a> 事件触发的时候，该值为 true。",
-    "_note": "composition 事件与 CJK 输入法有关，也与浏览器实现有关，Safari 和 Chrome 中的 composition 触发顺序就不一样，以及一些其他差异。\n这导致了一些使用 ProseMirror 的编辑器在 Safari 上的表现比较诡异，论坛中也有很多针对 Safari 反馈的 bug，大多跟 composition 有关。"
+    "_note": "composition 事件与 CJK 输入法有关，也与浏览器实现有关，Safari 和 Chrome 中的 composition 触发顺序就不一样，以及一些其他差异。 这导致了一些使用 ProseMirror 的编辑器在 Safari 上的表现比较诡异，论坛中也有很多针对 Safari 反馈的 bug，大多跟 composition 有关。"
   },
   "The view's current props.": {
     "_translate": "编辑器 view 的 <a href=\"#view.EditorProps\">props（属性）</a>。",
@@ -553,7 +553,7 @@
   },
   "Goes over the values of a prop, first those provided directly, then those from plugins given to the view, then from plugins in the state (in order), and calls f every time a non-undefined value is found. When f returns a truthy value, that is immediately returned. When f isn't provided, it is treated as the identity function (the prop value is returned directly).": {
     "_translate": "依次遍历一个 prop 的值，首先是直接提供的值，然后是视图中插件提供的值，再然后是状态中的插件提供的值（按顺序），每次找到非 undefined 的值时调用 <code>f</code>。当 <code>f</code> 返回一个真值时，立即返回该值。当未提供 <code>f</code> 时，将其视为恒等函数（直接返回 prop 值）。",
-    "_note": "若提供了 f 函数，则 f 函数执行的时候，参数即为遍历到的 prop 的值（一般是个函数），\n若 f 函数返回了真值，则 someProp 函数的返回值即为 f 函数本身，并停止遍历；若 f 函数返回了非真值， 则继续遍历，直到遇到真值才返回。\n若 f 函数未提供，则如果 prop 的值不为 undefined，则直接返回该值。"
+    "_note": "若提供了 f 函数，则 f 函数执行的时候，参数即为遍历到的 prop 的值（一般是个函数）， 若 f 函数返回了真值，则 someProp 函数的返回值即为 f 函数本身，并停止遍历；若 f 函数返回了非真值， 则继续遍历，直到遇到真值才返回。 若 f 函数未提供，则如果 prop 的值不为 undefined，则直接返回该值。"
   },
   "Query whether the view has focus.": {
     "_translate": "查询当前 view 是否被 focus。",
@@ -564,7 +564,7 @@
     "_note": "这个过程会用到特性检测，即检查 dom.focus({preventScroll: true}) 是否支持。"
   },
   "Get the document root in which the editor exists. This will usually be the top-level document, but might be a shadow DOM root if the editor is inside one.": {
-    "_translate": "获取编辑器所在的根节点。通常情况下是顶级节点 <code>document</code>，但是也可能是一个 <a href=\"https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM\">shadow DOM</a>\n根节点，如果编辑器在它内部的话。",
+    "_translate": "获取编辑器所在的根节点。通常情况下是顶级节点 <code>document</code>，但是也可能是一个 <a href=\"https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM\">shadow DOM</a> 根节点，如果编辑器在它内部的话。",
     "_note": ""
   },
   "When an existing editor view is moved to a new document or shadow tree, call this to make it recompute its root.": {
@@ -572,11 +572,11 @@
     "_note": ""
   },
   "Given a pair of viewport coordinates, return the document position that corresponds to them. May return null if the given coordinates aren't inside of the editor. When an object is returned, its pos property is the position nearest to the coordinates, and its inside property holds the position of the inner node that the position falls inside of, or -1 if it is at the top level, not in any node.": {
-    "_translate": "给定一对儿视口坐标信息，返回该坐标在文档中的位置。如果给定的坐标不在编辑器中，则会返回 null。\n当返回一个对象时，<code>pos</code> 属性是离坐标最近的位置，<code>inside</code> 属性指示坐标落在的节点的内部节点的位置，\n或者未为 -1，表示该坐标落在了顶级节点的位置，不在任何节点之内。",
+    "_translate": "给定一对儿视口坐标信息，返回该坐标在文档中的位置。如果给定的坐标不在编辑器中，则会返回 null。 当返回一个对象时，<code>pos</code> 属性是离坐标最近的位置，<code>inside</code> 属性指示坐标落在的节点的内部节点的位置， 或者未为 -1，表示该坐标落在了顶级节点的位置，不在任何节点之内。",
     "_note": "inside 属性举例：如果 table 结构是 table > td+ > p* > text*，则若 pos 落在了 text 内部，则 inside 就是 text 开头的位置；如果落在了 p 之前的位置(before)，那就是 td 起始的位置(start)。"
   },
   "Returns the viewport rectangle at a given document position. left and right will be the same number, as this returns a flat cursor-ish rectangle. If the position is between two things that aren't directly adjacent, side determines which element is used. When < 0, the element before the position is used, otherwise the element after.": {
-    "_translate": "返回给定文档位置的相对于视口的坐标及大小信息。<code>left</code> 和 <code>right</code> 总是相同，因为该函数返回的是一个光标的的位置和大小信息。\n如果该位置在两个并不直接相邻的元素之间，则 <code>side</code> 参数决定了这两个元素哪个元素被使用，当 <code>side</code> 小于 0 的时候，使用位置前面（左边）的元素，否则是后面的元素。",
+    "_translate": "返回给定文档位置的相对于视口的坐标及大小信息。<code>left</code> 和 <code>right</code> 总是相同，因为该函数返回的是一个光标的的位置和大小信息。 如果该位置在两个并不直接相邻的元素之间，则 <code>side</code> 参数决定了这两个元素哪个元素被使用，当 <code>side</code> 小于 0 的时候，使用位置前面（左边）的元素，否则是后面的元素。",
     "_note": "光标只有高度没有宽度，因此只有 top 和 bottom 及 height 信息；left 和 right 总是一样的，width 总是 0."
   },
   "Note that you should not mutate the editor's internal DOM, only inspect it (and even that is usually not necessary).": {
@@ -584,7 +584,7 @@
     "_note": "查看它 的意思是只能获取 DOM 的信息，而不要设置。"
   },
   "Find the DOM position that corresponds to the given document position. When side is negative, find the position as close as possible to the content before the position. When positive, prefer positions close to the content after the position. When zero, prefer as shallow a position as possible.": {
-    "_translate": "返回给定位置的 DOM 节点。如果 <code>side</code> 参数是负的，则寻找离 position 最近的前面（左边的元素）\n否则就寻找离位置最近的右边的元素。如果是 0，则会更倾向于返回一个较浅（？）的位置。",
+    "_translate": "返回给定位置的 DOM 节点。如果 <code>side</code> 参数是负的，则寻找离 position 最近的前面（左边的元素） 否则就寻找离位置最近的右边的元素。如果是 0，则会更倾向于返回一个较浅（？）的位置。",
     "_note": ""
   },
   "Find the DOM node that represents the document node after the given position. May return null when the position doesn't point in front of a node or if the node is inside an opaque node view.": {
@@ -597,14 +597,14 @@
   },
   "Find the document position that corresponds to a given DOM position. (Whenever possible, it is preferable to inspect the document structure directly, rather than poking around in the DOM, but sometimes—for example when interpreting an event target—you don't have a choice.)": {
     "_translate": "返回给定 DOM 的位置信息。（它会尽可能的优先选择直接检查文档结构来获取位置信息，而不是用四处寻找逐个探测的方式，但是有些情况下，比如给定的是一个事件 target，那你别无选择只能逐个 target 的进行测试）",
-    "_note": "这句话的意思是，如果你直接通过 ProseMirror 的接口，如 nodeDOM，通过 pos 获取到了 DOM，然后通过该方法相当于是一个逆过程，以获取到 pos。然而，如果你传给该函数的参数是来自于 event.target\n那么 ProseMirror 只能通过挨个节点检查的方式，来确定它在 ProseMirror 的位置。"
+    "_note": "这句话的意思是，如果你直接通过 ProseMirror 的接口，如 nodeDOM，通过 pos 获取到了 DOM，然后通过该方法相当于是一个逆过程，以获取到 pos。然而，如果你传给该函数的参数是来自于 event.target 那么 ProseMirror 只能通过挨个节点检查的方式，来确定它在 ProseMirror 的位置。"
   },
   "The bias parameter can be used to influence which side of a DOM node to use when the position is inside a leaf node.": {
     "_translate": "如果位置落在了一个叶子节点，那么 <code>bias</code> 参数可以用来决定使用叶子节点的哪一侧。",
     "_note": "bias > 0 是右侧，否则是左侧，默认是左侧。"
   },
   "Find out whether the selection is at the end of a textblock when moving in a given direction. When, for example, given \"left\", it will return true if moving left from the current cursor position would leave that position's parent textblock. Will apply to the view's current state by default, but it is possible to pass a different state.": {
-    "_translate": "返回如果光标往给定方向移动的话，当前光标是否是一个文本 block 的末尾。例如，当给定方向为 <code>「left」</code> 的话，如果光标向左移动一个单位的距离将会离开文本 block，则会返回 true。\n默认使用的是view 当前的 state，也可以传入一个不同的 state。",
+    "_translate": "返回如果光标往给定方向移动的话，当前光标是否是一个文本 block 的末尾。例如，当给定方向为 <code>「left」</code> 的话，如果光标向左移动一个单位的距离将会离开文本 block，则会返回 true。 默认使用的是view 当前的 state，也可以传入一个不同的 state。",
     "_note": "文本 block，一般情况下指的是 paragraph 这种的，以 text 为直接子元素的节点。该方法的移动给定方向后检测的位置是 state.selection.$head。"
   },
   "Run the editor's paste logic with the given HTML string. The event, if given, will be passed to the handlePaste hook.": {
@@ -620,7 +620,7 @@
     "_note": ""
   },
   "This is true when the view has been destroyed (and thus should not be used anymore).": {
-    "_translate": "这是真的，当视图已经\n<a href=\"#view.EditorView.destroy\">销毁</a>（因此不应再使用）。",
+    "_translate": "这是真的，当视图已经 <a href=\"#view.EditorView.destroy\">销毁</a>（因此不应再使用）。",
     "_note": ""
   },
   "Used for testing.": {
@@ -628,19 +628,19 @@
     "_note": ""
   },
   "Dispatch a transaction. Will call dispatchTransaction when given, and otherwise defaults to applying the transaction to the current state and calling updateState with the result. This method is bound to the view instance, so that it can be easily passed around.": {
-    "_translate": "派发一个 transaction。会调用 <a href=\"#view.DirectEditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a> （如果设置了的话），否则默认应用该 transaction 到当前 state，\n然后将其结果（新的 state）作为参数，传入 <a href=\"#view.EditorView.updateState\"><code>updateState</code></a> 方法。该方法被绑定在 view 对象上，因此可以容易地被调用。",
-    "_note": "必须调用 view.dispatch(transaction) 才可以触发一个更改。该方法一般情况下用在事件响应函数里面，但是你也可以用在任何能访问到 view 的地方。\n反过来说，比如在 plugin 的 state 的 apply 内，你访问不到 view，也就不能 dispatch 一个 tr。如果你强行在其内 dispatch 了一个 tr（如通过将 view 放到 window 作为全局访问的方法），那么会导致循环调用以致内存溢出。"
+    "_translate": "派发一个 transaction。会调用 <a href=\"#view.DirectEditorProps.dispatchTransaction\"><code>dispatchTransaction</code></a> （如果设置了的话），否则默认应用该 transaction 到当前 state， 然后将其结果（新的 state）作为参数，传入 <a href=\"#view.EditorView.updateState\"><code>updateState</code></a> 方法。该方法被绑定在 view 对象上，因此可以容易地被调用。",
+    "_note": "必须调用 view.dispatch(transaction) 才可以触发一个更改。该方法一般情况下用在事件响应函数里面，但是你也可以用在任何能访问到 view 的地方。 反过来说，比如在 plugin 的 state 的 apply 内，你访问不到 view，也就不能 dispatch 一个 tr。如果你强行在其内 dispatch 了一个 tr（如通过将 view 放到 window 作为全局访问的方法），那么会导致循环调用以致内存溢出。"
   },
   "Props are configuration values that can be passed to an editor view or included in a plugin. This interface lists the supported props.": {
     "_translate": "Props 就是一些可以传递给编辑器的 view，或者用在插件中的值。这个接口列出了支持的 props。",
     "_note": ""
   },
   "The various event-handling functions may all return true to indicate that they handled the given event. The view will then take care to call preventDefault on the event, except with handleDOMEvents, where the handler itself is responsible for that.": {
-    "_translate": "不同的事件处理函数可能都返回 <code>true</code> 表示它们处理了相应的事件。view 将会在事件发生时帮你调用 <code>preventDefault</code>。但是 <code>handleDOMEvents</code>\n中的事件需要你负责去手动调用。",
+    "_translate": "不同的事件处理函数可能都返回 <code>true</code> 表示它们处理了相应的事件。view 将会在事件发生时帮你调用 <code>preventDefault</code>。但是 <code>handleDOMEvents</code> 中的事件需要你负责去手动调用。",
     "_note": ""
   },
   "How a prop is resolved depends on the prop. Handler functions are called one at a time, starting with the base props and then searching through the plugins (in order of appearance) until one of them returns true. For some props, the first plugin that yields a value gets precedence.": {
-    "_translate": "不同的 prop 有不同的处理方式。prop 是函数的话则会在某个时刻调用：最开始的时候是寻找在 view 上的 prop，然后按照 plugin 书写的顺序查找其上的 prop，按顺序调用，直到它们中的某一个返回了 true 才终止。\n而对于其他一些 porps，会使用遇到的第一个 prop 返回的值。",
+    "_translate": "不同的 prop 有不同的处理方式。prop 是函数的话则会在某个时刻调用：最开始的时候是寻找在 view 上的 prop，然后按照 plugin 书写的顺序查找其上的 prop，按顺序调用，直到它们中的某一个返回了 true 才终止。 而对于其他一些 porps，会使用遇到的第一个 prop 返回的值。",
     "_note": ""
   },
   "The optional type parameter refers to the type of this in prop functions, and is used to pass in the plugin type when defining a plugin.": {
@@ -648,8 +648,8 @@
     "_note": ""
   },
   "Can be an object mapping DOM event type names to functions that handle them. Such functions will be called before any handling ProseMirror does of events fired on the editable DOM element. Contrary to the other event handling props, when returning true from such a function, you are responsible for calling preventDefault yourself (or not, if you want to allow the default behavior).": {
-    "_translate": "其是一个对象，键是 DOM 事件名，值是事件处理函数。事件处理函数将会先于 ProseMirror 处理任何发生在可编辑 DOM 元素上的事件之前调用。\n与其他事件处理函数（此处指的是下面这些 ProseMirror 自己的事件处理函数）相反的是，当该函数返回 true 的时候，你需要手动调用 <code>preventDefault</code>（或者不调用，如果你想允许默认行为发生的话）",
-    "_note": "可以理解为，handleDOMEvents 中定义的事件比较原始，一切都需要你自己来掌控。之所以其内定义的事件处理函数会发生于 ProseMirror 事件处理之前，一个原因我猜是因为\n如果 ProseMirror 事件处理完了之后再调用用户定义的事件处理函数，则需要再处理一遍 DOM 的更新。"
+    "_translate": "其是一个对象，键是 DOM 事件名，值是事件处理函数。事件处理函数将会先于 ProseMirror 处理任何发生在可编辑 DOM 元素上的事件之前调用。 与其他事件处理函数（此处指的是下面这些 ProseMirror 自己的事件处理函数）相反的是，当该函数返回 true 的时候，你需要手动调用 <code>preventDefault</code>（或者不调用，如果你想允许默认行为发生的话）",
+    "_note": "可以理解为，handleDOMEvents 中定义的事件比较原始，一切都需要你自己来掌控。之所以其内定义的事件处理函数会发生于 ProseMirror 事件处理之前，一个原因我猜是因为 如果 ProseMirror 事件处理完了之后再调用用户定义的事件处理函数，则需要再处理一遍 DOM 的更新。"
   },
   "Called when the editor receives a keydown event.": {
     "_translate": "当编辑器接收到一个 <code>keydown</code> 事件的时候调用。",
@@ -720,7 +720,7 @@
     "_note": ""
   },
   "A function to parse text from the clipboard into a document slice. Called after transformPastedText. The default behavior is to split the text into lines, wrap them in <p> tags, and call clipboardParser on it. The plain flag will be true when the text is pasted as plain text.": {
-    "_translate": "将粘贴板中的文本 parse 成文档 slice。将会在 <a href=\"#view.EditorProps.transformPastedText\"><code>transformPastedText</code></a> 之后调用。\n默认行为是将文本分割成多行，然后使用 <code>&lt;p&gt;</code> 标签包裹之，然后再对其调用 [clipboardParser<code>](#view.EditorProps.clipboardParser)。如果粘贴的内容是纯文本，则</code>plain` 将会是 true。",
+    "_translate": "将粘贴板中的文本 parse 成文档 slice。将会在 <a href=\"#view.EditorProps.transformPastedText\"><code>transformPastedText</code></a> 之后调用。 默认行为是将文本分割成多行，然后使用 <code>&lt;p&gt;</code> 标签包裹之，然后再对其调用 [clipboardParser<code>](#view.EditorProps.clipboardParser)。如果粘贴的内容是纯文本，则</code>plain` 将会是 true。",
     "_note": ""
   },
   "Can be used to transform pasted or dragged-and-dropped content before it is applied to the document.": {
@@ -732,11 +732,11 @@
     "_note": ""
   },
   "decorations is an array of node or inline decorations that are active around the node. They are automatically drawn in the normal way, and you will usually just want to ignore this, but they can also be used as a way to provide context information to the node view without adding it to the document itself.": {
-    "_translate": "<code>decoration</code> 是一个在当前 node 周围激活的 node decoration 或者 inline decoration 数组。\n他们会自动绘制，通常情况下你可以忽略它们，不过它们也可以用来为 node view 提供上下文信息，而不是将它们添加到文档中。",
+    "_translate": "<code>decoration</code> 是一个在当前 node 周围激活的 node decoration 或者 inline decoration 数组。 他们会自动绘制，通常情况下你可以忽略它们，不过它们也可以用来为 node view 提供上下文信息，而不是将它们添加到文档中。",
     "_note": "最后一句话的意思是，在 plugin.props 的 decoration 属性上，你可以通过构造 decoration 的时候添加一些额外的信息，然后在 node view 中拿到这些信息来搞事情。"
   },
   "innerDecorations holds the decorations for the node's content. You can safely ignore this if your view has no content or a contentDOM property, since the editor will draw the decorations on the content. But if you, for example, want to create a nested editor with the content, it may make sense to provide it with the inner decorations.": {
-    "_translate": "<code>innerDecorations</code> 指向节点内容的装饰器。如果你的 view 没有内容或者没有 <code>contentDOM</code> 属性的话，你可以安全的忽略它，因为\n编辑器将会把该 decorations 绘制到其内容上。不过如果你的 view 有内容，比如，用该内容创建一个嵌套的 editor，那么提供给其内部元素的内部 decorations 就是有用的。",
+    "_translate": "<code>innerDecorations</code> 指向节点内容的装饰器。如果你的 view 没有内容或者没有 <code>contentDOM</code> 属性的话，你可以安全的忽略它，因为 编辑器将会把该 decorations 绘制到其内容上。不过如果你的 view 有内容，比如，用该内容创建一个嵌套的 editor，那么提供给其内部元素的内部 decorations 就是有用的。",
     "_note": "这个 innerDecorations 是新增的参数，之前是没有这个参数的，可以看下原仓库的修改记录。"
   },
   "Allows you to pass custom rendering and behavior logic for nodes. Should map node names to constructor functions that produce a NodeView object implementing the node's display behavior. The third argument getPos is a function that can be called to get the node's current position, which can be useful when creating transactions to update it. Note that if the node is not in the document, the position returned by this function will be undefined.": {
@@ -752,7 +752,7 @@
     "_note": ""
   },
   "The DOM serializer to use when putting content onto the clipboard. If not given, the result of DOMSerializer.fromSchema will be used. This object will only have its serializeFragment method called, and you may provide an alternative object type implementing a compatible method.": {
-    "_translate": "用于将内容放入剪贴板的DOM序列化器。如果未提供，将使用\n<a href=\"#model.DOMSerializer%5EfromSchema\"><code>DOMSerializer.fromSchema</code></a>\n的结果。此对象将仅调用其\n<a href=\"#model.DOMSerializer.serializeFragment\"><code>serializeFragment</code></a>\n方法，您可以提供实现兼容方法的替代对象类型。",
+    "_translate": "用于将内容放入剪贴板的DOM序列化器。如果未提供，将使用 <a href=\"#model.DOMSerializer%5EfromSchema\"><code>DOMSerializer.fromSchema</code></a> 的结果。此对象将仅调用其 <a href=\"#model.DOMSerializer.serializeFragment\"><code>serializeFragment</code></a> 方法，您可以提供实现兼容方法的替代对象类型。",
     "_note": ""
   },
   "A function that will be called to get the text for the current selection when copying text to the clipboard. By default, the editor will use textBetween on the selected range.": {
@@ -768,8 +768,8 @@
     "_note": "不能直接编辑的意思就是用户不能将光标放入进去，然后编辑。但是仍然可以通过 dispatch transaction 进行编辑。"
   },
   "Control the DOM attributes of the editable element. May be either an object or a function going from an editor state to an object. By default, the element will get a class \"ProseMirror\", and will have its contentEditable attribute determined by the editable prop. Additional classes provided here will be added to the class. For other attributes, the value provided first (as in someProp) will be used.": {
-    "_translate": "控制可编辑元素上的 DOM attributes。可以是一个对象，或者是一个函数接收编辑器的 state，然后返回一个对象。\n默认情况下，元素将会被设置一个 <code>「ProseMirror」</code> 类名，以及一个由 <a href=\"#view.EditorProps.editable\"><code>editable</code> prop</a> 决定的 <code>contentEditable</code> attributes。\n在此处提供的其他类名将会被附加上去。对于其他 attributes，最先提供的将会被使用（就像 <a href=\"#view.EditorView.someProp\"><code>someProp</code></a> 一样）。",
-    "_note": "原文中的 prop 和 attribute 我个人觉得应该分开翻译而不能都翻译成 属性，但是找不到合适的中文进行区分，\n部分翻译资料（如上古时期的 jQuery），将 attr 和 prop 分别翻译成「属性」和「特性」，在此处感觉也不是很妥当，因此索性不翻译了。"
+    "_translate": "控制可编辑元素上的 DOM attributes。可以是一个对象，或者是一个函数接收编辑器的 state，然后返回一个对象。 默认情况下，元素将会被设置一个 <code>「ProseMirror」</code> 类名，以及一个由 <a href=\"#view.EditorProps.editable\"><code>editable</code> prop</a> 决定的 <code>contentEditable</code> attributes。 在此处提供的其他类名将会被附加上去。对于其他 attributes，最先提供的将会被使用（就像 <a href=\"#view.EditorView.someProp\"><code>someProp</code></a> 一样）。",
+    "_note": "原文中的 prop 和 attribute 我个人觉得应该分开翻译而不能都翻译成 属性，但是找不到合适的中文进行区分， 部分翻译资料（如上古时期的 jQuery），将 attr 和 prop 分别翻译成「属性」和「特性」，在此处感觉也不是很妥当，因此索性不翻译了。"
   },
   "Determines the distance (in pixels) between the cursor and the end of the visible viewport at which point, when scrolling the cursor into view, scrolling takes place. Defaults to 0.": {
     "_translate": "当滚动光标位置到视口的时候，决定光标与视口尾部的距离（单位是像素）多大才开始滚动。默认是 0。",
@@ -800,11 +800,11 @@
     "_note": ""
   },
   "The callback over which to send transactions (state updates) produced by the view. If you specify this, you probably want to make sure this ends up calling the view's updateState method with a new state that has the transaction applied. The callback will be bound to have the view instance as its this binding.": {
-    "_translate": "view dispatch 一个 transaction 后（更新 state 前），transaction 会先经过此回调函数。\n如果你设置了该函数，你应该需要保证该函数以调用 view 的 <a href=\"#view.EditorView.updateState\"><code>updateState</code></a> 方法结束。\n<code>updateState</code> 方法接受一个 <a href=\"#state.EditorState.apply\">applied</a> 过该 transaction 的 state 作为参数。回调的 <code>this</code> 绑定到 view 实例上。",
+    "_translate": "view dispatch 一个 transaction 后（更新 state 前），transaction 会先经过此回调函数。 如果你设置了该函数，你应该需要保证该函数以调用 view 的 <a href=\"#view.EditorView.updateState\"><code>updateState</code></a> 方法结束。 <code>updateState</code> 方法接受一个 <a href=\"#state.EditorState.apply\">applied</a> 过该 transaction 的 state 作为参数。回调的 <code>this</code> 绑定到 view 实例上。",
     "_note": ""
   },
   "By default, document nodes are rendered using the result of the toDOM method of their spec, and managed entirely by the editor. For some use cases, such as embedded node-specific editing interfaces, you want more control over the behavior of a node's in-editor representation, and need to define a custom node view.": {
-    "_translate": "默认情况下，文档节点使用它们 schema 配置对象中的 <a href=\"#model.NodeSpec.toDOM\"><code>toDOM</code></a>\n方法来渲染，然后完全由编辑器管理状态。而对于一些使用场景，比如为特定节点嵌入编辑界面等情况，\n你可能想要更加细粒度的控制一个节点在编辑器中的表现形式，因此，你需要 <a href=\"#view.EditorProps.nodeViews\">define</a> 一个自定义的 node view。",
+    "_translate": "默认情况下，文档节点使用它们 schema 配置对象中的 <a href=\"#model.NodeSpec.toDOM\"><code>toDOM</code></a> 方法来渲染，然后完全由编辑器管理状态。而对于一些使用场景，比如为特定节点嵌入编辑界面等情况， 你可能想要更加细粒度的控制一个节点在编辑器中的表现形式，因此，你需要 <a href=\"#view.EditorProps.nodeViews\">define</a> 一个自定义的 node view。",
     "_note": ""
   },
   "Mark views only support dom and contentDOM, and don't support any of the node view methods.": {
@@ -820,7 +820,7 @@
     "_note": ""
   },
   "The DOM node that should hold the node's content. Only meaningful if the node view also defines a dom property and if its node type is not a leaf node type. When this is present, ProseMirror will take care of rendering the node's children into it. When it is not present, the node view itself is responsible for rendering (or deciding not to render) its child nodes.": {
-    "_translate": "应该持有节点的内容的 DOM 节点。只有当定义了 <code>dom</code> 属性且节点类型不是叶子节点的时候才有意义。\n当它设置的时候，ProseMirror 将会将节点的子节点渲染到该 DOM 中作为它的子节点；\n如果没有设置，node view 本身有责任渲染（或者决定不渲染）它的子节点。",
+    "_translate": "应该持有节点的内容的 DOM 节点。只有当定义了 <code>dom</code> 属性且节点类型不是叶子节点的时候才有意义。 当它设置的时候，ProseMirror 将会将节点的子节点渲染到该 DOM 中作为它的子节点； 如果没有设置，node view 本身有责任渲染（或者决定不渲染）它的子节点。",
     "_note": ""
   },
   "Can be used to override the way the node's selected status (as a node selection) is displayed.": {
@@ -828,7 +828,7 @@
     "_note": ""
   },
   "When given, this will be called when the view is updating itself. It will be given a node (possibly of a different type), an array of active decorations around the node (which are automatically drawn, and the node view may ignore if it isn't interested in them), and a decoration source that represents any decorations that apply to the content of the node (which again may be ignored). It should return true if it was able to update to that node, and false otherwise. If the node view has a contentDOM property (or no dom property), updating its child nodes will be handled by ProseMirror.": {
-    "_translate": "当 node view 更新自身的时候会调用该节点的此方法。它接受一个 node（可能是与当前不同的类型）、\n一个激活的 decorations 数组（它会自行渲染，如果 node view 对它的新的不感兴趣的话可以忽略）作为参数。\n如果 node 需要被更新，则返回 true，否则返回 false。如果 node view 有一个 <code>contentDOM</code> 属性（或者 <code>dom</code>\n属性），则它的子节点的更新将交给 ProseMirror 来控制。",
+    "_translate": "当 node view 更新自身的时候会调用该节点的此方法。它接受一个 node（可能是与当前不同的类型）、 一个激活的 decorations 数组（它会自行渲染，如果 node view 对它的新的不感兴趣的话可以忽略）作为参数。 如果 node 需要被更新，则返回 true，否则返回 false。如果 node view 有一个 <code>contentDOM</code> 属性（或者 <code>dom</code> 属性），则它的子节点的更新将交给 ProseMirror 来控制。",
     "_note": ""
   },
   "When defining a selectNode method, you should also provide a deselectNode method to remove the effect again.": {
@@ -836,7 +836,7 @@
     "_note": ""
   },
   "This will be called to handle setting the selection inside the node. The anchor and head positions are relative to the start of the node. By default, a DOM selection will be created between the DOM positions corresponding to those positions, but if you override it you can do something else.": {
-    "_translate": "该方法将会被调用以用来处理节点内部选区的设置。<code>anchor</code> 和 <code>head</code> 位置相对于节点的起始位置。\n默认情况下，将会在与这些位置相对应的 DOM 位置之间创建 DOM 选区，不过你可以通过覆盖该行为来做一些其他的事情。",
+    "_translate": "该方法将会被调用以用来处理节点内部选区的设置。<code>anchor</code> 和 <code>head</code> 位置相对于节点的起始位置。 默认情况下，将会在与这些位置相对应的 DOM 位置之间创建 DOM 选区，不过你可以通过覆盖该行为来做一些其他的事情。",
     "_note": ""
   },
   "Can be used to prevent the editor view from trying to handle some or all DOM events that bubble up from the node view. Events for which this returns true are not handled by the editor.": {
@@ -844,7 +844,7 @@
     "_note": ""
   },
   "Called when a DOM mutation or a selection change happens within the view. When the change is a selection change, the record will have a type property of \"selection\" (which doesn't occur for native mutation records). Return false if the editor should re-read the selection or re-parse the range around the mutation, true if it can safely be ignored.": {
-    "_translate": "当一个 DOM <a href=\"https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver\">mutation（突变）</a>\n的时候调用，或者在 node view 内一个选区改变的时候调用。当是选区改变的时候，record 将会有一个值为 <code>「selection」</code> 的 <code>type</code>\n属性（原生的 mutation records 没有）。返回 false 表示编辑器应该重新读取选区或者重新 parse 突变附近的 DOM，\n返回 true 表示该突变可以被安全的忽略掉。",
+    "_translate": "当一个 DOM <a href=\"https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver\">mutation（突变）</a> 的时候调用，或者在 node view 内一个选区改变的时候调用。当是选区改变的时候，record 将会有一个值为 <code>「selection」</code> 的 <code>type</code> 属性（原生的 mutation records 没有）。返回 false 表示编辑器应该重新读取选区或者重新 parse 突变附近的 DOM， 返回 true 表示该突变可以被安全的忽略掉。",
     "_note": ""
   },
   "Called when the node view is removed from the editor or the whole editor is destroyed. (Not available for marks.)": {
@@ -860,7 +860,7 @@
     "_note": ""
   },
   "Decoration objects can be provided to the view through the decorations prop. They come in several variants—see the static members of this class for details.": {
-    "_translate": "Decoration（装饰器）对象可以通过 <a href=\"#view.EditorProps.decorations\"><code>decoration</code> 属性</a>提供给 view。\n它们有多个不同的变体，有关的详细信息，参见此类的静态成员。",
+    "_translate": "Decoration（装饰器）对象可以通过 <a href=\"#view.EditorProps.decorations\"><code>decoration</code> 属性</a>提供给 view。 它们有多个不同的变体，有关的详细信息，参见此类的静态成员。",
     "_note": "Decoration 有三种，widget 挂件装饰器；inline 行内装饰器；node 节点装饰器；"
   },
   "The start position of the decoration.": {
@@ -876,15 +876,15 @@
     "_note": ""
   },
   "Creates a widget decoration, which is a DOM node that's shown in the document at the given position. It is recommended that you delay rendering the widget by passing a function that will be called when the widget is actually drawn in a view, but you can also directly pass a DOM node. getPos can be used to find the widget's current document position.": {
-    "_translate": "创建一个 widget decorations，它是一个显示在给定位置的 DOM 节点。推荐的方式是通过传递一个函数来返回 decoration，以实现当该 decoration\n绘制在 view 的时候延迟渲染的目的，不过你也可以直接传递一个 DOM 节点。<code>getPos</code> 方法用来获取 widget 在当前文档的位置。",
+    "_translate": "创建一个 widget decorations，它是一个显示在给定位置的 DOM 节点。推荐的方式是通过传递一个函数来返回 decoration，以实现当该 decoration 绘制在 view 的时候延迟渲染的目的，不过你也可以直接传递一个 DOM 节点。<code>getPos</code> 方法用来获取 widget 在当前文档的位置。",
     "_note": ""
   },
   "Controls which side of the document position this widget is associated with. When negative, it is drawn before a cursor at its position, and content inserted at that position ends up after the widget. When zero (the default) or positive, the widget is drawn after the cursor and content inserted there ends up before the widget.": {
-    "_translate": "控制该 widget 与文档位置的哪一侧相关。当是负数的时候，它绘制在给定位置光标的之前，\n并且在该位置插入的内容在 widget 之后。当非负（默认）的时候，widget 绘制在给定位置光标之后，用户输入的内容会插入到该位置之前。",
+    "_translate": "控制该 widget 与文档位置的哪一侧相关。当是负数的时候，它绘制在给定位置光标的之前， 并且在该位置插入的内容在 widget 之后。当非负（默认）的时候，widget 绘制在给定位置光标之后，用户输入的内容会插入到该位置之前。",
     "_note": ""
   },
   "When there are multiple widgets at a given position, their side values determine the order in which they appear. Those with lower values appear first. The ordering of widgets with the same side value is unspecified.": {
-    "_translate": "当在同一个位置有多个 widget 的时候，他们的 <code>side</code> 决定了它们出现的顺序。较小的值出现在前面。\n相同 <code>side</code> 值的话先后位置不确定。",
+    "_translate": "当在同一个位置有多个 widget 的时候，他们的 <code>side</code> 决定了它们出现的顺序。较小的值出现在前面。 相同 <code>side</code> 值的话先后位置不确定。",
     "_note": "相同 side 值 widget 出现的先后位置不确定，原因跟某些算法排序的 稳定 概念类似。"
   },
   "When marks is null, side also determines the marks that the widget is wrapped in—those of the node before when negative, those of the node after when positive.": {
@@ -900,7 +900,7 @@
     "_note": ""
   },
   "When set (defaults to false), selection changes inside the widget are ignored, and don't cause ProseMirror to try and re-sync the selection with its selection state.": {
-    "_translate": "当设置的时候（默认是 false），在 widget 内的选区变化将被忽略，\n这样的话该变化就不会让 ProseMirror 尝试重新同步该选区和 state 的选区。",
+    "_translate": "当设置的时候（默认是 false），在 widget 内的选区变化将被忽略， 这样的话该变化就不会让 ProseMirror 尝试重新同步该选区和 state 的选区。",
     "_note": ""
   },
   "Called when the widget decoration is removed or the editor is destroyed.": {
@@ -908,7 +908,7 @@
     "_note": ""
   },
   "When comparing decorations of this type (in order to decide whether it needs to be redrawn), ProseMirror will by default compare the widget DOM node by identity. If you pass a key, that key will be compared instead, which can be useful when you generate decorations on the fly and don't want to store and reuse DOM nodes. Make sure that any widgets with the same key are interchangeable—if widgets differ in, for example, the behavior of some event handler, they should get different keys.": {
-    "_translate": "当比较此种类型的 decorations 的时候（以决定它是否应该被重绘），ProseMirror\n将会默认通过 widget DOM 节点来识别。如果你传递了一个 key，那它就会用 key 来对比。\n这对于你仅仅想在内存中创建 decorations 而不真正绘制 DOM 结构很有用。确保任何具有相同 key 的 widget\n是可互换的--比如，如果 widget 的一些事件处理函数不一样，即使 DOM 结构相同，也应该有不同的 key。",
+    "_translate": "当比较此种类型的 decorations 的时候（以决定它是否应该被重绘），ProseMirror 将会默认通过 widget DOM 节点来识别。如果你传递了一个 key，那它就会用 key 来对比。 这对于你仅仅想在内存中创建 decorations 而不真正绘制 DOM 结构很有用。确保任何具有相同 key 的 widget 是可互换的--比如，如果 widget 的一些事件处理函数不一样，即使 DOM 结构相同，也应该有不同的 key。",
     "_note": ""
   },
   "Specs allow arbitrary additional properties.": {
@@ -920,7 +920,7 @@
     "_note": ""
   },
   "Determines how the left side of the decoration is mapped when content is inserted directly at that position. By default, the decoration won't include the new content, but you can set this to true to make it inclusive.": {
-    "_translate": "决定如果内容直接插入在这个位置的时候，decoration 的左侧如何 <a href=\"#transform.Position_Mapping\">mapped</a>。\n默认情况下，decoration 不会包括新的内容，不过你可以设置为 <code>true</code> 来让它影响新内容。",
+    "_translate": "决定如果内容直接插入在这个位置的时候，decoration 的左侧如何 <a href=\"#transform.Position_Mapping\">mapped</a>。 默认情况下，decoration 不会包括新的内容，不过你可以设置为 <code>true</code> 来让它影响新内容。",
     "_note": ""
   },
   "Determines how the right side of the decoration is mapped. See inclusiveStart.": {
@@ -936,7 +936,7 @@
     "_note": ""
   },
   "A set of attributes to add to a decorated node. Most properties simply directly correspond to DOM attributes of the same name, which will be set to the property's value. These are exceptions:": {
-    "_translate": "一个被用来添加到被装饰的节点附近的 attributes 集合。大多数 properties\n的名字与同名的 DOM attributes 一样，以用来被设置为属性值。下面几个是特例：",
+    "_translate": "一个被用来添加到被装饰的节点附近的 attributes 集合。大多数 properties 的名字与同名的 DOM attributes 一样，以用来被设置为属性值。下面几个是特例：",
     "_note": ""
   },
   "When non-null, the target node is wrapped in a DOM element of this type (and the other attributes are applied to this element).": {
@@ -956,7 +956,7 @@
     "_note": ""
   },
   "A collection of decorations, organized in such a way that the drawing algorithm can efficiently use and compare them. This is a persistent data structure—it is not modified, updates create a new value.": {
-    "_translate": "一个 <a href=\"#view.Decoration\">decorations</a> 集合，用这种数据结构组织它们可以让绘制算法高效的对比和渲染它们。\n它是一个不可突变的数据结构，它不改变，更新会产生新的值。",
+    "_translate": "一个 <a href=\"#view.Decoration\">decorations</a> 集合，用这种数据结构组织它们可以让绘制算法高效的对比和渲染它们。 它是一个不可突变的数据结构，它不改变，更新会产生新的值。",
     "_note": ""
   },
   "Map the set of decorations in response to a change in the document.": {
@@ -964,7 +964,7 @@
     "_note": ""
   },
   "Find all decorations in this set which touch the given range (including decorations that start or end directly at the boundaries) and match the given predicate on their spec. When start and end are omitted, all decorations in the set are considered. When predicate isn't given, all decorations are assumed to match.": {
-    "_translate": "找到给定范围涉及到的所有的 decoration 集合（包括开始或结束位置在边界的 decorations），\n然后用给定的 predicate 函数来检测是否匹配，该函数参数是 decoration 的配置对象。\n若 <code>start</code> 和 <code>end</code> 省略，则集合中所有的 decoration 将会被检测。如果 <code>predicate</code> 没有给出，则所有的 decorations 将会 match。",
+    "_translate": "找到给定范围涉及到的所有的 decoration 集合（包括开始或结束位置在边界的 decorations）， 然后用给定的 predicate 函数来检测是否匹配，该函数参数是 decoration 的配置对象。 若 <code>start</code> 和 <code>end</code> 省略，则集合中所有的 decoration 将会被检测。如果 <code>predicate</code> 没有给出，则所有的 decorations 将会 match。",
     "_note": ""
   },
   "When given, this function will be called for each decoration that gets dropped as a result of the mapping, passing the spec of that decoration.": {
@@ -1004,7 +1004,7 @@
     "_note": ""
   },
   "A ProseMirror document is a tree. At each level, a node describes the type of the content, and holds a fragment containing its children.": {
-    "_translate": "一个 ProseMirror 的文档是一个树状结构。在每个层级中，一个 <a href=\"#model.Node\">node</a>\n描述了内容的类型，同时通过 <a href=\"#model.Fragment\">fragment</a> 来保持对其子节点的引用。",
+    "_translate": "一个 ProseMirror 的文档是一个树状结构。在每个层级中，一个 <a href=\"#model.Node\">node</a> 描述了内容的类型，同时通过 <a href=\"#model.Fragment\">fragment</a> 来保持对其子节点的引用。",
     "_note": ""
   },
   "This class represents a node in the tree that makes up a ProseMirror document. So a document is an instance of Node, with children that are also instances of Node.": {
@@ -1012,7 +1012,7 @@
     "_note": ""
   },
   "Nodes are persistent data structures. Instead of changing them, you create new ones with the content you want. Old ones keep pointing at the old document shape. This is made cheaper by sharing structure between the old and new data as much as possible, which a tree shape like this (without back pointers) makes easy.": {
-    "_translate": "节点都是一些持久化的数据结构。每次更新会创建一个新的节点与一些你想要的内容，而不是改变旧的节点。旧的节点始终保持旧文档的引用。\n这使得在旧的和新的数据之间共享结构变得容易，因为像这样的树状结构没有「向后的指针」（？）",
+    "_translate": "节点都是一些持久化的数据结构。每次更新会创建一个新的节点与一些你想要的内容，而不是改变旧的节点。旧的节点始终保持旧文档的引用。 这使得在旧的和新的数据之间共享结构变得容易，因为像这样的树状结构没有「向后的指针」（？）",
     "_note": ""
   },
   "Do not directly mutate the properties of a Node object. See the guide for more information.": {
@@ -1040,7 +1040,7 @@
     "_note": ""
   },
   "The size of this node, as defined by the integer-based indexing scheme. For text nodes, this is the amount of characters. For other leaf nodes, it is one. For non-leaf nodes, it is the size of the content plus two (the start and end token).": {
-    "_translate": "表示该节点的大小，由基于整数的 <a href=\"https://xheldon.com/prosemirror-guide-chinese.html#indexing\">indexing scheme</a> 决定。\n对于文本节点，它是字符数，对于其他叶子节点，是 1。对于非叶子节点，它是其内容的大小加上 2（开始和结束标签）。",
+    "_translate": "表示该节点的大小，由基于整数的 <a href=\"https://xheldon.com/prosemirror-guide-chinese.html#indexing\">indexing scheme</a> 决定。 对于文本节点，它是字符数，对于其他叶子节点，是 1。对于非叶子节点，它是其内容的大小加上 2（开始和结束标签）。",
     "_note": "indexing scheme 链接指向中文翻译指南，请搜索 Document 一节 下的 Indexing 一节。"
   },
   "The number of children that the node has.": {
@@ -1112,7 +1112,7 @@
     "_note": ""
   },
   "Replace the part of the document between the given positions with the given slice. The slice must 'fit', meaning its open sides must be able to connect to the surrounding content, and its content nodes must be valid children for the node they are placed into. If any of this is violated, an error of type ReplaceError is thrown.": {
-    "_translate": "用给定的 slice 替换给定位置范围的文档内容。slice 必须「适合」该位置范围，也就是说，slice 打开的两侧必须能够正确的连接它两侧被切开的周围的内容，\n同时它的子节点也必须符合放入位置的祖先节点的 scheme 约束。如果有任何违背，那么将会抛出一个 <a href=\"#model.ReplaceError\"><code>ReplaceError</code></a>。",
+    "_translate": "用给定的 slice 替换给定位置范围的文档内容。slice 必须「适合」该位置范围，也就是说，slice 打开的两侧必须能够正确的连接它两侧被切开的周围的内容， 同时它的子节点也必须符合放入位置的祖先节点的 scheme 约束。如果有任何违背，那么将会抛出一个 <a href=\"#model.ReplaceError\"><code>ReplaceError</code></a>。",
     "_note": ""
   },
   "Find the node directly after the given position.": {
@@ -1160,7 +1160,7 @@
     "_note": ""
   },
   "True when this is an atom, i.e. when it does not have directly editable content. This is usually the same as isLeaf, but can be configured with the atom property on a node's spec (typically used when the node is displayed as an uneditable node view).": {
-    "_translate": "是否是一个原子节点，例如，它没有一个直接可编辑的内容。它的值通常与 <code>isLeaf</code> 一样，不过可以通过节点配置对象上的 <a href=\"#model.NodeSpec.atom\"><code>atom</code> 属性</a> 进行设置。\n（典型的使用场景是节点展示成一个不可编辑的 <a href=\"#view.NodeView\">node view</a>）。",
+    "_translate": "是否是一个原子节点，例如，它没有一个直接可编辑的内容。它的值通常与 <code>isLeaf</code> 一样，不过可以通过节点配置对象上的 <a href=\"#model.NodeSpec.atom\"><code>atom</code> 属性</a> 进行设置。 （典型的使用场景是节点展示成一个不可编辑的 <a href=\"#view.NodeView\">node view</a>）。",
     "_note": ""
   },
   "Return a string representation of this node for debugging purposes.": {
@@ -1172,7 +1172,7 @@
     "_note": "content match 在 ProseMirror 中也是一个专有名词。"
   },
   "Test whether replacing the range between from and to (by child index) with the given replacement fragment (which defaults to the empty fragment) would leave the node's content valid. You can optionally pass start and end indices into the replacement fragment.": {
-    "_translate": "测试用给定的 fragment（默认是空的 fragment） 替换 <code>from</code> 到 <code>to</code>（from 和 to 是子节点位置 index） 之间的内容是否合法（即符合 schema 约束）。\n你可以可选的传入 <code>start</code> 和 <code>end</code>（start 和 end 都是子节点的位置 index）以只用 fragment 的一部分替换。",
+    "_translate": "测试用给定的 fragment（默认是空的 fragment） 替换 <code>from</code> 到 <code>to</code>（from 和 to 是子节点位置 index） 之间的内容是否合法（即符合 schema 约束）。 你可以可选的传入 <code>start</code> 和 <code>end</code>（start 和 end 都是子节点的位置 index）以只用 fragment 的一部分替换。",
     "_note": ""
   },
   "Test whether replacing the range from to to (by index) with a node of the given type would leave the node's content valid.": {
@@ -1264,7 +1264,7 @@
     "_note": ""
   },
   "Find the first position, searching from the end, at which this fragment and the given fragment differ, or null if they are the same. Since this position will not be the same in both nodes, an object with two separate positions is returned.": {
-    "_translate": "从后往前搜索，寻找当前 fragment 和给定 fragment 的第一个不同的位置，如果相同则返回 <code>null</code>。\n因为该位置在两个节点中可能是不同的，因此该函数返回的是一个对象，带有两个不同的位置。",
+    "_translate": "从后往前搜索，寻找当前 fragment 和给定 fragment 的第一个不同的位置，如果相同则返回 <code>null</code>。 因为该位置在两个节点中可能是不同的，因此该函数返回的是一个对象，带有两个不同的位置。",
     "_note": "对象是 {a: number, b: number}。"
   },
   "Return a debugging string that describes this fragment.": {
@@ -1284,7 +1284,7 @@
     "_note": ""
   },
   "Create a fragment from something that can be interpreted as a set of nodes. For null, it returns the empty fragment. For a fragment, the fragment itself. For a node or array of nodes, a fragment containing those nodes.": {
-    "_translate": "用给定的类节点集合的对象中创建一个 fragment。如果是 <code>null</code> 则返回空 fragment。\n如果是 fragment 则返回该 fragment 自身。如果是一个节点或者一个节点数组，则返回一个包含这些节点的 fragment。",
+    "_translate": "用给定的类节点集合的对象中创建一个 fragment。如果是 <code>null</code> 则返回空 fragment。 如果是 fragment 则返回该 fragment 自身。如果是一个节点或者一个节点数组，则返回一个包含这些节点的 fragment。",
     "_note": ""
   },
   "An empty fragment. Intended to be reused whenever a node doesn't contain anything (rather than allocating a new empty fragment for each leaf node).": {
@@ -1292,7 +1292,7 @@
     "_note": ""
   },
   "A mark is a piece of information that can be attached to a node, such as it being emphasized, in code font, or a link. It has a type and optionally a set of attributes that provide further information (such as the target of the link). Marks are created through a Schema, which controls which types exist and which attributes they have.": {
-    "_translate": "Mark 是可以被附加到节点上的一小段信息，比如加粗行内代码或者加粗链接字体。它有一个可选的 attributes 集合以提供更多信息\n（比如链接的 target 信息等）。Marks 通过 <code>Schema</code> 创建，它控制哪些 marks 存在于哪些节点以及拥有哪些 attributes。",
+    "_translate": "Mark 是可以被附加到节点上的一小段信息，比如加粗行内代码或者加粗链接字体。它有一个可选的 attributes 集合以提供更多信息 （比如链接的 target 信息等）。Marks 通过 <code>Schema</code> 创建，它控制哪些 marks 存在于哪些节点以及拥有哪些 attributes。",
     "_note": ""
   },
   "The type of this mark.": {
@@ -1304,7 +1304,7 @@
     "_note": ""
   },
   "Given a set of marks, create a new set which contains this one as well, in the right position. If this mark is already in the set, the set itself is returned. If any marks that are set to be exclusive with this mark are present, those are replaced by this one.": {
-    "_translate": "将当前 marks 加入到给定 marks 集合的右侧（后面）后返回新的 marks 集合。如果当前 marks 已经存在于给定集合当中\n那么给定集合自身会被返回。如果给定集合中有任何 marsk 配置对象的 <a href=\"#model.MarkSpec.excludes\">exclusive</a> 属性值中有当前 mark，那么它会被用当前 mark 替换掉。",
+    "_translate": "将当前 marks 加入到给定 marks 集合的右侧（后面）后返回新的 marks 集合。如果当前 marks 已经存在于给定集合当中 那么给定集合自身会被返回。如果给定集合中有任何 marsk 配置对象的 <a href=\"#model.MarkSpec.excludes\">exclusive</a> 属性值中有当前 mark，那么它会被用当前 mark 替换掉。",
     "_note": ""
   },
   "Test whether this mark is in the given set of marks.": {
@@ -1345,10 +1345,10 @@
   },
   "It is not necessary for the content of open nodes to conform to the schema's content constraints, though it should be a valid start/end/middle for such a node, depending on which sides are open.": {
     "_translate": "开放节点的内容无需一定要符合 schema 的内容限制，因为对于开放节点来说，它的内容应该被在一个有效的开始/结束/中间位置开放，而这具体取决于节点的哪一侧被打开。",
-    "_note": "这句话举个例子比较好理解，如果 schema 内容限制 li 不能包含 p，但如果一个 slice 的 fragment 结构是 <li><p>123</p><p>456</p></li>，openStart 是 2，openEnd 也是 2\n那么该 slice 切割（打开/开放）出来的节点就会形如 123</p><p>456, 因此也是一个有效的 slice，可以被放到文档中需要的地方去（如另个一 p 标签内）。"
+    "_note": "这句话举个例子比较好理解，如果 schema 内容限制 li 不能包含 p，但如果一个 slice 的 fragment 结构是 &lt;li&gt;&lt;p&gt;123&lt;/p&gt;&lt;p&gt;456&lt;/p&gt;&lt;/li&gt;，openStart 是 2，openEnd 也是 2 那么该 slice 切割（打开/开放）出来的节点就会形如 123&lt;p&gt;456, 因此也是一个有效的 slice，可以被放到文档中需要的地方去（如另个一 p 标签内）。"
   },
   "Create a slice. When specifying a non-zero open depth, you must make sure that there are nodes of at least that depth at the appropriate side of the fragment—i.e. if the fragment is an empty paragraph node, openStart and openEnd can't be greater than 1.": {
-    "_translate": "新建一个 slice。当指定一个非零的开放深度的时候，你必须保证该 slice 的 fragment 至少在这个深度存在节点。\n例如，如果节点是一个空的段落节点，那么 <code>openStart</code> 和 <code>openEnd</code> 不能大于 1。",
+    "_translate": "新建一个 slice。当指定一个非零的开放深度的时候，你必须保证该 slice 的 fragment 至少在这个深度存在节点。 例如，如果节点是一个空的段落节点，那么 <code>openStart</code> 和 <code>openEnd</code> 不能大于 1。",
     "_note": ""
   },
   "The slice's content.": {
@@ -1404,7 +1404,7 @@
     "_note": ""
   },
   "You can resolve a position to get more information about it. Objects of this class represent such a resolved position, providing various pieces of context information, and some helper methods.": {
-    "_translate": "你可以 <a href=\"#model.Node.resolve\"><em>resolve</em></a> 一个位置以得到该位置的更多信息。该类的对象就是表示这样一种 resolve 过的位置，\n它提供一些上下文信息，以及一些有用的工具函数。",
+    "_translate": "你可以 <a href=\"#model.Node.resolve\"><em>resolve</em></a> 一个位置以得到该位置的更多信息。该类的对象就是表示这样一种 resolve 过的位置， 它提供一些上下文信息，以及一些有用的工具函数。",
     "_note": ""
   },
   "The number of levels the parent node is from the root. If this position points directly into the root node, it is 0. If it points into a top-level paragraph, 1, and so on.": {
@@ -1453,7 +1453,7 @@
   },
   "The (absolute) position directly after the wrapping node at the given level, or the original position when depth is this.depth + 1.": {
     "_translate": "在给定深度的祖先节点之后的（绝对）位置，或者如果 <code>depth</code> 是 <code>this.depth + 1</code> 的话则是原始的位置。",
-    "_note": "「before 之前」、「start 开始」、「after 之后」、「end 结束」位置的区别：有以下结构 <p>123</p>，则（I表示「这个」位置） I<p>123</p> 表示 before；\n<p>I123</p> 表示 start；<p>123I</p> 表示 end；<p>123</p>I 表示 after。"
+    "_note": "「before 之前」、「start 开始」、「after 之后」、「end 结束」位置的区别：有以下结构 &lt;p&gt;123&lt;/p&gt;，若用 I表示「这个」位置，则： I&lt;p&gt;123&lt;/p&gt; 表示 before；&lt;p&gt;I123&lt;/p&gt; 表示 start；&lt;p&gt;123I&lt;/p&gt; 表示 end；&lt;p&gt;123&lt;/p&gt;I 表示 after。"
   },
   "When this position points into a text node, this returns the distance between the position and the start of the text node. Will be zero for positions that point between nodes.": {
     "_translate": "当位置指向一个文本节点，该函数返回当前位置到文本节点开始位置的距离。如果指向节点之间则是 0。",
@@ -1473,10 +1473,10 @@
   },
   "Get the marks at this position, factoring in the surrounding marks' inclusive property. If the position is at the start of a non-empty node, the marks of the node after it (if any) are returned.": {
     "_translate": "充分考虑 marks 们的 <a href=\"#model.MarkSpec.inclusive\"><code>inclusive</code></a> 属性后，获取当前位置的最终的 marks。如果该位置是在一个非空节点的起始位置，则会返回该位置之后节点的 marks（如果有的话）。",
-    "_note": "如果位置在一个空元素内，则返回空的数组（即 Mark 的静态属性，Mark.none)。如果是在一个文本节点中，则简单返回文本节点的 marks。\n如果在一个非空节点的起始位置（before 为空），则考虑该位置之后节点的 marks。最后（此时只剩一种情况，也即在一个非文本节点的末尾位置）考虑排除那些设置了 inclusive 属性为 false 的 marks 们。"
+    "_note": "如果位置在一个空元素内，则返回空的数组（即 Mark 的静态属性，Mark.none)。如果是在一个文本节点中，则简单返回文本节点的 marks。 如果在一个非空节点的起始位置（before 为空），则考虑该位置之后节点的 marks。最后（此时只剩一种情况，也即在一个非文本节点的末尾位置）考虑排除那些设置了 inclusive 属性为 false 的 marks 们。"
   },
   "Get the marks after the current position, if any, except those that are non-inclusive and not present at position $end. This is mostly useful for getting the set of marks to preserve after a deletion. Will return null if this position is at the end of its parent node or its parent node isn't a textblock (in which case no marks should be preserved).": {
-    "_translate": "获取在当前位置之后的 marks，如果有的话，会排除那些 inclusive 为 false 以及没有出现在 <code>$end</code> 位置的 marks 们。\n这个方法最有用的场景是在执行删除操作后获取需要保留的 marks 集合。如果该位置在它的父级节点的结束的地方或者它的父级节点不是一个文本 block，则会返回 null（此时不应该有任何 marks 被保留）。",
+    "_translate": "获取在当前位置之后的 marks，如果有的话，会排除那些 inclusive 为 false 以及没有出现在 <code>$end</code> 位置的 marks 们。 这个方法最有用的场景是在执行删除操作后获取需要保留的 marks 集合。如果该位置在它的父级节点的结束的地方或者它的父级节点不是一个文本 block，则会返回 null（此时不应该有任何 marks 被保留）。",
     "_note": ""
   },
   "The depth up to which this position and the given (non-resolved) position share the same parent nodes.": {
@@ -1484,7 +1484,7 @@
     "_note": ""
   },
   "Returns a range based on the place where this position and the given position diverge around block content. If both point into the same textblock, for example, a range around that textblock will be returned. If they point into different blocks, the range around those blocks in their shared ancestor is returned. You can pass in an optional predicate that will be called with a parent node to see if a range into that parent is acceptable.": {
-    "_translate": "根据当前位置与给定位置围绕块级节点的周围看返回相应的 Range。例如，如果两个位置都指向一个文本 block，则文本 block 的 range 会被返回；\n如果它们指向不同的块级节点，则包含这些块级节点的深度最大的共同祖先节点 range 将会被返回。你可以传递一个指示函数，来决定该祖先节点是否可接受。",
+    "_translate": "根据当前位置与给定位置围绕块级节点的周围看返回相应的 Range。例如，如果两个位置都指向一个文本 block，则文本 block 的 range 会被返回； 如果它们指向不同的块级节点，则包含这些块级节点的深度最大的共同祖先节点 range 将会被返回。你可以传递一个指示函数，来决定该祖先节点是否可接受。",
     "_note": ""
   },
   "Query whether the given position shares the same parent node.": {
@@ -1513,7 +1513,7 @@
   },
   "A position along the end of the content. See caveat for $from.": {
     "_translate": "range 的内容结束处 resolve 过的位置。看一下关于 <a href=\"#model.NodeRange.$from\"><code>$from</code></a> 的警告。",
-    "_note": "举个例子：有以下结构 <ul><li><p>abc</p></li><li><p>123</p><p>456</p></li></ul> 则构造一个 NodeRange 的时候，如果 $from 在 1 后面位置，\n$to 在 4 后面位置，则 depth 必须是在第二个 li 的开始位置的深度或者更小，因为如果再深的话，$from 和 $to 就没有共同的父级节点，就无法构建一个 NodeRange。\n也因此，$from 和 $to 的 depth 属性是有可能大于 NodeRange 的 depth 属性的。"
+    "_note": "举个例子：有以下结构 &lt;ul&gt;&lt;li&gt;&lt;p&gt;abc&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;123&lt;/p&gt;&lt;p&gt;456&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt; 则构造一个 NodeRange 的时候，如果 $from 在 1 后面位置，$to 在 4 后面位置，则 depth 必须是在第二个 li 的开始位置的深度或者更小，因为如果再深的话，$from 和 $to 就没有共同的父级节点，就无法构建一个 NodeRange。也因此，$from 和 $to 的 depth 属性是有可能大于 NodeRange 的 depth 属性的。"
   },
   "The depth of the node that this range points into.": {
     "_translate": "该 range 指向的节点的深度。",
@@ -1544,7 +1544,7 @@
     "_note": ""
   },
   "A document schema. Holds node and mark type objects for the nodes and marks that may occur in conforming documents, and provides functionality for creating and deserializing such documents.": {
-    "_translate": "一个文档的 schema。对可能出现在文档中的 nodes 和 marks 提供相应的 <a href=\"#model.NodeType\">node type</a> 和 <a href=\"#model.MarkType\">mark type</a> 对象，\n以及提供相应创建和序列化这样一个文档的函数。",
+    "_translate": "一个文档的 schema。对可能出现在文档中的 nodes 和 marks 提供相应的 <a href=\"#model.NodeType\">node type</a> 和 <a href=\"#model.MarkType\">mark type</a> 对象， 以及提供相应创建和序列化这样一个文档的函数。",
     "_note": ""
   },
   "When given, the type parameters provide the names of the nodes and marks in this schema.": {
@@ -1556,7 +1556,7 @@
     "_note": ""
   },
   "The spec on which the schema is based, with the added guarantee that its nodes and marks properties are OrderedMap instances (not raw objects).": {
-    "_translate": "当前 schema 所基于的 <a href=\"#model.SchemaSpec\">spec（配置对象）</a>，其中的 <code>nodes</code> 和 <code>marks</code> 属性可以保证是\n<a href=\"https://github.com/marijnh/orderedmap\"><code>OrderedMap</code></a> 的实例（不是原始对象）。",
+    "_translate": "当前 schema 所基于的 <a href=\"#model.SchemaSpec\">spec（配置对象）</a>，其中的 <code>nodes</code> 和 <code>marks</code> 属性可以保证是 <a href=\"https://github.com/marijnh/orderedmap\"><code>OrderedMap</code></a> 的实例（不是原始对象）。",
     "_note": ""
   },
   "An object mapping the schema's node names to node type objects.": {
@@ -1580,7 +1580,7 @@
     "_note": ""
   },
   "Create a node in this schema. The type may be a string or a NodeType instance. Attributes will be extended with defaults, content may be a Fragment, null, a Node, or an array of nodes.": {
-    "_translate": "在 schema 中新建一个节点。<code>type</code> 参数可以是一个字符串或者一个 <code>NodeType</code> 的实例。Attributes 会被以默认值扩展，<code>content</code> 可能是一个 <code>Fragment</code>、\n<code>null</code>、<code>Node</code> 或者一个节点数组。",
+    "_translate": "在 schema 中新建一个节点。<code>type</code> 参数可以是一个字符串或者一个 <code>NodeType</code> 的实例。Attributes 会被以默认值扩展，<code>content</code> 可能是一个 <code>Fragment</code>、 <code>null</code>、<code>Node</code> 或者一个节点数组。",
     "_note": ""
   },
   "Create a text node in the schema. Empty text nodes are not allowed.": {
@@ -1604,11 +1604,11 @@
     "_note": "就是 schema 的配置对象，ProseMirror 中的 xxxSpec 都是 xxx 的配置对象，如 NodeSpec、MarkSpec 等。"
   },
   "The node types in this schema. Maps names to NodeSpec objects that describe the node type associated with that name. Their order is significant—it determines which parse rules take precedence by default, and which nodes come first in a given group.": {
-    "_translate": "当前 schema 中所有的 node 类型的对象。对象中，键是节点名，对象的键是对应的 <a href=\"#model.NodeSpec\"><code>NodeSpec</code></a>。\n节点们在该对象中出现的先后顺序是非常重要的，它决定了默认情况下哪个节点的 <a href=\"#model.NodeSpec.parseDOM\">parse rules</a> 优先进行，\n以及哪个节点是一个 group 优先考虑的节点。",
+    "_translate": "当前 schema 中所有的 node 类型的对象。对象中，键是节点名，对象的键是对应的 <a href=\"#model.NodeSpec\"><code>NodeSpec</code></a>。 节点们在该对象中出现的先后顺序是非常重要的，它决定了默认情况下哪个节点的 <a href=\"#model.NodeSpec.parseDOM\">parse rules</a> 优先进行， 以及哪个节点是一个 group 优先考虑的节点。",
     "_note": ""
   },
   "The mark types that exist in this schema. The order in which they are provided determines the order in which mark sets are sorted and in which parse rules are tried.": {
-    "_translate": "当前 schema 中的所有 mark 类型的对象。它们出现的顺序决定了在 <a href=\"#model.Mark.addToSet\">mark\nsets</a> 中的存储顺序，以及 <a href=\"#model.MarkSpec.parseDOM\">parse rules</a> 的处理顺序。",
+    "_translate": "当前 schema 中的所有 mark 类型的对象。它们出现的顺序决定了在 <a href=\"#model.Mark.addToSet\">mark sets</a> 中的存储顺序，以及 <a href=\"#model.MarkSpec.parseDOM\">parse rules</a> 的处理顺序。",
     "_note": ""
   },
   "The name of the default top-level node for the schema. Defaults to \"doc\".": {
@@ -1620,11 +1620,11 @@
     "_note": ""
   },
   "The content expression for this node, as described in the schema guide. When not given, the node does not allow any content.": {
-    "_translate": "就像在 <a href=\"https://xheldon.com/prosemirror-guide-chinese.html#content-expressions\">schema guide</a> 中描述的一样，为当前节点的内容表达式。\n如果没有给定，则该节点不允许任何内容。",
+    "_translate": "就像在 <a href=\"https://xheldon.com/prosemirror-guide-chinese.html#content-expressions\">schema guide</a> 中描述的一样，为当前节点的内容表达式。 如果没有给定，则该节点不允许任何内容。",
     "_note": "schema guide 链接指向中文翻译指南，请搜索 Schema 下的 Content Expressions 一节。"
   },
   "The marks that are allowed inside of this node. May be a space-separated string referring to mark names or groups, \"_\" to explicitly allow all marks, or \"\" to disallow marks. When not given, nodes with inline content default to allowing all marks, other nodes default to not allowing marks.": {
-    "_translate": "当前节点允许的 marks 类型。可能是一个空格分隔的字符串，内容是 mark 的名字或者 group 名。\n<code>\"_\"</code> 表示明确允许所有的 marks，或者 <code>\"\"</code> 表示禁止所有的 marks。如果没有设置该字段，则节点含有的内联内容将会默认允许所有的 marks，\n其他不含内联内容的节点将默认不允许所有的 marks。",
+    "_translate": "当前节点允许的 marks 类型。可能是一个空格分隔的字符串，内容是 mark 的名字或者 group 名。 <code>\"_\"</code> 表示明确允许所有的 marks，或者 <code>\"\"</code> 表示禁止所有的 marks。如果没有设置该字段，则节点含有的内联内容将会默认允许所有的 marks， 其他不含内联内容的节点将默认不允许所有的 marks。",
     "_note": ""
   },
   "The group or space-separated groups to which this node belongs, which can be referred to in the content expressions for the schema.": {
@@ -1636,11 +1636,11 @@
     "_note": ""
   },
   "Can be set to true to indicate that, though this isn't a leaf node, it doesn't have directly editable content and should be treated as a single unit in the view.": {
-    "_translate": "可以被设置为 true，以表示即使当前节点不是一个 <a href=\"#model.NodeType.isLeaf\">leaf node</a>，但是其也没有直接可编辑内容，\n因此在 view 中应该被当成是一个独立的单位对待。",
+    "_translate": "可以被设置为 true，以表示即使当前节点不是一个 <a href=\"#model.NodeType.isLeaf\">leaf node</a>，但是其也没有直接可编辑内容， 因此在 view 中应该被当成是一个独立的单位对待。",
     "_note": "「独立单位对待」指的是，如在计数上，应该是 1；在事件上，内部元素触发的事件应该被视作是该节点触发的，等。"
   },
   "Controls whether nodes of this type can be selected as a node selection. Defaults to true for non-text nodes.": {
-    "_translate": "控制当前类型的节点是否能够被作为 <a href=\"#state.NodeSelection\">node selection</a> 所选中。\n对于非文本节点来说，默认是 true。",
+    "_translate": "控制当前类型的节点是否能够被作为 <a href=\"#state.NodeSelection\">node selection</a> 所选中。 对于非文本节点来说，默认是 true。",
     "_note": ""
   },
   "The attributes that nodes of this type get.": {
@@ -1657,7 +1657,7 @@
   },
   "Determines whether this node is considered an important parent node during replace operations (such as paste). Non-defining (the default) nodes get dropped when their entire content is replaced, whereas defining nodes persist and wrap the inserted content.": {
     "_translate": "确定在替换操作（例如粘贴）期间此节点是否被视为重要的父节点。非定义（默认）节点在其全部内容被替换时会被删除，而定义节点则会保留并包裹插入的内容。",
-    "_note": "最后一句话讲的是，例如，默认的 paragraph 中，文本块节点，粘贴的时候应该直接替换掉它的父节点，也即另一个文本块。\n但是对非默认 paragraph（即你自己定制的 paragraph）的话，在替换内容的时候，就需要保留该 非默认 paragraph 的一些属性，不能直接替换。同理 li 元素，\n因为首先选中 li 元素内容，然后粘贴内容是一个很常见的操作，用户的预期是将粘贴内容作为 li 的内容，而不是直接替换掉 li 而粘贴成 paragraph（或其他 block）。"
+    "_note": "最后一句话讲的是，例如，默认的 paragraph 中，文本块节点，粘贴的时候应该直接替换掉它的父节点，也即另一个文本块。 但是对非默认 paragraph（即你自己定制的 paragraph）的话，在替换内容的时候，就需要保留该 非默认 paragraph 的一些属性，不能直接替换。同理 li 元素， 因为首先选中 li 元素内容，然后粘贴内容是一个很常见的操作，用户的预期是将粘贴内容作为 li 的内容，而不是直接替换掉 li 而粘贴成 paragraph（或其他 block）。"
   },
   "Controls way whitespace in this a node is parsed. The default is \"normal\", which causes the DOM parser to collapse whitespace in normal mode, and normalize it (replacing newlines and such with spaces) otherwise. \"pre\" causes the parser to preserve spaces inside the node. When this option isn't given, but code is true, whitespace will default to \"pre\". Note that this option doesn't influence the way the node is rendered—that should be handled by toDOM and/or styling.": {
     "_translate": "控制此节点中的空白符解析方式。默认值是<code>\"normal\"</code>，这会导致<a href=\"#model.DOMParser\">DOM 解析器</a>在正常模式下折叠空白符，并在其他情况下将其规范化（用空格替换换行符等）。<code>\"pre\"</code>会使解析器保留节点内的空白符。当未提供此选项但<a href=\"#model.NodeSpec.code\"><code>code</code></a>为 true 时，<code>whitespace</code>将默认为<code>\"pre\"</code>。请注意，此选项不会影响节点的渲染方式——这应由<code>toDOM</code>和/或样式处理。",
@@ -1668,15 +1668,15 @@
     "_note": ""
   },
   "When enabled, enables both definingAsContext and definingForContent.": {
-    "_translate": "启用后，启用\n<a href=\"#model.NodeSpec.definingAsContext\"><code>definingAsContext</code></a> 和\n<a href=\"#model.NodeSpec.definingForContent\"><code>definingForContent</code></a>。",
+    "_translate": "启用后，启用 <a href=\"#model.NodeSpec.definingAsContext\"><code>definingAsContext</code></a> 和 <a href=\"#model.NodeSpec.definingForContent\"><code>definingForContent</code></a>。",
     "_note": ""
   },
   "When enabled (default is false), the sides of nodes of this type count as boundaries that regular editing operations, like backspacing or lifting, won't cross. An example of a node that should probably have this enabled is a table cell.": {
-    "_translate": "当该属性设置为 true 时（默认是 false），当前类型的节点的两侧将会计算作为边界，于是对于正常的编辑操作如删除、或者提升，将不会被跨越过去。\n举个例子，对于 table 的 cell 节点，该属性应该被设置为 true。",
+    "_translate": "当该属性设置为 true 时（默认是 false），当前类型的节点的两侧将会计算作为边界，于是对于正常的编辑操作如删除、或者提升，将不会被跨越过去。 举个例子，对于 table 的 cell 节点，该属性应该被设置为 true。",
     "_note": "「提升」操作指的是，如在一个二级 li 中，一般用户习惯下，按 shift + tab 会将该二级 li 提升到一级 li。"
   },
   "Defines the default way a node of this type should be serialized to DOM/HTML (as used by DOMSerializer.fromSchema). Should return a DOM node or an array structure that describes one, with an optional number zero (“hole”) in it to indicate where the node's content should be inserted.": {
-    "_translate": "定义当前节点的默认序列化成 DOM/HTML 的方式（被<a href=\"#model.DOMSerializer%5EfromSchema\"><code>DOMSerializer.fromSchema</code></a>使用）。\n应该返回一个 DOM 节点或者一个描述 ODM 节点的 <a href=\"#model.DOMOutputSpec\">array structure</a>，它带有可选的数字 0 （就是「洞」），\n表示节点的内容应该被插在哪个位置。",
+    "_translate": "定义当前节点的默认序列化成 DOM/HTML 的方式（被<a href=\"#model.DOMSerializer%5EfromSchema\"><code>DOMSerializer.fromSchema</code></a>使用）。 应该返回一个 DOM 节点或者一个描述 ODM 节点的 <a href=\"#model.DOMOutputSpec\">array structure</a>，它带有可选的数字 0 （就是「洞」）， 表示节点的内容应该被插在哪个位置。",
     "_note": ""
   },
   "For text nodes, the default is to create a text DOM node. Though it is possible to create a serializer where text is rendered differently, this is not supported inside the editor, so you shouldn't override that in your text node spec.": {
@@ -1688,7 +1688,7 @@
     "_note": ""
   },
   "Associates DOM parser information with this node, which can be used by DOMParser.fromSchema to automatically derive a parser. The node field in the rules is implied (the name of this node will be filled in automatically). If you supply your own parser, you do not need to also specify parsing rules in your schema.": {
-    "_translate": "当前节点相关的 DOM parser 信息，会被 <a href=\"#model.DOMParser%5EfromSchema\"><code>DOMParser.fromSchema</code></a>\n使用以自动的衍生出一个 parser。Rule 中的 <code>node</code> 字段是隐式的（节点的名字会自动填充）。如果你在此处提供了自己的 parser，那你就不需要再在 schema 配置的时候提供 parser 了。",
+    "_translate": "当前节点相关的 DOM parser 信息，会被 <a href=\"#model.DOMParser%5EfromSchema\"><code>DOMParser.fromSchema</code></a> 使用以自动的衍生出一个 parser。Rule 中的 <code>node</code> 字段是隐式的（节点的名字会自动填充）。如果你在此处提供了自己的 parser，那你就不需要再在 schema 配置的时候提供 parser 了。",
     "_note": "配置 Editor view 的时候可以配置一个 Parser 和 Serializer，如果提供，则此处就不用写 parseDOM 了。"
   },
   "Defines the default way a leaf node of this type should be serialized to a string (as used by Node.textBetween and Node.textContent).": {
@@ -1716,11 +1716,11 @@
     "_note": "「被激活」的意思是，可以通过 API 获取光标所在的 resolvedPos 信息以查到相关的 marks，对用户来说被激活意味着在该地方输入内容会带上相应的 marks。"
   },
   "Determines which other marks this mark can coexist with. Should be a space-separated strings naming other marks or groups of marks. When a mark is added to a set, all marks that it excludes are removed in the process. If the set contains any mark that excludes the new mark but is not, itself, excluded by the new mark, the mark can not be added an the set. You can use the value \"_\" to indicate that the mark excludes all marks in the schema.": {
-    "_translate": "决定当前 mark 是否能和其他 marks 共存。应该是由其他 marks 名或者 marks group 组成的以空格分隔的字符串。\n当一个 marks 被 <a href=\"#model.Mark.addToSet\">added</a> 到一个集合中时，所有的与此 marks 排斥（excludes）的 marks 将会被在添加过程中移除。\n如果当前集合包含任何排斥当前的新 mark 的 mark，但是该新 mark 却不排斥它，则当前新的 mark 不会被添加到集合中。你可以使用 <code>\"_\"</code> 来表明当前 marks\n排斥所有的 schema 中的其他 marks。",
-    "_note": "该段的主要意思是，第一：假设 A 、B 互斥，则 无论 A 添加到包含 B 的集合，还是 B 添加到 包含 A 的集合，已经在集合中的一方会被移除以添加新的 mark；\n第二：若假设 A 排斥 B，B 却不排斥 A，则将 B 添加到包含 A 的集合中去的时候，将不会被添加进去。"
+    "_translate": "决定当前 mark 是否能和其他 marks 共存。应该是由其他 marks 名或者 marks group 组成的以空格分隔的字符串。 当一个 marks 被 <a href=\"#model.Mark.addToSet\">added</a> 到一个集合中时，所有的与此 marks 排斥（excludes）的 marks 将会被在添加过程中移除。 如果当前集合包含任何排斥当前的新 mark 的 mark，但是该新 mark 却不排斥它，则当前新的 mark 不会被添加到集合中。你可以使用 <code>\"_\"</code> 来表明当前 marks 排斥所有的 schema 中的其他 marks。",
+    "_note": "该段的主要意思是，第一：假设 A 、B 互斥，则 无论 A 添加到包含 B 的集合，还是 B 添加到 包含 A 的集合，已经在集合中的一方会被移除以添加新的 mark； 第二：若假设 A 排斥 B，B 却不排斥 A，则将 B 添加到包含 A 的集合中去的时候，将不会被添加进去。"
   },
   "Defaults to only being exclusive with marks of the same type. You can set it to an empty string (or any string not containing the mark's own name) to allow multiple marks of a given type to coexist (as long as they have different attributes).": {
-    "_translate": "默认是相同类型的 marks 会互斥。你可以将其设置为一个空的字符串（或者任何不包含 mark 自身名字的字符串）\n以允许给定相同类型的多个 marks 共存（之哟啊他们有不同的 attributes）。",
+    "_translate": "默认是相同类型的 marks 会互斥。你可以将其设置为一个空的字符串（或者任何不包含 mark 自身名字的字符串） 以允许给定相同类型的多个 marks 共存（之哟啊他们有不同的 attributes）。",
     "_note": ""
   },
   "The group or space-separated groups to which this mark belongs.": {
@@ -1736,7 +1736,7 @@
     "_note": "「否则，它会被附加到顶级节点之后」字面意思吗？有待实验，本人貌似没有印象了。"
   },
   "Associates DOM parser information with this mark (see the corresponding node spec field). The mark field in the rules is implied.": {
-    "_translate": "当前 mark 的相关的 DOM parser 信息（具体请查看相应的 <a href=\"#model.NodeSpec.parseDOM\">node spec field</a>）。\n在 Rules 中的 <code>mark</code> 字段是隐式的。",
+    "_translate": "当前 mark 的相关的 DOM parser 信息（具体请查看相应的 <a href=\"#model.NodeSpec.parseDOM\">node spec field</a>）。 在 Rules 中的 <code>mark</code> 字段是隐式的。",
     "_note": ""
   },
   "Mark specs can include additional properties that can be inspected through MarkType.spec when working with the mark.": {
@@ -1756,7 +1756,7 @@
     "_note": ""
   },
   "Node types are objects allocated once per Schema and used to tag Node instances. They contain information about the node type, such as its name and what kind of node it represents.": {
-    "_translate": "每个 Node Type 只会被 Schema 初始化一次，然后使用它来<a href=\"#model.Node.type\">tag（归类）</a> <code>Node</code> 的实例。\n这种对象包含了节点的类型信息，比如名称以及它表示那种节点。",
+    "_translate": "每个 Node Type 只会被 Schema 初始化一次，然后使用它来<a href=\"#model.Node.type\">tag（归类）</a> <code>Node</code> 的实例。 这种对象包含了节点的类型信息，比如名称以及它表示那种节点。",
     "_note": ""
   },
   "The name the node type has in this schema.": {
@@ -1824,7 +1824,7 @@
     "_note": ""
   },
   "Create a Node of this type. The given attributes are checked and defaulted (you can pass null to use the type's defaults entirely, if no required attributes exist). content may be a Fragment, a node, an array of nodes, or null. Similarly marks may be null to default to the empty set of marks.": {
-    "_translate": "新建一个此种类型的节点。将会检查给定的 attributes，未给定的话即为默认值（如果该中类型的节点没有任何必须的 attributes，你可以直接传递 <code>null</code> 来使用全部 attributes 的默认值）。\n<code>content</code> 可能是一个 <code>Fragment</code>、一个节点、一个节点数组或者 <code>null</code>。<code>marks</code> 参数与之类似，默认是 <code>null</code>，表示空的 marks 集合。",
+    "_translate": "新建一个此种类型的节点。将会检查给定的 attributes，未给定的话即为默认值（如果该中类型的节点没有任何必须的 attributes，你可以直接传递 <code>null</code> 来使用全部 attributes 的默认值）。 <code>content</code> 可能是一个 <code>Fragment</code>、一个节点、一个节点数组或者 <code>null</code>。<code>marks</code> 参数与之类似，默认是 <code>null</code>，表示空的 marks 集合。",
     "_note": ""
   },
   "Like create, but check the given content against the node type's content restrictions, and throw an error if it doesn't match.": {
@@ -1832,7 +1832,7 @@
     "_note": "该自定义错误类型为 RangeError。"
   },
   "Like create, but see if it is necessary to add nodes to the start or end of the given fragment to make it fit the node. If no fitting wrapping can be found, return null. Note that, due to the fact that required nodes can always be created, this will always succeed if you pass null or Fragment.empty as content.": {
-    "_translate": "和 <a href=\"#model.NodeType.create\"><code>create</code></a> 类似，不过该方法会查看是否有必要在给定的 fragment 开始和结尾的地方\n添加一些节点，以让该 fragment 适应当前 node。如果没有找到合适的包裹节点，则返回 null。\n记住，如果你传递 <code>null</code> 或者 <code>Fragment.empty</code> 作为内容会导致其一定会适合当前 node，因此该方法一定会成功。",
+    "_translate": "和 <a href=\"#model.NodeType.create\"><code>create</code></a> 类似，不过该方法会查看是否有必要在给定的 fragment 开始和结尾的地方 添加一些节点，以让该 fragment 适应当前 node。如果没有找到合适的包裹节点，则返回 null。 记住，如果你传递 <code>null</code> 或者 <code>Fragment.empty</code> 作为内容会导致其一定会适合当前 node，因此该方法一定会成功。",
     "_note": "因为 null 和 Fragment.empty 不用寻找任何「合适的包裹节点」就能适应当前节点。"
   },
   "Returns true if the given fragment is valid content for this node type.": {
@@ -1852,7 +1852,7 @@
     "_note": ""
   },
   "Like nodes, marks (which are associated with nodes to signify things like emphasis or being part of a link) are tagged with type objects, which are instantiated once per Schema.": {
-    "_translate": "和 nodes 类似，marks（与 node 关联的以表示诸如强调、链接等的内容）也被用类型对象进行 <a href=\"#model.Mark.type\">tagged（归类）</a>，\n每个类型只会被 <code>Schema</code> 实例化一次。",
+    "_translate": "和 nodes 类似，marks（与 node 关联的以表示诸如强调、链接等的内容）也被用类型对象进行 <a href=\"#model.Mark.type\">tagged（归类）</a>， 每个类型只会被 <code>Schema</code> 实例化一次。",
     "_note": ""
   },
   "The name of the mark type.": {
@@ -1868,11 +1868,11 @@
     "_note": ""
   },
   "Create a mark of this type. attrs may be null or an object containing only some of the mark's attributes. The others, if they have defaults, will be added.": {
-    "_translate": "创建一个当前类型的 mark。<code>attrs</code> 可能是 <code>null</code> 或者是一个仅包含部分 marks attributes 的对象。\n其他未包含的 attributes，会使用它们的默认值添加上去。",
+    "_translate": "创建一个当前类型的 mark。<code>attrs</code> 可能是 <code>null</code> 或者是一个仅包含部分 marks attributes 的对象。 其他未包含的 attributes，会使用它们的默认值添加上去。",
     "_note": ""
   },
   "When there is a mark of this type in the given set, a new set without it is returned. Otherwise, the input set is returned.": {
-    "_translate": "如果当前 mark 类型存在与给定的 mark 集合，则将会返回不含有当前 mark 类型的 marks 集合。\n否则，直接返回给定的 marks 集合。",
+    "_translate": "如果当前 mark 类型存在与给定的 mark 集合，则将会返回不含有当前 mark 类型的 marks 集合。 否则，直接返回给定的 marks 集合。",
     "_note": "看函数名，顾名思义就是在给定 marks 集合中移除当前 mark 类型的 marks。"
   },
   "Tests whether there is a mark of this type in the given set.": {
@@ -1884,7 +1884,7 @@
     "_note": ""
   },
   "Instances of this class represent a match state of a node type's content expression, and can be used to find out whether further content matches here, and whether a given position is a valid end of the node.": {
-    "_translate": "该类的实例表示一个节点类型的 <a href=\"#model.NodeSpec.content\">content expression（内容表达式）</a> 的匹配状态，\n其可以用来寻找是否此处是否有更进一步的内容能够匹配到，以及判断一个位置是否是该节点的可用的结尾。",
+    "_translate": "该类的实例表示一个节点类型的 <a href=\"#model.NodeSpec.content\">content expression（内容表达式）</a> 的匹配状态， 其可以用来寻找是否此处是否有更进一步的内容能够匹配到，以及判断一个位置是否是该节点的可用的结尾。",
     "_note": "本小节的方法和类我用的不多，可能在处理一些边缘 case 的情况才会用到，因此很多直译了。"
   },
   "True when this match state represents a valid end of the node.": {
@@ -1904,11 +1904,11 @@
     "_note": "「可以被生成的」指的是该位置不能是文本节点或者不能有必须存在的 attribute 才能被生成。"
   },
   "Try to match the given fragment, and if that fails, see if it can be made to match by inserting nodes in front of it. When successful, return a fragment of inserted nodes (which may be empty if nothing had to be inserted). When toEnd is true, only return a fragment if the resulting match goes to the end of the content expression.": {
-    "_translate": "尝试匹配给定的 fragment，如果失败，则会查看是否可以通过在该 fragment 前面插入一些节点来使之匹配。\n如果插入节点后匹配成功，则会返回一个插入的节点组成的 fragment（如果没有需要插入的节点，则可能是空的）。\n当 <code>toEnd</code> 为 true 时，只有结果匹配到达了内容表达式的结尾之时，才会返回一个 fragment。",
+    "_translate": "尝试匹配给定的 fragment，如果失败，则会查看是否可以通过在该 fragment 前面插入一些节点来使之匹配。 如果插入节点后匹配成功，则会返回一个插入的节点组成的 fragment（如果没有需要插入的节点，则可能是空的）。 当 <code>toEnd</code> 为 true 时，只有结果匹配到达了内容表达式的结尾之时，才会返回一个 fragment。",
     "_note": "否则返回 undefined。"
   },
   "Find a set of wrapping node types that would allow a node of the given type to appear at this position. The result may be empty (when it fits directly) and will be null when no such wrapping exists.": {
-    "_translate": "寻找一个包裹给定节点的节点集合，该集合中的节点在包裹住给定类型的节点后才能出现在当前位置。\n集合的内容可能是空（如果给定类型节点直接就适合当前位置而无需包裹任何节点时），若不存在相应的包裹节点，则集合也可能是 null。",
+    "_translate": "寻找一个包裹给定节点的节点集合，该集合中的节点在包裹住给定类型的节点后才能出现在当前位置。 集合的内容可能是空（如果给定类型节点直接就适合当前位置而无需包裹任何节点时），若不存在相应的包裹节点，则集合也可能是 null。",
     "_note": ""
   },
   "The number of outgoing edges this node has in the finite automaton that describes the content expression.": {
@@ -1948,11 +1948,11 @@
     "_note": ""
   },
   "Parses the content of the given DOM node, like parse, and takes the same set of options. But unlike that method, which produces a whole node, this one returns a slice that is open at the sides, meaning that the schema constraints aren't applied to the start of nodes to the left of the input and the end of nodes at the end.": {
-    "_translate": "parses 给定的 DOM 节点，与 <a href=\"#model.DOMParser.parse\"><code>parse</code></a> 类似，接受与之相同的参数。\n不过与 parse 方法产生一整个节点不同的是，这个方法返回一个在节点两侧打开的 slice，这意味着 schema\n的约束不适用于输入节点左侧节点的开始位置和末尾节点的结束位置。",
-    "_note": "这表示该方法可能产生一个不受 schema 约束的 node，只是该 node 由于 openStart 和 openEnd 的存在而适合 schema\n（被 open 剪切掉以适合 schema，但是整体不适合 schema）。"
+    "_translate": "parses 给定的 DOM 节点，与 <a href=\"#model.DOMParser.parse\"><code>parse</code></a> 类似，接受与之相同的参数。 不过与 parse 方法产生一整个节点不同的是，这个方法返回一个在节点两侧打开的 slice，这意味着 schema 的约束不适用于输入节点左侧节点的开始位置和末尾节点的结束位置。",
+    "_note": "这表示该方法可能产生一个不受 schema 约束的 node，只是该 node 由于 openStart 和 openEnd 的存在而适合 schema （被 open 剪切掉以适合 schema，但是整体不适合 schema）。"
   },
   "Construct a DOM parser using the parsing rules listed in a schema's node specs, reordered by priority.": {
-    "_translate": "用给定的 schema 中的 <a href=\"#model.NodeSpec.parseDOM\">node 配置对象</a> 中的 parsing rule 来构造一个 DOM parser，\n被按 <a href=\"#model.ParseRule.priority\">优先级</a> 重新排序。",
+    "_translate": "用给定的 schema 中的 <a href=\"#model.NodeSpec.parseDOM\">node 配置对象</a> 中的 parsing rule 来构造一个 DOM parser， 被按 <a href=\"#model.ParseRule.priority\">优先级</a> 重新排序。",
     "_note": ""
   },
   "These are the options recognized by the parse and parseSlice methods.": {
@@ -1960,11 +1960,11 @@
     "_note": ""
   },
   "By default, whitespace is collapsed as per HTML's rules. Pass true to preserve whitespace, but normalize newlines to spaces, and \"full\" to preserve whitespace entirely.": {
-    "_translate": "默认情况下，根据 HTML 的规则，空白符会被折叠起来不显示。传递 <code>true</code> 表示保留空白符，但会将换行符表示为空格。\n<code>\"full\"</code> 表示完全保留所有的空白符。",
+    "_translate": "默认情况下，根据 HTML 的规则，空白符会被折叠起来不显示。传递 <code>true</code> 表示保留空白符，但会将换行符表示为空格。 <code>\"full\"</code> 表示完全保留所有的空白符。",
     "_note": ""
   },
   "When given, the parser will, beside parsing the content, record the document positions of the given DOM positions. It will do so by writing to the objects, adding a pos property that holds the document position. DOM positions that are not in the parsed content will not be written to.": {
-    "_translate": "如果设置了该参数，则 parser 除了 parsing 内容外，还将记录给定位置 DOM 在文档中相应的位置。\n它将通过写入对象，添加一个保存文档位置的 <code>pos</code> 属性来实现。不在 parsed 内容中的 DOM 的位置将不会被写入。",
+    "_translate": "如果设置了该参数，则 parser 除了 parsing 内容外，还将记录给定位置 DOM 在文档中相应的位置。 它将通过写入对象，添加一个保存文档位置的 <code>pos</code> 属性来实现。不在 parsed 内容中的 DOM 的位置将不会被写入。",
     "_note": ""
   },
   "The child node index to start parsing from.": {
@@ -1976,7 +1976,7 @@
     "_note": ""
   },
   "By default, the content is parsed into the schema's default top node type. You can pass this option to use the type and attributes from a different node as the top container.": {
-    "_translate": "默认情况下，内容会被 parsed 到 schema 的默认 <a href=\"#model.Schema.topNodeType\">顶级节点</a> 中。\n你可以传递这个选项和 attributes 以使用一个不同的节点作为顶级容器。",
+    "_translate": "默认情况下，内容会被 parsed 到 schema 的默认 <a href=\"#model.Schema.topNodeType\">顶级节点</a> 中。 你可以传递这个选项和 attributes 以使用一个不同的节点作为顶级容器。",
     "_note": ""
   },
   "Provide the starting content match that content parsed into the top node is matched against.": {
@@ -1992,11 +1992,11 @@
     "_note": ""
   },
   "Can be used to change the order in which the parse rules in a schema are tried. Those with higher priority come first. Rules without a priority are counted as having priority 50. This property is only meaningful in a schema—when directly constructing a parser, the order of the rule array is used.": {
-    "_translate": "可以使用它来提升 schema 中 parse rule 的优先级顺序。更高优先级的更先被 parse。\n没有优先级设置的 rule 则被默认设置一个 50 的优先级。该属性只在 schema 中才有意义。\n而在直接构造一个 parser 的时候使用的是 rule 数组的顺序。",
+    "_translate": "可以使用它来提升 schema 中 parse rule 的优先级顺序。更高优先级的更先被 parse。 没有优先级设置的 rule 则被默认设置一个 50 的优先级。该属性只在 schema 中才有意义。 而在直接构造一个 parser 的时候使用的是 rule 数组的顺序。",
     "_note": ""
   },
   "By default, when a rule matches an element or style, no further rules get a chance to match it. By setting this to false, you indicate that even when this rule matches, other rules that come after it should also run.": {
-    "_translate": "默认情况下，如果一个 rule 匹配了一个元素或者样式，那么就不会进一步的匹配接下来的 rule 了。\n而通过设置该参数为 <code>false</code>，你可以决定即使当一个 rule 匹配了，在该 rule 之后的 rule 也依然会运行一次。",
+    "_translate": "默认情况下，如果一个 rule 匹配了一个元素或者样式，那么就不会进一步的匹配接下来的 rule 了。 而通过设置该参数为 <code>false</code>，你可以决定即使当一个 rule 匹配了，在该 rule 之后的 rule 也依然会运行一次。",
     "_note": ""
   },
   "The name of the mark type to wrap the matched content in.": {
@@ -2004,7 +2004,7 @@
     "_note": ""
   },
   "When given, restricts this rule to only match when the current context—the parent nodes into which the content is being parsed—matches this expression. Should contain one or more node names or node group names followed by single or double slashes. For example \"paragraph/\" means the rule only matches when the parent node is a paragraph, \"blockquote/paragraph/\" restricts it to be in a paragraph that is inside a blockquote, and \"section//\" matches any position inside a section—a double slash matches any sequence of ancestor nodes. To allow multiple different contexts, they can be separated by a pipe (|) character, as in \"blockquote/|list_item/\".": {
-    "_translate": "如果设置了该属性，则限制 rule 只匹配给定的上下文表达式，该上下文即为被 parsed 的内容所在的父级节点。\n应该包含一个或者多个节点名或者节点 group 名，用一个或者两个斜杠结尾。例如 <code>\"paragraph/\"</code> 表示只有当父级节点是段落的时候才会被匹配，\n<code>\"blockquote/paragraph/\"</code> 限制只有在一个 blockquote 中的一个段落中才会被匹配，<code>\"section//\"</code> 表示匹配在一个 section 中的任何位置--一个双斜线表示匹配\n任何祖先节点序列。为了允许多个不同的上下文，它们可以用 <code>|</code> 分隔，比如 <code>\"blockquote/|list_item/\"</code>。",
+    "_translate": "如果设置了该属性，则限制 rule 只匹配给定的上下文表达式，该上下文即为被 parsed 的内容所在的父级节点。 应该包含一个或者多个节点名或者节点 group 名，用一个或者两个斜杠结尾。例如 <code>\"paragraph/\"</code> 表示只有当父级节点是段落的时候才会被匹配， <code>\"blockquote/paragraph/\"</code> 限制只有在一个 blockquote 中的一个段落中才会被匹配，<code>\"section//\"</code> 表示匹配在一个 section 中的任何位置--一个双斜线表示匹配 任何祖先节点序列。为了允许多个不同的上下文，它们可以用 <code>|</code> 分隔，比如 <code>\"blockquote/|list_item/\"</code>。",
     "_note": ""
   },
   "When true, ignore content that matches this rule.": {
@@ -2040,7 +2040,7 @@
     "_note": ""
   },
   "A function used to compute the attributes for the node or mark created by this rule. Can also be used to describe further conditions the DOM element or style must match. When it returns false, the rule won't match. When it returns null or undefined, that is interpreted as an empty/default set of attributes.": {
-    "_translate": "用来计算由当前 rule 新建的节点或者 mark 的 attributes。也可以用来描述进一步 DOM 元素或者行内样式匹配的话需要满足的条件。\n当它返回 <code>false</code>，则 rule 不会匹配。当它返回 null 或者 undefined，则被当成是一个空的/默认的 attributes 集合。",
+    "_translate": "用来计算由当前 rule 新建的节点或者 mark 的 attributes。也可以用来描述进一步 DOM 元素或者行内样式匹配的话需要满足的条件。 当它返回 <code>false</code>，则 rule 不会匹配。当它返回 null 或者 undefined，则被当成是一个空的/默认的 attributes 集合。",
     "_note": ""
   },
   "Can be used to override the content of a matched node. When present, instead of parsing the node's child nodes, the result of this function is used.": {
@@ -2056,7 +2056,7 @@
     "_note": ""
   },
   "Controls whether whitespace should be preserved when parsing the content inside the matched element. false means whitespace may be collapsed, true means that whitespace should be preserved but newlines normalized to spaces, and \"full\" means that newlines should also be preserved.": {
-    "_translate": "控制当 parsing 匹配元素的内容的时候，空白符是否应该保留。<code>false</code> 表示空白符应该不显示，\n<code>true</code> 表示空白符应该不显示但是换行符会被换成空格，<code>\"full\"</code> 表示换行符也应该被保留。",
+    "_translate": "控制当 parsing 匹配元素的内容的时候，空白符是否应该保留。<code>false</code> 表示空白符应该不显示， <code>true</code> 表示空白符应该不显示但是换行符会被换成空格，<code>\"full\"</code> 表示换行符也应该被保留。",
     "_note": ""
   },
   "A CSS property name to match. This rule will match inline styles that list that property. May also have the form \"property=value\", in which case the rule only matches if the property's value exactly matches the given value. (For more complicated filters, use getAttrs and return false to indicate that the match failed.) Rules matching styles may only produce marks, not nodes.": {
@@ -2080,7 +2080,7 @@
     "_note": ""
   },
   "Create a serializer. nodes should map node names to functions that take a node and return a description of the corresponding DOM. marks does the same for mark names, but also gets an argument that tells it whether the mark's content is block or inline content (for typical use, it'll always be inline). A mark serializer may be null to indicate that marks of that type should not be serialized.": {
-    "_translate": "新建一个 serializer。<code>nodes</code> 应该是一个对象，键是节点名，值是一个函数，函数接受一个节点作为参数，返回相应的 DOM 描述。\n<code>marks</code> 类似，键值 marks 名，值是一个函数，只不过函数参数表示的是 marks 的内容是否是 block 的或者是 inline 的（一般情况下应该是 inline 的）。\n一个 mark serializer 可能是 <code>null</code>，表示这种类型的 mark 不应该被 serialized（序列化）。",
+    "_translate": "新建一个 serializer。<code>nodes</code> 应该是一个对象，键是节点名，值是一个函数，函数接受一个节点作为参数，返回相应的 DOM 描述。 <code>marks</code> 类似，键值 marks 名，值是一个函数，只不过函数参数表示的是 marks 的内容是否是 block 的或者是 inline 的（一般情况下应该是 inline 的）。 一个 mark serializer 可能是 <code>null</code>，表示这种类型的 mark 不应该被 serialized（序列化）。",
     "_note": ""
   },
   "The node serialization functions.": {
@@ -2092,15 +2092,15 @@
     "_note": ""
   },
   "Serialize the content of this fragment to a DOM fragment. When not in the browser, the document option, containing a DOM document, should be passed so that the serializer can create nodes.": {
-    "_translate": "将给定的 fragment serialize 成 DOM fragment。如果该操作不是在浏览器中完成，\n那么应该传递一个 <code>document</code> 参数，以让 serializer 能够新建 nodes 们。",
+    "_translate": "将给定的 fragment serialize 成 DOM fragment。如果该操作不是在浏览器中完成， 那么应该传递一个 <code>document</code> 参数，以让 serializer 能够新建 nodes 们。",
     "_note": "即 option.document，如果没有传，默认使用的是 window.document。"
   },
   "Serialize this node to a DOM node. This can be useful when you need to serialize a part of a document, as opposed to the whole document. To serialize a whole document, use serializeFragment on its content.": {
-    "_translate": "将节点 serialize 成一个 DOM 节点。这对于当想要 serialize 文档的一部分而不是整个文档的时候很有用。\n若要 serialize 整个文档，在它的 <a href=\"#model.Node.content\">content</a> 属性上调用 <a href=\"#model.DOMSerializer.serializeFragment\"><code>serializeFragment</code></a> 来完成。",
+    "_translate": "将节点 serialize 成一个 DOM 节点。这对于当想要 serialize 文档的一部分而不是整个文档的时候很有用。 若要 serialize 整个文档，在它的 <a href=\"#model.Node.content\">content</a> 属性上调用 <a href=\"#model.DOMSerializer.serializeFragment\"><code>serializeFragment</code></a> 来完成。",
     "_note": ""
   },
   "Render an output spec to a DOM node. If the spec has a hole (zero) in it, contentDOM will point at the node with the hole.": {
-    "_translate": "渲染一个 <a href=\"#model.DOMOutputSpec\">output 配置对象</a> 到一个 DOM 节点。如果配置对象有一个洞（数字0），\n则 <code>contentDOM</code> 将会指向该洞所代表的节点。",
+    "_translate": "渲染一个 <a href=\"#model.DOMOutputSpec\">output 配置对象</a> 到一个 DOM 节点。如果配置对象有一个洞（数字0）， 则 <code>contentDOM</code> 将会指向该洞所代表的节点。",
     "_note": ""
   },
   "Build a serializer using the toDOM properties in a schema's node and mark specs.": {
@@ -2108,7 +2108,7 @@
     "_note": ""
   },
   "Gather the serializers in a schema's node specs into an object. This can be useful as a base to build a custom serializer from.": {
-    "_translate": "将模式的节点规范中的序列化器收集到一个对象中。\n这可以作为构建自定义序列化器的基础。",
+    "_translate": "将模式的节点规范中的序列化器收集到一个对象中。 这可以作为构建自定义序列化器的基础。",
     "_note": ""
   },
   "Gather the serializers in a schema's mark specs into an object.": {
@@ -2120,23 +2120,23 @@
     "_note": ""
   },
   "An array describes a DOM element. The first value in the array should be a string—the name of the DOM element, optionally prefixed by a namespace URL and a space. If the second element is plain object, it is interpreted as a set of attributes for the element. Any elements after that (including the 2nd if it's not an attribute object) are interpreted as children of the DOM elements, and must either be valid DOMOutputSpec values, or the number zero.": {
-    "_translate": "这个数组描述了一个 DOM 元素。数组中的第一个值应该是这个 DOM 元素名字字符串，可以允许带上命名空间 URL 的前缀或者空格。\n如果数组第二个值是一个普通对象，则被当做是 DOM 元素的 attributes。在数组第二个值之后的任何值（包括第二个值，如果它不是一个普通属性对象的话）\n都被认为是该 DOM 元素的子元素，因此这些后面的值必须是有一个有效的 <code>DOMOutputSpec</code> 值，或者是数字 0。",
+    "_translate": "这个数组描述了一个 DOM 元素。数组中的第一个值应该是这个 DOM 元素名字字符串，可以允许带上命名空间 URL 的前缀或者空格。 如果数组第二个值是一个普通对象，则被当做是 DOM 元素的 attributes。在数组第二个值之后的任何值（包括第二个值，如果它不是一个普通属性对象的话） 都被认为是该 DOM 元素的子元素，因此这些后面的值必须是有一个有效的 <code>DOMOutputSpec</code> 值，或者是数字 0。",
     "_note": ""
   },
   "The number zero (pronounced “hole”) is used to indicate the place where a node's child nodes should be inserted. If it occurs in an output spec, it should be the only child element in its parent node.": {
     "_translate": "数字 0（念做「洞」）被用来指示子元素应该被放置的位置。如果子元素是一个会被放置内容的节点，那么 0 应该是它唯一子元素。",
-    "_note": "举个例子：\n['div', {style:'color:red'}, 0]，表示的是 <div style=\"color:red\">子元素<div>;\n['div', {style:'color:red'}, ['p', 0]]，表示的是 <div style=\"color:red\"><p>子元素</p><div>;\n['div', {style:'color:red'}, ['p'], 0] 非法，因为 0 作为一个放置子元素的容器，其并不是父节点 div 的唯一子元素，父节点还有个子元素是 p。"
+    "_note": "举个例子： ['div', {style:'color:red'}, 0]，表示的是 &lt;div style=\"color:red\"&gt;子元素&lt;div&gt;; ['div', {style:'color:red'}, ['p', 0]]，表示的是 &lt;div style=\"color:red\"&gt;&lt;p&gt;子元素&lt;/p&gt;&lt;div&gt;; ['div', {style:'color:red'}, ['p'], 0] 非法，因为 0 作为一个放置子元素的容器，其并不是父节点 div 的唯一子元素，父节点还有个子元素是 p。"
   },
   "This module defines a way of modifying documents that allows changes to be recorded, replayed, and reordered. You can read more about transformations in the guide.": {
-    "_translate": "这个模块定义了一种修改文档的方式，以允许修改被记录、回放、重新排序。你可以在\n<a href=\"https://xheldon.com/prosemirror-guide-chinese.html#document-transformations\">中文指南</a> 了解更多。",
+    "_translate": "这个模块定义了一种修改文档的方式，以允许修改被记录、回放、重新排序。你可以在 <a href=\"https://xheldon.com/prosemirror-guide-chinese.html#document-transformations\">中文指南</a> 了解更多。",
     "_note": ""
   },
   "Transforming happens in Steps, which are atomic, well-defined modifications to a document. Applying a step produces a new document.": {
-    "_translate": "Transforming 发生在一个或者多个 <code>Step</code> 中，step 是原子的及定义良好的一个修改文档的类。\n<a href=\"#transform.Step.apply\">Applying（应用）</a> 一个 step 会产生一个新的文档。",
+    "_translate": "Transforming 发生在一个或者多个 <code>Step</code> 中，step 是原子的及定义良好的一个修改文档的类。 <a href=\"#transform.Step.apply\">Applying（应用）</a> 一个 step 会产生一个新的文档。",
     "_note": ""
   },
   "Each step provides a change map that maps positions in the old document to position in the transformed document. Steps can be inverted to create a step that undoes their effect, and chained together in a convenience object called a Transform.": {
-    "_translate": "每个 step 提供一个 <a href=\"#transform.StepMap\">change map（修改映射）</a>，它会在旧的文档和 transformed\n后的文档之间映射。 Steps 可以被 <a href=\"#transform.Step.invert\">inverted（反转）</a> 以新建一个 step 来取消之前 step 所做的影响，\n而且可以在一个叫做 <a href=\"#transform.Transform\"><code>Transform</code></a> 的对象上方便的链式调用。",
+    "_translate": "每个 step 提供一个 <a href=\"#transform.StepMap\">change map（修改映射）</a>，它会在旧的文档和 transformed 后的文档之间映射。 Steps 可以被 <a href=\"#transform.Step.invert\">inverted（反转）</a> 以新建一个 step 来取消之前 step 所做的影响， 而且可以在一个叫做 <a href=\"#transform.Transform\"><code>Transform</code></a> 的对象上方便的链式调用。",
     "_note": ""
   },
   "A step object represents an atomic change. It generally applies only to the document it was created for, since the positions stored in it will only make sense for that document.": {
@@ -2144,11 +2144,11 @@
     "_note": ""
   },
   "Applies this step to the given document, returning a result object that either indicates failure, if the step can not be applied to this document, or indicates success by containing a transformed document.": {
-    "_translate": "将当前 step 应用到给定的文档，返回一个结果对象，对象可能表示失败，如果 step 不能被应用到文档中；\n也可能表示成功，此时它会包含一个转换后的文档。",
+    "_translate": "将当前 step 应用到给定的文档，返回一个结果对象，对象可能表示失败，如果 step 不能被应用到文档中； 也可能表示成功，此时它会包含一个转换后的文档。",
     "_note": ""
   },
   "New steps are defined by creating classes that extend Step, overriding the apply, invert, map, getMap and fromJSON methods, and registering your class with a unique JSON-serialization identifier using Step.jsonID.": {
-    "_translate": "新的 steps 通过创建扩展自 <code>Step</code> 的类来定义，其覆盖了 <code>apply</code>、<code>invert</code>、<code>map</code>、<code>getMap</code> 和 <code>fromJSON</code> 方法，\n此外注册类的时候还需要使用 <a href=\"#transform.Step%5EjsonID\"><code>Step.jsonID</code></a> 来生成一个唯一的 JSON 序列化过的标识符。",
+    "_translate": "新的 steps 通过创建扩展自 <code>Step</code> 的类来定义，其覆盖了 <code>apply</code>、<code>invert</code>、<code>map</code>、<code>getMap</code> 和 <code>fromJSON</code> 方法， 此外注册类的时候还需要使用 <a href=\"#transform.Step%5EjsonID\"><code>Step.jsonID</code></a> 来生成一个唯一的 JSON 序列化过的标识符。",
     "_note": ""
   },
   "Get the step map that represents the changes made by this step, and which can be used to transform between positions in the old and the new document.": {
@@ -2160,19 +2160,19 @@
     "_note": ""
   },
   "Map this step through a mappable thing, returning either a version of that step with its positions adjusted, or null if the step was entirely deleted by the mapping.": {
-    "_translate": "通过一个可 mappable 的东西来 map 当前 step，返回值可能是一个调整过位置的 step 版本，\n或者 <code>null</code>，如果 step 完全被这个 mapping 删除的话。",
+    "_translate": "通过一个可 mappable 的东西来 map 当前 step，返回值可能是一个调整过位置的 step 版本， 或者 <code>null</code>，如果 step 完全被这个 mapping 删除的话。",
     "_note": ""
   },
   "Try to merge this step with another one, to be applied directly after it. Returns the merged step when possible, null if the steps can't be merged.": {
-    "_translate": "试着合并当前 step 与给定的 step，会被直接应用到当前 step 之后。如果可能的话，会返回合并之后的 step，\n如果 step 不能被合并，则返回 null。",
+    "_translate": "试着合并当前 step 与给定的 step，会被直接应用到当前 step 之后。如果可能的话，会返回合并之后的 step， 如果 step 不能被合并，则返回 null。",
     "_note": ""
   },
   "Create a JSON-serializeable representation of this step. When defining this for a custom subclass, make sure the result object includes the step type's JSON id under the stepType property.": {
-    "_translate": "新建一个当前 step JSON 序列化后的版本。如果为一个自定义的子类定义了该方法，则需要确保返回的结果对象的 <code>stepType</code> 属性值是\nstep 类型的 <a href=\"#transform.Step%5EjsonID\">JSON id</a>。",
+    "_translate": "新建一个当前 step JSON 序列化后的版本。如果为一个自定义的子类定义了该方法，则需要确保返回的结果对象的 <code>stepType</code> 属性值是 step 类型的 <a href=\"#transform.Step%5EjsonID\">JSON id</a>。",
     "_note": ""
   },
   "To be able to serialize steps to JSON, each step needs a string ID to attach to its JSON representation. Use this method to register an ID for your step classes. Try to pick something that's unlikely to clash with steps from other modules.": {
-    "_translate": "为了能够将 steps 序列化为 JSON 形式，每个 step 都需要一个字符串 ID 附加到它自己的 JSON 形式上去。\n使用这个方法为你的 step 类注册一个 ID。需要避免与其他模块的 step 的命名冲突。",
+    "_translate": "为了能够将 steps 序列化为 JSON 形式，每个 step 都需要一个字符串 ID 附加到它自己的 JSON 形式上去。 使用这个方法为你的 step 类注册一个 ID。需要避免与其他模块的 step 的命名冲突。",
     "_note": ""
   },
   "The result of applying a step. Contains either a new document or a failure value.": {
@@ -2196,7 +2196,7 @@
     "_note": ""
   },
   "Call Node.replace with the given arguments. Create a successful result if it succeeds, and a failed one if it throws a ReplaceError.": {
-    "_translate": "用给定的参数调用 <a href=\"#model.Node.replace\"><code>Node.replace</code></a>。如果成功就返回一个成功值，\n如果它抛出一个 <code>ReplaceError</code> 则返回一个失败值。",
+    "_translate": "用给定的参数调用 <a href=\"#model.Node.replace\"><code>Node.replace</code></a>。如果成功就返回一个成功值， 如果它抛出一个 <code>ReplaceError</code> 则返回一个失败值。",
     "_note": ""
   },
   "Create a failed step result.": {
@@ -2208,7 +2208,7 @@
     "_note": ""
   },
   "The given slice should fit the 'gap' between from and to—the depths must line up, and the surrounding nodes must be able to be joined with the open sides of the slice. When structure is true, the step will fail if the content between from and to is not just a sequence of closing and then opening tokens (this is to guard against rebased replace steps overwriting something they weren't supposed to).": {
-    "_translate": "给定的 slice 应该适应这个介于 <code>from</code> 和 <code>to</code> 之间的 「gap」，即 slice 两侧的深度和各自所接起来的位置深度必须是相同的，且 slice 周围\n的节点必须能够接起来。当 <code>structure</code> 为 true 的时候，如果介意 from 和 to 之间的内容不是连续的先闭合后开放的标签，则 step 将会失败（这是为了\n保证避免 rebased 的 replace step 意外覆盖了一些东西）。",
+    "_translate": "给定的 slice 应该适应这个介于 <code>from</code> 和 <code>to</code> 之间的 「gap」，即 slice 两侧的深度和各自所接起来的位置深度必须是相同的，且 slice 周围 的节点必须能够接起来。当 <code>structure</code> 为 true 的时候，如果介意 from 和 to 之间的内容不是连续的先闭合后开放的标签，则 step 将会失败（这是为了 保证避免 rebased 的 replace step 意外覆盖了一些东西）。",
     "_note": ""
   },
   "The start position of the replaced range.": {
@@ -2228,7 +2228,7 @@
     "_note": ""
   },
   "Create a replace-around step with the given range and gap. insert should be the point in the slice into which the content of the gap should be moved. structure has the same meaning as it has in the ReplaceStep class.": {
-    "_translate": "用给定的 range 和 gap 来新建一个 replace-around step。 <code>insert</code> 应该指向的是在 slice 中 gap 的内容应该被放置的位置。\n<code>structure</code> 有与它在 <a href=\"#transform.ReplaceStep\"><code>ReplaceStep</code></a> 类中相同的含义。",
+    "_translate": "用给定的 range 和 gap 来新建一个 replace-around step。 <code>insert</code> 应该指向的是在 slice 中 gap 的内容应该被放置的位置。 <code>structure</code> 有与它在 <a href=\"#transform.ReplaceStep\"><code>ReplaceStep</code></a> 类中相同的含义。",
     "_note": ""
   },
   "The start of preserved range.": {
@@ -2316,7 +2316,7 @@
     "_note": ""
   },
   "Mapping positions from one document to another by running through the step maps produced by steps is an important operation in ProseMirror. It is used, for example, for updating the selection when the document changes.": {
-    "_translate": "通过调用由 step 产生的 <a href=\"#transform.StepMap\">step maps</a> 来从一个文档中映射位置到另一个文档中在 ProseMirror 中是一个非常重要的操作。\n例如，它被用来当文档改变的时候更新选区。",
+    "_translate": "通过调用由 step 产生的 <a href=\"#transform.StepMap\">step maps</a> 来从一个文档中映射位置到另一个文档中在 ProseMirror 中是一个非常重要的操作。 例如，它被用来当文档改变的时候更新选区。",
     "_note": ""
   },
   "There are several things that positions can be mapped through. Such objects conform to this interface.": {
@@ -2324,11 +2324,11 @@
     "_note": ""
   },
   "Map a position through this object. When given, assoc (should be -1 or 1, defaults to 1) determines with which side the position is associated, which determines in which direction to move when a chunk of content is inserted at the mapped position.": {
-    "_translate": "通过该对象 map 一个位置。如果给定该方法，则 <code>assoc</code>（应该是 -1 或者 1，默认是 1）\n决定位置与哪一侧有关，这决定了当一块内容被插入到被 map 的位置的时候，该位置应该往哪个方向移动。",
+    "_translate": "通过该对象 map 一个位置。如果给定该方法，则 <code>assoc</code>（应该是 -1 或者 1，默认是 1） 决定位置与哪一侧有关，这决定了当一块内容被插入到被 map 的位置的时候，该位置应该往哪个方向移动。",
     "_note": ""
   },
   "Map a position, and return an object containing additional information about the mapping. The result's deleted field tells you whether the position was deleted (completely enclosed in a replaced range) during the mapping. When content on only one side is deleted, the position itself is only considered deleted when assoc points in the direction of the deleted content.": {
-    "_translate": "map 一个位置，然后返回一个包含关于这个 mapping 附加信息的对象。结果的 <code>deleted</code> 字段会告诉你该位置在 map 期间是否被删除（在一个 replace 的\nrange 中完全闭合的位置，即两侧都删除），如果只有一侧被删除，则只有当 <code>assoc</code> 指向删除一侧的时候，这个位置才会被认为是删除了。",
+    "_translate": "map 一个位置，然后返回一个包含关于这个 mapping 附加信息的对象。结果的 <code>deleted</code> 字段会告诉你该位置在 map 期间是否被删除（在一个 replace 的 range 中完全闭合的位置，即两侧都删除），如果只有一侧被删除，则只有当 <code>assoc</code> 指向删除一侧的时候，这个位置才会被认为是删除了。",
     "_note": ""
   },
   "An object representing a mapped position with extra information.": {
@@ -2380,7 +2380,7 @@
     "_note": ""
   },
   "A mapping represents a pipeline of zero or more step maps. It has special provisions for losslessly handling mapping positions through a series of steps in which some steps are inverted versions of earlier steps. (This comes up when ‘rebasing’ steps for collaboration or history management.)": {
-    "_translate": "一个 mapping 表示 0 个或者更多个 <a href=\"#transform.StepMap\">step maps</a> 的管道。为了能够无损的处理通过一系列 step 而产生的位置 mapping，\n其中一些 steps 很有可能是之前 step 的反转版本（这可能出现在为了协同编辑或者历史管理而 ‘<a href=\"/docs/guide/#transform.rebasing\">rebasing</a>’ step 的时候）因此有一些特殊的规定需要遵守。",
+    "_translate": "一个 mapping 表示 0 个或者更多个 <a href=\"#transform.StepMap\">step maps</a> 的管道。为了能够无损的处理通过一系列 step 而产生的位置 mapping， 其中一些 steps 很有可能是之前 step 的反转版本（这可能出现在为了协同编辑或者历史管理而 ‘<a href=\"/docs/guide/#transform.rebasing\">rebasing</a>’ step 的时候）因此有一些特殊的规定需要遵守。",
     "_note": ""
   },
   "Create a new mapping with the given position maps.": {
@@ -2436,7 +2436,7 @@
     "_note": ""
   },
   "Because you often need to collect a number of steps together to effect a composite change, ProseMirror provides an abstraction to make this easy. State transactions are a subclass of transforms.": {
-    "_translate": "由于你可能经常需要通过将一系列的 steps 合并到一起来修改文档，ProseMirror 提供了一个抽象来使这个过程简单化。\n<a href=\"#state.Transaction\">State transactions</a> 就是这个抽象，它是 transforms 的子类。",
+    "_translate": "由于你可能经常需要通过将一系列的 steps 合并到一起来修改文档，ProseMirror 提供了一个抽象来使这个过程简单化。 <a href=\"#state.Transaction\">State transactions</a> 就是这个抽象，它是 transforms 的子类。",
     "_note": "transaction 通常被简写为 tr。"
   },
   "Most transforming methods return the Transform object itself, so that they can be chained.": {
@@ -2504,7 +2504,7 @@
     "_note": ""
   },
   "Replace the given range with a node, but use from and to as hints, rather than precise positions. When from and to are the same and are at the start or end of a parent node in which the given node doesn't fit, this method may move them out towards a parent that does allow the given node to be placed. When the given range completely covers a parent node, this method may completely replace that parent node.": {
-    "_translate": "用给定的 node 替换一个由给定 <code>from</code> 和 <code>to</code> 模糊确定的 range，而不是一个精确的位置。\n如果当 from 和 to 相同且都位于父级节点的起始或者结尾位置，而给定的 node 并不适合此位置的时候，该方法可能将 from 和 to 的范围 <em>扩大</em> 到\n超出父级节点以允许给定的 node 被放置，如果给定的 range（from 和 to 形成的）完全覆盖了一个父级节点，则该方法可能完全替换掉这个父级节点。",
+    "_translate": "用给定的 node 替换一个由给定 <code>from</code> 和 <code>to</code> 模糊确定的 range，而不是一个精确的位置。 如果当 from 和 to 相同且都位于父级节点的起始或者结尾位置，而给定的 node 并不适合此位置的时候，该方法可能将 from 和 to 的范围 <em>扩大</em> 到 超出父级节点以允许给定的 node 被放置，如果给定的 range（from 和 to 形成的）完全覆盖了一个父级节点，则该方法可能完全替换掉这个父级节点。",
     "_note": ""
   },
   "Delete the given range, expanding it to cover fully covered parent nodes until a valid replace is found.": {
@@ -2512,7 +2512,7 @@
     "_note": "有些 range 两侧在不同深度的节点中，因此会先将二者的值扩展到与二者中深度与较小的那个保持一致以形成完全覆盖一个父级节点的 range。"
   },
   "Split the content in the given range off from its parent, if there is sibling content before or after it, and move it up the tree to the depth specified by target. You'll probably want to use liftTarget to compute target, to make sure the lift is valid.": {
-    "_translate": "如果 range 内容前后有同级内容，则会将给定 range 从其父级节点中分割，然后将其沿树移动到由 <code>target</code>\n指定的深度。你可能想要使用 <a href=\"#transform.liftTarget\"><code>liftTarget</code></a> 来计算 <code>target</code>，以保证这个沿着树的提升是有效的。",
+    "_translate": "如果 range 内容前后有同级内容，则会将给定 range 从其父级节点中分割，然后将其沿树移动到由 <code>target</code> 指定的深度。你可能想要使用 <a href=\"#transform.liftTarget\"><code>liftTarget</code></a> 来计算 <code>target</code>，以保证这个沿着树的提升是有效的。",
     "_note": ""
   },
   "Join the blocks around the given position. If depth is 2, their last and first siblings are also joined, and so on.": {
@@ -2520,7 +2520,7 @@
     "_note": ""
   },
   "Wrap the given range in the given set of wrappers. The wrappers are assumed to be valid in this position, and should probably be computed with findWrapping.": {
-    "_translate": "用规定的包裹节点集合来包裹给定的 <a href=\"#model.NodeRange\">range</a>。包裹节点们会被假定是适合当前位置的，其应该被 <a href=\"#transform.findWrapping\"><code>findWrapping</code></a>\n方法合适的计算出来。",
+    "_translate": "用规定的包裹节点集合来包裹给定的 <a href=\"#model.NodeRange\">range</a>。包裹节点们会被假定是适合当前位置的，其应该被 <a href=\"#transform.findWrapping\"><code>findWrapping</code></a> 方法合适的计算出来。",
     "_note": ""
   },
   "Set the type of all textblocks (partly) between from and to to the given node type with the given attributes.": {
@@ -2536,7 +2536,7 @@
     "_note": ""
   },
   "Set a single attribute on a given node to a new value. The pos addresses the document content. Use setDocAttribute to set attributes on the document itself.": {
-    "_translate": "将给定节点的单个属性设置为新值。\n<code>pos</code> 地址文档内容。使用 <code>setDocAttribute</code> 设置文档本身的属性。",
+    "_translate": "将给定节点的单个属性设置为新值。 <code>pos</code> 地址文档内容。使用 <code>setDocAttribute</code> 设置文档本身的属性。",
     "_note": ""
   },
   "Add a mark to the node at position pos.": {
@@ -2548,7 +2548,7 @@
     "_note": ""
   },
   "Split the node at the given position, and optionally, if depth is greater than one, any number of nodes above that. By default, the parts split off will inherit the node type of the original node. This can be changed by passing an array of types and attributes to use after the split.": {
-    "_translate": "分割给定位置的节点，如果传入了 <code>depth</code> 参数，且其大于 1，则任何数量的节点在它之上（？？？）。\n默认情况下，被分割部分的节点类型将会继承原始的节点类型，但是也可以通过传入一个类型数组和 attributes 来在分割后设置其上。",
+    "_translate": "分割给定位置的节点，如果传入了 <code>depth</code> 参数，且其大于 1，则任何数量的节点在它之上（？？？）。 默认情况下，被分割部分的节点类型将会继承原始的节点类型，但是也可以通过传入一个类型数组和 attributes 来在分割后设置其上。",
     "_note": "这句英文原文也不通顺。"
   },
   "Add the given mark to the inline content between from and to.": {
@@ -2556,11 +2556,11 @@
     "_note": ""
   },
   "Remove marks from inline nodes between from and to. When mark is a single mark, remove precisely that mark. When it is a mark type, remove all marks of that type. When it is null, remove all marks of any type.": {
-    "_translate": "将 <code>from</code> 到 <code>to</code> 之间的内联节点上给定的的 mark 移除。当 <code>mark</code> 是一个单独的 mark 时，则精确移除这个 mark。\n如果是一个 mark 类型时，则移除所有的该类型的 mark。如果是 null，移除其内所有类型的 mark。",
+    "_translate": "将 <code>from</code> 到 <code>to</code> 之间的内联节点上给定的的 mark 移除。当 <code>mark</code> 是一个单独的 mark 时，则精确移除这个 mark。 如果是一个 mark 类型时，则移除所有的该类型的 mark。如果是 null，移除其内所有类型的 mark。",
     "_note": ""
   },
   "Removes all marks and nodes from the content of the node at pos that don't match the given new parent node type. Accepts an optional starting content match as third argument.": {
-    "_translate": "从给定的 pos 移除与给定的新的父级节点类型不兼容的所有 marks 和节点们。\n接受一个可选的起始 <a href=\"#model.ContentMatch\">content match</a> 作为第三个参数。",
+    "_translate": "从给定的 pos 移除与给定的新的父级节点类型不兼容的所有 marks 和节点们。 接受一个可选的起始 <a href=\"#model.ContentMatch\">content match</a> 作为第三个参数。",
     "_note": ""
   },
   "The following helper functions can be useful when creating transformations or determining whether they are even possible.": {
@@ -2568,11 +2568,11 @@
     "_note": ""
   },
   "Try to find a target depth to which the content in the given range can be lifted. Will not go across isolating parent nodes.": {
-    "_translate": "尝试寻找一个目标深度以让给定的 range 内的内容可以被提升（深度）。不会考虑有属性 <a href=\"#model.NodeSpec.isolating\">isolating</a>\n存在的父级节点。",
+    "_translate": "尝试寻找一个目标深度以让给定的 range 内的内容可以被提升（深度）。不会考虑有属性 <a href=\"#model.NodeSpec.isolating\">isolating</a> 存在的父级节点。",
     "_note": ""
   },
   "‘Fit’ a slice into a given position in the document, producing a step that inserts it. Will return null if there's no meaningful way to insert the slice here, or inserting it would be a no-op (an empty slice over an empty range).": {
-    "_translate": "将一个 slice 「恰当的」放到文档中给定的位置，会生成一个进行插入操作的 step。如果没有一个有意义的途径来插入该 slice，或者插入的 slice\n没有意义（比如一个空的 slice 带着空的 range）则返回 null。",
+    "_translate": "将一个 slice 「恰当的」放到文档中给定的位置，会生成一个进行插入操作的 step。如果没有一个有意义的途径来插入该 slice，或者插入的 slice 没有意义（比如一个空的 slice 带着空的 range）则返回 null。",
     "_note": ""
   },
   "Check whether splitting at the given position is allowed.": {
@@ -2580,7 +2580,7 @@
     "_note": ""
   },
   "Try to find a valid way to wrap the content in the given range in a node of the given type. May introduce extra nodes around and inside the wrapper node, if necessary. Returns null if no valid wrapping could be found. When innerRange is given, that range's content is used as the content to fit into the wrapping, instead of the content of range.": {
-    "_translate": "尝试找到一个有效的方式来用给定的节点类型包裹给定 range 的内容。如果必要的话，可能会在包裹节点的内部和周围生成额外的节点。\n如果没有可用的包裹方式则返回 null。当 <code>innerRange</code> 给定的时候，该 range 的内容将会被作为被包裹的内容，而不是 <code>range</code> 的内容。",
+    "_translate": "尝试找到一个有效的方式来用给定的节点类型包裹给定 range 的内容。如果必要的话，可能会在包裹节点的内部和周围生成额外的节点。 如果没有可用的包裹方式则返回 null。当 <code>innerRange</code> 给定的时候，该 range 的内容将会被作为被包裹的内容，而不是 <code>range</code> 的内容。",
     "_note": "需要研究一下 range 和 innerRange 的区别，若 range 包含多个同级节点和 range 只含有一个节点是否有区别？"
   },
   "Test whether the blocks before and after a given position can be joined.": {
@@ -2588,19 +2588,19 @@
     "_note": ""
   },
   "Find an ancestor of the given position that can be joined to the block before (or after if dir is positive). Returns the joinable point, if any.": {
-    "_translate": "寻找一个给定位置的祖先节点，该节点可以被连接到块级节点之前（或者之后，如果 <code>dir</code> 是正的话）。\n如果找到，返回这个可加入的位置。",
+    "_translate": "寻找一个给定位置的祖先节点，该节点可以被连接到块级节点之前（或者之后，如果 <code>dir</code> 是正的话）。 如果找到，返回这个可加入的位置。",
     "_note": ""
   },
   "Try to find a point where a node of the given type can be inserted near pos, by searching up the node hierarchy when pos itself isn't a valid place but is at the start or end of a node. Return null if no position was found.": {
-    "_translate": "当 <code>pos</code> 本身不是有效的位置但位于节点的起始或结尾处时，通过搜索节点的层级结构，尝试找到一个可以在给定位置的节点附近插入给定节点类型的点。\n如果找不到位置，则返回 null。",
+    "_translate": "当 <code>pos</code> 本身不是有效的位置但位于节点的起始或结尾处时，通过搜索节点的层级结构，尝试找到一个可以在给定位置的节点附近插入给定节点类型的点。 如果找不到位置，则返回 null。",
     "_note": ""
   },
   "Finds a position at or around the given position where the given slice can be inserted. Will look at parent nodes' nearest boundary and try there, even if the original position wasn't directly at the start or end of that node. Returns null when no position was found.": {
-    "_translate": "寻找一个位置在给定的位置或者附近，以让给定的 slice能够插入。即使原始的位置并不直接在父级节点的起始或者结束位置，\n也会尝试查看父级节点最近的边界然后尝试插入。如果找不到位置，则返回 null。",
+    "_translate": "寻找一个位置在给定的位置或者附近，以让给定的 slice能够插入。即使原始的位置并不直接在父级节点的起始或者结束位置， 也会尝试查看父级节点最近的边界然后尝试插入。如果找不到位置，则返回 null。",
     "_note": ""
   },
   "This module exports a number of commands, which are building block functions that encapsulate an editing action. A command function takes an editor state, optionally a dispatch function that it can use to dispatch a transaction and optionally an EditorView instance. It should return a boolean that indicates whether it could perform any action. When no dispatch callback is passed, the command should do a 'dry run', determining whether it is applicable, but not actually doing anything.": {
-    "_translate": "本模块导出了一些 <em>命令</em>，它可以构建块级函数以封装一个编辑行为。一个命令函数接受一个编辑器的 state，\n一个 <em>可选的</em> <code>dispatch</code> 函数，用来 dispatch 一个 transaction，及一个 <em>可选的</em> <code>EditorView</code>\n实例作为参数。它应该返回一个布尔值以指示它是否可以执行任何行为。当没有 <code>dispatch</code> 回调被传入的时候，\n该命令应该做一个 <code>空运行</code>，以决定它是否应该被运行，而不实际做任何事情。",
+    "_translate": "本模块导出了一些 <em>命令</em>，它可以构建块级函数以封装一个编辑行为。一个命令函数接受一个编辑器的 state， 一个 <em>可选的</em> <code>dispatch</code> 函数，用来 dispatch 一个 transaction，及一个 <em>可选的</em> <code>EditorView</code> 实例作为参数。它应该返回一个布尔值以指示它是否可以执行任何行为。当没有 <code>dispatch</code> 回调被传入的时候， 该命令应该做一个 <code>空运行</code>，以决定它是否应该被运行，而不实际做任何事情。",
     "_note": ""
   },
   "These are mostly used to bind keys and define menu items.": {
@@ -2616,11 +2616,11 @@
     "_note": ""
   },
   "If the selection is empty and at the start of a textblock, try to reduce the distance between that block and the one before it—if there's a block directly before it that can be joined, join them. If not, try to move the selected block closer to the next one in the document structure by lifting it out of its parent or moving it into a parent of the previous block. Will use the view for accurate (bidi-aware) start-of-textblock detection if given.": {
-    "_translate": "如果选区是空（光标）而且在一个文本块的起始位置，则试着减少光标所在的块级节点和该块级节点之前的节点之间的距离。如果存在一个块级节点直接位于\n光标所在的块级节点之前而且能够被连接的话，则连接他们。如果不存在，则尝试通过将光标所在的块级节点从其父级节点中提升一级或者将其移动到父级节点之前的\n块级节点中的方式来尝试将选择的块级节点（即光标所在的块级及诶单）移动的更接近文档中的下一个节点。如果给定 view 参数，则将会使用之以获取准确的（用来处理 bidi 的）文本块起始方向。",
+    "_translate": "如果选区是空（光标）而且在一个文本块的起始位置，则试着减少光标所在的块级节点和该块级节点之前的节点之间的距离。如果存在一个块级节点直接位于 光标所在的块级节点之前而且能够被连接的话，则连接他们。如果不存在，则尝试通过将光标所在的块级节点从其父级节点中提升一级或者将其移动到父级节点之前的 块级节点中的方式来尝试将选择的块级节点（即光标所在的块级及诶单）移动的更接近文档中的下一个节点。如果给定 view 参数，则将会使用之以获取准确的（用来处理 bidi 的）文本块起始方向。",
     "_note": ""
   },
   "When the selection is empty and at the start of a textblock, select the node before that textblock, if possible. This is intended to be bound to keys like backspace, after joinBackward or other deleting commands, as a fall-back behavior when the schema doesn't allow deletion at the selected point.": {
-    "_translate": "当选区是空且在一个文本块的起始位置的时候，如果可以的话，选中位于文本块之前的节点。这个行为通常倾向于在 <a href=\"#commands.joinBackward\"><code>joinBackward</code></a>\n之后绑定向后删除键或者其他删除命令，以作为一个回退方案，如果 schema 不允许在选择的点进行删除操作的话。",
+    "_translate": "当选区是空且在一个文本块的起始位置的时候，如果可以的话，选中位于文本块之前的节点。这个行为通常倾向于在 <a href=\"#commands.joinBackward\"><code>joinBackward</code></a> 之后绑定向后删除键或者其他删除命令，以作为一个回退方案，如果 schema 不允许在选择的点进行删除操作的话。",
     "_note": "向后删除键在 Mac 上是 Ctrl + D，会删除光标右侧的内容。"
   },
   "A more limited form of joinBackward that only tries to join the current textblock to the one before it, if the cursor is at the start of a textblock.": {
@@ -2628,7 +2628,7 @@
     "_note": ""
   },
   "If the selection is empty and the cursor is at the end of a textblock, try to reduce or remove the boundary between that block and the one after it, either by joining them or by moving the other block closer to this one in the tree structure. Will use the view for accurate start-of-textblock detection if given.": {
-    "_translate": "如果选区是空而且光标在一个文本块的结尾处，则尝试减少或者移除当前块级元素和它之后的块级元素之间边界。可以通过连接他们或者在树中移动挨着当前块级元素的\n其他块级元素。将会使用给定的 view（如果有）以获取准确的文本块起始方向。",
+    "_translate": "如果选区是空而且光标在一个文本块的结尾处，则尝试减少或者移除当前块级元素和它之后的块级元素之间边界。可以通过连接他们或者在树中移动挨着当前块级元素的 其他块级元素。将会使用给定的 view（如果有）以获取准确的文本块起始方向。",
     "_note": ""
   },
   "A more limited form of joinForward that only tries to join the current textblock to the one after it, if the cursor is at the end of a textblock.": {
@@ -2636,7 +2636,7 @@
     "_note": ""
   },
   "When the selection is empty and at the end of a textblock, select the node coming after that textblock, if possible. This is intended to be bound to keys like delete, after joinForward and similar deleting commands, to provide a fall-back behavior when the schema doesn't allow deletion at the selected point.": {
-    "_translate": "当选区是空且在一个文本块的结尾位置的时候，如果可以的话，选中位于文本块之后的节点。这个行为通常倾向于在 <a href=\"#commands.joinForward\"><code>joinForward</code></a>\n之后绑定删除键或者其他类似的删除命令，以作为一个回退方案，如果 schema 不允许在选择的点进行删除操作的话。",
+    "_translate": "当选区是空且在一个文本块的结尾位置的时候，如果可以的话，选中位于文本块之后的节点。这个行为通常倾向于在 <a href=\"#commands.joinForward\"><code>joinForward</code></a> 之后绑定删除键或者其他类似的删除命令，以作为一个回退方案，如果 schema 不允许在选择的点进行删除操作的话。",
     "_note": ""
   },
   "Join the selected block or, if there is a text selection, the closest ancestor block of the selection that can be joined, with the sibling above it.": {
@@ -2656,7 +2656,7 @@
     "_note": ""
   },
   "When the selection is in a node with a truthy code property in its spec, create a default block after the code block, and move the cursor there.": {
-    "_translate": "如果选区在一个配置对象中 <a href=\"#model.NodeSpec.code\"><code>code</code></a> 属性为真值的节点类型中，则在当前代码块之后新建一个默认的块级节点，\n然后将光标移动到其内。",
+    "_translate": "如果选区在一个配置对象中 <a href=\"#model.NodeSpec.code\"><code>code</code></a> 属性为真值的节点类型中，则在当前代码块之后新建一个默认的块级节点， 然后将光标移动到其内。",
     "_note": ""
   },
   "If a block node is selected, create an empty paragraph before (if it is its parent's first child) or after it.": {
@@ -2704,7 +2704,7 @@
     "_note": ""
   },
   "Create a command function that toggles the given mark with the given attributes. Will return false when the current selection doesn't support that mark. This will remove the mark if any marks of that type exist in the selection, or add it otherwise. If the selection is empty, this applies to the stored marks instead of a range of the document.": {
-    "_translate": "新建一个命令函数，控制带有给定 attributes 的给定 mark 的开关。如果当前选区不支持这个的 mark 将会返回 <code>false</code>。\n这个过程将会移除在选区中存在的任何该种类型的 mark，或者如果没有的话则添加之。如果选区是空，则这将会应用到 stored\nmarks](#state.EditorState.storedMarks) 中，而不是文档的某个范围。",
+    "_translate": "新建一个命令函数，控制带有给定 attributes 的给定 mark 的开关。如果当前选区不支持这个的 mark 将会返回 <code>false</code>。 这个过程将会移除在选区中存在的任何该种类型的 mark，或者如果没有的话则添加之。如果选区是空，则这将会应用到 stored marks](#state.EditorState.storedMarks) 中，而不是文档的某个范围。",
     "_note": ""
   },
   "Controls whether, when part of the selected range has the mark already and part doesn't, the mark is removed (true, the default) or added (false).": {
@@ -2716,7 +2716,7 @@
     "_note": ""
   },
   "Wrap a command so that, when it produces a transform that causes two joinable nodes to end up next to each other, those are joined. Nodes are considered joinable when they are of the same type and when the isJoinable predicate returns true for them or, if an array of strings was passed, if their node type name is in that array.": {
-    "_translate": "封装一个命令，以便当它产生一个 transform 以引起两个可连接的节点彼此相邻时能够被连接。\n当节点具有相同类型并且当 <code>isJoinable</code> 参数是函数时返回 true 或者参数是一个字符串数组而这些节点名在这个数组中时，节点将会被认为是可连接的。",
+    "_translate": "封装一个命令，以便当它产生一个 transform 以引起两个可连接的节点彼此相邻时能够被连接。 当节点具有相同类型并且当 <code>isJoinable</code> 参数是函数时返回 true 或者参数是一个字符串数组而这些节点名在这个数组中时，节点将会被认为是可连接的。",
     "_note": ""
   },
   "Depending on the detected platform, this will hold pcBasekeymap or macBaseKeymap.": {
@@ -2724,23 +2724,23 @@
     "_note": ""
   },
   "A basic keymap containing bindings not specific to any schema. Binds the following keys (when multiple commands are listed, they are chained with chainCommands):": {
-    "_translate": "一个基本的按键映射，包含不特定于任何 schema 的按键绑定。绑定包含下列按键（当多个命令被列出来的时候，它们被 <a href=\"#commands.chainCommands\"><code>chainCommands</code></a>\n所链接起来）。",
+    "_translate": "一个基本的按键映射，包含不特定于任何 schema 的按键绑定。绑定包含下列按键（当多个命令被列出来的时候，它们被 <a href=\"#commands.chainCommands\"><code>chainCommands</code></a> 所链接起来）。",
     "_note": ""
   },
   "A copy of pcBaseKeymap that also binds Ctrl-h like Backspace, Ctrl-d like Delete, Alt-Backspace like Ctrl-Backspace, and Ctrl-Alt-Backspace, Alt-Delete, and Alt-d like Ctrl-Delete.": {
-    "_translate": "<code>pcBaseKeymap</code> 的复制版，和 Backspace 一样绑定了 <strong>Ctrl-h</strong>，和 Delete 一样绑定了 <strong>Ctrl-d</strong>，\n和 Ctrl-Backspace 一样绑定了 <strong>Alt-Backspace</strong>，和 Ctrl-Delete 一样绑定了 <strong>Ctrl-Alt-Backspace</strong>, <strong>Alt-Delete</strong>, 和 <strong>Alt-d</strong>",
+    "_translate": "<code>pcBaseKeymap</code> 的复制版，和 Backspace 一样绑定了 <strong>Ctrl-h</strong>，和 Delete 一样绑定了 <strong>Ctrl-d</strong>， 和 Ctrl-Backspace 一样绑定了 <strong>Alt-Backspace</strong>，和 Ctrl-Delete 一样绑定了 <strong>Ctrl-Alt-Backspace</strong>, <strong>Alt-Delete</strong>, 和 <strong>Alt-d</strong>",
     "_note": ""
   },
   "An implementation of an undo/redo history for ProseMirror. This history is selective, meaning it does not just roll back to a previous state but can undo some changes while keeping other, later changes intact. (This is necessary for collaborative editing, and comes up in other situations as well.)": {
-    "_translate": "一个 ProseMirror 的撤销/重做历史的实现。撤销/重做的历史是 <em>可选择的</em>，这意味着它不仅仅是回滚到\n之前的 state，而是可以在撤销部分修改的同时保留其他的修改，或者原封不动的保留之后的修改（这对于协同编辑来说\n是很有必要的，在其他一些情况下也可能会发生）。",
+    "_translate": "一个 ProseMirror 的撤销/重做历史的实现。撤销/重做的历史是 <em>可选择的</em>，这意味着它不仅仅是回滚到 之前的 state，而是可以在撤销部分修改的同时保留其他的修改，或者原封不动的保留之后的修改（这对于协同编辑来说 是很有必要的，在其他一些情况下也可能会发生）。",
     "_note": ""
   },
   "Returns a plugin that enables the undo history for an editor. The plugin will track undo and redo stacks, which can be used with the undo and redo commands.": {
-    "_translate": "返回一个插件以使编辑器撤销历史可用。该插件将会追踪撤销和重做的操作栈，这可以和 <a href=\"#history.undo\"><code>撤销</code></a> and <a href=\"#history.redo\"><code>重做</code></a>\n命令一同使用。",
+    "_translate": "返回一个插件以使编辑器撤销历史可用。该插件将会追踪撤销和重做的操作栈，这可以和 <a href=\"#history.undo\"><code>撤销</code></a> and <a href=\"#history.redo\"><code>重做</code></a> 命令一同使用。",
     "_note": ""
   },
   "You can set an \"addToHistory\" metadata property of false on a transaction to prevent it from being rolled back by undo.": {
-    "_translate": "你可以在一个 transaction 上设置一个 <code>\"addToHistory\"</code> 的 <a href=\"#state.Transaction.setMeta\">metadata 属性</a> 为 <code>false</code>，来阻止该\ntr 被撤销回滚。",
+    "_translate": "你可以在一个 transaction 上设置一个 <code>\"addToHistory\"</code> 的 <a href=\"#state.Transaction.setMeta\">metadata 属性</a> 为 <code>false</code>，来阻止该 tr 被撤销回滚。",
     "_note": "设置了这个之后，该 tr 就相当于不会被加入到历史栈中。"
   },
   "The amount of history events that are collected before the oldest events are discarded. Defaults to 100.": {
@@ -2749,7 +2749,7 @@
   },
   "The delay between changes after which a new group should be started. Defaults to 500 (milliseconds). Note that when changes aren't adjacent, a new group is always started.": {
     "_translate": "操作从开始算起应该持续多久才会被算作一个操作。默认是 500（毫秒）。记住，如果多个修改不相邻的话，总是会被算作是新的操作。",
-    "_note": "如果该值被设置为 500，则在 500 毫秒内输入 10 个字，这样会触发 10 个 tr，但是会被归为一「组」，撤销的时候直接撤销这 10 个字的输入记录。\n如果 500 毫秒内输入 20 个字同理撤销这 20 个字的记录。如果在 500 毫秒内输入了 10 个字，在 501 毫秒内输入了第 11 个字，则撤销的时候，那第 501 毫秒输入的第\n11 个字被算做是一组，先撤销那 1 个字的输入，再撤销那 10 个字的输入。这个逻辑是为了和系统输入保持一致，各位可以试试在系统的某个界面如搜索框变换输入速度来输入内容后\n撤销，看会发生什么。"
+    "_note": "如果该值被设置为 500，则在 500 毫秒内输入 10 个字，这样会触发 10 个 tr，但是会被归为一「组」，撤销的时候直接撤销这 10 个字的输入记录。 如果 500 毫秒内输入 20 个字同理撤销这 20 个字的记录。如果在 500 毫秒内输入了 10 个字，在 501 毫秒内输入了第 11 个字，则撤销的时候，那第 501 毫秒输入的第 11 个字被算做是一组，先撤销那 1 个字的输入，再撤销那 10 个字的输入。这个逻辑是为了和系统输入保持一致，各位可以试试在系统的某个界面如搜索框变换输入速度来输入内容后 撤销，看会发生什么。"
   },
   "A command function that undoes the last change, if any.": {
     "_translate": "一个可以撤销最后修改（如果有）的命令函数。",
@@ -2777,7 +2777,7 @@
   },
   "Set a flag on the given transaction that will prevent further steps from being appended to an existing history event (so that they require a separate undo command to undo).": {
     "_translate": "在给定的 transaction 上设置一个标记，这将会阻止接下来的 steps 们被附加到一个已经存在的历史事件中（这样就需要一个单独的撤销命令来撤销了）。",
-    "_note": "这个函数不能顾名思义的以为不会会将 tr 加入到历史栈中。正确理解应该是其会将本来能够一个 tr n 个 steps 完成的修改，\n变成了 两个 tr，n/2 个 step。因此需要额外的撤销命令来撤销修改。「close」表示紧急中断该 tr，然后将剩余的 steps 放到一个新的 tr 中。"
+    "_note": "这个函数不能顾名思义的以为不会会将 tr 加入到历史栈中。正确理解应该是其会将本来能够一个 tr n 个 steps 完成的修改， 变成了 两个 tr，n/2 个 step。因此需要额外的撤销命令来撤销修改。「close」表示紧急中断该 tr，然后将剩余的 steps 放到一个新的 tr 中。"
   },
   "This module implements an API into which a communication channel for collaborative editing can be hooked. See the guide for more details and an example.": {
     "_translate": "这个模块实现了一个 API，该 API 可以供协同编辑使用。查看 <a href=\"/docs/guide/#collab\">指南</a> 以获取更多细节和示例。",
@@ -2804,7 +2804,7 @@
     "_note": "「鉴权中心」指的就是协同处理的服务端，那里负责处理接受那些 tr，拒绝哪些 tr。"
   },
   "When enabled (the default is false), if the current selection is a text selection, its sides are mapped with a negative bias for this transaction, so that content inserted at the cursor ends up after the cursor. Users usually prefer this, but it isn't done by default for reasons of backwards compatibility.": {
-    "_translate": "启用后（默认是 <code>false</code>），如果当前选区是一个 <a href=\"#state.TextSelection\">文本选区</a>，则它的两侧位置会被这个\ntransaction 通过一个负向偏移 mapped，以便使插入光标处的内容会以光标所在的位置结尾。用户通常倾向于这样做，不过因为向后兼容的\n原因，默认情况下不会这么做。",
+    "_translate": "启用后（默认是 <code>false</code>），如果当前选区是一个 <a href=\"#state.TextSelection\">文本选区</a>，则它的两侧位置会被这个 transaction 通过一个负向偏移 mapped，以便使插入光标处的内容会以光标所在的位置结尾。用户通常倾向于这样做，不过因为向后兼容的 原因，默认情况下不会这么做。",
     "_note": ""
   },
   "Provides data describing the editor's unconfirmed steps, which need to be sent to the central authority. Returns null when there is nothing to send.": {
@@ -2812,7 +2812,7 @@
     "_note": ""
   },
   "origins holds the original transactions that produced each steps. This can be useful for looking up time stamps and other metadata for the steps, but note that the steps may have been rebased, whereas the origin transactions are still the old, unchanged objects.": {
-    "_translate": "<code>origins</code> 值是产生每个 steps 的 <em>原始</em> transactions。对于寻找 steps 的时间戳和其他 metadata 信息很有用，不过记住，steps 可能会被 rebased，\n因此原始的 transaction 仍然是旧的，未改变的对象。",
+    "_translate": "<code>origins</code> 值是产生每个 steps 的 <em>原始</em> transactions。对于寻找 steps 的时间戳和其他 metadata 信息很有用，不过记住，steps 可能会被 rebased， 因此原始的 transaction 仍然是旧的，未改变的对象。",
     "_note": ""
   },
   "A plugin for conveniently defining key bindings.": {
@@ -2824,15 +2824,15 @@
     "_note": ""
   },
   "Bindings should map key names to command-style functions, which will be called with (EditorState, dispatch, EditorView) arguments, and should return true when they've handled the key. Note that the view argument isn't part of the command protocol, but can be used as an escape hatch if a binding needs to directly interact with the UI.": {
-    "_translate": "绑定应该将按键名和 <a href=\"#commands\">命令</a> 格式的函数对应起来，该函数将会传入 <code>(EditorState, dispatch, EditorView)</code> 作为参数来调用，如果它响应了该按键按下，则应该返回 true。记住，view 参数并不是命令协议的一部分，但是如果按键绑定需要直接与 UI\n交互，则可以将其用来作为应急出口使用。",
+    "_translate": "绑定应该将按键名和 <a href=\"#commands\">命令</a> 格式的函数对应起来，该函数将会传入 <code>(EditorState, dispatch, EditorView)</code> 作为参数来调用，如果它响应了该按键按下，则应该返回 true。记住，view 参数并不是命令协议的一部分，但是如果按键绑定需要直接与 UI 交互，则可以将其用来作为应急出口使用。",
     "_note": ""
   },
   "Key names may be strings like \"Shift-Ctrl-Enter\"—a key identifier prefixed with zero or more modifiers. Key identifiers are based on the strings that can appear in KeyEvent.key. Use lowercase letters to refer to letter keys (or uppercase letters if you want shift to be held). You may use \"Space\" as an alias for the \" \" name.": {
-    "_translate": "按键的名字可以是形如 <code>\"Shift-Ctrl-Enter\"</code> 的字符串，它是一个按键标识符，可以有 0 个或者多个修饰符做前缀。按键标识符的基础字符串基于这个\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key\"><code>KeyEvent.key</code></a> 中的按键而来。使用小写字母来表示字母键\n（或者使用大写字母，如果你想要处理 shift 被同时按下的情况）。你也许会使用 <code>\"Space\"</code> 作为 <code>\" \"</code> 的别名。",
+    "_translate": "按键的名字可以是形如 <code>\"Shift-Ctrl-Enter\"</code> 的字符串，它是一个按键标识符，可以有 0 个或者多个修饰符做前缀。按键标识符的基础字符串基于这个 <a href=\"https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key\"><code>KeyEvent.key</code></a> 中的按键而来。使用小写字母来表示字母键 （或者使用大写字母，如果你想要处理 shift 被同时按下的情况）。你也许会使用 <code>\"Space\"</code> 作为 <code>\" \"</code> 的别名。",
     "_note": ""
   },
   "Modifiers can be given in any order. Shift- (or s-), Alt- (or a-), Ctrl- (or c- or Control-) and Cmd- (or m- or Meta-) are recognized. For characters that are created by holding shift, the Shift- prefix is implied, and should not be added explicitly.": {
-    "_translate": "修饰符可以以任何顺序给定。只允许 <code>Shift-</code>（或者 <code>s-</code>)，<code>Alt-</code>（或者 <code>a-</code>），<code>Ctrl-</code>（或 <code>c-</code> 或 <code>Control-</code>）及 <code>Cmd-</code>（或 <code>m-</code> 或 <code>Meta-</code>）\n这些修饰符出现。对于通过按下 shift 创建的字符，则 <code>Shift-</code> 前缀就是隐式的，不应该再显式添加了。",
+    "_translate": "修饰符可以以任何顺序给定。只允许 <code>Shift-</code>（或者 <code>s-</code>)，<code>Alt-</code>（或者 <code>a-</code>），<code>Ctrl-</code>（或 <code>c-</code> 或 <code>Control-</code>）及 <code>Cmd-</code>（或 <code>m-</code> 或 <code>Meta-</code>） 这些修饰符出现。对于通过按下 shift 创建的字符，则 <code>Shift-</code> 前缀就是隐式的，不应该再显式添加了。",
     "_note": ""
   },
   "You can use Mod- as a shorthand for Cmd- on Mac and Ctrl- on other platforms.": {
@@ -2844,7 +2844,7 @@
     "_note": ""
   },
   "This module defines a plugin for attaching input rules to an editor, which can react to or transform text typed by the user. It also comes with a bunch of default rules that can be enabled in this plugin.": {
-    "_translate": "本模块定义了一个编辑器插件用来附加 <em>input rules（输入规则）</em>，它可以响应或者转换用户输入的文字。\n本模块还带有一些默认的规则，可以通过本插件启用。",
+    "_translate": "本模块定义了一个编辑器插件用来附加 <em>input rules（输入规则）</em>，它可以响应或者转换用户输入的文字。 本模块还带有一些默认的规则，可以通过本插件启用。",
     "_note": ""
   },
   "Given a set of bindings (using the same format as keymap), return a keydown handler that handles them.": {
@@ -2852,7 +2852,7 @@
     "_note": ""
   },
   "Input rules are regular expressions describing a piece of text that, when typed, causes something to happen. This might be changing two dashes into an emdash, wrapping a paragraph starting with \"> \" into a blockquote, or something entirely different.": {
-    "_translate": "输入规则是一些正则表达式，描述了输入何种文本会引起一些额外的变化。这个变化可能是将两个短斜杠变成一个长破折号，或者将以 <code>\"&gt; \"</code> 开头的段落用 blockquote 包裹着，\n亦或者其他完全不一样的事情。",
+    "_translate": "输入规则是一些正则表达式，描述了输入何种文本会引起一些额外的变化。这个变化可能是将两个短斜杠变成一个长破折号，或者将以 <code>\"&gt; \"</code> 开头的段落用 blockquote 包裹着， 亦或者其他完全不一样的事情。",
     "_note": ""
   },
   "Create an input rule. The rule applies when the user typed something and the text directly in front of the cursor matches match, which should end with $.": {
@@ -2864,7 +2864,7 @@
     "_note": ""
   },
   "Or a it can be a function, which will be called with the match array produced by RegExp.exec, as well as the start and end of the matched range, and which can return a transaction that describes the rule's effect, or null to indicate the input was not handled.": {
-    "_translate": "它也可以是一个函数，会将调用 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec\"><code>RegExp.exec</code></a> 后产生的\n结果匹配数组传入作为参数来调用，以及匹配的起始和结束的范围。函数返回一个描述了规则影响的 <a href=\"#state.Transaction\">transaction</a>，或者如果输入没有被处理则返回 null。",
+    "_translate": "它也可以是一个函数，会将调用 <a href=\"https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec\"><code>RegExp.exec</code></a> 后产生的 结果匹配数组传入作为参数来调用，以及匹配的起始和结束的范围。函数返回一个描述了规则影响的 <a href=\"#state.Transaction\">transaction</a>，或者如果输入没有被处理则返回 null。",
     "_note": ""
   },
   "When set to false, undoInputRule doesn't work on this rule.": {
@@ -2920,7 +2920,7 @@
     "_note": ""
   },
   "Build an input rule for automatically wrapping a textblock when a given string is typed. The regexp argument is directly passed through to the InputRule constructor. You'll probably want the regexp to start with ^, so that the pattern can only occur at the start of a textblock.": {
-    "_translate": "当给定字符串被输入的时候构建一个输入规则以自动包裹一个文本块。<code>regexp</code> 参数被直接传给 <code>InputRule</code> 构造函数。你也许想要正则表达式以 <code>^</code> 开头，\n这样的话就只会从一个文本块起始位置开始匹配。",
+    "_translate": "当给定字符串被输入的时候构建一个输入规则以自动包裹一个文本块。<code>regexp</code> 参数被直接传给 <code>InputRule</code> 构造函数。你也许想要正则表达式以 <code>^</code> 开头， 这样的话就只会从一个文本块起始位置开始匹配。",
     "_note": "^ 表示正则中的起始位置匹配，一般用来做类似于 markdown 的输入规则，例如在文本块开头输入 # + 空格后，生成一个 h 元素。"
   },
   "nodeType is the type of node to wrap in. If it needs attributes, you can either pass them directly, or pass a function that will compute them from the regular expression match.": {
@@ -2928,11 +2928,11 @@
     "_note": ""
   },
   "Build an input rule that changes the type of a textblock when the matched text is typed into it. You'll usually want to start your regexp with ^ to that it is only matched at the start of a textblock. The optional getAttrs parameter can be used to compute the new node's attributes, and works the same as in the wrappingInputRule function.": {
-    "_translate": "构建一个输入规则，以当匹配的文本输入的时候能够改变文本块的类型。你的正则通常应该以 <code>^</code> 开头，这样它就会只匹配文本块的起始位置。\n可选参数 <code>getAttrs</code> 可以被用来计算新节点的 attributes，功能和 <code>wrappingInputRule</code> 中的该函数一样。",
+    "_translate": "构建一个输入规则，以当匹配的文本输入的时候能够改变文本块的类型。你的正则通常应该以 <code>^</code> 开头，这样它就会只匹配文本块的起始位置。 可选参数 <code>getAttrs</code> 可以被用来计算新节点的 attributes，功能和 <code>wrappingInputRule</code> 中的该函数一样。",
     "_note": ""
   },
   "By default, if there's a node with the same type above the newly wrapped node, the rule will try to join those two nodes. You can pass a join predicate, which takes a regular expression match and the node before the wrapped node, and can return a boolean to indicate whether a join should happen.": {
-    "_translate": "默认情况下，如果有新的包裹节点之前有一个与之相同类型的节点，那么这个规则将会尝试 <a href=\"#transform.Transform.join\">join（连接）</a> 这两个节点。\n你可以传递一个连接指示函数，它接受一个正则表达式的结果和在包裹节点之前的节点作为参数，返回一个指示连接是否应该进行的布尔值。",
+    "_translate": "默认情况下，如果有新的包裹节点之前有一个与之相同类型的节点，那么这个规则将会尝试 <a href=\"#transform.Transform.join\">join（连接）</a> 这两个节点。 你可以传递一个连接指示函数，它接受一个正则表达式的结果和在包裹节点之前的节点作为参数，返回一个指示连接是否应该进行的布尔值。",
     "_note": ""
   },
   "This is a plugin that adds a type of selection for focusing places that don't allow regular selection (such as positions that have a leaf block node, table, or the end of the document both before and after them).": {
@@ -2944,11 +2944,11 @@
     "_note": ""
   },
   "By default, gap cursor are only allowed in places where the default content node (in the schema content constraints) is a textblock node. You can customize this by adding an allowGapCursor property to your node specs—if it's true, gap cursor are allowed everywhere in that node, if it's false they are never allowed.": {
-    "_translate": "默认情况下，gap 光标只允许放置于默认内容节点（通过 schema 的 content 限制）是文本节点的地方。你可以通过在节点配置对象中添加\n<code>allowGapCursor</code> 属性来自定义这个行为，如果该值是 true，则 gap 光标被允许放置到该节点的任何位置，如果是 <code>false</code> 则表示永远不允许放置该种类型的光标。",
+    "_translate": "默认情况下，gap 光标只允许放置于默认内容节点（通过 schema 的 content 限制）是文本节点的地方。你可以通过在节点配置对象中添加 <code>allowGapCursor</code> 属性来自定义这个行为，如果该值是 true，则 gap 光标被允许放置到该节点的任何位置，如果是 <code>false</code> 则表示永远不允许放置该种类型的光标。",
     "_note": ""
   },
   "Create a gap cursor plugin. When enabled, this will capture clicks near and arrow-key-motion past places that don't have a normally selectable position nearby, and create a gap cursor selection for them. The cursor is drawn as an element with class ProseMirror-gapcursor. You can either include style/gapcursor.css from the package's directory or add your own styles to make it visible.": {
-    "_translate": "创建一个 gap 光标插件。如果启用的话，它将会捕获点击区域附近的和方向键经过的不允许有一个正常的可选择区域的地方，然后为它们创建一个 gap 光标选区。\n光标元素的类名是 <code>ProseMirror-gapcursor</code>。你既可以从该包中直接引入 <code>style/gapcursor.css</code> 做样式文件，也可以添加你自己的样式以使它可见。",
+    "_translate": "创建一个 gap 光标插件。如果启用的话，它将会捕获点击区域附近的和方向键经过的不允许有一个正常的可选择区域的地方，然后为它们创建一个 gap 光标选区。 光标元素的类名是 <code>ProseMirror-gapcursor</code>。你既可以从该包中直接引入 <code>style/gapcursor.css</code> 做样式文件，也可以添加你自己的样式以使它可见。",
     "_note": ""
   },
   "Gap cursor selections are represented using this class. Its $anchor and $head properties both point at the cursor position.": {
@@ -2964,7 +2964,7 @@
     "_note": ""
   },
   "This schema roughly corresponds to the document schema used by CommonMark, minus the list elements, which are defined in the prosemirror-schema-list module.": {
-    "_translate": "该 schema 大致对应于 <a href=\"http://commonmark.org/\">CommonMark</a> 使用的文档 schema，减去在 <a href=\"#schema-list\"><code>prosemirror-schema-list</code></a>\n模块中定义的里列表元素。",
+    "_translate": "该 schema 大致对应于 <a href=\"http://commonmark.org/\">CommonMark</a> 使用的文档 schema，减去在 <a href=\"#schema-list\"><code>prosemirror-schema-list</code></a> 模块中定义的里列表元素。",
     "_note": ""
   },
   "To reuse elements from this schema, extend or read from its spec.nodes and spec.marks properties.": {
@@ -3044,7 +3044,7 @@
     "_note": ""
   },
   "An ordered list node spec. Has a single attribute, order, which determines the number at which the list starts counting, and defaults to 1. Represented as an <ol> element.": {
-    "_translate": "一个有序列表的 <a href=\"#model.NodeSpec\">节点配置对象</a>。有一个唯一的属性 <code>order</code>，它决定了列表从哪个数字开始计数，默认是 1。\n表现形式是一个 <code>&lt;ol&gt;</code> 元素。",
+    "_translate": "一个有序列表的 <a href=\"#model.NodeSpec\">节点配置对象</a>。有一个唯一的属性 <code>order</code>，它决定了列表从哪个数字开始计数，默认是 1。 表现形式是一个 <code>&lt;ol&gt;</code> 元素。",
     "_note": ""
   },
   "A list item (<li>) spec.": {
@@ -3052,11 +3052,11 @@
     "_note": "li 父节点可以是 ol 也可以是 ul，高级用法还可以扩展为 todo。"
   },
   "Convenience function for adding list-related node types to a map specifying the nodes for a schema. Adds orderedList as \"ordered_list\", bulletList as \"bullet_list\", and listItem as \"list_item\".": {
-    "_translate": "为 schema 方便的添加列表相关的节点类型到一个特定的节点类型的函数。<a href=\"#schema-list.orderedList\"><code>orderedList</code></a> 表示为 <code>\"ordered_list\"</code>，\n<a href=\"#schema-list.bulletList\"><code>bulletList</code></a> 表示为 <code>\"bullet_list\"</code>， 以及\n<a href=\"#schema-list.listItem\"><code>listItem</code></a> 表示为 <code>\"list_item\"</code>。",
+    "_translate": "为 schema 方便的添加列表相关的节点类型到一个特定的节点类型的函数。<a href=\"#schema-list.orderedList\"><code>orderedList</code></a> 表示为 <code>\"ordered_list\"</code>， <a href=\"#schema-list.bulletList\"><code>bulletList</code></a> 表示为 <code>\"bullet_list\"</code>， 以及 <a href=\"#schema-list.listItem\"><code>listItem</code></a> 表示为 <code>\"list_item\"</code>。",
     "_note": ""
   },
   "itemContent determines the content expression for the list items. If you want the commands defined in this module to apply to your list structure, it should have a shape like \"paragraph block*\" or \"paragraph (ordered_list | bullet_list)*\". listGroup can be given to assign a group name to the list node types, for example \"block\".": {
-    "_translate": "<code>itemContent</code> 决定了列表项的内容表达式。如果你想要在本模块中定义的命令应用于你自己的列表结构，则它的值应该是诸如 <code>\"paragraph block*\"</code>\n或者 <code>\"paragraph (ordered_list | bullet_list)*\"</code> 之类的。<code>listGroup</code> 可以将列表节点类型分配到一个组名，比如 <code>\"block\"</code>。",
+    "_translate": "<code>itemContent</code> 决定了列表项的内容表达式。如果你想要在本模块中定义的命令应用于你自己的列表结构，则它的值应该是诸如 <code>\"paragraph block*\"</code> 或者 <code>\"paragraph (ordered_list | bullet_list)*\"</code> 之类的。<code>listGroup</code> 可以将列表节点类型分配到一个组名，比如 <code>\"block\"</code>。",
     "_note": ""
   },
   "Using this would look something like this:": {
@@ -3068,7 +3068,7 @@
     "_note": ""
   },
   "Returns a command function that wraps the selection in a list with the given type an attributes. If dispatch is null, only return a value to indicate whether this is possible, but don't actually perform the change.": {
-    "_translate": "返回一个命令函数，该函数用给定的类型和属性包裹位于 list 中的选区。如果 <code>dispatch</code> 参数是 null，则只返回一个指示该行为是否可能的值，\n而不实际执行修改。",
+    "_translate": "返回一个命令函数，该函数用给定的类型和属性包裹位于 list 中的选区。如果 <code>dispatch</code> 参数是 null，则只返回一个指示该行为是否可能的值， 而不实际执行修改。",
     "_note": ""
   },
   "Build a command that splits a non-empty textblock at the top level of a list item by also splitting that list item.": {
