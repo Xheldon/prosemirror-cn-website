@@ -6,23 +6,26 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/examples/upload/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/examples/upload/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
-      <a href="/docs/" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
-      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
+    <div class="navlinks"><a href="/examples/" class="active">示例</a>
+      <a href="/docs/">文档</a>
+      <a href="https://discuss.prosemirror.net/">论坛</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -55,7 +58,7 @@
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }
@@ -114,9 +117,9 @@
   <span class="tok-propertyName tok-definition">state</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
     <span class="tok-propertyName tok-definition">init</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span> <span class="tok-keyword">return</span> <span class="tok-variableName">DecorationSet</span><span class="tok-operator">.</span><span class="tok-propertyName">empty</span> <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
     <span class="tok-propertyName tok-definition">apply</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">tr</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">set</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-      <span class="tok-comment" data-x-en="// Adjust decoration positions to changes made by the transaction">// 调整装饰位置以适应事务所做的更改</span>
+      <span class="tok-comment">// 调整装饰位置以适应事务所做的更改</span>
       <span class="tok-variableName">set</span> <span class="tok-operator">=</span> <span class="tok-variableName">set</span><span class="tok-operator">.</span><span class="tok-propertyName">map</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">mapping</span><span class="tok-punctuation">,</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">)</span>
-      <span class="tok-comment" data-x-en="// See if the transaction adds or removes any placeholders">// 查看交易是否添加或移除任何占位符</span>
+      <span class="tok-comment">// 查看交易是否添加或移除任何占位符</span>
       <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">action</span> <span class="tok-operator">=</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">getMeta</span><span class="tok-punctuation">(</span><span class="tok-keyword">this</span><span class="tok-punctuation">)</span>
       <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">action</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">action</span><span class="tok-operator">.</span><span class="tok-propertyName">add</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
         <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">widget</span> <span class="tok-operator">=</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">"placeholder"</span><span class="tok-punctuation">)</span>
@@ -151,10 +154,10 @@
 </code></pre>
 <p data-x-en="The core functionality happens in startImageUpload. The utility uploadFile returns a promise that resolves to the uploaded file's URL (in the demo it actually just waits for a bit and then returns a data: URL).">核心功能发生在<code>startImageUpload</code>。工具<code>uploadFile</code>返回一个承诺，该承诺解析为上传文件的URL（在演示中，它实际上只是等待一会儿，然后返回一个<code>data:</code> URL）。</p>
 <pre><code class="language-javascript"><span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">startImageUpload</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">file</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-  <span class="tok-comment" data-x-en="// A fresh object to act as the ID for this upload">// 一个新的对象作为此上传的ID</span>
+  <span class="tok-comment">// 一个新的对象作为此上传的ID</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">id</span> <span class="tok-operator">=</span> <span class="tok-punctuation">{</span><span class="tok-punctuation">}</span>
 
-  <span class="tok-comment" data-x-en="// Replace the selection with a placeholder">// 用占位符替换选定内容</span>
+  <span class="tok-comment">// 用占位符替换选定内容</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">tr</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span>
   <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-operator">!</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-operator">.</span><span class="tok-propertyName">empty</span><span class="tok-punctuation">)</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">deleteSelection</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
   <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setMeta</span><span class="tok-punctuation">(</span><span class="tok-variableName">placeholderPlugin</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">add</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">id</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">pos</span><span class="tok-punctuation">:</span> <span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-operator">.</span><span class="tok-propertyName">from</span><span class="tok-punctuation">}</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
@@ -162,16 +165,16 @@
 
   <span class="tok-variableName">uploadFile</span><span class="tok-punctuation">(</span><span class="tok-variableName">file</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">then</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">url</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">pos</span> <span class="tok-operator">=</span> <span class="tok-variableName">findPlaceholder</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName">id</span><span class="tok-punctuation">)</span>
-    <span class="tok-comment" data-x-en="// If the content around the placeholder has been deleted, drop">// 如果占位符周围的内容已被删除，请删除，直接输出翻译后的内容，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
-    <span class="tok-comment" data-x-en="// the image">// 图像</span>
+    <span class="tok-comment">// 如果占位符周围的内容已被删除，请删除，直接输出翻译后的内容，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
+    <span class="tok-comment">// 图像</span>
     <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">pos</span> <span class="tok-operator">==</span> <span class="tok-keyword">null</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span>
-    <span class="tok-comment" data-x-en="// Otherwise, insert it at the placeholder's position, and remove">// 否则，将其插入占位符的位置，并删除</span>
-    <span class="tok-comment" data-x-en="// the placeholder">// 占位符</span>
+    <span class="tok-comment">// 否则，将其插入占位符的位置，并删除</span>
+    <span class="tok-comment">// 占位符</span>
     <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span>
                   <span class="tok-operator">.</span><span class="tok-propertyName">replaceWith</span><span class="tok-punctuation">(</span><span class="tok-variableName">pos</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span><span class="tok-punctuation">,</span> <span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">image</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">src</span><span class="tok-punctuation">:</span> <span class="tok-variableName">url</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
                   <span class="tok-operator">.</span><span class="tok-propertyName">setMeta</span><span class="tok-punctuation">(</span><span class="tok-variableName">placeholderPlugin</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">remove</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">id</span><span class="tok-punctuation">}</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
   <span class="tok-punctuation">}</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">(</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
-    <span class="tok-comment" data-x-en="// On failure, just clean up the placeholder">// 失败时，只需清理占位符</span>
+    <span class="tok-comment">// 失败时，只需清理占位符</span>
     <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">setMeta</span><span class="tok-punctuation">(</span><span class="tok-variableName">placeholderPlugin</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">remove</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">id</span><span class="tok-punctuation">}</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
   <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
 <span class="tok-punctuation">}</span>

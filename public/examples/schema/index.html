@@ -6,23 +6,26 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/examples/schema/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/examples/schema/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
-      <a href="/docs/" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
-      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
+    <div class="navlinks"><a href="/examples/" class="active">示例</a>
+      <a href="/docs/">文档</a>
+      <a href="https://discuss.prosemirror.net/">论坛</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -55,7 +58,7 @@
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }
@@ -131,14 +134,14 @@
 <pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">findWrapping</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-transform"</span>
 
 <span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">makeNoteGroup</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">state</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">dispatch</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-  <span class="tok-comment" data-x-en="// Get a range around the selected blocks">// 获取选定块周围的范围</span>
+  <span class="tok-comment">// 获取选定块周围的范围</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">range</span> <span class="tok-operator">=</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-operator">.</span><span class="tok-propertyName">$from</span><span class="tok-operator">.</span><span class="tok-propertyName">blockRange</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-operator">.</span><span class="tok-propertyName">$to</span><span class="tok-punctuation">)</span>
-  <span class="tok-comment" data-x-en="// See if it is possible to wrap that range in a note group">// 查看是否可以将该范围包装在一个注释组中</span>
+  <span class="tok-comment">// 查看是否可以将该范围包装在一个注释组中</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">wrapping</span> <span class="tok-operator">=</span> <span class="tok-variableName">findWrapping</span><span class="tok-punctuation">(</span><span class="tok-variableName">range</span><span class="tok-punctuation">,</span> <span class="tok-variableName">noteSchema</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">notegroup</span><span class="tok-punctuation">)</span>
-  <span class="tok-comment" data-x-en="// If not, the command doesn't apply">// 如果没有，该命令不适用</span>
+  <span class="tok-comment">// 如果没有，该命令不适用</span>
   <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-operator">!</span><span class="tok-variableName">wrapping</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span> <span class="tok-bool">false</span>
-  <span class="tok-comment" data-x-en="// Otherwise, dispatch a transaction, using the `wrap` method to">// 否则，使用 `wrap` 方法调度一个事务，</span>
-  <span class="tok-comment" data-x-en="// create the step that does the actual wrapping.">// 创建执行实际包装的步骤。</span>
+  <span class="tok-comment">// 否则，使用 `wrap` 方法调度一个事务，</span>
+  <span class="tok-comment">// 创建执行实际包装的步骤。</span>
   <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">dispatch</span><span class="tok-punctuation">)</span> <span class="tok-variableName">dispatch</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">tr</span><span class="tok-operator">.</span><span class="tok-propertyName">wrap</span><span class="tok-punctuation">(</span><span class="tok-variableName">range</span><span class="tok-punctuation">,</span> <span class="tok-variableName">wrapping</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">scrollIntoView</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
   <span class="tok-keyword">return</span> <span class="tok-bool">true</span>
 <span class="tok-punctuation">}</span>

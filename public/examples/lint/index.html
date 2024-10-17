@@ -6,23 +6,26 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/examples/lint/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/examples/lint/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
-      <a href="/docs/" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
-      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
+    <div class="navlinks"><a href="/examples/" class="active">示例</a>
+      <a href="/docs/">文档</a>
+      <a href="https://discuss.prosemirror.net/">论坛</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -55,7 +58,7 @@
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }
@@ -98,7 +101,7 @@
 </style>
 <div id="editor"></div>
 <div id="content" style="display: none">
-  <h3 data-x-en="Lint example">Lint 示例</h3>
+  <h3>Lint 示例</h3>
   <p data-x-en="This is a sentence ,but the comma isn't in the right place.">这是一个句子，但逗号不在正确的位置。</p>
   <h5>Too-minor header</h5>
   <p data-x-en="This is an image without alt text. You can hover over the icons on the right to see what the problem is, click them to select the relevant text, and, obviously, double-click them to automatically fix it (if supported).">这是一个没有替代文本的图像 <img src="/img/smiley.png">。
@@ -107,9 +110,9 @@
 </div>
 <p data-x-en="The first part of this example is a function that, given a document, produces an array of problems found in that document. We'll use the descendants method to easily iterate over all nodes in a document. Depending on the type of node, different types of problems are checked for.">这个示例的第一部分是一个函数，给定一个文档，生成一个在该文档中发现的问题数组。我们将使用<a href="/docs/ref/#model.Node.descendants"><code>descendants</code></a>方法轻松迭代文档中的所有节点。根据节点的类型，检查不同类型的问题。</p>
 <p data-x-en="Each problem is represented as an object with a message, a start, and an end, so that they can be displayed and highlighted. The objects may also optionally have a fix method, which can be called (passing the view) to fix the problem.">每个问题都表示为一个带有消息、开始和结束的对象，以便它们可以显示和突出显示。对象还可以选择性地具有<code>fix</code>方法，可以调用该方法（传递视图）来解决问题。</p>
-<pre><code class="language-javascript"><span class="tok-comment" data-x-en="// Words you probably shouldn't use">// 你可能不应该使用的词语</span>
+<pre><code class="language-javascript"><span class="tok-comment">// 你可能不应该使用的词语</span>
 <span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">badWords</span> <span class="tok-operator">=</span> <span class="tok-string2">/\b(obviously|clearly|evidently|simply)\b/ig</span>
-<span class="tok-comment" data-x-en="// Matches punctuation with a space before it">// 匹配标点符号，前面有一个空格</span>
+<span class="tok-comment">// 匹配标点符号，前面有一个空格</span>
 <span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">badPunc</span> <span class="tok-operator">=</span> <span class="tok-string2">/ ([,\.!?:]) ?/g</span>
 
 <span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">lint</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">doc</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
@@ -119,10 +122,10 @@
     <span class="tok-variableName">result</span><span class="tok-operator">.</span><span class="tok-propertyName">push</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">msg</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">from</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">to</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">fix</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
   <span class="tok-punctuation">}</span>
 
-  <span class="tok-comment" data-x-en="// For each node in the document">// 对于文档中的每个节点，直接输出翻译，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
+  <span class="tok-comment">// 对于文档中的每个节点，直接输出翻译，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
   <span class="tok-variableName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">descendants</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">pos</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
     <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">isText</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-      <span class="tok-comment" data-x-en="// Scan text nodes for suspicious patterns">// 扫描文本节点以查找可疑模式</span>
+      <span class="tok-comment">// 扫描文本节点以查找可疑模式</span>
       <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">m</span>
       <span class="tok-keyword">while</span> <span class="tok-punctuation">(</span><span class="tok-variableName">m</span> <span class="tok-operator">=</span> <span class="tok-variableName">badWords</span><span class="tok-operator">.</span><span class="tok-propertyName">exec</span><span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">text</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
         <span class="tok-variableName">record</span><span class="tok-punctuation">(</span><span class="tok-string2">`Try not to say '</span><span class="tok-punctuation">${</span><span class="tok-variableName">m</span><span class="tok-punctuation">[</span><span class="tok-number">0</span><span class="tok-punctuation">]</span><span class="tok-punctuation">}</span><span class="tok-string2">'`</span><span class="tok-punctuation">,</span>
@@ -132,7 +135,7 @@
                <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-operator">.</span><span class="tok-propertyName">index</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-operator">.</span><span class="tok-propertyName">index</span> <span class="tok-operator">+</span> <span class="tok-variableName">m</span><span class="tok-punctuation">[</span><span class="tok-number">0</span><span class="tok-punctuation">]</span><span class="tok-operator">.</span><span class="tok-propertyName">length</span><span class="tok-punctuation">,</span>
                <span class="tok-variableName">fixPunc</span><span class="tok-punctuation">(</span><span class="tok-variableName">m</span><span class="tok-punctuation">[</span><span class="tok-number">1</span><span class="tok-punctuation">]</span> <span class="tok-operator">+</span> <span class="tok-string">" "</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
     <span class="tok-punctuation">}</span> <span class="tok-keyword">else</span> <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-operator">.</span><span class="tok-propertyName">name</span> <span class="tok-operator">==</span> <span class="tok-string">"heading"</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-      <span class="tok-comment" data-x-en="// Check whether heading levels fit under the current level">// 检查标题级别是否适合当前级别</span>
+      <span class="tok-comment">// 检查标题级别是否适合当前级别</span>
       <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">level</span> <span class="tok-operator">=</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">level</span>
       <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">lastHeadLevel</span> <span class="tok-operator">!=</span> <span class="tok-keyword">null</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">level</span> <span class="tok-operator">&gt;</span> <span class="tok-variableName">lastHeadLevel</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span>
         <span class="tok-variableName">record</span><span class="tok-punctuation">(</span><span class="tok-string2">`Heading too small (</span><span class="tok-punctuation">${</span><span class="tok-variableName">level</span><span class="tok-punctuation">}</span><span class="tok-string2"> under </span><span class="tok-punctuation">${</span><span class="tok-variableName">lastHeadLevel</span><span class="tok-punctuation">}</span><span class="tok-string2">)`</span><span class="tok-punctuation">,</span>
@@ -140,7 +143,7 @@
                <span class="tok-variableName">fixHeader</span><span class="tok-punctuation">(</span><span class="tok-variableName">lastHeadLevel</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span>
       <span class="tok-variableName">lastHeadLevel</span> <span class="tok-operator">=</span> <span class="tok-variableName">level</span>
     <span class="tok-punctuation">}</span> <span class="tok-keyword">else</span> <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-operator">.</span><span class="tok-propertyName">name</span> <span class="tok-operator">==</span> <span class="tok-string">"image"</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-operator">!</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">alt</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
-      <span class="tok-comment" data-x-en="// Ensure images have alt text">// 确保图像有替代文本</span>
+      <span class="tok-comment">// 确保图像有替代文本</span>
       <span class="tok-variableName">record</span><span class="tok-punctuation">(</span><span class="tok-string">"Image without alt text"</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span><span class="tok-punctuation">,</span> <span class="tok-variableName">pos</span> <span class="tok-operator">+</span> <span class="tok-number">1</span><span class="tok-punctuation">,</span> <span class="tok-variableName">addAlt</span><span class="tok-punctuation">)</span>
     <span class="tok-punctuation">}</span>
   <span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>

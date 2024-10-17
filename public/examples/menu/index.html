@@ -6,23 +6,26 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/examples/menu/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/examples/menu/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
-      <a href="/docs/" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
-      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
+    <div class="navlinks"><a href="/examples/" class="active">示例</a>
+      <a href="/docs/">文档</a>
+      <a href="https://discuss.prosemirror.net/">论坛</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -55,7 +58,7 @@
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }
@@ -106,7 +109,7 @@
 </style>
 <div id="editor"></div>
 <div style="display: none" id="content">
-  <h3 data-x-en="Simple editor">简单编辑器</h3>
+  <h3>简单编辑器</h3>
   <p data-x-en="With a very crude menu bar.">带有非常粗糙的菜单栏。</p></div>
 <p data-x-en="The idea is, roughly, to create a number of user interface elements and tie them to commands. When clicked, they should execute these commands on the editor.">这个想法大致是创建一些用户界面元素并将它们与<a href="/docs/guide/#commands">命令</a>绑定。当点击时，它们应该在编辑器上执行这些命令。</p>
 <p data-x-en="One question is how to deal with commands that aren't always applicable—when you are in a paragraph, should the control for ‘make this a paragraph’ be shown? If so, should it be grayed out? This example will simply hide buttons when their command is not currently applicable.">一个问题是如何处理并非总是适用的命令——当你在一个段落中时，是否应该显示“将此设为段落”的控件？如果显示，是否应该将其灰显？这个例子将简单地在命令当前不适用时隐藏按钮。</p>
@@ -163,7 +166,7 @@
 <pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">toggleMark</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">setBlockType</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">wrapIn</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-commands"</span>
 <span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">schema</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-schema-basic"</span>
 
-<span class="tok-comment" data-x-en="// Helper function to create menu icons">// 辅助函数创建菜单图标</span>
+<span class="tok-comment">// 辅助函数创建菜单图标</span>
 <span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">icon</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">text</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">name</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
   <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">span</span> <span class="tok-operator">=</span> <span class="tok-variableName">document</span><span class="tok-operator">.</span><span class="tok-propertyName">createElement</span><span class="tok-punctuation">(</span><span class="tok-string">"span"</span><span class="tok-punctuation">)</span>
   <span class="tok-variableName">span</span><span class="tok-operator">.</span><span class="tok-propertyName">className</span> <span class="tok-operator">=</span> <span class="tok-string">"menuicon "</span> <span class="tok-operator">+</span> <span class="tok-variableName">name</span>
@@ -172,7 +175,7 @@
   <span class="tok-keyword">return</span> <span class="tok-variableName">span</span>
 <span class="tok-punctuation">}</span>
 
-<span class="tok-comment" data-x-en="// Create an icon for a heading at the given level">// 为给定级别的标题创建一个图标</span>
+<span class="tok-comment">// 为给定级别的标题创建一个图标</span>
 <span class="tok-keyword">function</span> <span class="tok-variableName tok-definition">heading</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">level</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
   <span class="tok-keyword">return</span> <span class="tok-punctuation">{</span>
     <span class="tok-propertyName tok-definition">command</span><span class="tok-punctuation">:</span> <span class="tok-variableName">setBlockType</span><span class="tok-punctuation">(</span><span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-operator">.</span><span class="tok-propertyName">heading</span><span class="tok-punctuation">,</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">level</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>

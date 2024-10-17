@@ -17,14 +17,17 @@
   </nav></header><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -57,7 +60,7 @@
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }

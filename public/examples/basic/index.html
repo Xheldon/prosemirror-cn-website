@@ -6,23 +6,26 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/examples/basic/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/examples/basic/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
-      <a href="/docs/" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
-      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
+    <div class="navlinks"><a href="/examples/" class="active">示例</a>
+      <a href="/docs/">文档</a>
+      <a href="https://discuss.prosemirror.net/">论坛</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -55,7 +58,7 @@
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }
@@ -80,7 +83,7 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h1 data-x-en="Setting up an editor">配置一个编辑器</h1>
+</style><h1>配置一个编辑器</h1>
 <p data-x-en="Setting up a full editor ‘from scratch’, using only the core libraries, requires quite a lot of code. To be able to get started quickly with a pre-configured editor, we provide the prosemirror-example-setup package, which creates an array of plugins for you, configured to create a passable editing interface for a given schema. In this example, we use the basic schema and extend it with lists.">从头开始设置一个完整的编辑器，仅使用核心库，需要相当多的代码。为了能够快速开始使用预配置的编辑器，我们提供了<a href="https://github.com/prosemirror/prosemirror-example-setup"><code>prosemirror-example-setup</code></a>包，它为您创建了一组插件，配置为为给定的模式创建一个合格的编辑界面。在这个例子中，我们使用<a href="https://github.com/prosemirror/prosemirror-schema-basic">基本模式</a>并通过<a href="https://github.com/prosemirror/prosemirror-schema-list">列表</a>进行扩展。</p>
 <pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">EditorState</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-state"</span>
 <span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">EditorView</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-view"</span>
@@ -89,8 +92,8 @@
 <span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">addListNodes</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-schema-list"</span>
 <span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">exampleSetup</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-example-setup"</span>
 
-<span class="tok-comment" data-x-en="// Mix the nodes from prosemirror-schema-list into the basic schema to">// 将prosemirror-schema-list中的节点混合到基本模式中</span>
-<span class="tok-comment" data-x-en="// create a schema with list support.">// 创建一个支持列表的模式。</span>
+<span class="tok-comment">// 将prosemirror-schema-list中的节点混合到基本模式中</span>
+<span class="tok-comment">// 创建一个支持列表的模式。</span>
 <span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">mySchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
   <span class="tok-propertyName tok-definition">nodes</span><span class="tok-punctuation">:</span> <span class="tok-variableName">addListNodes</span><span class="tok-punctuation">(</span><span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-punctuation">,</span> <span class="tok-string">"paragraph block*"</span><span class="tok-punctuation">,</span> <span class="tok-string">"block"</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
   <span class="tok-propertyName tok-definition">marks</span><span class="tok-punctuation">:</span> <span class="tok-variableName">schema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">marks</span>
@@ -106,7 +109,7 @@
 <p data-x-en="And this is what it looks like:">这就是它的样子：</p>
 <div id="editor" style="margin-bottom: 23px"></div>
 <div style="display: none" id="content">
-  <h3 data-x-en="Hello ProseMirror">你好，ProseMirror</h3>
+  <h3>你好，ProseMirror</h3>
   <p data-x-en="This is editable text. You can focus it and start typing.">这是可编辑的文本。您可以聚焦并开始输入。</p>
   <p data-x-en="To apply styling, you can select a piece of text and manipulate its styling from the menu. The basic schema supports emphasis, strong text, links, code font, and images.">要应用样式，您可以选择一段文本并从菜单中操作其样式。基本模式支持<em>强调</em>、<strong>粗体文本</strong>、<a href="http://marijnhaverbeke.nl/blog">链接</a>、<code>代码字体</code>和<img src="/img/smiley.png">图像。</p>
   <p data-x-en="Block-level structure can be manipulated with key bindings (try ctrl-shift-2 to create a level 2 heading, or enter in an empty textblock to exit the parent block), or through the menu.">块级结构可以通过键绑定进行操作（试试 ctrl-shift-2 创建一个二级标题，或在空文本块中按回车退出父块），也可以通过菜单进行操作。</p>

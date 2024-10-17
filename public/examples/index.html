@@ -6,23 +6,26 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/examples/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/examples/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
-      <a href="/docs/" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
-      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
+    <div class="navlinks"><a href="/examples/" class="active">示例</a>
+      <a href="/docs/">文档</a>
+      <a href="https://discuss.prosemirror.net/">论坛</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -55,7 +58,7 @@
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }
@@ -80,61 +83,61 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2 class="above-list" data-x-en="Examples of what ProseMirror can do, and how to do it">ProseMirror 的示例及其实现方法</h2>
+</style><h2 class="above-list">ProseMirror 的示例及其实现方法</h2>
 
 <ul class="grid-list">
   <li>
     <a href="basic/" class="blocklink">
-      <h3>Basics</h3>
+      <h3>基础示例</h3>
       <p data-x-en="Setting up a minimal rich text editor using the example configuration.">使用示例配置设置一个最小的富文本编辑器。</p>
     </a>
   </li>
 
   <li>
     <a href="dino/" class="blocklink">
-      <h3>Dinos in the document</h3>
+      <h3>文档中的恐龙</h3>
       <p data-x-en="Defining a custom document node type and adding it to a schema.">定义自定义文档节点类型并将其添加到模式中。</p>
     </a>
   </li>
 
   <li>
     <a href="markdown/" class="blocklink">
-      <h3>Friendly Markdown</h3>
+      <h3>友好的 Markdown 支持</h3>
       <p data-x-en="Allow users to switch between a Markdown and WYSIWYM editing interface.">允许用户在 Markdown 和 WYSIWYM 编辑界面之间切换。</p>
     </a>
   </li>
 
   <li>
     <a href="tooltip/" class="blocklink">
-      <h3>Tooltip</h3>
+      <h3>实现一个动态工具提示</h3>
       <p data-x-en="Using a plugin view to implement a dynamic tooltip that hovers over the editor selection.">使用插件视图实现一个动态工具提示，悬停在编辑器选择上。</p>
     </a>
   </li>
 
   <li>
     <a href="upload/" class="blocklink">
-      <h3>Image upload</h3>
+      <h3>图片上传</h3>
       <p data-x-en="Handling asynchronous editing actions robustly by creating a placeholder during uploads.">在上传期间通过创建占位符来稳健地处理异步编辑操作。</p>
     </a>
   </li>
 
   <li>
     <a href="schema/" class="blocklink">
-      <h3>Schema from scratch</h3>
+      <h3>从头开始编写 Schema</h3>
       <p data-x-en="Writing custom document schemas for a few different document styles, without using a base schema.">为几种不同的文档样式编写自定义文档架构，而不使用基础架构。</p>
     </a>
   </li>
 
   <li>
     <a href="menu/" class="blocklink">
-      <h3>Writing your own menu</h3>
+      <h3>自定义菜单</h3>
       <p data-x-en="Building a custom editor menu bar.">构建自定义编辑器菜单栏。</p>
     </a>
   </li>
 
   <li>
     <a href="fold/" class="blocklink">
-      <h3>Foldable nodes</h3>
+      <h3>可折叠的节点</h3>
       <p data-x-en="Using node views and decorations to implement collapsible nodes.">使用节点视图和装饰来实现可折叠节点。</p>
     </a>
   </li>
@@ -142,40 +145,40 @@
 
 <hr>
 
-<h2 class="above-list" data-x-en="More advanced examples">更高级的例子</h2>
+<h2 class="above-list">更高级的例子</h2>
 
 <ul class="grid-list">
   <li>
     <a href="codemirror/" class="blocklink">
-      <h3>Embedded code editor</h3>
+      <h3>嵌入另一个代码编辑器</h3>
       <p data-x-en="Representing code blocks using a code editor component inside a ProseMirror instance.">在ProseMirror实例<em>内部</em>使用代码编辑器组件表示代码块。</p>
     </a>
   </li>
 
   <li>
     <a href="lint/" class="blocklink">
-      <h3>Linter</h3>
+      <h3>文档检查器</h3>
       <p data-x-en="An editor that scans the document for common errors and assists the user in correcting them.">一个扫描文档以查找常见错误并协助用户纠正它们的编辑器。</p>
     </a>
   </li>
 
   <li>
     <a href="footnote/" class="blocklink">
-      <h3>Editing footnotes</h3>
+      <h3>可编辑的脚注</h3>
       <p data-x-en="Implementing footnotes as inline nodes with content, and wiring up a separate editor for a sub-document.">将脚注实现为带有内容的内联节点，并为子文档连接一个单独的编辑器。</p>
     </a>
   </li>
 
   <li>
     <a href="track/" class="blocklink">
-      <h3>Track changes</h3>
+      <h3>跟踪变动</h3>
       <p data-x-en="Keeping a history of changes to the document, allowing the user to inspect and revert individual ones.">保留文档的更改历史，允许用户检查和恢复单个更改。</p>
     </a>
   </li>
 
   <li>
     <a href="collab/" class="blocklink">
-      <h3>Collaborative editing</h3>
+      <h3>协作编辑（暂不可用）</h3>
       <p data-x-en="A more or less solid collaborative editor, with support for shared annotations.">【暂不可用，点击下方链接跳转到原始地址】一个或多或少稳定的协作编辑器，支持共享注释。</p>
     </a><p type="comment"><a href="https://prosemirror.net/examples/collab/#edit-Example" _traget="_blank">原始文档协同示例</a></p>
   </li>

@@ -6,12 +6,12 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/docs/ref/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/docs/ref/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a class="toc-toggle" data-x-en="Contents">目录</a><a href="/examples/" data-x-en="Examples">示例</a>
-      <a href="/docs/" class="active" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
-      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
+    <div class="navlinks"><a class="toc-toggle">目录</a><a href="/examples/">示例</a>
+      <a href="/docs/" class="active">文档</a>
+      <a href="https://discuss.prosemirror.net/">论坛</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><nav id="toc">
     <ul><li><a href="#top.intro">Intro</a></li><li><a href="#state">prosemirror-state</a><ul><li><a href="#state.Editor_State">Editor State</a></li><li><a href="#state.Selection">Selection</a></li><li><a href="#state.Plugin_System">Plugin System</a></li></ul></li><li><a href="#view">prosemirror-view</a><ul><li><a href="#view.Props">Props</a></li><li><a href="#view.Decorations">Decorations</a></li></ul></li><li><a href="#model">prosemirror-model</a><ul><li><a href="#model.Document_Structure">Document Structure</a></li><li><a href="#model.Resolved_Positions">Resolved Positions</a></li><li><a href="#model.Document_Schema">Document Schema</a></li><li><a href="#model.DOM_Representation">DOM Representation</a></li></ul></li><li><a href="#transform">prosemirror-transform</a><ul><li><a href="#transform.Steps">Steps</a></li><li><a href="#transform.Position_Mapping">Position Mapping</a></li><li><a href="#transform.Document_transforms">Document transforms</a></li></ul></li><li><a href="#commands">prosemirror-commands</a></li><li><a href="#history">prosemirror-history</a></li><li><a href="#collab">prosemirror-collab</a></li><li><a href="#keymap">prosemirror-keymap</a></li><li><a href="#inputrules">prosemirror-inputrules</a></li><li><a href="#gapcursor">prosemirror-gapcursor</a></li><li><a href="#schema-basic">prosemirror-schema-basic</a></li><li><a href="#schema-list">prosemirror-schema-list</a></li></ul>
   </nav>
@@ -52,14 +52,17 @@ addEventListener("load", function() {
   </script><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -92,7 +95,7 @@ addEventListener("load", function() {
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }
@@ -128,7 +131,7 @@ addEventListener("load", function() {
   <li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/" target="_blank">赏杯咖啡钱</a> 。</b></li>
   <li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
   </ol>
-  <hr></div><h2 id="top.intro" data-x-en="Reference manual">参考手册</h2><p data-x-en="This is the reference manual for the ProseMirror rich text editor. It lists and describes the full public API exported by the library. For more introductory material, please see the guide.">本页面是富文本编辑器 <a href="https://prosemirror.xheldon.com">ProseMirror</a> 的 API 手册，它列出和描述了该库导出的全部接口。想了解更多关于它的介绍，请访问：<a href="/docs/guide/">指南</a></p>
+  <hr></div><h2 id="top.intro">参考手册</h2><p data-x-en="This is the reference manual for the ProseMirror rich text editor. It lists and describes the full public API exported by the library. For more introductory material, please see the guide.">本页面是富文本编辑器 <a href="https://prosemirror.xheldon.com">ProseMirror</a> 的 API 手册，它列出和描述了该库导出的全部接口。想了解更多关于它的介绍，请访问：<a href="/docs/guide/">指南</a></p>
 <p data-x-en="ProseMirror is structured as a number of separate modules. This reference manual describes the exported API per module. If you want to use something from the prosemirror-state module, for example, you can import it like this:">ProseMirror 由多个单独的模块构成。这个手册描述了每个模块导出的 API。例如，如果你想使用 <a href="#state"><code>prosemirror-state</code></a> 模块，你可以像下面这样导入即可：</p>
 <pre><code class="language-javascript"><span class="tok-keyword">var</span> <span class="tok-variableName tok-definition">EditorState</span> <span class="tok-operator">=</span> <span class="tok-variableName">require</span><span class="tok-punctuation">(</span><span class="tok-string">"prosemirror-state"</span><span class="tok-punctuation">)</span><span class="tok-operator">.</span><span class="tok-propertyName">EditorState</span>
 <span class="tok-keyword">var</span> <span class="tok-variableName tok-definition">state</span> <span class="tok-operator">=</span> <span class="tok-variableName">EditorState</span><span class="tok-operator">.</span><span class="tok-propertyName">create</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">schema</span><span class="tok-punctuation">:</span> <span class="tok-variableName">mySchema</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>

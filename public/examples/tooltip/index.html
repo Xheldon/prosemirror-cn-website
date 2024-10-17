@@ -6,23 +6,26 @@
 <script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/examples/tooltip/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/examples/tooltip/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
-    <div class="navlinks"><a href="/examples/" class="active" data-x-en="Examples">示例</a>
-      <a href="/docs/" data-x-en="Documentation">文档</a>
-      <a href="https://discuss.prosemirror.net/" data-x-en="Discuss">论坛</a>
-      <a href="https://github.com/prosemirror" data-x-en="GitHub">GitHub</a>
-      <a href="https://twitter.com/prosemirror" data-x-en="Twitter">Twitter</a>
-    <a href="https://www.xheldon.com" target="_blank" data-x-en="译者">译者</a></div>
+    <div class="navlinks"><a href="/examples/" class="active">示例</a>
+      <a href="/docs/">文档</a>
+      <a href="https://discuss.prosemirror.net/">论坛</a>
+      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://twitter.com/prosemirror">Twitter</a>
+    <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
   /* hover 显示原文 */
-  p[data-x-en] {
+  p[data-x-en],
+  li[data-x-en] {
     position: relative;
   }
-  p[data-x-en]:hover::after {
+  p[data-x-en]:hover::after,
+  li[data-x-en]:hover::after {
     visibility: visible;
     opacity: 1;
   }
-  p[data-x-en]::after {
+  p[data-x-en]::after,
+  li[data-x-en]::after {
     content: attr(data-x-en);
     display: block;
     font-size: 12px;
@@ -55,7 +58,7 @@
     content: '中文';
     position: absolute;
     left: calc(100% + 5px);
-    font-size: 14px;
+    font-size: 12px;
     width: 50px;
     top: -5px;
   }
@@ -148,25 +151,25 @@
 
   <span class="tok-propertyName tok-definition">update</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">view</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">lastState</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">state</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">state</span>
-    <span class="tok-comment" data-x-en="// Don't do anything if the document/selection didn't change">// 如果文档/选择没有变化，则不执行任何操作</span>
+    <span class="tok-comment">// 如果文档/选择没有变化，则不执行任何操作</span>
     <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">lastState</span> <span class="tok-operator">&amp;&amp;</span> <span class="tok-variableName">lastState</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">eq</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">doc</span><span class="tok-punctuation">)</span> <span class="tok-operator">&amp;&amp;</span>
         <span class="tok-variableName">lastState</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-operator">.</span><span class="tok-propertyName">eq</span><span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-punctuation">)</span><span class="tok-punctuation">)</span> <span class="tok-keyword">return</span>
 
-    <span class="tok-comment" data-x-en="// Hide the tooltip if the selection is empty">// 如果选择为空，则隐藏工具提示</span>
+    <span class="tok-comment">// 如果选择为空，则隐藏工具提示</span>
     <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span><span class="tok-operator">.</span><span class="tok-propertyName">empty</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
       <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">tooltip</span><span class="tok-operator">.</span><span class="tok-propertyName">style</span><span class="tok-operator">.</span><span class="tok-propertyName">display</span> <span class="tok-operator">=</span> <span class="tok-string">"none"</span>
       <span class="tok-keyword">return</span>
     <span class="tok-punctuation">}</span>
 
-    <span class="tok-comment" data-x-en="// Otherwise, reposition it and update its content">// 否则，重新定位并更新其内容</span>
+    <span class="tok-comment">// 否则，重新定位并更新其内容</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">tooltip</span><span class="tok-operator">.</span><span class="tok-propertyName">style</span><span class="tok-operator">.</span><span class="tok-propertyName">display</span> <span class="tok-operator">=</span> <span class="tok-string">""</span>
     <span class="tok-keyword">let</span> <span class="tok-punctuation">{</span><span class="tok-propertyName">from</span><span class="tok-punctuation">,</span> <span class="tok-propertyName">to</span><span class="tok-punctuation">}</span> <span class="tok-operator">=</span> <span class="tok-variableName">state</span><span class="tok-operator">.</span><span class="tok-propertyName">selection</span>
-    <span class="tok-comment" data-x-en="// These are in screen coordinates">// 这些是屏幕坐标</span>
+    <span class="tok-comment">// 这些是屏幕坐标</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">start</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">coordsAtPos</span><span class="tok-punctuation">(</span><span class="tok-variableName">from</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">end</span> <span class="tok-operator">=</span> <span class="tok-variableName">view</span><span class="tok-operator">.</span><span class="tok-propertyName">coordsAtPos</span><span class="tok-punctuation">(</span><span class="tok-variableName">to</span><span class="tok-punctuation">)</span>
-    <span class="tok-comment" data-x-en="// The box in which the tooltip is positioned, to use as base">// 工具提示框所在的盒子，用作基础</span>
+    <span class="tok-comment">// 工具提示框所在的盒子，用作基础</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">box</span> <span class="tok-operator">=</span> <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">tooltip</span><span class="tok-operator">.</span><span class="tok-propertyName">offsetParent</span><span class="tok-operator">.</span><span class="tok-propertyName">getBoundingClientRect</span><span class="tok-punctuation">(</span><span class="tok-punctuation">)</span>
-    <span class="tok-comment" data-x-en="// Find a center-ish x position from the selection endpoints (when">// 从选择的端点找到一个中心位置</span>
-    <span class="tok-comment" data-x-en="// crossing lines, end may be more to the left)">// 交叉线，结束可能更多地在左边</span>
+    <span class="tok-comment">// 从选择的端点找到一个中心位置</span>
+    <span class="tok-comment">// 交叉线，结束可能更多地在左边</span>
     <span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">left</span> <span class="tok-operator">=</span> <span class="tok-variableName">Math</span><span class="tok-operator">.</span><span class="tok-propertyName">max</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName">start</span><span class="tok-operator">.</span><span class="tok-propertyName">left</span> <span class="tok-operator">+</span> <span class="tok-variableName">end</span><span class="tok-operator">.</span><span class="tok-propertyName">left</span><span class="tok-punctuation">)</span> <span class="tok-operator">/</span> <span class="tok-number">2</span><span class="tok-punctuation">,</span> <span class="tok-variableName">start</span><span class="tok-operator">.</span><span class="tok-propertyName">left</span> <span class="tok-operator">+</span> <span class="tok-number">3</span><span class="tok-punctuation">)</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">tooltip</span><span class="tok-operator">.</span><span class="tok-propertyName">style</span><span class="tok-operator">.</span><span class="tok-propertyName">left</span> <span class="tok-operator">=</span> <span class="tok-punctuation">(</span><span class="tok-variableName">left</span> <span class="tok-operator">-</span> <span class="tok-variableName">box</span><span class="tok-operator">.</span><span class="tok-propertyName">left</span><span class="tok-punctuation">)</span> <span class="tok-operator">+</span> <span class="tok-string">"px"</span>
     <span class="tok-keyword">this</span><span class="tok-operator">.</span><span class="tok-propertyName">tooltip</span><span class="tok-operator">.</span><span class="tok-propertyName">style</span><span class="tok-operator">.</span><span class="tok-propertyName">bottom</span> <span class="tok-operator">=</span> <span class="tok-punctuation">(</span><span class="tok-variableName">box</span><span class="tok-operator">.</span><span class="tok-propertyName">bottom</span> <span class="tok-operator">-</span> <span class="tok-variableName">start</span><span class="tok-operator">.</span><span class="tok-propertyName">top</span><span class="tok-punctuation">)</span> <span class="tok-operator">+</span> <span class="tok-string">"px"</span>
