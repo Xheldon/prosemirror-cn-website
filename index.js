@@ -124,7 +124,7 @@ Promise.all(
   <li><b>鼠标悬浮在中文上会出现英文原文，方便读者在觉得翻译质量不行的时候直接查看原文（欢迎 PR 更好的翻译）。</b></li>
   <li><b>因为有些接口需要上下文，因此译者的增加了注释以对此进行额外的说明，以灰色背景块显示出来，代表了译者对某个接口的理解。</b></li>
   <li><b>如果你觉得我的工作有帮助，可以 <a href="https://www.xheldon.com/donate/" target="_blank">赏杯咖啡钱</a> 。</b></li>
-  <li><b>欢迎关注我的技术/生活公众号「开二度」，id：CoderXheldon </b></li>
+  <li><b>欢迎关注我的技术/生活公众号「开二度魔法」，id：CoderXheldon </b></li>
   </ol>
   <hr>`;
       if (key.includes('docs/ref/index.html')) {
