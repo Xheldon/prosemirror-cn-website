@@ -3158,5 +3158,13 @@
   "译者": {
     "_translate": "译者",
     "_note": ""
+  },
+  "By default, update will only be called when a node of the same node type appears in this view's position. When you set this to true, it will be called for any node, making it possible to have a node view that representsmultiple types of nodes. You will need to check the type of the nodes you get in update and return false for types you cannot handle.": {
+    "_translate": "_-_-_-_-_-_",
+    "_note": ""
+  },
+  "When given, this will be called when the view is updating itself. It will be given a node, an array of active decorations around the node (which are automatically drawn, and the node view may ignore if it isn't interested in them), and a decoration source that represents any decorations that apply to the content of the node (which again may be ignored). It should return true if it was able to update to that node, and false otherwise. If the node view has a contentDOM property (or no dom property), updating its child nodes will be handled by ProseMirror.": {
+    "_translate": "_-_-_-_-_-_",
+    "_note": ""
   }
 }
