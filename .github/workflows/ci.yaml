@@ -77,5 +77,16 @@ jobs:
           rm -rf public
           mkdir -p public && cp vercel.sh public && cp -R website/public/* public
           git add .
-          git commit -m "更新文档[bot]"
+          if [ -s "error.txt" ]; then
+            git commit -m "本次翻译存在错误[bot]"
+          else
+            git commit -m "更新文档[bot]"
+          fi
           git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:main
+
+      - name: 检查是否存在错误
+        run: |
+          if [ -s "error.txt" ]; then
+            echo "本次翻译存在错误"
+            exit 1
+          fi

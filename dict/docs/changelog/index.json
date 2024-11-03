@@ -4226,13 +4226,5 @@
   "译者": {
     "_translate": "译者",
     "_note": ""
-  },
-  "The new NodeView.multiType flag is now required to opt into handling different node types in a single node view. It used to be the default, but this tripped too many people up.": {
-    "_translate": "_-_-_-_-_-_",
-    "_note": ""
-  },
-  "Make splitBlock smart enough to split blocks when the cursor is inside a nested inline node.": {
-    "_translate": "_-_-_-_-_-_",
-    "_note": ""
   }
 }

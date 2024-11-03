@@ -5,6 +5,7 @@ const path = require('path');
 exports.translate = async (text, { key, file }) => {
   return new Promise((resolve) => {
     const payload = JSON.stringify({
+      model: 'Qwen/Qwen2.5-72B-Instruct',
       messages: [
         {
           role: 'system',
@@ -32,11 +33,14 @@ exports.translate = async (text, { key, file }) => {
     const apiKey = process.env.OPENAI_API_KEY;
     const url = process.env.OPENAI_URL;
     const res = spawn('curl', [
+      '--request',
+      'POST',
+      '--url',
       url,
       '-H',
       'Content-Type: application/json',
       '-H',
-      `api-key: ${apiKey}`,
+      `Authorization: Bearer ${apiKey}`,
       '-d',
       payload,
     ]);
@@ -60,7 +64,7 @@ exports.translate = async (text, { key, file }) => {
             errorPath,
             `[${file}-${key}]: ${text} -> ${result}\n`
           );
-          resolve('_-_-_-_-_-_');
+          resolve('【翻译引擎出错，请联系作者】');
           return;
         }
         resolve(translate);
@@ -75,7 +79,7 @@ exports.translate = async (text, { key, file }) => {
           'error.txt',
           `[${file}-${key}]: ${text} -> ${result}\n`
         );
-        resolve('_-_-_-_-_-_');
+        resolve('【翻译引擎出错，请联系作者】');
       }
     });
   });
