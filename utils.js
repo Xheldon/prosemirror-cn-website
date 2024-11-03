@@ -29,8 +29,8 @@ exports.translate = async (text, { key, file }) => {
       top_p: 0.95,
       max_tokens: 4096,
     });
-    const apiKey = secrets.OPENAI_API_KEY;
-    const url = secrets.OPENAI_URL;
+    const apiKey = process.env.OPENAI_API_KEY;
+    const url = process.env.OPENAI_URL;
     const res = spawn('curl', [
       url,
       '-H',
@@ -51,7 +51,7 @@ exports.translate = async (text, { key, file }) => {
         if (!translate) {
           console.error(`ai 翻译失败: [${text}] -> [${result}]`);
           // Note: 创建一个 error.txt ，如果不存在则创建
-          const errorPath = path.resolve(__dirname,'error.txt');
+          const errorPath = path.resolve(__dirname, 'error.txt');
           if (!fs.existsSync(errorPath)) {
             fs.writeFileSync(errorPath, '');
           }

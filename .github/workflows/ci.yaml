@@ -63,6 +63,9 @@ jobs:
 
       - name: 构建中文翻译
         if: env.new_commits == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_URL: ${{ secrets.OPENAI_URL }}
         run: |
           npm install
           node index.js
