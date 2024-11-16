@@ -166,6 +166,7 @@ Promise.all(
         .filter(Boolean);
       if (!list.length) {
         console.log(`${file} 不存在可翻译内容，中断`);
+        rootResolve();
         return;
       }
 
@@ -183,6 +184,7 @@ Promise.all(
         dict = JSON.parse(fs.readFileSync(dictPath, 'utf8'));
       } catch (error) {
         console.error(`${dictPath} 解析失败, 跳过`);
+        rootResolve();
         return;
       }
       Promise.all(
@@ -191,7 +193,10 @@ Promise.all(
             const text = item.innerHTML.trim();
             // Note: 移除换行符
             const pureText = item.textContent.trim().replace(/\s+/gm, ' ');
-            if (!pureText) return;
+            if (!pureText) {
+              resolve();
+              return;
+            }
             if (dict[pureText]) {
               if (dict[pureText]._translate) {
                 item.innerHTML = dict[pureText]._translate;
@@ -217,8 +222,8 @@ Promise.all(
               }
               resolve();
             } else {
-              semaphore.acquire().then(() => {
-                translate(text, { key: file })
+              return semaphore.acquire().then(() => {
+                return translate(text, { key: file })
                   .then((translate) => {
                     dict[pureText] = {
                       _translate: translate,
