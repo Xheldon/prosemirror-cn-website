@@ -4226,5 +4226,13 @@
   "译者": {
     "_translate": "译者",
     "_note": ""
+  },
+  "The new NodeView.multiType flag is now required to opt into handling different node types in a single node view. It used to be the default, but this tripped too many people up.": {
+    "_translate": "新的 <code>NodeView.multiType</code> 标志现在需要选择处理单个节点视图中的不同节点类型。它以前是默认的，但这让太多人感到困惑。",
+    "_note": ""
+  },
+  "Make splitBlock smart enough to split blocks when the cursor is inside a nested inline node.": {
+    "_translate": "使 <code>splitBlock</code> 足够智能，当光标位于嵌套的行内节点内时能够拆分块。",
+    "_note": ""
   }
 }
