@@ -993,7 +993,7 @@ addEventListener("load", function() {
 <dt id="view.MarkViewConstructor">
   <code>
     <span class="keyword">type</span>
-    <strong><a href="#view.MarkViewConstructor">MarkViewConstructor</a></strong> = <span class="fn">fn</span>(<div class="breaktype"><a id="view.MarkViewConstructor^mark" href="#view.MarkViewConstructor^mark"><span class="param">mark</span></a>:&nbsp;<a href="#model.Mark"><span class="type">Mark</span></a>, </div><div class="breaktype"><a id="view.MarkViewConstructor^view" href="#view.MarkViewConstructor^view"><span class="param">view</span></a>:&nbsp;<a href="#view.EditorView"><span class="type">EditorView</span></a>, </div><div class="breaktype"><a id="view.MarkViewConstructor^inline" href="#view.MarkViewConstructor^inline"><span class="param">inline</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></div>) →&nbsp;{<span class="prop">dom</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a>, <span class="prop">contentDOM</span>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a>}</code>
+    <strong><a href="#view.MarkViewConstructor">MarkViewConstructor</a></strong> = <span class="fn">fn</span>(<div class="breaktype"><a id="view.MarkViewConstructor^mark" href="#view.MarkViewConstructor^mark"><span class="param">mark</span></a>:&nbsp;<a href="#model.Mark"><span class="type">Mark</span></a>, </div><div class="breaktype"><a id="view.MarkViewConstructor^view" href="#view.MarkViewConstructor^view"><span class="param">view</span></a>:&nbsp;<a href="#view.EditorView"><span class="type">EditorView</span></a>, </div><div class="breaktype"><a id="view.MarkViewConstructor^inline" href="#view.MarkViewConstructor^inline"><span class="param">inline</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></div>) →&nbsp;<a href="#view.MarkView"><span class="type">MarkView</span></a></code>
 </dt>
 
 <dd><p data-x-en="The function types used to create mark views.">函数类型<a href="#view.EditorProps.markViews">用于</a>创建标记视图。</p>
@@ -1027,7 +1027,6 @@ addEventListener("load", function() {
 </dt>
 
 <dd><p data-x-en="By default, document nodes are rendered using the result of the toDOM method of their spec, and managed entirely by the editor. For some use cases, such as embedded node-specific editing interfaces, you want more control over the behavior of a node's in-editor representation, and need to define a custom node view.">默认情况下，文档节点使用它们 schema 配置对象中的 <a href="#model.NodeSpec.toDOM"><code>toDOM</code></a> 方法来渲染，然后完全由编辑器管理状态。而对于一些使用场景，比如为特定节点嵌入编辑界面等情况， 你可能想要更加细粒度的控制一个节点在编辑器中的表现形式，因此，你需要 <a href="#view.EditorProps.nodeViews">define</a> 一个自定义的 node view。</p>
-<p data-x-en="Mark views only support dom and contentDOM, and don't support any of the node view methods.">Mark 的 view 仅仅支持 <code>dom</code> 和 <code>contentDOM</code>，而且不支持任何 node view 的方法。</p>
 <p data-x-en="Objects returned as node views must conform to this interface.">node views 们返回的对象必须保证有以下接口：</p>
 <dl><dt id="view.NodeView.dom">
   <code><strong><a href="#view.NodeView.dom">dom</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node"><span class="type">DOMNode</span></a></code></dt>
@@ -1062,15 +1061,53 @@ addEventListener("load", function() {
 
 <dd><p data-x-en="Can be used to prevent the editor view from trying to handle some or all DOM events that bubble up from the node view. Events for which this returns true are not handled by the editor.">可以用来阻止编辑器处理一些或者所有的源自 node view 的 DOM 事件。返回 true 表示编辑器不处理该事件。</p>
 </dd><dt id="view.NodeView.ignoreMutation">
-  <code><strong><a href="#view.NodeView.ignoreMutation">ignoreMutation</a></strong>⁠?: <span class="fn">fn</span>(<a id="view.NodeView.ignoreMutation^mutation" href="#view.NodeView.ignoreMutation^mutation"><span class="param">mutation</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord"><span class="type">MutationRecord</span></a>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
+  <code><strong><a href="#view.NodeView.ignoreMutation">ignoreMutation</a></strong>⁠?: <span class="fn">fn</span>(<a id="view.NodeView.ignoreMutation^mutation" href="#view.NodeView.ignoreMutation^mutation"><span class="param">mutation</span></a>:&nbsp;<a href="#view.ViewMutationRecord"><span class="type">ViewMutationRecord</span></a>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
 
-<dd><p data-x-en="Called when a DOM mutation or a selection change happens within the view. When the change is a selection change, the record will have a type property of &quot;selection&quot; (which doesn't occur for native mutation records). Return false if the editor should re-read the selection or re-parse the range around the mutation, true if it can safely be ignored.">当一个 DOM <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">mutation（突变）</a> 的时候调用，或者在 node view 内一个选区改变的时候调用。当是选区改变的时候，record 将会有一个值为 <code>「selection」</code> 的 <code>type</code> 属性（原生的 mutation records 没有）。返回 false 表示编辑器应该重新读取选区或者重新 parse 突变附近的 DOM， 返回 true 表示该突变可以被安全的忽略掉。</p>
+<dd><p data-x-en="Called when a mutation happens within the view. Return false if the editor should re-read the selection or re-parse the range around the mutation, true if it can safely be ignored.">当视图内发生<a href="#view.ViewMutationRecord">变异</a>时调用。如果编辑器应该重新读取选择或重新解析变异周围的范围，请返回false；如果可以安全地忽略，请返回true。</p>
 </dd><dt id="view.NodeView.destroy">
   <code><strong><a href="#view.NodeView.destroy">destroy</a></strong>⁠?: <span class="fn">fn</span>()</code></dt>
 
-<dd><p data-x-en="Called when the node view is removed from the editor or the whole editor is destroyed. (Not available for marks.)">当整个编辑器被销毁或者当前 node view 被移除的时候调用（对 marks 的 view 不可用）。</p>
+<dd><p data-x-en="Called when the node view is removed from the editor or the whole editor is destroyed.">当节点视图从编辑器中移除或整个编辑器被销毁时调用。</p>
 </dd></dl>
 
+</dd>
+<dt id="view.MarkView">
+  <h4>
+    <code><span class="keyword">interface</span></code>
+    <a href="#view.MarkView">MarkView</a></h4>
+</dt>
+
+<dd><p data-x-en="By default, document marks are rendered using the result of the toDOM method of their spec, and managed entirely by the editor. For some use cases, you want more control over the behavior of a mark's in-editor representation, and need to define a custom mark view.">默认情况下，文档标记使用其规范的 <a href="#model.MarkSpec.toDOM"><code>toDOM</code></a> 方法的结果进行渲染，并完全由编辑器管理。对于某些用例，您需要对标记的编辑器内表示的行为进行更多控制，并需要 <a href="#view.EditorProps.markViews">定义</a> 自定义标记视图。</p>
+<p data-x-en="Objects returned as mark views must conform to this interface.">对象作为标记视图返回时必须符合此接口。</p>
+<dl><dt id="view.MarkView.dom">
+  <code><strong><a href="#view.MarkView.dom">dom</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node"><span class="type">DOMNode</span></a></code></dt>
+
+<dd><p data-x-en="The outer DOM node that represents the document node.">表示文档节点的外部DOM节点。</p>
+</dd><dt id="view.MarkView.contentDOM">
+  <code><strong><a href="#view.MarkView.contentDOM">contentDOM</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a></code></dt>
+
+<dd><p data-x-en="The DOM node that should hold the mark's content. When this is not present, the dom property is used as the content DOM.">应包含标记内容的 DOM 节点。当此属性不存在时，<code>dom</code> 属性用作内容 DOM。</p>
+</dd><dt id="view.MarkView.ignoreMutation">
+  <code><strong><a href="#view.MarkView.ignoreMutation">ignoreMutation</a></strong>⁠?: <span class="fn">fn</span>(<a id="view.MarkView.ignoreMutation^mutation" href="#view.MarkView.ignoreMutation^mutation"><span class="param">mutation</span></a>:&nbsp;<a href="#view.ViewMutationRecord"><span class="type">ViewMutationRecord</span></a>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
+
+<dd><p data-x-en="Called when a mutation happens within the view. Return false if the editor should re-read the selection or re-parse the range around the mutation, true if it can safely be ignored.">当<a href="#view.ViewMutationRecord">变异</a>在视图内发生时调用。如果编辑器应该重新读取选择或重新解析变异周围的范围，则返回false；如果可以安全地忽略，则返回true。</p>
+</dd><dt id="view.MarkView.destroy">
+  <code><strong><a href="#view.MarkView.destroy">destroy</a></strong>⁠?: <span class="fn">fn</span>()</code></dt>
+
+<dd><p data-x-en="Called when the mark view is removed from the editor or the whole editor is destroyed.">当标记视图从编辑器中移除或整个编辑器被销毁时调用。</p>
+</dd></dl>
+
+</dd>
+<dt id="view.ViewMutationRecord">
+  <code>
+    <span class="keyword">type</span>
+    <strong><a href="#view.ViewMutationRecord">ViewMutationRecord</a></strong> = <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord"><span class="type">MutationRecord</span></a> | <div class="breaktype">{<span class="prop">type</span>:&nbsp;<span class="string">"selection"</span>, <span class="prop">target</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node"><span class="type">DOMNode</span></a>}</div></code>
+</dt>
+
+<dd><p data-x-en="A ViewMutationRecord represents a DOM mutation or a selection change happens within the view. When the change is a selection change, the record will have a type property of &quot;selection&quot; (which doesn't occur for native mutation records).">一个 ViewMutationRecord 表示视图内发生的 DOM
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">变异</a>
+或选择变化。当变化是选择变化时，记录将具有一个 <code>type</code> 属性为
+<code>"selection"</code>（对于原生变异记录不会出现这种情况）。</p>
 </dd>
 <dt id="view.DOMEventMap">
   <h4>
@@ -1293,6 +1330,10 @@ addEventListener("load", function() {
   <code><strong><a href="#model.Node.content">content</a></strong>: <a href="#model.Fragment"><span class="type">Fragment</span></a></code></dt>
 
 <dd><p data-x-en="A container holding the node's children.">一个持有节点子元素的容器。</p><div type="comment">该容器是 Fragment 类型</div>
+</dd><dt id="model.Node.children">
+  <code><strong><a href="#model.Node.children">children</a></strong>: <span class="keyword">readonly</span>&nbsp;<a href="#model.Node"><span class="type">Node</span></a>[]</code></dt>
+
+<dd><p data-x-en="The array of this node's child nodes.">此节点的子节点数组。</p>
 </dd><dt id="model.Node.text">
   <code><strong><a href="#model.Node.text">text</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined"><span class="prim">undefined</span></a></code></dt>
 
@@ -1468,6 +1509,10 @@ addEventListener("load", function() {
   <code><strong><a href="#model.Fragment.size">size</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a></code></dt>
 
 <dd><p data-x-en="The size of the fragment, which is the total of the size of its content nodes.">fragment 的大小，也即它的内容节点大小的总和。</p>
+</dd><dt id="model.Fragment.content">
+  <code><strong><a href="#model.Fragment.content">content</a></strong>: <span class="keyword">readonly</span>&nbsp;<a href="#model.Node"><span class="type">Node</span></a>[]</code></dt>
+
+<dd><p data-x-en="The child nodes in this fragment.">此片段中的子节点。</p>
 </dd><dt id="model.Fragment.nodesBetween">
   <code><strong><a href="#model.Fragment.nodesBetween">nodesBetween</a></strong>(<div class="breaktype"><a id="model.Fragment.nodesBetween^from" href="#model.Fragment.nodesBetween^from"><span class="param">from</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, </div><div class="breaktype"><a id="model.Fragment.nodesBetween^to" href="#model.Fragment.nodesBetween^to"><span class="param">to</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, </div><div class="breaktype"><a id="model.Fragment.nodesBetween^f" href="#model.Fragment.nodesBetween^f"><span class="param">f</span></a>:&nbsp;<span class="fn">fn</span>(<div class="breaktype"><a id="model.Fragment.nodesBetween^f^node" href="#model.Fragment.nodesBetween^f^node"><span class="param">node</span></a>:&nbsp;<a href="#model.Node"><span class="type">Node</span></a>, </div><div class="breaktype"><a id="model.Fragment.nodesBetween^f^start" href="#model.Fragment.nodesBetween^f^start"><span class="param">start</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, </div><div class="breaktype"><a id="model.Fragment.nodesBetween^f^parent" href="#model.Fragment.nodesBetween^f^parent"><span class="param">parent</span></a>:&nbsp;<a href="#model.Node"><span class="type">Node</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null"><span class="prim">null</span></a>, </div><div class="breaktype"><a id="model.Fragment.nodesBetween^f^index" href="#model.Fragment.nodesBetween^f^index"><span class="param">index</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a></div>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined"><span class="prim">undefined</span></a>, </div><div class="breaktype"><a id="model.Fragment.nodesBetween^nodeStart" href="#model.Fragment.nodesBetween^nodeStart"><span class="param">nodeStart</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = 0</span>, </div><div class="breaktype"><a id="model.Fragment.nodesBetween^parent" href="#model.Fragment.nodesBetween^parent"><span class="param">parent</span></a>⁠?:&nbsp;<a href="#model.Node"><span class="type">Node</span></a></div>)</code></dt>
 
@@ -3611,9 +3656,7 @@ addEventListener("load", function() {
 </section><section id="part_schema-list">
     <h2 class="module" id="schema-list">
       <a href="#schema-list">prosemirror-schema-list <span class="kind">module</span></a>
-    </h2><p data-x-en="This module exports list-related schema elements and commands. The commands assume lists to be nestable, with the restriction that the first child of a list item is a plain paragraph.">本模块导出了列表相关的 schema 元素和命令。命令假设列表是可以被嵌套的，以及限制列表项的第一个元素必须为普通段落元素。</p>
-<p data-x-en="These are the node specs:">下面这些是节点配置对象：</p>
-<dl>
+    </h2><dl>
 <dt id="schema-list.orderedList">
   <code><strong><a href="#schema-list.orderedList">orderedList</a></strong>: <a href="#model.NodeSpec"><span class="type">NodeSpec</span></a></code></dt>
 
@@ -3635,19 +3678,18 @@ addEventListener("load", function() {
 <dd><p data-x-en="Convenience function for adding list-related node types to a map specifying the nodes for a schema. Adds orderedList as &quot;ordered_list&quot;, bulletList as &quot;bullet_list&quot;, and listItem as &quot;list_item&quot;.">为 schema 方便的添加列表相关的节点类型到一个特定的节点类型的函数。<a href="#schema-list.orderedList"><code>orderedList</code></a> 表示为 <code>"ordered_list"</code>， <a href="#schema-list.bulletList"><code>bulletList</code></a> 表示为 <code>"bullet_list"</code>， 以及 <a href="#schema-list.listItem"><code>listItem</code></a> 表示为 <code>"list_item"</code>。</p>
 <p data-x-en="itemContent determines the content expression for the list items. If you want the commands defined in this module to apply to your list structure, it should have a shape like &quot;paragraph block*&quot; or &quot;paragraph (ordered_list | bullet_list)*&quot;. listGroup can be given to assign a group name to the list node types, for example &quot;block&quot;."><code>itemContent</code> 决定了列表项的内容表达式。如果你想要在本模块中定义的命令应用于你自己的列表结构，则它的值应该是诸如 <code>"paragraph block*"</code> 或者 <code>"paragraph (ordered_list | bullet_list)*"</code> 之类的。<code>listGroup</code> 可以将列表节点类型分配到一个组名，比如 <code>"block"</code>。</p>
 </dd>
-</dl>
-<p data-x-en="Using this would look something like this:">本模块使用方式应该像下面这样：</p>
-<pre><code class="language-javascript"><span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">mySchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
-  <span class="tok-propertyName tok-definition">nodes</span><span class="tok-punctuation">:</span> <span class="tok-variableName">addListNodes</span><span class="tok-punctuation">(</span><span class="tok-variableName">baseSchema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-punctuation">,</span> <span class="tok-string">"paragraph block*"</span><span class="tok-punctuation">,</span> <span class="tok-string">"block"</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
-  <span class="tok-propertyName tok-definition">marks</span><span class="tok-punctuation">:</span> <span class="tok-variableName">baseSchema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">marks</span>
-<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
-</code></pre>
-<p data-x-en="The following functions are commands:">下列函数是 <a href="/docs/guide/#commands">命令</a>：</p>
-<dl>
 <dt id="schema-list.wrapInList">
   <code><strong><a href="#schema-list.wrapInList">wrapInList</a></strong>(<div class="breaktype"><a id="schema-list.wrapInList^listType" href="#schema-list.wrapInList^listType"><span class="param">listType</span></a>:&nbsp;<a href="#model.NodeType"><span class="type">NodeType</span></a>, </div><div class="breaktype"><a id="schema-list.wrapInList^attrs" href="#schema-list.wrapInList^attrs"><span class="param">attrs</span></a>⁠?:&nbsp;<a href="#model.Attrs"><span class="type">Attrs</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null"><span class="prim">null</span></a><span class="defaultvalue"> = null</span></div>) →&nbsp;<a href="#state.Command"><span class="type">Command</span></a></code></dt>
 
 <dd><p data-x-en="Returns a command function that wraps the selection in a list with the given type an attributes. If dispatch is null, only return a value to indicate whether this is possible, but don't actually perform the change.">返回一个命令函数，该函数用给定的类型和属性包裹位于 list 中的选区。如果 <code>dispatch</code> 参数是 null，则只返回一个指示该行为是否可能的值， 而不实际执行修改。</p>
+</dd>
+<dt id="schema-list.wrapRangeInList">
+  <code><strong><a href="#schema-list.wrapRangeInList">wrapRangeInList</a></strong>(<div class="breaktype"><a id="schema-list.wrapRangeInList^tr" href="#schema-list.wrapRangeInList^tr"><span class="param">tr</span></a>:&nbsp;<a href="#state.Transaction"><span class="type">Transaction</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null"><span class="prim">null</span></a>, </div><div class="breaktype"><a id="schema-list.wrapRangeInList^range" href="#schema-list.wrapRangeInList^range"><span class="param">range</span></a>:&nbsp;<a href="#model.NodeRange"><span class="type">NodeRange</span></a>, </div><div class="breaktype"><a id="schema-list.wrapRangeInList^listType" href="#schema-list.wrapRangeInList^listType"><span class="param">listType</span></a>:&nbsp;<a href="#model.NodeType"><span class="type">NodeType</span></a>, </div><div class="breaktype"><a id="schema-list.wrapRangeInList^attrs" href="#schema-list.wrapRangeInList^attrs"><span class="param">attrs</span></a>⁠?:&nbsp;<a href="#model.Attrs"><span class="type">Attrs</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null"><span class="prim">null</span></a><span class="defaultvalue"> = null</span></div>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
+
+<dd><p data-x-en="Try to wrap the given node range in a list of the given type. Return true when this is possible, false otherwise. When tr is non-null, the wrapping is added to that transaction. When it is null, the function only queries whether the wrapping is possible.">尝试将给定的节点范围包装在给定类型的列表中。
+返回 <code>true</code> 如果这是可能的，<code>false</code> 否则。当 <code>tr</code>
+非空时，将包装添加到该事务中。当它是
+<code>null</code> 时，该函数仅查询是否可以进行包装。</p>
 </dd>
 <dt id="schema-list.splitListItem">
   <code><strong><a href="#schema-list.splitListItem">splitListItem</a></strong>(<a id="schema-list.splitListItem^itemType" href="#schema-list.splitListItem^itemType"><span class="param">itemType</span></a>:&nbsp;<a href="#model.NodeType"><span class="type">NodeType</span></a>, <a id="schema-list.splitListItem^itemAttrs" href="#schema-list.splitListItem^itemAttrs"><span class="param">itemAttrs</span></a>⁠?:&nbsp;<a href="#model.Attrs"><span class="type">Attrs</span></a>) →&nbsp;<a href="#state.Command"><span class="type">Command</span></a></code></dt>
@@ -3669,8 +3711,7 @@ addEventListener("load", function() {
 
 <dd><p data-x-en="Create a command to sink the list item around the selection down into an inner list.">创建一个命令，该命令会将选区所在的列表项缩进到一个内部列表中去。</p>
 </dd>
-</dl>
-</section><script src="ref.js"></script></article>
+</dl></section><script src="ref.js"></script></article>
 
 <footer>
   <nav>

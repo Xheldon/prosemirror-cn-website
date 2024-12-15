@@ -88,7 +88,7 @@
 <p data-x-en="The most simple schema possible allows the document to be composed just of text.">最简单的模式允许文档仅由文本组成。</p>
 <pre><code class="language-javascript"><span class="tok-keyword">import</span> <span class="tok-punctuation">{</span><span class="tok-variableName tok-definition">Schema</span><span class="tok-punctuation">}</span> <span class="tok-keyword">from</span> <span class="tok-string">"prosemirror-model"</span>
 
-<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">textSchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+<span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">textSchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-className">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
   <span class="tok-propertyName tok-definition">nodes</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
     <span class="tok-propertyName tok-definition">text</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
     <span class="tok-propertyName tok-definition">doc</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">content</span><span class="tok-punctuation">:</span> <span class="tok-string">"text*"</span><span class="tok-punctuation">}</span>
@@ -99,7 +99,7 @@
 （ProseMirror 视图可以<a href="/docs/ref/#view.EditorView.constructor">挂载</a>在任何节点上，包括内联节点。）</p>
 <h2>Blocks</h2>
 <p data-x-en="To add more structure, you'll usually want to add some kind of block nodes. For example, this schema consists of notes that can optionally be grouped with group nodes.">为了增加更多的结构，您通常会想要添加某种块节点。例如，此模式由可以选择与组节点分组的笔记组成。</p>
-<pre><code class="language-javascript"><span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">noteSchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+<pre><code class="language-javascript"><span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">noteSchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-className">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
   <span class="tok-propertyName tok-definition">nodes</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
     <span class="tok-propertyName tok-definition">text</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span><span class="tok-punctuation">}</span><span class="tok-punctuation">,</span>
     <span class="tok-propertyName tok-definition">note</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
@@ -151,7 +151,7 @@
 <h2>Groups and marks</h2>
 <p data-x-en="Let's do one more, with stars and shouting.">让我们再来一个，有星星和喊叫。</p>
 <p data-x-en="This schema has not just text as inline content, but also stars, which are just inline nodes. To be able to easily refer to both our inline nodes, they are tagged as a group (also called &quot;inline&quot;). The schema does the same for the two types of block nodes, one paragraph type that allows any inline content, and one that only allows unmarked text.">这个模式不仅有文本作为内联内容，还有<em>星星</em>，它们只是内联节点。为了能够轻松引用我们的内联节点，它们被标记为一个组（也称为<code>"inline"</code>）。该模式对两种类型的块节点也做了同样的处理，一种段落类型允许任何内联内容，另一种只允许未标记的文本。</p>
-<pre><code class="language-javascript"><span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">starSchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-variableName">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+<pre><code class="language-javascript"><span class="tok-keyword">let</span> <span class="tok-variableName tok-definition">starSchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-className">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
   <span class="tok-propertyName tok-definition">nodes</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
     <span class="tok-propertyName tok-definition">text</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">{</span>
       <span class="tok-propertyName tok-definition">group</span><span class="tok-punctuation">:</span> <span class="tok-string">"inline"</span><span class="tok-punctuation">,</span>

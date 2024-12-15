@@ -3166,5 +3166,45 @@
   "When given, this will be called when the view is updating itself. It will be given a node, an array of active decorations around the node (which are automatically drawn, and the node view may ignore if it isn't interested in them), and a decoration source that represents any decorations that apply to the content of the node (which again may be ignored). It should return true if it was able to update to that node, and false otherwise. If the node view has a contentDOM property (or no dom property), updating its child nodes will be handled by ProseMirror.": {
     "_translate": "当提供时，这将在视图更新自身时被调用。它将被提供一个节点、一个围绕该节点的活动装饰数组（这些装饰会自动绘制，节点视图如果对其不感兴趣可以忽略），以及一个表示适用于节点内容的任何装饰的<a href=\"#view.DecorationSource\">装饰源</a>（同样可以被忽略）。如果它能够更新到该节点，应返回 true，否则返回 false。如果节点视图具有<code>contentDOM</code>属性（或没有<code>dom</code>属性），其子节点的更新将由 ProseMirror 处理。",
     "_note": ""
+  },
+  "Called when the node view is removed from the editor or the whole editor is destroyed.": {
+    "_translate": "当节点视图从编辑器中移除或整个编辑器被销毁时调用。",
+    "_note": ""
+  },
+  "Called when a mutation happens within the view. Return false if the editor should re-read the selection or re-parse the range around the mutation, true if it can safely be ignored.": {
+    "_translate": "当<a href=\"#view.ViewMutationRecord\">变异</a>在视图内发生时调用。如果编辑器应该重新读取选择或重新解析变异周围的范围，则返回false；如果可以安全地忽略，则返回true。",
+    "_note": ""
+  },
+  "Objects returned as mark views must conform to this interface.": {
+    "_translate": "对象作为标记视图返回时必须符合此接口。",
+    "_note": ""
+  },
+  "By default, document marks are rendered using the result of the toDOM method of their spec, and managed entirely by the editor. For some use cases, you want more control over the behavior of a mark's in-editor representation, and need to define a custom mark view.": {
+    "_translate": "默认情况下，文档标记使用其规范的 <a href=\"#model.MarkSpec.toDOM\"><code>toDOM</code></a> 方法的结果进行渲染，并完全由编辑器管理。对于某些用例，您需要对标记的编辑器内表示的行为进行更多控制，并需要 <a href=\"#view.EditorProps.markViews\">定义</a> 自定义标记视图。",
+    "_note": ""
+  },
+  "The DOM node that should hold the mark's content. When this is not present, the dom property is used as the content DOM.": {
+    "_translate": "应包含标记内容的 DOM 节点。当此属性不存在时，<code>dom</code> 属性用作内容 DOM。",
+    "_note": ""
+  },
+  "Called when the mark view is removed from the editor or the whole editor is destroyed.": {
+    "_translate": "当标记视图从编辑器中移除或整个编辑器被销毁时调用。",
+    "_note": ""
+  },
+  "The array of this node's child nodes.": {
+    "_translate": "此节点的子节点数组。",
+    "_note": ""
+  },
+  "A ViewMutationRecord represents a DOM mutation or a selection change happens within the view. When the change is a selection change, the record will have a type property of \"selection\" (which doesn't occur for native mutation records).": {
+    "_translate": "一个 ViewMutationRecord 表示视图内发生的 DOM\n<a href=\"https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver\">变异</a>\n或选择变化。当变化是选择变化时，记录将具有一个 <code>type</code> 属性为\n<code>\"selection\"</code>（对于原生变异记录不会出现这种情况）。",
+    "_note": ""
+  },
+  "The child nodes in this fragment.": {
+    "_translate": "此片段中的子节点。",
+    "_note": ""
+  },
+  "Try to wrap the given node range in a list of the given type. Return true when this is possible, false otherwise. When tr is non-null, the wrapping is added to that transaction. When it is null, the function only queries whether the wrapping is possible.": {
+    "_translate": "尝试将给定的节点范围包装在给定类型的列表中。\n返回 <code>true</code> 如果这是可能的，<code>false</code> 否则。当 <code>tr</code>\n非空时，将包装添加到该事务中。当它是\n<code>null</code> 时，该函数仅查询是否可以进行包装。",
+    "_note": ""
   }
 }

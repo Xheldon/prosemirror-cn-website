@@ -4234,5 +4234,41 @@
   "Make splitBlock smart enough to split blocks when the cursor is inside a nested inline node.": {
     "_translate": "使 <code>splitBlock</code> 足够智能，当光标位于嵌套的行内节点内时能够拆分块。",
     "_note": ""
+  },
+  "Fix an issue where display: content elements could break posAtCoords.": {
+    "_translate": "修复了 <code>display: content</code> 元素可能导致 <code>posAtCoords</code> 出现问题的情况。",
+    "_note": ""
+  },
+  "Work around an issue with Chrome reporting the selection incorrectly during composition.": {
+    "_translate": "解决 Chrome 在组合期间错误报告选择的问题。",
+    "_note": ""
+  },
+  "The parser now automatically preserves whitespace inside <pre> or white-space: pre elements.": {
+    "_translate": "解析器现在自动保留 <code>&lt;pre&gt;</code> 或 <code>white-space: pre</code> 元素内的空白。",
+    "_note": ""
+  },
+  "The new wrapRangeInList function provides the implementation of the wrapInList command as a more flexible function.": {
+    "_translate": "新的<code>wrapRangeInList</code>函数以更灵活的函数形式提供了<code>wrapInList</code>命令的实现。",
+    "_note": ""
+  },
+  "Fragment.content and Node.children now expose a node's set of children as an array.": {
+    "_translate": "<code>Fragment.content</code> 和 <code>Node.children</code> 现在以数组形式公开节点的子集。",
+    "_note": ""
+  },
+  "Fix an issue on Safari where the (incorrect) top-level selection was used, instead of the workaround that also works inside shadow roots.": {
+    "_translate": "修复了 Safari 上的一个问题，即使用了（错误的）顶级选择，而不是也在阴影根中有效的工作around。",
+    "_note": ""
+  },
+  "Mark views can now provide an ignoreMutation method. Add ViewMutationRecord to doc template": {
+    "_translate": "Mark 视图现在可以提供一个 <code>ignoreMutation</code> 方法。将 ViewMutationRecord 添加到文档模板中。",
+    "_note": ""
+  },
+  "Don't recreated TrustedTypePolicy objects for every paste.": {
+    "_translate": "不要为每次粘贴都重新创建 <code>TrustedTypePolicy</code> 对象。",
+    "_note": ""
+  },
+  "Add support for a destroy method on custom mark views. Add MarkView to the doc template": {
+    "_translate": "在自定义标记视图上添加对 <code>destroy</code> 方法的支持。将 MarkView 添加到文档模板中。",
+    "_note": ""
   }
 }

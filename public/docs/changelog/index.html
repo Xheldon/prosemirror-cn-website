@@ -83,7 +83,30 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.35.0 (2024-10-29)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.37.1 (2024-12-11)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue where display: content elements could break posAtCoords.">修复了 <code>display: content</code> 元素可能导致 <code>posAtCoords</code> 出现问题的情况。</p>
+<p data-x-en="Work around an issue with Chrome reporting the selection incorrectly during composition.">解决 Chrome 在组合期间错误报告选择的问题。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.24.1 (2024-12-10)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="The parser now automatically preserves whitespace inside <pre> or white-space: pre elements.">解析器现在自动保留 <code>&lt;pre&gt;</code> 或 <code>white-space: pre</code> 元素内的空白。</p>
+<h3><a href="../ref/#schema-list">prosemirror-schema-list</a> 1.5.0 (2024-12-04)</h3>
+<h4>New features</h4>
+<p data-x-en="The new wrapRangeInList function provides the implementation of the wrapInList command as a more flexible function.">新的<code>wrapRangeInList</code>函数以更灵活的函数形式提供了<code>wrapInList</code>命令的实现。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.24.0 (2024-11-27)</h3>
+<h4>New features</h4>
+<p data-x-en="Fragment.content and Node.children now expose a node's set of children as an array."><code>Fragment.content</code> 和 <code>Node.children</code> 现在以数组形式公开节点的子集。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.37.0 (2024-11-23)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue on Safari where the (incorrect) top-level selection was used, instead of the workaround that also works inside shadow roots.">修复了 Safari 上的一个问题，即使用了（错误的）顶级选择，而不是也在阴影根中有效的工作around。</p>
+<h4>New features</h4>
+<p data-x-en="Mark views can now provide an ignoreMutation method. Add ViewMutationRecord to doc template">Mark 视图现在可以提供一个 <code>ignoreMutation</code> 方法。将 ViewMutationRecord 添加到文档模板中。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.36.0 (2024-11-05)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Don't recreated TrustedTypePolicy objects for every paste.">不要为每次粘贴都重新创建 <code>TrustedTypePolicy</code> 对象。</p>
+<h4>New features</h4>
+<p data-x-en="Add support for a destroy method on custom mark views. Add MarkView to the doc template">在自定义标记视图上添加对 <code>destroy</code> 方法的支持。将 MarkView 添加到文档模板中。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.35.0 (2024-10-29)</h3>
 <h4>New features</h4>
 <p data-x-en="The new NodeView.multiType flag is now required to opt into handling different node types in a single node view. It used to be the default, but this tripped too many people up.">新的 <code>NodeView.multiType</code> 标志现在需要选择处理单个节点视图中的不同节点类型。它以前是默认的，但这让太多人感到困惑。</p>
 <h3><a href="../ref/#commands">prosemirror-commands</a> 1.6.2 (2024-10-24)</h3>
