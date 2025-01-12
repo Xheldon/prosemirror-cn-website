@@ -1,9 +1,7 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>ProseMirror Changelog</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="/css/site.css">
-
-<script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/docs/changelog/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/docs/changelog/index.json" target="_blank">我来翻译！</a></div><header>
+<link rel="stylesheet" href="/css/site.css"><link rel="alternate" type="application/atom+xml" href="changelog.atom"><script src="https://www.googletagmanager.com/gtag/js?id=G-KQYXRE0B3X"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-KQYXRE0B3X')</script><script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5486286026923411"></script></head><body><div id="banner-info">本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com/docs/changelog/" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict/docs/changelog/index.json" target="_blank">我来翻译！</a></div><header>
   <nav>
     <a class="logo" href="/">ProseMirror</a>
     <div class="navlinks"><a href="/examples/">示例</a>
@@ -2558,12 +2556,10 @@
 <h4>New features</h4>
 <p data-x-en="Plugins now take a view option that can be used to interact with the editor view.">插件现在接受一个<a href="https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#state.Plugin.constructor%5Eoptions.view"><code>view</code>选项</a>，可以用来与<a href="https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#view.EditorView">编辑器视图</a>交互。</p>
 <h3><a href="../ref/#view">prosemirror-view</a> 0.16.0 (2016-12-23)</h3>
-<h4>Bug fixes</h4>
-<p data-x-en="Solve problem where setting a node selection would trigger a DOM read, leading to the selection being reset.">解决设置节点选择会触发DOM读取的问题，导致选择被重置。</p>
-<h3><a href="../ref/#view">prosemirror-view</a> 0.16.0 (2016-12-23)</h3>
 <h4>Breaking changes</h4>
 <p data-x-en="The spellcheck, label, and class props are now replaced by an attributes prop."><code>spellcheck</code>、<code>label</code> 和 <code>class</code> 属性现在被 <a href="https://prosemirror.xheldon.com/docs/ref/version/0.16.0.html#view.EditorProps.attributes"><code>attributes</code> 属性</a> 取代。</p>
 <h4>Bug fixes</h4>
+<p data-x-en="Solve problem where setting a node selection would trigger a DOM read, leading to the selection being reset.">解决设置节点选择会触发DOM读取的问题，导致选择被重置。</p>
 <p data-x-en="Ignoring/aborting an action should no longer lead to the DOM being stuck in an outdated state.">忽略/中止操作不应再导致DOM卡在过时状态。</p>
 <p data-x-en="Typing at the end of a textblock which ends in a non-text node now actually works.">在以非文本节点结尾的文本块末尾输入现在实际上有效。</p>
 <p data-x-en="DOM nodes for leaf document nodes are now set as non-editable to prevent various issues such as stray cursors inside of them and Firefox adding image resize controls.">DOM节点现在被设置为不可编辑，以防止各种问题，例如其中的游标偏移和Firefox添加图像调整控件。</p>

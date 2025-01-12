@@ -3913,7 +3913,7 @@
   */
   function countColumn(string, tabSize, to = string.length) {
       let n = 0;
-      for (let i = 0; i < to;) {
+      for (let i = 0; i < to && i < string.length;) {
           if (string.charCodeAt(i) == 9) {
               n += tabSize - (n % tabSize);
               i++;
@@ -6922,6 +6922,15 @@
           return (this.flags & 4 /* UpdateFlag.Viewport */) > 0;
       }
       /**
+      Returns true when
+      [`viewportChanged`](https://codemirror.net/6/docs/ref/#view.ViewUpdate.viewportChanged) is true
+      and the viewport change is not just the result of mapping it in
+      response to document changes.
+      */
+      get viewportMoved() {
+          return (this.flags & 8 /* UpdateFlag.ViewportMoved */) > 0;
+      }
+      /**
       Indicates whether the height of a block element in the editor
       changed in this update.
       */
@@ -6933,7 +6942,7 @@
       editor, or elements within the editor, changed.
       */
       get geometryChanged() {
-          return this.docChanged || (this.flags & (8 /* UpdateFlag.Geometry */ | 2 /* UpdateFlag.Height */)) > 0;
+          return this.docChanged || (this.flags & (16 /* UpdateFlag.Geometry */ | 2 /* UpdateFlag.Height */)) > 0;
       }
       /**
       True when this update indicates a focus change.
@@ -8175,6 +8184,14 @@
           // Heuristic to notice typing over a selected character
           change = { from: sel.from, to: sel.to, insert: view.state.doc.slice(sel.from, sel.to) };
       }
+      else if ((browser.mac || browser.android) && change && change.from == change.to && change.from == sel.head - 1 &&
+          /^\. ?$/.test(change.insert.toString()) && view.contentDOM.getAttribute("autocorrect") == "off") {
+          // Detect insert-period-on-double-space Mac and Android behavior,
+          // and transform it into a regular space insert.
+          if (newSel && change.insert.length == 2)
+              newSel = EditorSelection.single(newSel.main.anchor - 1, newSel.main.head - 1);
+          change = { from: change.from, to: change.to, insert: Text.of([change.insert.toString().replace(".", " ")]) };
+      }
       else if (change && change.from >= sel.from && change.to <= sel.to &&
           (change.from != sel.from || change.to != sel.to) &&
           (sel.to - sel.from) - (change.to - change.from) <= 4) {
@@ -8185,14 +8202,6 @@
               from: sel.from, to: sel.to,
               insert: view.state.doc.slice(sel.from, change.from).append(change.insert).append(view.state.doc.slice(change.to, sel.to))
           };
-      }
-      else if ((browser.mac || browser.android) && change && change.from == change.to && change.from == sel.head - 1 &&
-          /^\. ?$/.test(change.insert.toString()) && view.contentDOM.getAttribute("autocorrect") == "off") {
-          // Detect insert-period-on-double-space Mac and Android behavior,
-          // and transform it into a regular space insert.
-          if (newSel && change.insert.length == 2)
-              newSel = EditorSelection.single(newSel.main.anchor - 1, newSel.main.head - 1);
-          change = { from: sel.from, to: sel.to, insert: Text.of([" "]) };
       }
       else if (browser.chrome && change && change.from == change.to && change.from == sel.head &&
           change.insert.toString() == "\n " && view.lineWrapping) {
@@ -9995,6 +10004,11 @@
       return { left: left - rect.left, right: Math.max(left, right) - rect.left,
           top: top - (rect.top + paddingTop), bottom: Math.max(top, bottom) - (rect.top + paddingTop) };
   }
+  function inWindow(elt) {
+      let rect = elt.getBoundingClientRect(), win = elt.ownerDocument.defaultView || window;
+      return rect.left < win.innerWidth && rect.right > 0 &&
+          rect.top < win.innerHeight && rect.bottom > 0;
+  }
   function fullPixelRange(dom, paddingTop) {
       let rect = dom.getBoundingClientRect();
       return { left: 0, right: rect.right - rect.left,
@@ -10159,7 +10173,7 @@
               this.updateViewportLines();
           if (this.lineGaps.length || this.viewport.to - this.viewport.from > (2000 /* LG.Margin */ << 1))
               this.updateLineGaps(this.ensureLineGaps(this.mapLineGaps(this.lineGaps, update.changes)));
-          update.flags |= this.computeVisibleRanges();
+          update.flags |= this.computeVisibleRanges(update.changes);
           if (scrollTarget)
               this.scrollTarget = scrollTarget;
           if (!this.mustEnforceCursorAssoc && update.selectionSet && update.view.lineWrapping &&
@@ -10184,7 +10198,7 @@
                   scaleY > .005 && Math.abs(this.scaleY - scaleY) > .005) {
                   this.scaleX = scaleX;
                   this.scaleY = scaleY;
-                  result |= 8 /* UpdateFlag.Geometry */;
+                  result |= 16 /* UpdateFlag.Geometry */;
                   refresh = measureContent = true;
               }
           }
@@ -10194,13 +10208,13 @@
           if (this.paddingTop != paddingTop || this.paddingBottom != paddingBottom) {
               this.paddingTop = paddingTop;
               this.paddingBottom = paddingBottom;
-              result |= 8 /* UpdateFlag.Geometry */ | 2 /* UpdateFlag.Height */;
+              result |= 16 /* UpdateFlag.Geometry */ | 2 /* UpdateFlag.Height */;
           }
           if (this.editorWidth != view.scrollDOM.clientWidth) {
               if (oracle.lineWrapping)
                   measureContent = true;
               this.editorWidth = view.scrollDOM.clientWidth;
-              result |= 8 /* UpdateFlag.Geometry */;
+              result |= 16 /* UpdateFlag.Geometry */;
           }
           let scrollTop = view.scrollDOM.scrollTop * this.scaleY;
           if (this.scrollTop != scrollTop) {
@@ -10218,13 +10232,13 @@
               if (inView)
                   measureContent = true;
           }
-          if (!this.inView && !this.scrollTarget)
+          if (!this.inView && !this.scrollTarget && !inWindow(view.dom))
               return 0;
           let contentWidth = domRect.width;
           if (this.contentDOMWidth != contentWidth || this.editorHeight != view.scrollDOM.clientHeight) {
               this.contentDOMWidth = domRect.width;
               this.editorHeight = view.scrollDOM.clientHeight;
-              result |= 8 /* UpdateFlag.Geometry */;
+              result |= 16 /* UpdateFlag.Geometry */;
           }
           if (measureContent) {
               let lineHeights = view.docView.measureVisibleLineHeights(this.viewport);
@@ -10235,7 +10249,7 @@
                   refresh = lineHeight > 0 && oracle.refresh(whiteSpace, lineHeight, charWidth, textHeight, contentWidth / charWidth, lineHeights);
                   if (refresh) {
                       view.docView.minWidth = 0;
-                      result |= 8 /* UpdateFlag.Geometry */;
+                      result |= 16 /* UpdateFlag.Geometry */;
                   }
               }
               if (dTop > 0 && dBottom > 0)
@@ -10448,7 +10462,7 @@
               this.lineGapDeco = Decoration.set(gaps.map(gap => gap.draw(this, this.heightOracle.lineWrapping)));
           }
       }
-      computeVisibleRanges() {
+      computeVisibleRanges(changes) {
           let deco = this.stateDeco;
           if (this.lineGaps.length)
               deco = deco.concat(this.lineGapDeco);
@@ -10457,10 +10471,22 @@
               span(from, to) { ranges.push({ from, to }); },
               point() { }
           }, 20);
-          let changed = ranges.length != this.visibleRanges.length ||
-              this.visibleRanges.some((r, i) => r.from != ranges[i].from || r.to != ranges[i].to);
+          let changed = 0;
+          if (ranges.length != this.visibleRanges.length) {
+              changed = 8 /* UpdateFlag.ViewportMoved */ | 4 /* UpdateFlag.Viewport */;
+          }
+          else {
+              for (let i = 0; i < ranges.length && !(changed & 8 /* UpdateFlag.ViewportMoved */); i++) {
+                  let old = this.visibleRanges[i], nw = ranges[i];
+                  if (old.from != nw.from || old.to != nw.to) {
+                      changed |= 4 /* UpdateFlag.Viewport */;
+                      if (!(changes && changes.mapPos(old.from, -1) == nw.from && changes.mapPos(old.to, 1) == nw.to))
+                          changed |= 8 /* UpdateFlag.ViewportMoved */;
+                  }
+              }
+          }
           this.visibleRanges = ranges;
-          return changed ? 4 /* UpdateFlag.Viewport */ : 0;
+          return changed;
       }
       lineBlockAt(pos) {
           return (pos >= this.viewport.from && pos <= this.viewport.to &&
@@ -11396,7 +11422,7 @@
               selectionEnd: this.toContextPos(view.state.selection.main.head)
           });
           this.handlers.textupdate = e => {
-              let { anchor } = view.state.selection.main;
+              let main = view.state.selection.main, { anchor, head } = main;
               let from = this.toEditorPos(e.updateRangeStart), to = this.toEditorPos(e.updateRangeEnd);
               if (view.inputState.composing >= 0 && !this.composing)
                   this.composing = { contextBase: e.updateRangeStart, editorBase: from, drifted: false };
@@ -11408,8 +11434,15 @@
               else if (change.to == this.to && anchor > this.to)
                   change.to = anchor;
               // Edit contexts sometimes fire empty changes
-              if (change.from == change.to && !change.insert.length)
+              if (change.from == change.to && !change.insert.length) {
+                  let newSel = EditorSelection.single(this.toEditorPos(e.selectionStart), this.toEditorPos(e.selectionEnd));
+                  if (!newSel.main.eq(main))
+                      view.dispatch({ selection: newSel, userEvent: "select" });
                   return;
+              }
+              if ((browser.mac || browser.android) && change.from == head - 1 &&
+                  /^\. ?$/.test(e.text) && view.contentDOM.getAttribute("autocorrect") == "off")
+                  change = { from, to, insert: Text.of([e.text.replace(".", " ")]) };
               this.pendingContextChange = change;
               if (!view.state.readOnly) {
                   let newLen = this.to - this.from + (change.to - change.from + change.insert.length);
@@ -13067,7 +13100,7 @@
           return pieces(top).concat(between).concat(pieces(bottom));
       }
       function piece(left, top, right, bottom) {
-          return new RectangleMarker(className, left - base.left, top - base.top - 0.01 /* C.Epsilon */, right - left, bottom - top + 0.01 /* C.Epsilon */);
+          return new RectangleMarker(className, left - base.left, top - base.top, right - left, bottom - top);
       }
       function pieces({ top, bottom, horizontal }) {
           let pieces = [];
@@ -18851,10 +18884,10 @@
   // Compute the indentation for a given position from the syntax tree.
   function syntaxIndentation(cx, ast, pos) {
       let stack = ast.resolveStack(pos);
-      let inner = stack.node.enterUnfinishedNodesBefore(pos);
+      let inner = ast.resolveInner(pos, -1).resolve(pos, 0).enterUnfinishedNodesBefore(pos);
       if (inner != stack.node) {
           let add = [];
-          for (let cur = inner; cur != stack.node; cur = cur.parent)
+          for (let cur = inner; cur && !(cur.from == stack.node.from && cur.type == stack.node.type); cur = cur.parent)
               add.push(cur);
           for (let i = add.length - 1; i >= 0; i--)
               stack = { node: add[i], next: stack };
@@ -19720,8 +19753,9 @@
       let snippet = Snippet.parse(template);
       return (editor, completion, from, to) => {
           let { text, ranges } = snippet.instantiate(editor.state, from);
+          let { main } = editor.state.selection;
           let spec = {
-              changes: { from, to, insert: Text.of(text) },
+              changes: { from, to: to == main.from ? main.to : to, insert: Text.of(text) },
               scrollIntoView: true,
               annotations: completion ? [pickedCompletion.of(completion), Transaction.userEvent.of("input.complete")] : undefined
           };
