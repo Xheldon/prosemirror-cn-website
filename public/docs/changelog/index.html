@@ -81,7 +81,11 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.37.1 (2024-12-11)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.37.2 (2025-01-22)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix a bug that caused EditorView.nodeDOM to sometimes not return a DOM node when querying a node next to a widget.">修复了一个导致 <code>EditorView.nodeDOM</code> 在查询位于小部件旁边的节点时有时不返回 DOM 节点的错误。</p>
+<p data-x-en="Fix an issue where an editor would, when scrolling the selection into view, try to do so even if the selection wasn't in that editor.">修复了一个问题，即当编辑器将选择项滚动到视图中时，即使选择项不在该编辑器中，编辑器也会尝试这样做。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.37.1 (2024-12-11)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Fix an issue where display: content elements could break posAtCoords.">修复了 <code>display: content</code> 元素可能导致 <code>posAtCoords</code> 出现问题的情况。</p>
 <p data-x-en="Work around an issue with Chrome reporting the selection incorrectly during composition.">解决 Chrome 在组合期间错误报告选择的问题。</p>

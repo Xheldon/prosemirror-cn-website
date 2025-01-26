@@ -1106,5 +1106,13 @@
   "译者": {
     "_translate": "译者",
     "_note": ""
+  },
+  "The update method in the example makes sure that the \"empty\" class is present or absent, depending on the content of the new node, and returns true, to indicate that the update succeeded (at which point the node's content will be updated).": {
+    "_translate": "<code>update</code> 方法在示例中确保根据新节点的内容来决定 <code>\"empty\"</code> 类的存在或不存在，并返回 true，以表示更新成功（此时，节点的内容将被更新）。",
+    "_note": ""
+  },
+  "The magic happens in the update method. Firstly, this method is responsible for deciding whether the node view can be updated to show the new node at all. It should return false when it cannot.": {
+    "_translate": "魔术发生在<a href=\"/docs/ref/#view.NodeView.update\"><code>update</code> 方法</a>中。首先，此方法负责决定节点视图<em>是否</em>可以更新以显示新节点。当它不能时，应返回 false。",
+    "_note": ""
   }
 }

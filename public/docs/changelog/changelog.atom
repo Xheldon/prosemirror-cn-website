@@ -5,11 +5,20 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2025-01-12T00:09:11.613Z</updated>
+  <updated>2025-01-26T00:08:37.089Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-view 1.37.2</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.37.2"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.37.2</id>
+      <updated>2025-01-22T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix a bug that caused <code>EditorView.nodeDOM</code> to sometimes not return a DOM node when querying a node next to a widget.</p>
+<p>Fix an issue where an editor would, when scrolling the selection into view, try to do so even if the selection wasn't in that editor.</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-view 1.37.1</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.37.1"/>
       <id>https://www.npmjs.com/package/prosemirror-view/v/1.37.1</id>
