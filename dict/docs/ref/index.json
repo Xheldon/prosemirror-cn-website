@@ -3206,5 +3206,21 @@
   "Try to wrap the given node range in a list of the given type. Return true when this is possible, false otherwise. When tr is non-null, the wrapping is added to that transaction. When it is null, the function only queries whether the wrapping is possible.": {
     "_translate": "尝试将给定的节点范围包装在给定类型的列表中。\n返回 <code>true</code> 如果这是可能的，<code>false</code> 否则。当 <code>tr</code>\n非空时，将包装添加到该事务中。当它是\n<code>null</code> 时，该函数仅查询是否可以进行包装。",
     "_note": ""
+  },
+  "Serialize the given slice as it would be if it was copied from this editor. Returns a DOM element that contains a representation of the slice as its children, a textual representation, and the transformed slice (which can be different from the given input due to hooks like transformCopied).": {
+    "_translate": "将给定的切片序列化，就像它是从这个编辑器中复制的一样。返回一个包含切片表示作为其子元素的 DOM 元素，一个文本表示，以及转换后的切片（由于诸如 <a href=\"#view.EditorProps.transformCopied\"><code>transformCopied</code></a> 之类的钩子，它可能与给定的输入不同）。",
+    "_note": ""
+  },
+  "Split the node at the given position, and optionally, if depth is greater than one, any number of nodes above that. By default, the parts split off will inherit the node type of the original node. This can be changed by passing an array of types and attributes to use after the split (with the outermost nodes coming first).": {
+    "_translate": "在给定位置拆分节点，并且可选地，如果 <code>depth</code> 大于一，则拆分该位置之上的任意数量的节点。默认情况下，拆分后的部分将继承原始节点的节点类型。可以通过传递一个类型和属性数组来更改拆分后的节点类型（最外层的节点排在最前面）。",
+    "_note": ""
+  },
+  "By default, this command doesn't apply to leading and trailing whitespace in the selection. Set this to true to change that.": {
+    "_translate": "默认情况下，此命令不适用于选择内容的前导和尾随空白。将其设置为 <code>true</code> 以更改此行为。",
+    "_note": ""
+  },
+  "The following functions are commands and utilities:": {
+    "_translate": "以下功能是<a href=\"/docs/guide/#commands\">命令</a>和实用工具：",
+    "_note": ""
   }
 }

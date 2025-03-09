@@ -822,6 +822,10 @@ addEventListener("load", function() {
   <code><strong><a href="#view.EditorView.pasteText">pasteText</a></strong>(<a id="view.EditorView.pasteText^text" href="#view.EditorView.pasteText^text"><span class="param">text</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a>, <a id="view.EditorView.pasteText^event" href="#view.EditorView.pasteText^event"><span class="param">event</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent"><span class="type">ClipboardEvent</span></a>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
 
 <dd><p data-x-en="Run the editor's paste logic with the given plain-text input.">运行编辑器的粘贴逻辑与给定的纯文本输入。</p>
+</dd><dt id="view.EditorView.serializeForClipboard">
+  <code><strong><a href="#view.EditorView.serializeForClipboard">serializeForClipboard</a></strong>(<a id="view.EditorView.serializeForClipboard^slice" href="#view.EditorView.serializeForClipboard^slice"><span class="param">slice</span></a>:&nbsp;<a href="#model.Slice"><span class="type">Slice</span></a>) →&nbsp;{<span class="prop">dom</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a>, <span class="prop">text</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a>, <span class="prop">slice</span>:&nbsp;<a href="#model.Slice"><span class="type">Slice</span></a>}</code></dt>
+
+<dd><p data-x-en="Serialize the given slice as it would be if it was copied from this editor. Returns a DOM element that contains a representation of the slice as its children, a textual representation, and the transformed slice (which can be different from the given input due to hooks like transformCopied).">将给定的切片序列化，就像它是从这个编辑器中复制的一样。返回一个包含切片表示作为其子元素的 DOM 元素，一个文本表示，以及转换后的切片（由于诸如 <a href="#view.EditorProps.transformCopied"><code>transformCopied</code></a> 之类的钩子，它可能与给定的输入不同）。</p>
 </dd><dt id="view.EditorView.destroy">
   <code><strong><a href="#view.EditorView.destroy">destroy</a></strong>()</code></dt>
 
@@ -2930,13 +2934,9 @@ addEventListener("load", function() {
 
 <dd><p data-x-en="A mapping represents a pipeline of zero or more step maps. It has special provisions for losslessly handling mapping positions through a series of steps in which some steps are inverted versions of earlier steps. (This comes up when ‘rebasing’ steps for collaboration or history management.)">一个 mapping 表示 0 个或者更多个 <a href="#transform.StepMap">step maps</a> 的管道。为了能够无损的处理通过一系列 step 而产生的位置 mapping， 其中一些 steps 很有可能是之前 step 的反转版本（这可能出现在为了协同编辑或者历史管理而 ‘<a href="/docs/guide/#transform.rebasing">rebasing</a>’ step 的时候）因此有一些特殊的规定需要遵守。</p>
 <dl><dt id="transform.Mapping.constructor">
-  <code><span class="keyword">new</span> <strong><a href="#transform.Mapping.constructor">Mapping</a></strong>(<div class="breaktype"><a id="transform.Mapping.constructor^maps" href="#transform.Mapping.constructor^maps"><span class="param">maps</span></a>⁠?:&nbsp;<a href="#transform.StepMap"><span class="type">StepMap</span></a>[]<span class="defaultvalue"> = []</span>, </div><div class="breaktype"><a id="transform.Mapping.constructor^mirror" href="#transform.Mapping.constructor^mirror"><span class="param">mirror</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>[], </div><div class="breaktype"><a id="transform.Mapping.constructor^from" href="#transform.Mapping.constructor^from"><span class="param">from</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = 0</span>, </div><div class="breaktype"><a id="transform.Mapping.constructor^to" href="#transform.Mapping.constructor^to"><span class="param">to</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = maps.length</span></div>)</code></dt>
+  <code><span class="keyword">new</span> <strong><a href="#transform.Mapping.constructor">Mapping</a></strong>(<div class="breaktype"><a id="transform.Mapping.constructor^maps" href="#transform.Mapping.constructor^maps"><span class="param">maps</span></a>⁠?:&nbsp;<span class="keyword">readonly</span>&nbsp;<a href="#transform.StepMap"><span class="type">StepMap</span></a>[], </div><div class="breaktype"><a id="transform.Mapping.constructor^mirror" href="#transform.Mapping.constructor^mirror"><span class="param">mirror</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>[], </div><div class="breaktype"><a id="transform.Mapping.constructor^from" href="#transform.Mapping.constructor^from"><span class="param">from</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = 0</span>, </div><div class="breaktype"><a id="transform.Mapping.constructor^to" href="#transform.Mapping.constructor^to"><span class="param">to</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = maps ? maps.length : 0</span></div>)</code></dt>
 
 <dd><p data-x-en="Create a new mapping with the given position maps.">用给定的位置 maps 新建一个 mapping。</p>
-</dd><dt id="transform.Mapping.maps">
-  <code><strong><a href="#transform.Mapping.maps">maps</a></strong>: <a href="#transform.StepMap"><span class="type">StepMap</span></a>[]</code></dt>
-
-<dd><p data-x-en="The step maps in this mapping.">在当前 mapping 中的 step maps。</p>
 </dd><dt id="transform.Mapping.from">
   <code><strong><a href="#transform.Mapping.from">from</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a></code></dt>
 
@@ -2945,6 +2945,10 @@ addEventListener("load", function() {
   <code><strong><a href="#transform.Mapping.to">to</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a></code></dt>
 
 <dd><p data-x-en="The end position in the maps array."><code>maps</code> 位置的结束位置。</p>
+</dd><dt id="transform.Mapping.maps">
+  <code><strong><a href="#transform.Mapping.maps">maps</a></strong>: <span class="keyword">readonly</span>&nbsp;<a href="#transform.StepMap"><span class="type">StepMap</span></a>[]</code></dt>
+
+<dd><p data-x-en="The step maps in this mapping.">在当前 mapping 中的 step maps。</p>
 </dd><dt id="transform.Mapping.slice">
   <code><strong><a href="#transform.Mapping.slice">slice</a></strong>(<div class="breaktype"><a id="transform.Mapping.slice^from" href="#transform.Mapping.slice^from"><span class="param">from</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = 0</span>, </div><div class="breaktype"><a id="transform.Mapping.slice^to" href="#transform.Mapping.slice^to"><span class="param">to</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = this.maps.length</span></div>) →&nbsp;<a href="#transform.Mapping"><span class="type">Mapping</span></a></code></dt>
 
@@ -3096,7 +3100,7 @@ addEventListener("load", function() {
 </dd><dt id="transform.Transform.split">
   <code><strong><a href="#transform.Transform.split">split</a></strong>(<div class="breaktype"><a id="transform.Transform.split^pos" href="#transform.Transform.split^pos"><span class="param">pos</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, </div><div class="breaktype"><a id="transform.Transform.split^depth" href="#transform.Transform.split^depth"><span class="param">depth</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a><span class="defaultvalue"> = 1</span>, </div><div class="breaktype"><a id="transform.Transform.split^typesAfter" href="#transform.Transform.split^typesAfter"><span class="param">typesAfter</span></a>⁠?:&nbsp;({<span class="prop">type</span>:&nbsp;<a href="#model.NodeType"><span class="type">NodeType</span></a>, <span class="prop">attrs</span>⁠?:&nbsp;<a href="#model.Attrs"><span class="type">Attrs</span></a>} | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null"><span class="prim">null</span></a>)[]</div>) →&nbsp;<a href="#transform.Transform"><span class="type">Transform</span></a></code></dt>
 
-<dd><p data-x-en="Split the node at the given position, and optionally, if depth is greater than one, any number of nodes above that. By default, the parts split off will inherit the node type of the original node. This can be changed by passing an array of types and attributes to use after the split.">在给定位置拆分节点，并且如果 depth 大于 1，还可以选择性地拆分其上方的任意数量的节点。默认情况下，拆分出的部分将继承原始节点的节点类型。这可以通过传递一个类型和属性数组来更改，以便在拆分后使用。</p>
+<dd><p data-x-en="Split the node at the given position, and optionally, if depth is greater than one, any number of nodes above that. By default, the parts split off will inherit the node type of the original node. This can be changed by passing an array of types and attributes to use after the split (with the outermost nodes coming first).">在给定位置拆分节点，并且可选地，如果 <code>depth</code> 大于一，则拆分该位置之上的任意数量的节点。默认情况下，拆分后的部分将继承原始节点的节点类型。可以通过传递一个类型和属性数组来更改拆分后的节点类型（最外层的节点排在最前面）。</p>
 </dd><dt id="transform.Transform.addMark">
   <code><strong><a href="#transform.Transform.addMark">addMark</a></strong>(<a id="transform.Transform.addMark^from" href="#transform.Transform.addMark^from"><span class="param">from</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, <a id="transform.Transform.addMark^to" href="#transform.Transform.addMark^to"><span class="param">to</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, <a id="transform.Transform.addMark^mark" href="#transform.Transform.addMark^mark"><span class="param">mark</span></a>:&nbsp;<a href="#model.Mark"><span class="type">Mark</span></a>) →&nbsp;<a href="#transform.Transform"><span class="type">Transform</span></a></code></dt>
 
@@ -3297,6 +3301,10 @@ addEventListener("load", function() {
   <code><strong><a href="#commands.toggleMark^options.enterInlineAtoms">enterInlineAtoms</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
 
 <dd><p data-x-en="When set to false, this will prevent the command from acting on the content of inline nodes marked as atoms that are completely covered by a selection range.">当设置为 false 时，这将阻止命令对标记为<a href="#model.NodeSpec.atom">原子</a>的内联节点的内容进行操作，这些节点完全被选区范围覆盖。</p>
+</dd><dt id="commands.toggleMark^options.includeWhitespace">
+  <code><strong><a href="#commands.toggleMark^options.includeWhitespace">includeWhitespace</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
+
+<dd><p data-x-en="By default, this command doesn't apply to leading and trailing whitespace in the selection. Set this to true to change that.">默认情况下，此命令不适用于选择内容的前导和尾随空白。将其设置为 <code>true</code> 以更改此行为。</p>
 </dd></dl></dd></dl></dd>
 <dt id="commands.autoJoin">
   <code><strong><a href="#commands.autoJoin">autoJoin</a></strong>(<div class="breaktype"><a id="commands.autoJoin^command" href="#commands.autoJoin^command"><span class="param">command</span></a>:&nbsp;<a href="#state.Command"><span class="type">Command</span></a>, </div><div class="breaktype"><a id="commands.autoJoin^isJoinable" href="#commands.autoJoin^isJoinable"><span class="param">isJoinable</span></a>:&nbsp;<span class="fn">fn</span>(<a id="commands.autoJoin^isJoinable^before" href="#commands.autoJoin^isJoinable^before"><span class="param">before</span></a>:&nbsp;<a href="#model.Node"><span class="type">Node</span></a>, <a id="commands.autoJoin^isJoinable^after" href="#commands.autoJoin^isJoinable^after"><span class="param">after</span></a>:&nbsp;<a href="#model.Node"><span class="type">Node</span></a>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a> | <div class="breaktype"><span class="keyword">readonly</span>&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a>[]</div></div>) →&nbsp;<a href="#state.Command"><span class="type">Command</span></a></code></dt>
@@ -3654,7 +3662,9 @@ addEventListener("load", function() {
 </section><section id="part_schema-list">
     <h2 class="module" id="schema-list">
       <a href="#schema-list">prosemirror-schema-list <span class="kind">module</span></a>
-    </h2><dl>
+    </h2><p data-x-en="This module exports list-related schema elements and commands. The commands assume lists to be nestable, with the restriction that the first child of a list item is a plain paragraph.">本模块导出了列表相关的 schema 元素和命令。命令假设列表是可以被嵌套的，以及限制列表项的第一个元素必须为普通段落元素。</p>
+<p data-x-en="These are the node specs:">下面这些是节点配置对象：</p>
+<dl>
 <dt id="schema-list.orderedList">
   <code><strong><a href="#schema-list.orderedList">orderedList</a></strong>: <a href="#model.NodeSpec"><span class="type">NodeSpec</span></a></code></dt>
 
@@ -3676,6 +3686,15 @@ addEventListener("load", function() {
 <dd><p data-x-en="Convenience function for adding list-related node types to a map specifying the nodes for a schema. Adds orderedList as &quot;ordered_list&quot;, bulletList as &quot;bullet_list&quot;, and listItem as &quot;list_item&quot;.">为 schema 方便的添加列表相关的节点类型到一个特定的节点类型的函数。<a href="#schema-list.orderedList"><code>orderedList</code></a> 表示为 <code>"ordered_list"</code>， <a href="#schema-list.bulletList"><code>bulletList</code></a> 表示为 <code>"bullet_list"</code>， 以及 <a href="#schema-list.listItem"><code>listItem</code></a> 表示为 <code>"list_item"</code>。</p>
 <p data-x-en="itemContent determines the content expression for the list items. If you want the commands defined in this module to apply to your list structure, it should have a shape like &quot;paragraph block*&quot; or &quot;paragraph (ordered_list | bullet_list)*&quot;. listGroup can be given to assign a group name to the list node types, for example &quot;block&quot;."><code>itemContent</code> 决定了列表项的内容表达式。如果你想要在本模块中定义的命令应用于你自己的列表结构，则它的值应该是诸如 <code>"paragraph block*"</code> 或者 <code>"paragraph (ordered_list | bullet_list)*"</code> 之类的。<code>listGroup</code> 可以将列表节点类型分配到一个组名，比如 <code>"block"</code>。</p>
 </dd>
+</dl>
+<p data-x-en="Using this would look something like this:">本模块使用方式应该像下面这样：</p>
+<pre><code class="language-javascript"><span class="tok-keyword">const</span> <span class="tok-variableName tok-definition">mySchema</span> <span class="tok-operator">=</span> <span class="tok-keyword">new</span> <span class="tok-className">Schema</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span>
+  <span class="tok-propertyName tok-definition">nodes</span><span class="tok-punctuation">:</span> <span class="tok-variableName">addListNodes</span><span class="tok-punctuation">(</span><span class="tok-variableName">baseSchema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">nodes</span><span class="tok-punctuation">,</span> <span class="tok-string">"paragraph block*"</span><span class="tok-punctuation">,</span> <span class="tok-string">"block"</span><span class="tok-punctuation">)</span><span class="tok-punctuation">,</span>
+  <span class="tok-propertyName tok-definition">marks</span><span class="tok-punctuation">:</span> <span class="tok-variableName">baseSchema</span><span class="tok-operator">.</span><span class="tok-propertyName">spec</span><span class="tok-operator">.</span><span class="tok-propertyName">marks</span>
+<span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
+</code></pre>
+<p data-x-en="The following functions are commands and utilities:">以下功能是<a href="/docs/guide/#commands">命令</a>和实用工具：</p>
+<dl>
 <dt id="schema-list.wrapInList">
   <code><strong><a href="#schema-list.wrapInList">wrapInList</a></strong>(<div class="breaktype"><a id="schema-list.wrapInList^listType" href="#schema-list.wrapInList^listType"><span class="param">listType</span></a>:&nbsp;<a href="#model.NodeType"><span class="type">NodeType</span></a>, </div><div class="breaktype"><a id="schema-list.wrapInList^attrs" href="#schema-list.wrapInList^attrs"><span class="param">attrs</span></a>⁠?:&nbsp;<a href="#model.Attrs"><span class="type">Attrs</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null"><span class="prim">null</span></a><span class="defaultvalue"> = null</span></div>) →&nbsp;<a href="#state.Command"><span class="type">Command</span></a></code></dt>
 
@@ -3709,7 +3728,8 @@ addEventListener("load", function() {
 
 <dd><p data-x-en="Create a command to sink the list item around the selection down into an inner list.">创建一个命令，该命令会将选区所在的列表项缩进到一个内部列表中去。</p>
 </dd>
-</dl></section><script src="ref.js"></script></article>
+</dl>
+</section><script src="ref.js"></script></article>
 
 <footer>
   <nav>

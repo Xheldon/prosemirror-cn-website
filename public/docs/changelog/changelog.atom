@@ -5,11 +5,53 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2025-02-02T00:08:32.990Z</updated>
+  <updated>2025-03-09T00:07:36.601Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-transform 1.10.3</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-transform/v/1.10.3"/>
+      <id>https://www.npmjs.com/package/prosemirror-transform/v/1.10.3</id>
+      <updated>2025-03-04T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make sure <code>Mapping.appendMap</code> doesn't mutate shared arrays passed to its constructor.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.38.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.38.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.38.1</id>
+      <updated>2025-03-04T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix a regression in 1.38.0 that breaks scrolling back to the selection after Chrome tries to reset it on focus.</p>
+<p>Remove some internally used types from the public type declaration files. Include file extension in web test local imports</p>
+<p>Fix an issue where scrolling the cursor into view could inappropriately scroll parent nodes of absolutely positioned elements.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-schema-list 1.5.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-schema-list/v/1.5.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-schema-list/v/1.5.1</id>
+      <updated>2025-03-04T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where <code>liftListItem</code> would, in some circumstances, join lists of different types when they ended up on the same level.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-commands 1.7.0</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-commands/v/1.7.0"/>
+      <id>https://www.npmjs.com/package/prosemirror-commands/v/1.7.0</id>
+      <updated>2025-02-20T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>New features</h3>
+<p><code>toggleMark</code> now accepts an <code>includeWhitespace</code> option that controls whether it affects leading/trailing space.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.38.0</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.38.0"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.38.0</id>
+      <updated>2025-02-12T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>New features</h3>
+<p>The clipboard serialization logic is now available as a <code>serializeToClipboard</code> method on the view object.</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-view 1.37.2</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.37.2"/>
       <id>https://www.npmjs.com/package/prosemirror-view/v/1.37.2</id>

@@ -81,7 +81,24 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.37.2 (2025-01-22)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#transform">prosemirror-transform</a> 1.10.3 (2025-03-04)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Make sure Mapping.appendMap doesn't mutate shared arrays passed to its constructor.">确保 <code>Mapping.appendMap</code> 不会修改传递给其构造函数的共享数组。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.38.1 (2025-03-04)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix a regression in 1.38.0 that breaks scrolling back to the selection after Chrome tries to reset it on focus.">修复 1.38.0 中的回归问题，该问题在 Chrome 尝试在聚焦时重置选择后导致无法滚动回到选择位置。</p>
+<p data-x-en="Remove some internally used types from the public type declaration files. Include file extension in web test local imports">从公共类型声明文件中移除一些内部使用类型。在 Web 测试本地导入中包含文件扩展名。</p>
+<p data-x-en="Fix an issue where scrolling the cursor into view could inappropriately scroll parent nodes of absolutely positioned elements.">修复了一个问题，即滚动光标进入视图可能会不恰当地滚动绝对定位元素的父节点。</p>
+<h3><a href="../ref/#schema-list">prosemirror-schema-list</a> 1.5.1 (2025-03-04)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue where liftListItem would, in some circumstances, join lists of different types when they ended up on the same level.">修复了一个问题，即在某些情况下，<code>liftListItem</code> 会将不同类型的列表合并，当它们最终处于同一级别时。</p>
+<h3><a href="../ref/#commands">prosemirror-commands</a> 1.7.0 (2025-02-20)</h3>
+<h4>New features</h4>
+<p data-x-en="toggleMark now accepts an includeWhitespace option that controls whether it affects leading/trailing space."><code>toggleMark</code> 现在接受一个 <code>includeWhitespace</code> 选项，用于控制是否影响前导/尾随空格。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.38.0 (2025-02-12)</h3>
+<h4>New features</h4>
+<p data-x-en="The clipboard serialization logic is now available as a serializeToClipboard method on the view object.">剪贴板序列化逻辑现在作为视图对象上的 <code>serializeToClipboard</code> 方法提供。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.37.2 (2025-01-22)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Fix a bug that caused EditorView.nodeDOM to sometimes not return a DOM node when querying a node next to a widget.">修复了一个导致 <code>EditorView.nodeDOM</code> 在查询位于小部件旁边的节点时有时不返回 DOM 节点的错误。</p>
 <p data-x-en="Fix an issue where an editor would, when scrolling the selection into view, try to do so even if the selection wasn't in that editor.">修复了一个问题，即当编辑器将选择项滚动到视图中时，即使选择项不在该编辑器中，编辑器也会尝试这样做。</p>

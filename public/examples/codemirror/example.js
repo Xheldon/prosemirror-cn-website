@@ -1845,6 +1845,11 @@
                   return 1 /* SlotStatus.Changed */;
               },
               reconfigure: (state, oldState) => {
+                  let init = state.facet(initField), oldInit = oldState.facet(initField), reInit;
+                  if ((reInit = init.find(i => i.field == this)) && reInit != oldInit.find(i => i.field == this)) {
+                      state.values[idx] = reInit.create(state);
+                      return 1 /* SlotStatus.Changed */;
+                  }
                   if (oldState.config.address[this.id] != null) {
                       state.values[idx] = oldState.field(this);
                       return 0;
@@ -4366,14 +4371,14 @@
               let moveX = 0, moveY = 0;
               if (y == "nearest") {
                   if (rect.top < bounding.top) {
-                      moveY = -(bounding.top - rect.top + yMargin);
+                      moveY = rect.top - (bounding.top + yMargin);
                       if (side > 0 && rect.bottom > bounding.bottom + moveY)
-                          moveY = rect.bottom - bounding.bottom + moveY + yMargin;
+                          moveY = rect.bottom - bounding.bottom + yMargin;
                   }
                   else if (rect.bottom > bounding.bottom) {
                       moveY = rect.bottom - bounding.bottom + yMargin;
                       if (side < 0 && (rect.top - moveY) < bounding.top)
-                          moveY = -(bounding.top + moveY - rect.top + yMargin);
+                          moveY = rect.top - (bounding.top + yMargin);
                   }
               }
               else {
@@ -4385,14 +4390,14 @@
               }
               if (x == "nearest") {
                   if (rect.left < bounding.left) {
-                      moveX = -(bounding.left - rect.left + xMargin);
+                      moveX = rect.left - (bounding.left + xMargin);
                       if (side > 0 && rect.right > bounding.right + moveX)
-                          moveX = rect.right - bounding.right + moveX + xMargin;
+                          moveX = rect.right - bounding.right + xMargin;
                   }
                   else if (rect.right > bounding.right) {
                       moveX = rect.right - bounding.right + xMargin;
                       if (side < 0 && rect.left < bounding.left + moveX)
-                          moveX = -(bounding.left + moveX - rect.left + xMargin);
+                          moveX = rect.left - (bounding.left + xMargin);
                   }
               }
               else {
@@ -4427,6 +4432,10 @@
               }
               if (top)
                   break;
+              if (rect.top < bounding.top || rect.bottom > bounding.bottom ||
+                  rect.left < bounding.left || rect.right > bounding.right)
+                  rect = { left: Math.max(rect.left, bounding.left), right: Math.min(rect.right, bounding.right),
+                      top: Math.max(rect.top, bounding.top), bottom: Math.min(rect.bottom, bounding.bottom) };
               cur = cur.assignedSlot || cur.parentNode;
           }
           else if (cur.nodeType == 11) { // A shadow root
@@ -8440,7 +8449,10 @@
               return;
           if (event.type == "keydown" && this.keydown(event))
               return;
-          this.runHandlers(event.type, event);
+          if (this.view.updateState != 0 /* UpdateState.Idle */)
+              Promise.resolve().then(() => this.runHandlers(event.type, event));
+          else
+              this.runHandlers(event.type, event);
       }
       runHandlers(type, event) {
           let handlers = this.handlers[type];
@@ -11543,8 +11555,11 @@
           return !abort;
       }
       update(update) {
-          let reverted = this.pendingContextChange;
-          if (this.composing && (this.composing.drifted || update.transactions.some(tr => !tr.isUserEvent("input.type") && tr.changes.touchesRange(this.from, this.to)))) {
+          let reverted = this.pendingContextChange, startSel = update.startState.selection.main;
+          if (this.composing &&
+              (this.composing.drifted ||
+                  (!update.changes.touchesRange(startSel.from, startSel.to) &&
+                      update.transactions.some(tr => !tr.isUserEvent("input.type") && tr.changes.touchesRange(this.from, this.to))))) {
               this.composing.drifted = true;
               this.composing.editorBase = update.changes.mapPos(this.composing.editorBase);
           }
@@ -19992,6 +20007,7 @@
       "VariableDefinition", "TypeDefinition", "Label",
       "PropertyDefinition", "PropertyName",
       "PrivatePropertyDefinition", "PrivatePropertyName",
+      "JSXText", "JSXAttributeValue", "JSXOpenTag", "JSXCloseTag", "JSXSelfClosingTag",
       ".", "?."
   ];
   /**
