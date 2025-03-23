@@ -8457,6 +8457,7 @@
               toDOM(node) { return ["a", node.attrs]; }
           },
           code: {
+              code: true,
               parseDOM: [{ tag: "code" }],
               toDOM() { return ["code"]; }
           }

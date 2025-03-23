@@ -2092,6 +2092,10 @@ addEventListener("load", function() {
   <code><strong><a href="#model.MarkSpec.spanning">spanning</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
 
 <dd><p data-x-en="Determines whether marks of this type can span multiple adjacent nodes when serialized to DOM/HTML. Defaults to true.">决定当序列化为 DOM/HTML 的时候，当前类型的 marks 能否应用到相邻的多个节点上去。默认是 true。</p>
+</dd><dt id="model.MarkSpec.code">
+  <code><strong><a href="#model.MarkSpec.code">code</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
+
+<dd><p data-x-en="Marks the content of this span as being code, which causes some commands and extensions to treat it differently.">将此跨度的内容标记为代码，这会导致某些命令和扩展程序对其区别对待。</p>
 </dd><dt id="model.MarkSpec.toDOM">
   <code><strong><a href="#model.MarkSpec.toDOM">toDOM</a></strong>⁠?: <span class="fn">fn</span>(<a id="model.MarkSpec.toDOM^mark" href="#model.MarkSpec.toDOM^mark"><span class="param">mark</span></a>:&nbsp;<a href="#model.Mark"><span class="type">Mark</span></a>, <a id="model.MarkSpec.toDOM^inline" href="#model.MarkSpec.toDOM^inline"><span class="param">inline</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a>) →&nbsp;<a href="#model.DOMOutputSpec"><span class="type">DOMOutputSpec</span></a></code></dt>
 
@@ -3488,8 +3492,15 @@ addEventListener("load", function() {
   <code><strong><a href="#inputrules.InputRule.constructor^options.inCode">inCode</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a> | <span class="string">"only"</span></code></dt>
 
 <dd><p data-x-en="By default, input rules will not apply inside nodes marked as code. Set this to true to change that, or to &quot;only&quot; to only match in such nodes.">默认情况下，输入规则不会应用于标记为<a href="#model.NodeSpec.code">code</a>的节点。将其设置为true以更改此设置，或设置为<code>"only"</code>以<em>仅</em>在此类节点中匹配。</p>
+</dd><dt id="inputrules.InputRule.constructor^options.inCodeMark">
+  <code><strong><a href="#inputrules.InputRule.constructor^options.inCodeMark">inCodeMark</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
+
+<dd><p data-x-en="When set to false, this rule will not fire inside marks marked as code. The default is true.">当设置为 <code>false</code> 时，此规则将不会在标记为 <a href="#model.MarkSpec.code">code</a> 的标记内触发。默认值为 <code>true</code>。</p>
 </dd></dl></dd></dl></dd><dt id="inputrules.InputRule.inCode">
   <code><strong><a href="#inputrules.InputRule.inCode">inCode</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a> | <span class="string">"only"</span></code></dt>
+
+<dd></dd><dt id="inputrules.InputRule.inCodeMark">
+  <code><strong><a href="#inputrules.InputRule.inCodeMark">inCodeMark</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a> | <span class="string">"only"</span></code></dt>
 
 <dd></dd></dl>
 

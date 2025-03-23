@@ -3222,5 +3222,13 @@
   "The following functions are commands and utilities:": {
     "_translate": "以下功能是<a href=\"/docs/guide/#commands\">命令</a>和实用工具：",
     "_note": ""
+  },
+  "Marks the content of this span as being code, which causes some commands and extensions to treat it differently.": {
+    "_translate": "将此跨度的内容标记为代码，这会导致某些命令和扩展程序对其区别对待。",
+    "_note": ""
+  },
+  "When set to false, this rule will not fire inside marks marked as code. The default is true.": {
+    "_translate": "当设置为 <code>false</code> 时，此规则将不会在标记为 <a href=\"#model.MarkSpec.code\">code</a> 的标记内触发。默认值为 <code>true</code>。",
+    "_note": ""
   }
 }

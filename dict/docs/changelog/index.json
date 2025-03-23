@@ -4306,5 +4306,25 @@
   "The clipboard serialization logic is now available as a serializeToClipboard method on the view object.": {
     "_translate": "剪贴板序列化逻辑现在作为视图对象上的 <code>serializeToClipboard</code> 方法提供。",
     "_note": ""
+  },
+  "Mark specs can now be marked with a code property.": {
+    "_translate": "Mark 规格现在可以使用 <code>code</code> 属性进行标记。",
+    "_note": ""
+  },
+  "Set inCodeMark to false for emdash and quote input rules.": {
+    "_translate": "将 <code>inCodeMark</code> 设置为 false，以处理 emdash 和引号输入规则。",
+    "_note": ""
+  },
+  "Input rules now take an inCodeMark option that can be used to turn them off inside marks marked as code.": {
+    "_translate": "输入规则现在接受一个 <code>inCodeMark</code> 选项，可以用于在标记为代码的标记内将其关闭。",
+    "_note": ""
+  },
+  "Add a code flag to the code mark.": {
+    "_translate": "添加一个 <code>code</code> 标志到代码标记。",
+    "_note": ""
+  },
+  "Fix a bug where input rules behaved incorrectly when text input inserted multiple characters and only a part of those were matched by a rule.": {
+    "_translate": "修复了一个当文本输入插入多个字符且只有部分字符被规则匹配时，输入规则行为不正确的错误。",
+    "_note": ""
   }
 }
