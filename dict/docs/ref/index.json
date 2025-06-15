@@ -3230,5 +3230,21 @@
   "When set to false, this rule will not fire inside marks marked as code. The default is true.": {
     "_translate": "当设置为 <code>false</code> 时，此规则将不会在标记为 <a href=\"#model.MarkSpec.code\">code</a> 的标记内触发。默认值为 <code>true</code>。",
     "_note": ""
+  },
+  "Determines whether an in-editor drag event should copy or move the selection. When not given, the event's altKey property is used on macOS, ctrlKey on other platforms.": {
+    "_translate": "确定在编辑器中拖动事件是否应复制或移动选择。未提供时，在macOS上使用事件的<code>altKey</code>属性，在其他平台上使用<code>ctrlKey</code>。",
+    "_note": ""
+  },
+  "By default, the cursor, when at the position of the widget, will be strictly kept on the side indicated by side. Set this to true to allow the DOM selection to stay on the other side if the client sets it there.": {
+    "_translate": "默认情况下，当光标位于小部件的位置时，\n将严格保持在由\n<a href=\"#view.Decoration%5Ewidget%5Espec.side\"><code>side</code></a> 指示的一侧。将此设置为 true\n以允许在客户端将其设置到另一侧时，DOM 选择保持在另一侧。",
+    "_note": ""
+  },
+  "Remove a mark (or all marks of the given type) from the node at position pos.": {
+    "_translate": "从位置 <code>pos</code> 的节点中移除一个标记（或所有给定类型的标记）。",
+    "_note": ""
+  },
+  "Note: Mapping of this decoration, which decides on which side insertions at its position appear, will still happen according to side, and keyboard cursor motion will not, without further custom handling, visit both sides of the widget.": {
+    "_translate": "<strong>注意</strong>: 此装饰的映射，决定在其位置插入的内容出现在哪一侧，仍将根据<code>side</code>进行，键盘光标的移动在没有进一步的自定义处理的情况下，不会访问小部件的两侧。",
+    "_note": ""
   }
 }

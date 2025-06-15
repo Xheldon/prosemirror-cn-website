@@ -8,7 +8,6 @@
       <a href="/docs/" class="active">文档</a>
       <a href="https://discuss.prosemirror.net/">论坛</a>
       <a href="https://github.com/prosemirror">GitHub</a>
-      <a href="https://twitter.com/prosemirror">Twitter</a>
     <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
@@ -81,7 +80,54 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#model">prosemirror-model</a> 1.25.0 (2025-03-18)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.40.0 (2025-06-02)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Suppress lint warnings about dereferencing methods by making EditorView.dispatch a property instead of a method.">通过将<code>EditorView.dispatch</code>设为属性而不是方法来抑制关于解引用方法的lint警告。</p>
+<h4>New features</h4>
+<p data-x-en="The &quot;handleTextInput&quot; prop now takes an additional argument that can be used to generate the default transaction for that text change."><code>"handleTextInput"</code> prop 现在接受一个额外的参数，可以用于为该文本更改生成默认交易。</p>
+<p data-x-en="Widget decorations now support a relaxedSide option which can be used to allow the DOM cursor to appear at either side.">小部件装饰现在支持一个 <code>relaxedSide</code> 选项，可以用于允许 DOM 光标出现在任意一侧。</p>
+<h3><a href="../ref/#changeset">prosemirror-changeset</a> 2.3.1 (2025-05-28)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Improve diffing to not treat closing tokens of different node types as the same token.">改善差异处理，以不将不同节点类型的关闭标记视为相同的标记。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.39.3 (2025-05-14)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue where clicks using different mouse buttons could be grouped into a single double- or triple-click.">修复了一个问题，即使用不同鼠标按钮的点击可能会被组合成单个双击或三击。</p>
+<p data-x-en="Only delete the selection when starting a composition when it crosses block boundaries.">仅在开始创作时删除跨越块边界的选区。</p>
+<h3><a href="../ref/#changeset">prosemirror-changeset</a> 2.3.0 (2025-05-05)</h3>
+<h4>New features</h4>
+<p data-x-en="Change sets can now be passed a custom token encoder that controls the way changed content is diffed.">变更集现在可以传递一个自定义的令牌编码器，该编码器控制更改内容的差异方式。</p>
+<h3><a href="../ref/#keymap">prosemirror-keymap</a> 1.2.3 (2025-05-04)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue where the library was too eager to dispatch keys by key code when the character produced isn't ASCII.">修复了一个问题，即当生成的字符不是ASCII时，库过于急切地通过键码分派键。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.25.1 (2025-04-22)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Make the DOM parser not discard nodes whose document representation cannot be placed inside the represenation of some parent DOM node.">使DOM解析器不丢弃其文档表示无法放置在某些父DOM节点表示内的节点。</p>
+<h3><a href="../ref/#transform">prosemirror-transform</a> 1.10.4 (2025-04-22)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix a bug that caused mapping ReplaceSteps to reset their structure flag.">修复了一个导致映射 <code>ReplaceStep</code> 重置其 <code>structure</code> 标志的错误。</p>
+<p data-x-en="Align removeNodeMark's behavior to that of removeMark. When passing in a node type, it now removes all occurrences of that type.">将 <code>removeNodeMark</code> 的行为与 <code>removeMark</code> 对齐。当传入一个节点类型时，现在它会移除该类型的所有实例。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.39.2 (2025-04-22)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Default to using trustedTypes.defaultPolicy for clipboard input, when available.">默认情况下，当可用时，使用 <code>trustedTypes.defaultPolicy</code> 处理剪贴板输入。</p>
+<p data-x-en="Fix an issue where pasting multiple lines from the virtual keyboard on Android would have only the effect of an enter press.">修复了一个问题，即在 Android 上从虚拟键盘粘贴多行时，只会产生按下回车的效果。</p>
+<h3><a href="../ref/#menu">prosemirror-menu</a> 1.2.5 (2025-04-22)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Make sure the menu is re-rendered when the editor's root changes, so that it doesn't reference icons whose SVG lives in another root.">确保在编辑器的根更改时重新渲染菜单，以便它不会引用位于另一个根中的SVG图标。</p>
+<h3><a href="../ref/#dropcursor">prosemirror-dropcursor</a> 1.8.2 (2025-04-22)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Make sure the drop cursor is positioned in the right place when the editor is scaled with a CSS transform.">确保在使用 CSS 转换缩放编辑器时，下拉光标位于正确的位置。</p>
+<p data-x-en="Fix the width of the cursor when in a transformed element. Fix incorrect check in dragleave handler">修复在转换元素中时光标的宽度。修复拖动离开处理程序中的错误检查。</p>
+<p data-x-en="Fix an issue where the dropcursor would hide when drag moved over the top editor element.">修复了一个问题，当拖动移到顶部编辑器元素上时，dropcursor 会隐藏。</p>
+<h3><a href="../ref/#commands">prosemirror-commands</a> 1.7.1 (2025-04-13)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix a regression in splitBlock that would cause it to crash, rather than return false, when no split is possible.">修复 <code>splitBlock</code> 中的一个回归问题，该问题会导致在无法拆分时崩溃，而不是返回 false。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.39.1 (2025-04-04)</h3>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.39.0 (2025-04-04)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue where, with some types of schemas, pressing Enter on Android with a Chinese keyboard wouldn't properly detect the Enter press.">修复了一个问题，即在某些类型的模式下，使用中文键盘在 Android 上按下 Enter 键时，系统无法正确检测到 Enter 键的按下。</p>
+<h4>New features</h4>
+<p data-x-en="The new dragCopies prop can be used to configure whether a drag event inside the editor copies or moves content.">新的 <code>dragCopies</code> 属性可用于配置编辑器内的拖动事件是复制还是移动内容。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.25.0 (2025-03-18)</h3>
 <h4>New features</h4>
 <p data-x-en="Mark specs can now be marked with a code property.">Mark 规格现在可以使用 <code>code</code> 属性进行标记。</p>
 <h3><a href="../ref/#inputrules">prosemirror-inputrules</a> 1.5.0 (2025-03-18)</h3>
@@ -92,7 +138,7 @@
 <p data-x-en="Input rules now take an inCodeMark option that can be used to turn them off inside marks marked as code.">输入规则现在接受一个 <code>inCodeMark</code> 选项，可以用于在标记为代码的标记内将其关闭。</p>
 <h3><a href="../ref/#schema-basic">prosemirror-schema-basic</a> 1.2.4 (2025-03-18)</h3>
 <h4>Bug fixes</h4>
-<p data-x-en="Add a code flag to the code mark.">添加一个 <code>code</code> 标志到代码标记中。</p>
+<p data-x-en="Add a code flag to the code mark.">添加一个 <code>code</code> 标志到代码标记。</p>
 <h3><a href="../ref/#markdown">prosemirror-markdown</a> 1.13.2 (2025-03-18)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Add a code flag to the code mark.">添加一个 <code>code</code> 标志到代码标记。</p>

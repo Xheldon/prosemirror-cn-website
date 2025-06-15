@@ -5,11 +5,123 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2025-03-23T00:09:30.835Z</updated>
+  <updated>2025-06-15T00:10:54.334Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-view 1.40.0</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.40.0"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.40.0</id>
+      <updated>2025-06-02T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Suppress lint warnings about dereferencing methods by making <code>EditorView.dispatch</code> a property instead of a method.</p>
+<h3>New features</h3>
+<p>The <code>&quot;handleTextInput&quot;</code> prop now takes an additional argument that can be used to generate the default transaction for that text change.</p>
+<p>Widget decorations now support a <code>relaxedSide</code> option which can be used to allow the DOM cursor to appear at either side.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-changeset 2.3.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-changeset/v/2.3.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-changeset/v/2.3.1</id>
+      <updated>2025-05-28T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Improve diffing to not treat closing tokens of different node types as the same token.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.39.3</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.39.3"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.39.3</id>
+      <updated>2025-05-14T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where clicks using different mouse buttons could be grouped into a single double- or triple-click.</p>
+<p>Only delete the selection when starting a composition when it crosses block boundaries.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-changeset 2.3.0</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-changeset/v/2.3.0"/>
+      <id>https://www.npmjs.com/package/prosemirror-changeset/v/2.3.0</id>
+      <updated>2025-05-05T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>New features</h3>
+<p>Change sets can now be passed a custom token encoder that controls the way changed content is diffed.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-keymap 1.2.3</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-keymap/v/1.2.3"/>
+      <id>https://www.npmjs.com/package/prosemirror-keymap/v/1.2.3</id>
+      <updated>2025-05-04T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where the library was too eager to dispatch keys by key code when the character produced isn't ASCII.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-model 1.25.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-model/v/1.25.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-model/v/1.25.1</id>
+      <updated>2025-04-22T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make the DOM parser not discard nodes whose document representation cannot be placed inside the represenation of some parent DOM node.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-transform 1.10.4</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-transform/v/1.10.4"/>
+      <id>https://www.npmjs.com/package/prosemirror-transform/v/1.10.4</id>
+      <updated>2025-04-22T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix a bug that caused mapping <code>ReplaceStep</code>s to reset their <code>structure</code> flag.</p>
+<p>Align <code>removeNodeMark</code>'s behavior to that of <code>removeMark</code>. When passing in a node type, it now removes all occurrences of that type.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.39.2</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.39.2"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.39.2</id>
+      <updated>2025-04-22T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Default to using <code>trustedTypes.defaultPolicy</code> for clipboard input, when available.</p>
+<p>Fix an issue where pasting multiple lines from the virtual keyboard on Android would have only the effect of an enter press.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-menu 1.2.5</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-menu/v/1.2.5"/>
+      <id>https://www.npmjs.com/package/prosemirror-menu/v/1.2.5</id>
+      <updated>2025-04-22T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make sure the menu is re-rendered when the editor's root changes, so that it doesn't reference icons whose SVG lives in another root.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-dropcursor 1.8.2</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-dropcursor/v/1.8.2"/>
+      <id>https://www.npmjs.com/package/prosemirror-dropcursor/v/1.8.2</id>
+      <updated>2025-04-22T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make sure the drop cursor is positioned in the right place when the editor is scaled with a CSS transform.</p>
+<p>Fix the width of the cursor when in a transformed element. Fix incorrect check in dragleave handler</p>
+<p>Fix an issue where the dropcursor would hide when drag moved over the top editor element.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-commands 1.7.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-commands/v/1.7.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-commands/v/1.7.1</id>
+      <updated>2025-04-13T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix a regression in <code>splitBlock</code> that would cause it to crash, rather than return false, when no split is possible.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.39.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.39.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.39.1</id>
+      <updated>2025-04-04T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.39.0</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.39.0"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.39.0</id>
+      <updated>2025-04-04T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where, with some types of schemas, pressing Enter on Android with a Chinese keyboard wouldn't properly detect the Enter press.</p>
+<h3>New features</h3>
+<p>The new <code>dragCopies</code> prop can be used to configure whether a drag event inside the editor copies or moves content.</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-model 1.25.0</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-model/v/1.25.0"/>
       <id>https://www.npmjs.com/package/prosemirror-model/v/1.25.0</id>
