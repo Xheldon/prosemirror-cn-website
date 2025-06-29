@@ -10825,13 +10825,16 @@
           display: "flex",
           height: "100%",
           boxSizing: "border-box",
-          insetInlineStart: 0,
-          zIndex: 200
+          zIndex: 200,
       },
+      ".cm-gutters-before": { insetInlineStart: 0 },
+      ".cm-gutters-after": { insetInlineEnd: 0 },
       "&light .cm-gutters": {
           backgroundColor: "#f5f5f5",
           color: "#6c6c6c",
-          borderRight: "1px solid #ddd"
+          border: "0px solid #ddd",
+          "&.cm-gutters-before": { borderRightWidth: "1px" },
+          "&.cm-gutters-after": { borderLeftWidth: "1px" },
       },
       "&dark .cm-gutters": {
           backgroundColor: "#333338",
@@ -11022,7 +11025,7 @@
               else
                   this.flush();
           });
-          if (window.EditContext && view.constructor.EDIT_CONTEXT !== false &&
+          if (window.EditContext && browser.android && view.constructor.EDIT_CONTEXT !== false &&
               // Chrome <126 doesn't support inverted selections in edit context (#1392)
               !(browser.chrome && browser.chrome_version < 126)) {
               this.editContext = new EditContextManager(view);
