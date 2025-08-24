@@ -5,11 +5,37 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2025-06-29T00:10:51.095Z</updated>
+  <updated>2025-08-24T03:21:34.602Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-model 1.25.3</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-model/v/1.25.3"/>
+      <id>https://www.npmjs.com/package/prosemirror-model/v/1.25.3</id>
+      <updated>2025-08-06T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix a bug in <code>Slice</code> that made it possible for invalid <code>ReplaceAroundStep</code>s to be applied in some situations.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.40.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.40.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.40.1</id>
+      <updated>2025-07-18T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where, for some Android virtual keyboards, joining textblocks that contain an image with Backspace would run the handler for Enter instead.</p>
+<p>Fix an issue causing <code>posAtCoords</code> to get confused by table cells sticking out of their parent row elements.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-model 1.25.2</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-model/v/1.25.2"/>
+      <id>https://www.npmjs.com/package/prosemirror-model/v/1.25.2</id>
+      <updated>2025-07-11T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Suppress lint warnings about dereferencing methods by making <code>Schema.nodeFromJSON</code> and <code>markFromJSON</code> properties instead of methods.</p>
+<p>Avoid using <code>setAttribute(&quot;style&quot;, ...)</code> to stay clear of content security policies.</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-view 1.40.0</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.40.0"/>
       <id>https://www.npmjs.com/package/prosemirror-view/v/1.40.0</id>

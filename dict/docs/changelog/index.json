@@ -4406,5 +4406,25 @@
   "The new dragCopies prop can be used to configure whether a drag event inside the editor copies or moves content.": {
     "_translate": "新的 <code>dragCopies</code> 属性可用于配置编辑器内的拖动事件是复制还是移动内容。",
     "_note": ""
+  },
+  "Fix a bug in Slice that made it possible for invalid ReplaceAroundSteps to be applied in some situations.": {
+    "_translate": "修复了 <code>Slice</code> 中的一个错误，该错误导致在某些情况下可以应用无效的 <code>ReplaceAroundStep</code>。",
+    "_note": ""
+  },
+  "Fix an issue where, for some Android virtual keyboards, joining textblocks that contain an image with Backspace would run the handler for Enter instead.": {
+    "_translate": "修复了一个问题，即对于某些 Android 虚拟键盘，使用 Backspace 连接包含图像的文本块时，会运行 Enter 的处理程序。",
+    "_note": ""
+  },
+  "Fix an issue causing posAtCoords to get confused by table cells sticking out of their parent row elements.": {
+    "_translate": "修复导致 <code>posAtCoords</code> 被表格单元格超出其父行元素而混淆的问题。",
+    "_note": ""
+  },
+  "Suppress lint warnings about dereferencing methods by making Schema.nodeFromJSON and markFromJSON properties instead of methods.": {
+    "_translate": "通过将<code>Schema.nodeFromJSON</code>和<code>markFromJSON</code>转换为属性而不是方法来抑制关于解引用方法的lint警告。",
+    "_note": ""
+  },
+  "Avoid using setAttribute(\"style\", ...) to stay clear of content security policies.": {
+    "_translate": "避免使用<code>setAttribute(\"style\", ...)</code>以避免内容安全策略。",
+    "_note": ""
   }
 }

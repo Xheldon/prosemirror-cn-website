@@ -9330,7 +9330,7 @@
       heightForLine(length) {
           if (!this.lineWrapping)
               return this.lineHeight;
-          let lines = 1 + Math.max(0, Math.ceil((length - this.lineLength) / (this.lineLength - 5)));
+          let lines = 1 + Math.max(0, Math.ceil((length - this.lineLength) / Math.max(1, this.lineLength - 5)));
           return lines * this.lineHeight;
       }
       setDoc(doc) { this.doc = doc; return this; }
@@ -10300,7 +10300,7 @@
                   refresh = true;
               if (refresh || oracle.lineWrapping && Math.abs(contentWidth - this.contentDOMWidth) > oracle.charWidth) {
                   let { lineHeight, charWidth, textHeight } = view.docView.measureTextSize();
-                  refresh = lineHeight > 0 && oracle.refresh(whiteSpace, lineHeight, charWidth, textHeight, contentWidth / charWidth, lineHeights);
+                  refresh = lineHeight > 0 && oracle.refresh(whiteSpace, lineHeight, charWidth, textHeight, Math.max(5, contentWidth / charWidth), lineHeights);
                   if (refresh) {
                       view.docView.minWidth = 0;
                       result |= 16 /* UpdateFlag.Geometry */;
@@ -13028,6 +13028,8 @@
           else if (isChar && (event.altKey || event.metaKey || event.ctrlKey) &&
               // Ctrl-Alt may be used for AltGr on Windows
               !(browser.windows && event.ctrlKey && event.altKey) &&
+              // Alt-combinations on macOS tend to be typed characters
+              !(browser.mac && event.altKey && !event.ctrlKey) &&
               (baseName = base[event.keyCode]) && baseName != name) {
               if (runFor(scopeObj[prefix + modifiers(baseName, event, true)])) {
                   handled = true;
