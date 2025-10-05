@@ -5,11 +5,39 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2025-08-24T03:21:34.602Z</updated>
+  <updated>2025-10-05T00:10:14.251Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-view 1.41.2</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.41.2"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.41.2</id>
+      <updated>2025-09-29T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where some Backspace presses with SwiftKey on Android would get interpreted as Enter.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.41.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.41.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.41.1</id>
+      <updated>2025-09-19T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Consistently set <code>draggable</code> on a node's inner DOM representation, not a decoration wrapper element.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.41.0</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.41.0"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.41.0</id>
+      <updated>2025-09-06T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make sure <code>transformPasted</code> is properly called when pasting into a code block.</p>
+<p>Fix an issue where the editor didn't properly set the DOM selection in a shadow DOM on Safari in some situations.</p>
+<p>Work around a Safari issue that broke composition right after changing the set of active marks.</p>
+<h3>New features</h3>
+<p>Pass an argument to <code>transformPasted</code> that tells the handler whether the paste is plain text. Call transformPasted when pasting into a code block</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-model 1.25.3</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-model/v/1.25.3"/>
       <id>https://www.npmjs.com/package/prosemirror-model/v/1.25.3</id>

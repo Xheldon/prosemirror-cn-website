@@ -3246,5 +3246,9 @@
   "Note: Mapping of this decoration, which decides on which side insertions at its position appear, will still happen according to side, and keyboard cursor motion will not, without further custom handling, visit both sides of the widget.": {
     "_translate": "<strong>注意</strong>: 此装饰的映射，决定在其位置插入的内容出现在哪一侧，仍将根据<code>side</code>进行，键盘光标的移动在没有进一步的自定义处理的情况下，不会访问小部件的两侧。",
     "_note": ""
+  },
+  "Can be used to transform pasted or dragged-and-dropped content before it is applied to the document. The plain flag will be true when the text is pasted as plain text.": {
+    "_translate": "可以用于在将粘贴或拖放的内容应用到文档之前进行转换。当文本以纯文本形式粘贴时，<code>plain</code> 标志将为 true。",
+    "_note": ""
   }
 }

@@ -80,7 +80,20 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#model">prosemirror-model</a> 1.25.3 (2025-08-06)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.41.2 (2025-09-29)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue where some Backspace presses with SwiftKey on Android would get interpreted as Enter.">修复了在 Android 上使用 SwiftKey 时某些 Backspace 按键会被解释为 Enter 的问题。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.41.1 (2025-09-19)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Consistently set draggable on a node's inner DOM representation, not a decoration wrapper element.">始终在节点的内部 DOM 表示上设置 <code>draggable</code>，而不是在装饰包装元素上。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.41.0 (2025-09-06)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Make sure transformPasted is properly called when pasting into a code block.">确保在粘贴到代码块时正确调用<code>transformPasted</code>。</p>
+<p data-x-en="Fix an issue where the editor didn't properly set the DOM selection in a shadow DOM on Safari in some situations.">修复了在某些情况下编辑器在 Safari 的阴影 DOM 中未正确设置 DOM 选择的问题。</p>
+<p data-x-en="Work around a Safari issue that broke composition right after changing the set of active marks.">解决一个在更改活动标记集后破坏组合的 Safari 问题。</p>
+<h4>New features</h4>
+<p data-x-en="Pass an argument to transformPasted that tells the handler whether the paste is plain text. Call transformPasted when pasting into a code block">向 <code>transformPasted</code> 传递一个参数，告诉处理程序粘贴的内容是否为纯文本。在将内容粘贴到代码块中时调用 transformPasted。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.25.3 (2025-08-06)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Fix a bug in Slice that made it possible for invalid ReplaceAroundSteps to be applied in some situations.">修复了 <code>Slice</code> 中的一个错误，该错误导致在某些情况下可以应用无效的 <code>ReplaceAroundStep</code>。</p>
 <h3><a href="../ref/#view">prosemirror-view</a> 1.40.1 (2025-07-18)</h3>

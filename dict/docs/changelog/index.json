@@ -4426,5 +4426,29 @@
   "Avoid using setAttribute(\"style\", ...) to stay clear of content security policies.": {
     "_translate": "避免使用<code>setAttribute(\"style\", ...)</code>以避免内容安全策略。",
     "_note": ""
+  },
+  "Fix an issue where some Backspace presses with SwiftKey on Android would get interpreted as Enter.": {
+    "_translate": "修复了在 Android 上使用 SwiftKey 时某些 Backspace 按键会被解释为 Enter 的问题。",
+    "_note": ""
+  },
+  "Consistently set draggable on a node's inner DOM representation, not a decoration wrapper element.": {
+    "_translate": "始终在节点的内部 DOM 表示上设置 <code>draggable</code>，而不是在装饰包装元素上。",
+    "_note": ""
+  },
+  "Make sure transformPasted is properly called when pasting into a code block.": {
+    "_translate": "确保在粘贴到代码块时正确调用<code>transformPasted</code>。",
+    "_note": ""
+  },
+  "Fix an issue where the editor didn't properly set the DOM selection in a shadow DOM on Safari in some situations.": {
+    "_translate": "修复了在某些情况下编辑器在 Safari 的阴影 DOM 中未正确设置 DOM 选择的问题。",
+    "_note": ""
+  },
+  "Work around a Safari issue that broke composition right after changing the set of active marks.": {
+    "_translate": "解决一个在更改活动标记集后破坏组合的 Safari 问题。",
+    "_note": ""
+  },
+  "Pass an argument to transformPasted that tells the handler whether the paste is plain text. Call transformPasted when pasting into a code block": {
+    "_translate": "向 <code>transformPasted</code> 传递一个参数，告诉处理程序粘贴的内容是否为纯文本。在将内容粘贴到代码块中时调用 transformPasted。",
+    "_note": ""
   }
 }
