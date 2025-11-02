@@ -80,7 +80,23 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.41.2 (2025-09-29)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#state">prosemirror-state</a> 1.4.4 (2025-10-23)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Avoid a problematic TypeScript compilation issue of Selection.visible in some configurations.">避免在某些配置中出现 <code>Selection.visible</code> 的 TypeScript 编译问题。</p>
+<p data-x-en="Fix an issue in insertText where it would always clear non-empty selections, even when not near the inserted text.">修复 <code>insertText</code> 中的一个问题，即它会始终清除非空选择，即使不在插入文本附近。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.25.4 (2025-10-21)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="The DOM parser will now, if a line break replacement is defined in the schema, try to use that instead of spaces to replace newlines when preserving whitespace.">DOM 解析器现在如果在模式中定义了行尾替换，将尝试使用它而不是空格来替换在保留空白时的新行。</p>
+<h3><a href="../ref/#inputrules">prosemirror-inputrules</a> 1.5.1 (2025-10-15)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue where input rules with inCodeMark disabled would still match if a part of the match before the cursor had a code mark.">修复了一个问题，即当 <code>inCodeMark</code> 被禁用时，如果匹配的一部分在光标之前有代码标记，输入规则仍然会匹配。</p>
+<h3><a href="../ref/#gapcursor">prosemirror-gapcursor</a> 1.4.0 (2025-10-15)</h3>
+<h4>New features</h4>
+<p data-x-en="Nodes can now set a createGapCursor: true property on their spec to allow gap cursors to appear next to them.">节点现在可以在其 spec 上设置 <code>createGapCursor: true</code> 属性，以允许光标出现在它们旁边。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.41.3 (2025-10-09)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix a bug where typing when the selection crosses inline node boundaries was ignored in some situations.">修复了一个在某些情况下，当选择跨越行内节点边界时输入被忽略的错误。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.41.2 (2025-09-29)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Fix an issue where some Backspace presses with SwiftKey on Android would get interpreted as Enter.">修复了在 Android 上使用 SwiftKey 时某些 Backspace 按键会被解释为 Enter 的问题。</p>
 <h3><a href="../ref/#view">prosemirror-view</a> 1.41.1 (2025-09-19)</h3>

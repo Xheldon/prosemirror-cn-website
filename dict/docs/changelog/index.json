@@ -4450,5 +4450,29 @@
   "Pass an argument to transformPasted that tells the handler whether the paste is plain text. Call transformPasted when pasting into a code block": {
     "_translate": "向 <code>transformPasted</code> 传递一个参数，告诉处理程序粘贴的内容是否为纯文本。在将内容粘贴到代码块中时调用 transformPasted。",
     "_note": ""
+  },
+  "Avoid a problematic TypeScript compilation issue of Selection.visible in some configurations.": {
+    "_translate": "避免在某些配置中出现 <code>Selection.visible</code> 的 TypeScript 编译问题。",
+    "_note": ""
+  },
+  "Fix an issue in insertText where it would always clear non-empty selections, even when not near the inserted text.": {
+    "_translate": "修复 <code>insertText</code> 中的一个问题，即它会始终清除非空选择，即使不在插入文本附近。",
+    "_note": ""
+  },
+  "The DOM parser will now, if a line break replacement is defined in the schema, try to use that instead of spaces to replace newlines when preserving whitespace.": {
+    "_translate": "DOM 解析器现在如果在模式中定义了行尾替换，将尝试使用它而不是空格来替换在保留空白时的新行。",
+    "_note": ""
+  },
+  "Fix an issue where input rules with inCodeMark disabled would still match if a part of the match before the cursor had a code mark.": {
+    "_translate": "修复了一个问题，即当 <code>inCodeMark</code> 被禁用时，如果匹配的一部分在光标之前有代码标记，输入规则仍然会匹配。",
+    "_note": ""
+  },
+  "Nodes can now set a createGapCursor: true property on their spec to allow gap cursors to appear next to them.": {
+    "_translate": "节点现在可以在其 spec 上设置 <code>createGapCursor: true</code> 属性，以允许光标出现在它们旁边。",
+    "_note": ""
+  },
+  "Fix a bug where typing when the selection crosses inline node boundaries was ignored in some situations.": {
+    "_translate": "修复了一个在某些情况下，当选择跨越行内节点边界时输入被忽略的错误。",
+    "_note": ""
   }
 }

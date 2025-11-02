@@ -3250,5 +3250,17 @@
   "Can be used to transform pasted or dragged-and-dropped content before it is applied to the document. The plain flag will be true when the text is pasted as plain text.": {
     "_translate": "可以用于在将粘贴或拖放的内容应用到文档之前进行转换。当文本以纯文本形式粘贴时，<code>plain</code> 标志将为 true。",
     "_note": ""
+  },
+  "Accessor that constructs and returns a new transaction from this state.": {
+    "_translate": "从该状态构建并返回一个新的<a href=\"#state.Transaction\">交易</a>的访问器。",
+    "_note": ""
+  },
+  "By default, whitespace is collapsed as per HTML's rules. Pass true to preserve whitespace, but normalize newlines to spaces or, if available, line break replacements, and \"full\" to preserve whitespace entirely.": {
+    "_translate": "默认情况下，空白字符会根据 HTML 的规则进行折叠。传递 <code>true</code> 以保留空白字符，但将换行符规范化为 空格 或者，如果可用，<a href=\"#model.NodeSpec.linebreakReplacement\">换行符替换</a>，并传递 <code>\"full\"</code> 以完全保留空白字符。",
+    "_note": ""
+  },
+  "This is a plugin that adds a type of selection for focusing places that don't allow regular selection (such as positions that have a leaf block node, table, or the end of the document both before and after them). By default, leaf blocks and isolating nodes will allow gap cursors to appear next to them. You can add a creatGapCursor: true property to a block node's spec to make them appear next to other nodes as well.": {
+    "_translate": "这是一个插件，它为聚焦不允许常规选择的位置（例如，前后都有叶块节点、表格或文档结尾的位置）添加了一种选择类型。默认情况下，叶块和隔离节点将允许间隙光标出现在它们旁边。您可以在块节点的spec中添加一个<code>creatGapCursor: true</code>属性，以使它们也出现在其他节点旁边。",
+    "_note": ""
   }
 }

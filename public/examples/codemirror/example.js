@@ -4242,6 +4242,36 @@
     return name
   }
 
+  let nav = typeof navigator != "undefined" ? navigator : { userAgent: "", vendor: "", platform: "" };
+  let doc = typeof document != "undefined" ? document : { documentElement: { style: {} } };
+  const ie_edge = /*@__PURE__*//Edge\/(\d+)/.exec(nav.userAgent);
+  const ie_upto10 = /*@__PURE__*//MSIE \d/.test(nav.userAgent);
+  const ie_11up = /*@__PURE__*//Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(nav.userAgent);
+  const ie = !!(ie_upto10 || ie_11up || ie_edge);
+  const gecko = !ie && /*@__PURE__*//gecko\/(\d+)/i.test(nav.userAgent);
+  const chrome = !ie && /*@__PURE__*//Chrome\/(\d+)/.exec(nav.userAgent);
+  const webkit = "webkitFontSmoothing" in doc.documentElement.style;
+  const safari = !ie && /*@__PURE__*//Apple Computer/.test(nav.vendor);
+  const ios = safari && (/*@__PURE__*//Mobile\/\w+/.test(nav.userAgent) || nav.maxTouchPoints > 2);
+  var browser = {
+      mac: ios || /*@__PURE__*//Mac/.test(nav.platform),
+      windows: /*@__PURE__*//Win/.test(nav.platform),
+      linux: /*@__PURE__*//Linux|X11/.test(nav.platform),
+      ie,
+      ie_version: ie_upto10 ? doc.documentMode || 6 : ie_11up ? +ie_11up[1] : ie_edge ? +ie_edge[1] : 0,
+      gecko,
+      gecko_version: gecko ? +(/*@__PURE__*//Firefox\/(\d+)/.exec(nav.userAgent) || [0, 0])[1] : 0,
+      chrome: !!chrome,
+      chrome_version: chrome ? +chrome[1] : 0,
+      ios,
+      android: /*@__PURE__*//Android\b/.test(nav.userAgent),
+      webkit,
+      webkit_version: webkit ? +(/*@__PURE__*//\bAppleWebKit\/(\d+)/.exec(nav.userAgent) || [0, 0])[1] : 0,
+      safari,
+      safari_version: safari ? +(/*@__PURE__*//\bVersion\/(\d+(\.\d+)?)/.exec(nav.userAgent) || [0, 0])[1] : 0,
+      tabSize: doc.documentElement.style.tabSize != null ? "tab-size" : "-moz-tab-size"
+  };
+
   function getSelection(root) {
       let target;
       // Browsers differ on whether shadow roots have a getSelection
@@ -4492,6 +4522,9 @@
       }
   }
   let preventScrollSupported = null;
+  // Safari 26 breaks preventScroll support
+  if (browser.safari && browser.safari_version >= 26)
+      preventScrollSupported = false;
   // Feature-detects support for .focus({preventScroll: true}), and uses
   // a fallback kludge when not supported.
   function focusPreventScroll(dom) {
@@ -4960,35 +4993,6 @@
       parent.length += dLen;
       replaceRange(parent, fromI, fromOff, toI, toOff, insert, 0, openStart, openEnd);
   }
-
-  let nav = typeof navigator != "undefined" ? navigator : { userAgent: "", vendor: "", platform: "" };
-  let doc = typeof document != "undefined" ? document : { documentElement: { style: {} } };
-  const ie_edge = /*@__PURE__*//Edge\/(\d+)/.exec(nav.userAgent);
-  const ie_upto10 = /*@__PURE__*//MSIE \d/.test(nav.userAgent);
-  const ie_11up = /*@__PURE__*//Trident\/(?:[7-9]|\d{2,})\..*rv:(\d+)/.exec(nav.userAgent);
-  const ie = !!(ie_upto10 || ie_11up || ie_edge);
-  const gecko = !ie && /*@__PURE__*//gecko\/(\d+)/i.test(nav.userAgent);
-  const chrome = !ie && /*@__PURE__*//Chrome\/(\d+)/.exec(nav.userAgent);
-  const webkit = "webkitFontSmoothing" in doc.documentElement.style;
-  const safari = !ie && /*@__PURE__*//Apple Computer/.test(nav.vendor);
-  const ios = safari && (/*@__PURE__*//Mobile\/\w+/.test(nav.userAgent) || nav.maxTouchPoints > 2);
-  var browser = {
-      mac: ios || /*@__PURE__*//Mac/.test(nav.platform),
-      windows: /*@__PURE__*//Win/.test(nav.platform),
-      linux: /*@__PURE__*//Linux|X11/.test(nav.platform),
-      ie,
-      ie_version: ie_upto10 ? doc.documentMode || 6 : ie_11up ? +ie_11up[1] : ie_edge ? +ie_edge[1] : 0,
-      gecko,
-      gecko_version: gecko ? +(/*@__PURE__*//Firefox\/(\d+)/.exec(nav.userAgent) || [0, 0])[1] : 0,
-      chrome: !!chrome,
-      chrome_version: chrome ? +chrome[1] : 0,
-      ios,
-      android: /*@__PURE__*//Android\b/.test(nav.userAgent),
-      webkit,
-      safari,
-      webkit_version: webkit ? +(/*@__PURE__*//\bAppleWebKit\/(\d+)/.exec(nav.userAgent) || [0, 0])[1] : 0,
-      tabSize: doc.documentElement.style.tabSize != null ? "tab-size" : "-moz-tab-size"
-  };
 
   const MaxJoinLen = 256;
   class TextView extends ContentView {
@@ -8093,9 +8097,10 @@
               if (next == end)
                   break;
               let view = ContentView.get(cur), nextView = ContentView.get(next);
-              if (view && nextView ? view.breakAfter :
+              if ((view && nextView ? view.breakAfter :
                   (view ? view.breakAfter : isBlockElement(cur)) ||
-                      (isBlockElement(next) && (cur.nodeName != "BR" || cur.cmIgnore) && this.text.length > oldLen))
+                      (isBlockElement(next) && (cur.nodeName != "BR" || cur.cmIgnore) && this.text.length > oldLen)) &&
+                  !isEmptyToEnd(next, end))
                   this.lineBreak();
               cur = next;
           }
@@ -8173,6 +8178,25 @@
           offset = domIndex(node) + 1;
           node = node.parentNode;
       }
+  }
+  function isEmptyToEnd(node, end) {
+      let widgets;
+      for (;; node = node.nextSibling) {
+          if (node == end || !node)
+              break;
+          let view = ContentView.get(node);
+          if (!((view === null || view === void 0 ? void 0 : view.isWidget) || node.cmIgnore))
+              return false;
+          if (view)
+              (widgets || (widgets = [])).push(view);
+      }
+      if (widgets)
+          for (let w of widgets) {
+              let override = w.overrideDOMText;
+              if (override === null || override === void 0 ? void 0 : override.length)
+                  return false;
+          }
+      return true;
   }
   class DOMPoint {
       constructor(node, offset) {
@@ -8615,7 +8639,7 @@
           return dispatchKey(this.view.contentDOM, key.key, key.keyCode, key instanceof KeyboardEvent ? key : undefined);
       }
       ignoreDuringComposition(event) {
-          if (!/^key/.test(event.type))
+          if (!/^key/.test(event.type) || event.synthetic)
               return false;
           if (this.composing > 0)
               return true;
@@ -11519,20 +11543,23 @@
               let from = this.toEditorPos(e.updateRangeStart), to = this.toEditorPos(e.updateRangeEnd);
               if (view.inputState.composing >= 0 && !this.composing)
                   this.composing = { contextBase: e.updateRangeStart, editorBase: from, drifted: false };
-              let change = { from, to, insert: Text.of(e.text.split("\n")) };
+              let deletes = to - from > e.text.length;
               // If the window doesn't include the anchor, assume changes
               // adjacent to a side go up to the anchor.
-              if (change.from == this.from && anchor < this.from)
-                  change.from = anchor;
-              else if (change.to == this.to && anchor > this.to)
-                  change.to = anchor;
+              if (from == this.from && anchor < this.from)
+                  from = anchor;
+              else if (to == this.to && anchor > this.to)
+                  to = anchor;
+              let diff = findDiff(view.state.sliceDoc(from, to), e.text, (deletes ? main.from : main.to) - from, deletes ? "end" : null);
               // Edit contexts sometimes fire empty changes
-              if (change.from == change.to && !change.insert.length) {
+              if (!diff) {
                   let newSel = EditorSelection.single(this.toEditorPos(e.selectionStart), this.toEditorPos(e.selectionEnd));
                   if (!newSel.main.eq(main))
                       view.dispatch({ selection: newSel, userEvent: "select" });
                   return;
               }
+              let change = { from: diff.from + from, to: diff.toA + from,
+                  insert: Text.of(e.text.slice(diff.from, diff.toB).split("\n")) };
               if ((browser.mac || browser.android) && change.from == head - 1 &&
                   /^\. ?$/.test(e.text) && view.contentDOM.getAttribute("autocorrect") == "off")
                   change = { from, to, insert: Text.of([e.text.replace(".", " ")]) };
@@ -13329,7 +13356,7 @@
                   old = next;
               }
               this.drawn = markers;
-              if (browser.ios) // Issue #1600
+              if (browser.safari && browser.safari_version >= 26) // Issue #1600, 1627
                   this.dom.style.display = this.dom.firstChild ? "" : "none";
           }
       }
@@ -13504,6 +13531,7 @@
           this.deserialize = config.deserialize || (() => {
               throw new Error("This node type doesn't define a deserialize function");
           });
+          this.combine = config.combine || null;
       }
       /**
       This is meant to be used with
@@ -13768,7 +13796,10 @@
                   if (add) {
                       if (!newProps)
                           newProps = Object.assign({}, type.props);
-                      newProps[add[0].id] = add[1];
+                      let value = add[1], prop = add[0];
+                      if (prop.combine && prop.id in newProps)
+                          value = prop.combine(newProps[prop.id], value);
+                      newProps[prop.id] = value;
                   }
               }
               newTypes.push(newProps ? new NodeType(type.name, newProps, type.id, type.flags) : type);
@@ -14751,7 +14782,7 @@
       function takeNode(parentStart, minPos, children, positions, inRepeat, depth) {
           let { id, start, end, size } = cursor;
           let lookAheadAtStart = lookAhead, contextAtStart = contextHash;
-          while (size < 0) {
+          if (size < 0) {
               cursor.next();
               if (size == -1 /* SpecialRecord.Reuse */) {
                   let node = reused[id];
@@ -17274,7 +17305,7 @@
   For example:
 
   ```javascript
-  parser.withProps(
+  parser.configure({props: [
     styleTags({
       // Style Number and BigNumber nodes
       "Number BigNumber": tags.number,
@@ -17289,7 +17320,7 @@
       // Style the node named "/" as punctuation
       '"/"': tags.punctuation
     })
-  )
+  ]})
   ```
   */
   function styleTags(spec) {
@@ -17331,7 +17362,30 @@
       }
       return ruleNodeProp.add(byName);
   }
-  const ruleNodeProp = new NodeProp();
+  const ruleNodeProp = new NodeProp({
+      combine(a, b) {
+          let cur, root, take;
+          while (a || b) {
+              if (!a || b && a.depth >= b.depth) {
+                  take = b;
+                  b = b.next;
+              }
+              else {
+                  take = a;
+                  a = a.next;
+              }
+              if (cur && cur.mode == take.mode && !take.context && !cur.context)
+                  continue;
+              let copy = new Rule(take.tags, take.mode, take.context);
+              if (cur)
+                  cur.next = copy;
+              else
+                  root = copy;
+              cur = copy;
+          }
+          return root;
+      }
+  });
   class Rule {
       constructor(tags, mode, context, next) {
           this.tags = tags;

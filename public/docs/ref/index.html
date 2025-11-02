@@ -183,7 +183,7 @@ addEventListener("load", function() {
 </dd><dt id="state.EditorState.tr">
   <code><strong><a href="#state.EditorState.tr">tr</a></strong>: <a href="#state.Transaction"><span class="type">Transaction</span></a></code></dt>
 
-<dd><p data-x-en="Start a transaction from this state.">从当前 state 生成一个新的 <a href="#state.Transaction">transaction</a> 以对当前 state 进行修改。</p><div type="comment">该 transaction 是一个 getter 函数，每次调用都会 new 一个新的 transaction。</div>
+<dd><p data-x-en="Accessor that constructs and returns a new transaction from this state.">从该状态构建并返回一个新的<a href="#state.Transaction">交易</a>的访问器。</p>
 </dd><dt id="state.EditorState.reconfigure">
   <code><strong><a href="#state.EditorState.reconfigure">reconfigure</a></strong>(<a id="state.EditorState.reconfigure^config" href="#state.EditorState.reconfigure^config"><span class="param">config</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object"><span class="type">Object</span></a>) →&nbsp;<a href="#state.EditorState"><span class="type">EditorState</span></a></code></dt>
 
@@ -2371,7 +2371,7 @@ addEventListener("load", function() {
 <dl><dt id="model.ParseOptions.preserveWhitespace">
   <code><strong><a href="#model.ParseOptions.preserveWhitespace">preserveWhitespace</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a> | <span class="string">"full"</span></code></dt>
 
-<dd><p data-x-en="By default, whitespace is collapsed as per HTML's rules. Pass true to preserve whitespace, but normalize newlines to spaces, and &quot;full&quot; to preserve whitespace entirely.">默认情况下，根据 HTML 的规则，空白符会被折叠起来不显示。传递 <code>true</code> 表示保留空白符，但会将换行符表示为空格。 <code>"full"</code> 表示完全保留所有的空白符。</p>
+<dd><p data-x-en="By default, whitespace is collapsed as per HTML's rules. Pass true to preserve whitespace, but normalize newlines to spaces or, if available, line break replacements, and &quot;full&quot; to preserve whitespace entirely.">默认情况下，空白字符会根据 HTML 的规则进行折叠。传递 <code>true</code> 以保留空白字符，但将换行符规范化为 空格 或者，如果可用，<a href="#model.NodeSpec.linebreakReplacement">换行符替换</a>，并传递 <code>"full"</code> 以完全保留空白字符。</p>
 </dd><dt id="model.ParseOptions.findPositions">
   <code><strong><a href="#model.ParseOptions.findPositions">findPositions</a></strong>⁠?: {<span class="prop">node</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node"><span class="type">DOMNode</span></a>, <span class="prop">offset</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>, <span class="prop">pos</span>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a>}[]</code></dt>
 
@@ -3583,7 +3583,7 @@ addEventListener("load", function() {
 </section><section id="part_gapcursor">
     <h2 class="module" id="gapcursor">
       <a href="#gapcursor">prosemirror-gapcursor <span class="kind">module</span></a>
-    </h2><p data-x-en="This is a plugin that adds a type of selection for focusing places that don't allow regular selection (such as positions that have a leaf block node, table, or the end of the document both before and after them).">本插件为那些不允许正常选区的聚焦的位置（比如说该位置有叶子节点、表格、或者文档的起始和结尾处）添加一种选区的类型。</p>
+    </h2><p data-x-en="This is a plugin that adds a type of selection for focusing places that don't allow regular selection (such as positions that have a leaf block node, table, or the end of the document both before and after them). By default, leaf blocks and isolating nodes will allow gap cursors to appear next to them. You can add a creatGapCursor: true property to a block node's spec to make them appear next to other nodes as well.">这是一个插件，它为聚焦不允许常规选择的位置（例如，前后都有叶块节点、表格或文档结尾的位置）添加了一种选择类型。默认情况下，叶块和隔离节点将允许间隙光标出现在它们旁边。您可以在块节点的spec中添加一个<code>creatGapCursor: true</code>属性，以使它们也出现在其他节点旁边。</p>
 <p data-x-en="You'll probably want to load style/gapcursor.css, which contains basic styling for the simulated cursor (as a short, blinking horizontal stripe).">你可能需要加载 <code>style/gapcursor.css</code> 这个文件，它包含了模拟光标的基本样式（即短的，闪烁的水平条纹）。</p>
 <p data-x-en="By default, gap cursor are only allowed in places where the default content node (in the schema content constraints) is a textblock node. You can customize this by adding an allowGapCursor property to your node specs—if it's true, gap cursor are allowed everywhere in that node, if it's false they are never allowed.">默认情况下，gap 光标只允许放置于默认内容节点（通过 schema 的 content 限制）是文本节点的地方。你可以通过在节点配置对象中添加 <code>allowGapCursor</code> 属性来自定义这个行为，如果该值是 true，则 gap 光标被允许放置到该节点的任何位置，如果是 <code>false</code> 则表示永远不允许放置该种类型的光标。</p>
 <dl>

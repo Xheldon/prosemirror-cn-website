@@ -5,11 +5,52 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2025-10-05T00:10:14.251Z</updated>
+  <updated>2025-11-02T00:10:13.009Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-state 1.4.4</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-state/v/1.4.4"/>
+      <id>https://www.npmjs.com/package/prosemirror-state/v/1.4.4</id>
+      <updated>2025-10-23T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Avoid a problematic TypeScript compilation issue of <code>Selection.visible</code> in some configurations.</p>
+<p>Fix an issue in <code>insertText</code> where it would always clear non-empty selections, even when not near the inserted text.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-model 1.25.4</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-model/v/1.25.4"/>
+      <id>https://www.npmjs.com/package/prosemirror-model/v/1.25.4</id>
+      <updated>2025-10-21T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>The DOM parser will now, if a line break replacement is defined in the schema, try to use that instead of spaces to replace newlines when preserving whitespace.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-inputrules 1.5.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-inputrules/v/1.5.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-inputrules/v/1.5.1</id>
+      <updated>2025-10-15T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where input rules with <code>inCodeMark</code> disabled would still match if a part of the match before the cursor had a code mark.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-gapcursor 1.4.0</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-gapcursor/v/1.4.0"/>
+      <id>https://www.npmjs.com/package/prosemirror-gapcursor/v/1.4.0</id>
+      <updated>2025-10-15T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>New features</h3>
+<p>Nodes can now set a <code>createGapCursor: true</code> property on their spec to allow gap cursors to appear next to them.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.41.3</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.41.3"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.41.3</id>
+      <updated>2025-10-09T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix a bug where typing when the selection crosses inline node boundaries was ignored in some situations.</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-view 1.41.2</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.41.2"/>
       <id>https://www.npmjs.com/package/prosemirror-view/v/1.41.2</id>
