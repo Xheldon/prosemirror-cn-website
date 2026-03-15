@@ -5065,7 +5065,14 @@
     if (url.length <= proto.length) return false
 
     // disallow '*' at the end of the link (conflicts with emphasis)
-    url = url.replace(/\*+$/, '');
+    // do manual backsearch to avoid perf issues with regex /\*+$/ on "****...****a".
+    let urlEnd = url.length;
+    while (urlEnd > 0 && url.charCodeAt(urlEnd - 1) === 0x2A/* * */) {
+      urlEnd--;
+    }
+    if (urlEnd !== url.length) {
+      url = url.slice(0, urlEnd);
+    }
 
     const fullUrl = state.md.normalizeLink(url);
     if (!state.md.validateLink(fullUrl)) return false
@@ -9039,8 +9046,7 @@
               }
               if (node && node.isText && marks.some(mark => {
                   let info = this.getMark(mark.type.name);
-                  return info && info.expelEnclosingWhitespace &&
-                      (index == parent.childCount - 1 || !mark.isInSet(parent.child(index + 1).marks));
+                  return info && info.expelEnclosingWhitespace && !this.isMarkAhead(parent, index + 1, mark);
               })) {
                   let [_, rest, trail] = /^(.*?)(\s*)$/m.exec(node.text);
                   if (trail) {
@@ -9183,6 +9189,19 @@
               leading: (text.match(/^(\s+)/) || [undefined])[0],
               trailing: (text.match(/(\s+)$/) || [undefined])[0]
           };
+      }
+      /**
+      @internal
+      */
+      isMarkAhead(parent, index, mark) {
+          for (;; index++) {
+              if (index >= parent.childCount)
+                  return false;
+              let next = parent.child(index);
+              if (next.type.name != this.options.hardBreakNodeName)
+                  return mark.isInSet(next.marks);
+              index++;
+          }
       }
   }
 

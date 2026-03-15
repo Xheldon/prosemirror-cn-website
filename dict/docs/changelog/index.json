@@ -4498,5 +4498,45 @@
   "Fix a bug in liftTarget that caused it to fail to properly check content constraints when a lift would split a node.": {
     "_translate": "修复了 <code>liftTarget</code> 中的一个错误，该错误导致在提升操作会拆分节点时未能正确检查内容约束。",
     "_note": ""
+  },
+  "Make sure no gap cursors are created inside inline nodes with content.": {
+    "_translate": "确保在具有内容的内联节点内部不会创建间隙光标。",
+    "_note": ""
+  },
+  "The menu elements and menu bar now support keyboard navigation and use ARIA attributes for improved accessibility.": {
+    "_translate": "菜单元素和菜单栏现在支持键盘导航，并使用ARIA属性以提高可访问性。",
+    "_note": ""
+  },
+  "Change objects can now be serialized to and deserialized from JSON, and ChangeSet.create allows you to pass in a set of changes.": {
+    "_translate": "<code>Change</code> 对象现在可以序列化为 JSON 并从 JSON 反序列化，<code>ChangeSet.create</code> 允许你传入一组更改。",
+    "_note": ""
+  },
+  "Fix an issue where backspacing content before a flexbox or grid styled widget would insert a bogus line break on Firefox.": {
+    "_translate": "修复在 Firefox 中删除位于弹性盒子或网格样式小部件之前的内容时插入无效换行的问题。",
+    "_note": ""
+  },
+  "Fix a regression that caused the serializer to crash when a block ends in a hard break.": {
+    "_translate": "修复了一个导致序列化器在块以硬断点结束时崩溃的回归问题。",
+    "_note": ""
+  },
+  "The new Tranform.changedRange method gives you a document range that includes all changes made by the transform/transaction.": {
+    "_translate": "新的 <code>Tranform.changedRange</code> 方法为您提供了一个包含由转换/事务所做的所有更改的文档范围。",
+    "_note": ""
+  },
+  "Properly move trailing whitespace out of marks when they end in a hard break node.": {
+    "_translate": "正确地将尾随空格移出标记，当它们以硬换行节点结束时。",
+    "_note": ""
+  },
+  "Work around an issue where, after some kinds of changes, Chrome misreports the cursor position and breaks composition.": {
+    "_translate": "解决某些更改后，Chrome 错误报告光标位置并破坏组合输入的问题。",
+    "_note": ""
+  },
+  "Improve DOM update behavior when deleting three or more nodes right before a mark, which would unnecessarily re-render the entire mark.": {
+    "_translate": "改善在标记前删除三个或更多节点时的DOM更新行为，这会不必要的重新渲染整个标记。",
+    "_note": ""
+  },
+  "Work around a newly introduced bug in Safari where composition in an empty table cell causes it to move the text out of the cell into the row element.": {
+    "_translate": "解决 Safari 中新引入的一个 bug，该 bug 会导致在空表格单元格中输入文本时，文本被移出单元格进入行元素。",
+    "_note": ""
   }
 }
