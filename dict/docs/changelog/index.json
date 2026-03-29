@@ -4538,5 +4538,13 @@
   "Work around a newly introduced bug in Safari where composition in an empty table cell causes it to move the text out of the cell into the row element.": {
     "_translate": "解决 Safari 中新引入的一个 bug，该 bug 会导致在空表格单元格中输入文本时，文本被移出单元格进入行元素。",
     "_note": ""
+  },
+  "Fix a crash that could happen when deleting content during a node drag.": {
+    "_translate": "修复在节点拖动期间删除内容时可能发生崩溃的问题。",
+    "_note": ""
+  },
+  "Work around a Chrome bug where it sometimes inserts a random <br> node when you press backspace before a widget.": {
+    "_translate": "解决一个 Chrome 的 bug，有时当你在小部件前按下退格键时，它会插入一个随机的 <code>&lt;br&gt;</code> 节点。",
+    "_note": ""
   }
 }
