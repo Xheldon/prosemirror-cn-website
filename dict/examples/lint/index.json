@@ -94,5 +94,9 @@
   "The problem object is stored in the decoration spec, so that event handlers can retrieve it from the plugin's decoration set. We'll make a single click on an icon select the annotated region, and a double click run the fix method.": {
     "_translate": "问题对象存储在装饰规范中，以便事件处理程序可以从插件的装饰集中检索它。我们将使单击图标选择注释的区域，双击运行<code>fix</code>方法。",
     "_note": ""
+  },
+  "Code": {
+    "_translate": "好的，请提供需要翻译的源文本。",
+    "_note": ""
   }
 }

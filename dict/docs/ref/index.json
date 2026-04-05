@@ -3270,5 +3270,13 @@
   "Return a single range, in post-transform document positions, that covers all content changed by this transform. Returns null if no replacements are made. Note that this will ignore changes that add/remove marks without replacing the underlying content.": {
     "_translate": "返回一个范围，该范围涵盖此转换后所有更改的内容的位置。如果没有进行任何替换，则返回 null。请注意，这将忽略不替换底层内容的添加/删除标记的更改。",
     "_note": ""
+  },
+  "Code": {
+    "_translate": "请提供需要翻译的源文本。",
+    "_note": ""
+  },
+  "By default, for backwards compatibility, an inserting step mapped over an insertion at that same position fill move after the inserted content. In a collaborative editing situation, that can make redone insertions appear in unexpected places. You can set this to -1 to make such mapping keep the step before the insertion instead.": {
+    "_translate": "默认情况下，为了向后兼容，插入步骤会在同一位置的插入内容之后移动。在协作编辑的情况下，这可能会导致重新插入的内容出现在意外的位置。您可以将其设置为 -1，以使此类映射保持在插入内容之前。",
+    "_note": ""
   }
 }

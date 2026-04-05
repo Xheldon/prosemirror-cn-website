@@ -78,5 +78,9 @@
   "ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问": {
     "_translate": "ProseMirror 翻译者的个人博客，域名的 .com 和 .cn 均可访问",
     "_note": ""
+  },
+  "Code": {
+    "_translate": "请提供需要翻译的源文本。",
+    "_note": ""
   }
 }

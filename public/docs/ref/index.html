@@ -7,7 +7,7 @@
     <div class="navlinks"><a class="toc-toggle">目录</a><a href="/examples/">示例</a>
       <a href="/docs/" class="active">文档</a>
       <a href="https://discuss.prosemirror.net/">论坛</a>
-      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://code.haverbeke.berlin/prosemirror" data-x-en="Code">请提供需要翻译的源文本。</a>
     <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><nav id="toc">
     <ul><li><a href="#top.intro">Intro</a></li><li><a href="#state">prosemirror-state</a><ul><li><a href="#state.Editor_State">Editor State</a></li><li><a href="#state.Selection">Selection</a></li><li><a href="#state.Plugin_System">Plugin System</a></li></ul></li><li><a href="#view">prosemirror-view</a><ul><li><a href="#view.Props">Props</a></li><li><a href="#view.Decorations">Decorations</a></li></ul></li><li><a href="#model">prosemirror-model</a><ul><li><a href="#model.Document_Structure">Document Structure</a></li><li><a href="#model.Resolved_Positions">Resolved Positions</a></li><li><a href="#model.Document_Schema">Document Schema</a></li><li><a href="#model.DOM_Representation">DOM Representation</a></li></ul></li><li><a href="#transform">prosemirror-transform</a><ul><li><a href="#transform.Steps">Steps</a></li><li><a href="#transform.Position_Mapping">Position Mapping</a></li><li><a href="#transform.Document_transforms">Document transforms</a></li></ul></li><li><a href="#commands">prosemirror-commands</a></li><li><a href="#history">prosemirror-history</a></li><li><a href="#collab">prosemirror-collab</a></li><li><a href="#keymap">prosemirror-keymap</a></li><li><a href="#inputrules">prosemirror-inputrules</a></li><li><a href="#gapcursor">prosemirror-gapcursor</a></li><li><a href="#schema-basic">prosemirror-schema-basic</a></li><li><a href="#schema-list">prosemirror-schema-list</a></li></ul>
@@ -1034,7 +1034,7 @@ addEventListener("load", function() {
 <dd><p data-x-en="By default, document nodes are rendered using the result of the toDOM method of their spec, and managed entirely by the editor. For some use cases, such as embedded node-specific editing interfaces, you want more control over the behavior of a node's in-editor representation, and need to define a custom node view.">默认情况下，文档节点使用它们 schema 配置对象中的 <a href="#model.NodeSpec.toDOM"><code>toDOM</code></a> 方法来渲染，然后完全由编辑器管理状态。而对于一些使用场景，比如为特定节点嵌入编辑界面等情况， 你可能想要更加细粒度的控制一个节点在编辑器中的表现形式，因此，你需要 <a href="#view.EditorProps.nodeViews">define</a> 一个自定义的 node view。</p>
 <p data-x-en="Objects returned as node views must conform to this interface.">node views 们返回的对象必须保证有以下接口：</p>
 <dl><dt id="view.NodeView.dom">
-  <code><strong><a href="#view.NodeView.dom">dom</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node"><span class="type">DOMNode</span></a></code></dt>
+  <code><strong><a href="#view.NodeView.dom">dom</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a></code></dt>
 
 <dd><p data-x-en="The outer DOM node that represents the document node.">表示文档节点的外部DOM节点。</p>
 </dd><dt id="view.NodeView.contentDOM">
@@ -1085,7 +1085,7 @@ addEventListener("load", function() {
 <dd><p data-x-en="By default, document marks are rendered using the result of the toDOM method of their spec, and managed entirely by the editor. For some use cases, you want more control over the behavior of a mark's in-editor representation, and need to define a custom mark view.">默认情况下，文档标记使用其规范的 <a href="#model.MarkSpec.toDOM"><code>toDOM</code></a> 方法的结果进行渲染，并完全由编辑器管理。对于某些用例，您需要对标记的编辑器内表示的行为进行更多控制，并需要 <a href="#view.EditorProps.markViews">定义</a> 自定义标记视图。</p>
 <p data-x-en="Objects returned as mark views must conform to this interface.">对象作为标记视图返回时必须符合此接口。</p>
 <dl><dt id="view.MarkView.dom">
-  <code><strong><a href="#view.MarkView.dom">dom</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/API/Node"><span class="type">DOMNode</span></a></code></dt>
+  <code><strong><a href="#view.MarkView.dom">dom</a></strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a></code></dt>
 
 <dd><p data-x-en="The outer DOM node that represents the document node.">表示文档节点的外部DOM节点。</p>
 </dd><dt id="view.MarkView.contentDOM">
@@ -1916,7 +1916,7 @@ addEventListener("load", function() {
 
 <dd><p data-x-en="Construct a schema from a schema specification.">构造一个 schema 从一个 schema <a href="#model.SchemaSpec">specification（配置对象）</a>中。</p>
 </dd><dt id="model.Schema.spec">
-  <code><strong><a href="#model.Schema.spec">spec</a></strong>: {<div class="breaktype"><span class="prop">nodes</span>:&nbsp;<a href="https://github.com/marijnh/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>&gt;, </div><div class="breaktype"><span class="prop">marks</span>:&nbsp;<a href="https://github.com/marijnh/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.MarkSpec"><span class="type">MarkSpec</span></a>&gt;, </div><div class="breaktype"><span class="prop">topNode</span>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a></div>}</code></dt>
+  <code><strong><a href="#model.Schema.spec">spec</a></strong>: {<div class="breaktype"><span class="prop">nodes</span>:&nbsp;<a href="https://code.haverbeke.berlin/marijn/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>&gt;, </div><div class="breaktype"><span class="prop">marks</span>:&nbsp;<a href="https://code.haverbeke.berlin/marijn/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.MarkSpec"><span class="type">MarkSpec</span></a>&gt;, </div><div class="breaktype"><span class="prop">topNode</span>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a></div>}</code></dt>
 
 <dd><p data-x-en="The spec on which the schema is based, with the added guarantee that its nodes and marks properties are OrderedMap instances (not raw objects).">当前 schema 所基于的 <a href="#model.SchemaSpec">spec（配置对象）</a>，其中的 <code>nodes</code> 和 <code>marks</code> 属性可以保证是 <a href="https://github.com/marijnh/orderedmap"><code>OrderedMap</code></a> 的实例（不是原始对象）。</p>
 </dd><dt id="model.Schema.nodes">
@@ -1970,11 +1970,11 @@ addEventListener("load", function() {
 
 <dd><p data-x-en="An object describing a schema, as passed to the Schema constructor.">一个描述 schema 的对象，用来传递给 <a href="#model.Schema"><code>Schema</code></a> 构造函数</p><div type="comment">就是 schema 的配置对象，ProseMirror 中的 xxxSpec 都是 xxx 的配置对象，如 NodeSpec、MarkSpec 等。</div>
 <dl><dt id="model.SchemaSpec.nodes">
-  <code><strong><a href="#model.SchemaSpec.nodes">nodes</a></strong>: {[<a id="model.SchemaSpec.nodes^name" href="#model.SchemaSpec.nodes^name">name</a>&nbsp;in&nbsp;<a href="#model.SchemaSpec^Nodes"><span class="type">Nodes</span></a>]:&nbsp;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>} | <a href="https://github.com/marijnh/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>&gt;</code></dt>
+  <code><strong><a href="#model.SchemaSpec.nodes">nodes</a></strong>: {[<a id="model.SchemaSpec.nodes^name" href="#model.SchemaSpec.nodes^name">name</a>&nbsp;in&nbsp;<a href="#model.SchemaSpec^Nodes"><span class="type">Nodes</span></a>]:&nbsp;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>} | <a href="https://code.haverbeke.berlin/marijn/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>&gt;</code></dt>
 
 <dd><p data-x-en="The node types in this schema. Maps names to NodeSpec objects that describe the node type associated with that name. Their order is significant—it determines which parse rules take precedence by default, and which nodes come first in a given group.">当前 schema 中所有的 node 类型的对象。对象中，键是节点名，对象的键是对应的 <a href="#model.NodeSpec"><code>NodeSpec</code></a>。 节点们在该对象中出现的先后顺序是非常重要的，它决定了默认情况下哪个节点的 <a href="#model.NodeSpec.parseDOM">parse rules</a> 优先进行， 以及哪个节点是一个 group 优先考虑的节点。</p>
 </dd><dt id="model.SchemaSpec.marks">
-  <code><strong><a href="#model.SchemaSpec.marks">marks</a></strong>⁠?: {[<a id="model.SchemaSpec.marks^name" href="#model.SchemaSpec.marks^name">name</a>&nbsp;in&nbsp;<a href="#model.SchemaSpec^Marks"><span class="type">Marks</span></a>]:&nbsp;<a href="#model.MarkSpec"><span class="type">MarkSpec</span></a>} | <a href="https://github.com/marijnh/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.MarkSpec"><span class="type">MarkSpec</span></a>&gt;</code></dt>
+  <code><strong><a href="#model.SchemaSpec.marks">marks</a></strong>⁠?: {[<a id="model.SchemaSpec.marks^name" href="#model.SchemaSpec.marks^name">name</a>&nbsp;in&nbsp;<a href="#model.SchemaSpec^Marks"><span class="type">Marks</span></a>]:&nbsp;<a href="#model.MarkSpec"><span class="type">MarkSpec</span></a>} | <a href="https://code.haverbeke.berlin/marijn/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.MarkSpec"><span class="type">MarkSpec</span></a>&gt;</code></dt>
 
 <dd><p data-x-en="The mark types that exist in this schema. The order in which they are provided determines the order in which mark sets are sorted and in which parse rules are tried.">当前 schema 中的所有 mark 类型的对象。它们出现的顺序决定了在 <a href="#model.Mark.addToSet">mark sets</a> 中的存储顺序，以及 <a href="#model.MarkSpec.parseDOM">parse rules</a> 的处理顺序。</p>
 </dd><dt id="model.SchemaSpec.topNode">
@@ -2670,6 +2670,10 @@ addEventListener("load", function() {
   <code><strong><a href="#transform.ReplaceStep.slice">slice</a></strong>: <a href="#model.Slice"><span class="type">Slice</span></a></code></dt>
 
 <dd><p data-x-en="The slice to insert.">要插入的切片。</p>
+</dd><dt id="transform.ReplaceStep^MAP_BIAS">
+  <code><span class="keyword">static</span> <strong><a href="#transform.ReplaceStep^MAP_BIAS">MAP_BIAS</a></strong>: <span class="type">-1</span> | <span class="type">1</span></code></dt>
+
+<dd><p data-x-en="By default, for backwards compatibility, an inserting step mapped over an insertion at that same position fill move after the inserted content. In a collaborative editing situation, that can make redone insertions appear in unexpected places. You can set this to -1 to make such mapping keep the step before the insertion instead.">默认情况下，为了向后兼容，插入步骤会在同一位置的插入内容之后移动。在协作编辑的情况下，这可能会导致重新插入的内容出现在意外的位置。您可以将其设置为 -1，以使此类映射保持在插入内容之前。</p>
 </dd></dl>
 
 </dd>
@@ -3712,7 +3716,7 @@ addEventListener("load", function() {
 <dd><p data-x-en="A list item (<li>) spec.">列表项（<code>&lt;li&gt;</code>）的配置对象。</p><div type="comment">li 父节点可以是 ol 也可以是 ul，高级用法还可以扩展为 todo。</div>
 </dd>
 <dt id="schema-list.addListNodes">
-  <code><strong><a href="#schema-list.addListNodes">addListNodes</a></strong>(<div class="breaktype"><a id="schema-list.addListNodes^nodes" href="#schema-list.addListNodes^nodes"><span class="param">nodes</span></a>:&nbsp;<a href="https://github.com/marijnh/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>&gt;, </div><div class="breaktype"><a id="schema-list.addListNodes^itemContent" href="#schema-list.addListNodes^itemContent"><span class="param">itemContent</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a>, </div><div class="breaktype"><a id="schema-list.addListNodes^listGroup" href="#schema-list.addListNodes^listGroup"><span class="param">listGroup</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a></div>) →&nbsp;<a href="https://github.com/marijnh/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>&gt;</code></dt>
+  <code><strong><a href="#schema-list.addListNodes">addListNodes</a></strong>(<div class="breaktype"><a id="schema-list.addListNodes^nodes" href="#schema-list.addListNodes^nodes"><span class="param">nodes</span></a>:&nbsp;<a href="https://code.haverbeke.berlin/marijn/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>&gt;, </div><div class="breaktype"><a id="schema-list.addListNodes^itemContent" href="#schema-list.addListNodes^itemContent"><span class="param">itemContent</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a>, </div><div class="breaktype"><a id="schema-list.addListNodes^listGroup" href="#schema-list.addListNodes^listGroup"><span class="param">listGroup</span></a>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a></div>) →&nbsp;<a href="https://code.haverbeke.berlin/marijn/orderedmap#readme"><span class="type">OrderedMap</span></a>&lt;<a href="#model.NodeSpec"><span class="type">NodeSpec</span></a>&gt;</code></dt>
 
 <dd><p data-x-en="Convenience function for adding list-related node types to a map specifying the nodes for a schema. Adds orderedList as &quot;ordered_list&quot;, bulletList as &quot;bullet_list&quot;, and listItem as &quot;list_item&quot;.">为 schema 方便的添加列表相关的节点类型到一个特定的节点类型的函数。<a href="#schema-list.orderedList"><code>orderedList</code></a> 表示为 <code>"ordered_list"</code>， <a href="#schema-list.bulletList"><code>bulletList</code></a> 表示为 <code>"bullet_list"</code>， 以及 <a href="#schema-list.listItem"><code>listItem</code></a> 表示为 <code>"list_item"</code>。</p>
 <p data-x-en="itemContent determines the content expression for the list items. If you want the commands defined in this module to apply to your list structure, it should have a shape like &quot;paragraph block*&quot; or &quot;paragraph (ordered_list | bullet_list)*&quot;. listGroup can be given to assign a group name to the list node types, for example &quot;block&quot;."><code>itemContent</code> 决定了列表项的内容表达式。如果你想要在本模块中定义的命令应用于你自己的列表结构，则它的值应该是诸如 <code>"paragraph block*"</code> 或者 <code>"paragraph (ordered_list | bullet_list)*"</code> 之类的。<code>listGroup</code> 可以将列表节点类型分配到一个组名，比如 <code>"block"</code>。</p>
@@ -3769,7 +3773,7 @@ addEventListener("load", function() {
       <a href="/backers.html">Backers</a>
       <a href="http://contributor-covenant.org/version/1/1/0/">Code of Conduct</a>
       <a href="https://discuss.prosemirror.net/">Discuss</a>
-      <a href="https://github.com/prosemirror/prosemirror/issues">Report an Issue</a>
+      <a href="https://code.haverbeke.berlin/prosemirror/prosemirror/issues">Report an Issue</a>
     </div>
   </nav>
 </footer>

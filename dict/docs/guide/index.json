@@ -1114,5 +1114,13 @@
   "The magic happens in the update method. Firstly, this method is responsible for deciding whether the node view can be updated to show the new node at all. It should return false when it cannot.": {
     "_translate": "魔术发生在<a href=\"/docs/ref/#view.NodeView.update\"><code>update</code> 方法</a>中。首先，此方法负责决定节点视图<em>是否</em>可以更新以显示新节点。当它不能时，应返回 false。",
     "_note": ""
+  },
+  "Code": {
+    "_translate": "请提供需要翻译的源文本。",
+    "_note": ""
+  },
+  "In addition, there are modules for basic editing commands, binding keys, undo history, input macros, collaborative editing, a simple document schema, and more under the prosemirror organization.": {
+    "_translate": "此外，还有模块用于<a href=\"/docs/ref/#commands\">基本编辑命令</a>，<a href=\"/docs/ref/#keymap\">绑定键</a>，<a href=\"/docs/ref/#history\">撤销历史</a>，<a href=\"/docs/ref/#inputrules\">输入宏</a>，<a href=\"/docs/ref/#collab\">协同编辑</a>，<a href=\"/docs/ref/#schema-basic\">简单的文档模式</a>，以及更多在<a href=\"https://code.haverbeke.berlin/prosemirror/\">prosemirror组织</a>下。",
+    "_note": ""
   }
 }

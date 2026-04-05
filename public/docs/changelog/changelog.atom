@@ -5,11 +5,30 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2026-03-29T00:17:05.859Z</updated>
+  <updated>2026-04-05T00:17:12.256Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-view 1.41.8</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.41.8"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.41.8</id>
+      <updated>2026-04-02T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make the types reflect that mark and node views should render elements, not any DOM node.</p>
+<p>Fix a bug causing <code>dragCopies</code> to be ignored when it returned false.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-transform 1.12.0</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-transform/v/1.12.0"/>
+      <id>https://www.npmjs.com/package/prosemirror-transform/v/1.12.0</id>
+      <updated>2026-03-30T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Handle deletions that go from the beginning of one textblock to the beginning of another specially, deleting the selected textblocks entirely.</p>
+<h3>New features</h3>
+<p><code>ReplaceStep.MAP_BIAS</code> can now be adjusted to change the way insertion steps are mapped over other insertions at the same place. The default behavior remains the same for the sake of backwards compatibility.</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-view 1.41.7</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.41.7"/>
       <id>https://www.npmjs.com/package/prosemirror-view/v/1.41.7</id>
@@ -5861,7 +5880,7 @@
       <updated>2017-04-03T00:00:00.000Z</updated>
       <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Breaking changes</h3>
 <p>The <code>inclusiveLeft</code> and <code>inclusiveRight</code> options to inline decorations were renamed to <a href="https://prosemirror.net/docs/ref/version/0.20.0.html#view.Decoration%5Einline%5Espec.inclusiveStart"><code>inclusiveStart</code></a> and <a href="https://prosemirror.net/docs/ref/version/0.20.0.html#view.Decoration%5Einline%5Espec.inclusiveEnd"><code>inclusiveEnd</code></a> so that they also make sense in right-to-left text. The old names work with a warning until the next release.</p>
-<p>The default styling for lists and blockquotes was removed from <code>prosemirror.css</code>. (They were moved to the <a href="https://github.com/ProseMirror/prosemirror-example-setup"><code>example-setup</code></a> module.)</p>
+<p>The default styling for lists and blockquotes was removed from <code>prosemirror.css</code>. (They were moved to the <a href="https://code.haverbeke.berlin/prosemirror/prosemirror-example-setup"><code>example-setup</code></a> module.)</p>
 <h3>Bug fixes</h3>
 <p>Fixes reading of selection in Chrome in a shadow DOM.</p>
 <p>Registering DOM event handlers that the editor doesn't listen to by default with the <code>handleDOMEvents</code> prop should work again.</p>
@@ -6273,7 +6292,7 @@
       <updated>2016-12-10T00:00:00.000Z</updated>
       <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Breaking changes</h3>
 <p>The editor view no longer wraps its editable DOM element in a wrapper element. The <code>ProseMirror</code> CSS class now applies directly to the editable element. The <code>ProseMirror-content</code> CSS class is still present for ease of upgrading but will be dropped in the next release.</p>
-<p>The editor view no longer draws a drop cursor when dragging content over the editor. The new <a href="https://github.com/prosemirror/prosemirror-dropcursor"><code>prosemirror-dropcursor</code></a> module implements this as a plugin.</p>
+<p>The editor view no longer draws a drop cursor when dragging content over the editor. The new <a href="https://code.haverbeke.berlin/prosemirror/prosemirror-dropcursor"><code>prosemirror-dropcursor</code></a> module implements this as a plugin.</p>
 <h3>Bug fixes</h3>
 <p>Simple typing and backspacing now gets handled by the browser without ProseMirror redrawing the touched nodes, making spell-checking and various platform-specific input tricks (long-press on OS X, double space on iOS) work in the editor.</p>
 <p>Improve tracking of DOM nodes that have been touched by user changes, so that <a href="https://prosemirror.net/docs/ref/version/0.15.0.html#view.EditorView.updateState"><code>updateState</code></a> can reliably fix them.</p>

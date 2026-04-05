@@ -166,5 +166,13 @@
   "译者": {
     "_translate": "译者",
     "_note": ""
+  },
+  "Code": {
+    "_translate": "请提供需要翻译的源文本。",
+    "_note": ""
+  },
+  "ProseMirror is being developed on Forgejo. Contributions are welcome.": {
+    "_translate": "ProseMirror 正在 <a href=\"https://code.haverbeke.berlin/prosemirror/\">Forgejo</a> 上开发。欢迎 <a href=\"https://code.haverbeke.berlin/prosemirror/prosemirror/src/branch/main/CONTRIBUTING.md\">贡献</a>。",
+    "_note": ""
   }
 }

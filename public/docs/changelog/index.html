@@ -7,7 +7,7 @@
     <div class="navlinks"><a href="/examples/">示例</a>
       <a href="/docs/" class="active">文档</a>
       <a href="https://discuss.prosemirror.net/">论坛</a>
-      <a href="https://github.com/prosemirror">GitHub</a>
+      <a href="https://code.haverbeke.berlin/prosemirror" data-x-en="Code">请提供需要翻译的源文本。</a>
     <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
@@ -80,7 +80,16 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.41.7 (2026-03-18)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.41.8 (2026-04-02)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Make the types reflect that mark and node views should render elements, not any DOM node.">使类型反映标记和节点视图应渲染元素，而不是任何DOM节点。</p>
+<p data-x-en="Fix a bug causing dragCopies to be ignored when it returned false.">修复一个导致 <code>dragCopies</code> 在返回 false 时被忽略的 bug。</p>
+<h3><a href="../ref/#transform">prosemirror-transform</a> 1.12.0 (2026-03-30)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Handle deletions that go from the beginning of one textblock to the beginning of another specially, deleting the selected textblocks entirely.">处理从一个文本块的开头到另一个文本块开头的删除，特别地，完全删除所选的文本块。</p>
+<h4>New features</h4>
+<p data-x-en="ReplaceStep.MAP_BIAS can now be adjusted to change the way insertion steps are mapped over other insertions at the same place. The default behavior remains the same for the sake of backwards compatibility."><code>ReplaceStep.MAP_BIAS</code> 现在可以调整，以改变在同一位置的插入步骤映射到其他插入的方式。默认行为为了向后兼容性保持不变。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.41.7 (2026-03-18)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Work around a Chrome bug where it sometimes inserts a random <br> node when you press backspace before a widget.">解决一个 Chrome 的 bug，有时当你在小部件前按下退格键时，它会插入一个随机的 <code>&lt;br&gt;</code> 节点。</p>
 <p data-x-en="Fix a crash that could happen when deleting content during a node drag.">修复在节点拖动期间删除内容时可能发生崩溃的问题。</p>
@@ -2927,7 +2936,7 @@
       <a href="/backers.html">Backers</a>
       <a href="http://contributor-covenant.org/version/1/1/0/">Code of Conduct</a>
       <a href="https://discuss.prosemirror.net/">Discuss</a>
-      <a href="https://github.com/prosemirror/prosemirror/issues">Report an Issue</a>
+      <a href="https://code.haverbeke.berlin/prosemirror/prosemirror/issues">Report an Issue</a>
     </div>
   </nav>
 </footer>

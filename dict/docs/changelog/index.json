@@ -4546,5 +4546,25 @@
   "Work around a Chrome bug where it sometimes inserts a random <br> node when you press backspace before a widget.": {
     "_translate": "解决一个 Chrome 的 bug，有时当你在小部件前按下退格键时，它会插入一个随机的 <code>&lt;br&gt;</code> 节点。",
     "_note": ""
+  },
+  "Code": {
+    "_translate": "请提供需要翻译的源文本。",
+    "_note": ""
+  },
+  "Make the types reflect that mark and node views should render elements, not any DOM node.": {
+    "_translate": "使类型反映标记和节点视图应渲染元素，而不是任何DOM节点。",
+    "_note": ""
+  },
+  "Fix a bug causing dragCopies to be ignored when it returned false.": {
+    "_translate": "修复一个导致 <code>dragCopies</code> 在返回 false 时被忽略的 bug。",
+    "_note": ""
+  },
+  "Handle deletions that go from the beginning of one textblock to the beginning of another specially, deleting the selected textblocks entirely.": {
+    "_translate": "处理从一个文本块的开头到另一个文本块开头的删除，特别地，完全删除所选的文本块。",
+    "_note": ""
+  },
+  "ReplaceStep.MAP_BIAS can now be adjusted to change the way insertion steps are mapped over other insertions at the same place. The default behavior remains the same for the sake of backwards compatibility.": {
+    "_translate": "<code>ReplaceStep.MAP_BIAS</code> 现在可以调整，以改变在同一位置的插入步骤映射到其他插入的方式。默认行为为了向后兼容性保持不变。",
+    "_note": ""
   }
 }

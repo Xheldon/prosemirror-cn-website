@@ -90,5 +90,9 @@
   "Many ProseMirror packages come with a CSS file (linked under the \"style\" field in package.json). You must make sure to load these into the document that contains your editor. Some bundlers will help you with this, but if they don't, either create link tags like below, or make sure these files get concatenated into your bundled CSS.": {
     "_translate": "许多 ProseMirror 包都带有一个 CSS 文件（在 package.json 的 <code>\"style\"</code> 字段中链接）。您必须确保将这些文件加载到包含您编辑器的文档中。一些打包工具会帮助您完成此操作，但如果它们不这样做，您可以创建如下所示的 link 标签，或者确保这些文件被合并到您的打包 CSS 中。",
     "_note": ""
+  },
+  "Code": {
+    "_translate": "请提供需要翻译的源文本。",
+    "_note": ""
   }
 }

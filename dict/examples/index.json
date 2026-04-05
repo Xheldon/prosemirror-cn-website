@@ -186,5 +186,9 @@
   "Collaborative editing": {
     "_translate": "协作编辑（暂不可用）",
     "_note": ""
+  },
+  "Code": {
+    "_translate": "请提供需要翻译的源文本。",
+    "_note": ""
   }
 }
