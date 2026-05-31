@@ -1096,6 +1096,15 @@
   function decodeHTML(str, mode = DecodingMode.Legacy) {
       return htmlDecoder(str, mode);
   }
+  /**
+   * Decodes an HTML string, requiring all entities to be terminated by a semicolon.
+   *
+   * @param str The string to decode.
+   * @returns The decoded string.
+   */
+  function decodeHTMLStrict(str) {
+      return htmlDecoder(str, DecodingMode.Strict);
+  }
 
   // Utilities
 
@@ -1273,6 +1282,10 @@
     return P.test(ch) || regex.test(ch)
   }
 
+  function isPunctCharCode (code) {
+    return isPunctChar(fromCodePoint(code))
+  }
+
   // Markdown ASCII punctuation characters.
   //
   // !, ", #, $, %, &, ', (, ), *, +, ,, -, ., /, :, ;, <, =, >, ?, @, [, \, ], ^, _, `, {, |, }, or ~
@@ -1334,6 +1347,7 @@
     // (remove this when node v10 is no longer supported).
     //
     if ('ẞ'.toLowerCase() === 'Ṿ') {
+      /* c8 ignore next 2 */
       str = str.replace(/ẞ/g, 'ß');
     }
 
@@ -1372,6 +1386,28 @@
     return str.toLowerCase().toUpperCase()
   }
 
+  function isAsciiTrimmable (c) {
+    return c === 0x20 || c === 0x09 || c === 0x0a || c === 0x0d
+  }
+
+  // "Light" .trim() for blocks (headers, paragraphs), where unicode spaces
+  // should be preserved.
+  function asciiTrim (str) {
+    let start = 0;
+    for (; start < str.length; start++) {
+      if (!isAsciiTrimmable(str.charCodeAt(start))) {
+        break
+      }
+    }
+    let end = str.length - 1;
+    for (; end >= start; end--) {
+      if (!isAsciiTrimmable(str.charCodeAt(end))) {
+        break
+      }
+    }
+    return str.slice(start, end + 1)
+  }
+
   // Re-export libraries commonly used in both markdown-it and its plugins,
   // so plugins won't have to depend on them explicitly, which reduces their
   // bundled size (e.g. a browser build).
@@ -1394,8 +1430,10 @@
     isWhiteSpace: isWhiteSpace,
     isMdAsciiPunct: isMdAsciiPunct,
     isPunctChar: isPunctChar,
+    isPunctCharCode: isPunctCharCode,
     escapeRE: escapeRE$1,
-    normalizeReference: normalizeReference
+    normalizeReference: normalizeReference,
+    asciiTrim: asciiTrim
   });
 
   // Parse link label
@@ -2738,14 +2776,36 @@
   const QUOTE_RE = /['"]/g;
   const APOSTROPHE = '\u2019'; /* ’ */
 
-  function replaceAt (str, index, ch) {
-    return str.slice(0, index) + ch + str.slice(index + 1)
+  function addReplacement (replacements, tokenIdx, pos, ch) {
+    if (!replacements[tokenIdx]) {
+      replacements[tokenIdx] = [];
+    }
+
+    replacements[tokenIdx].push({ pos, ch });
+  }
+
+  function applyReplacements (str, replacements) {
+    let result = '';
+    let lastPos = 0;
+
+    replacements.sort((a, b) => a.pos - b.pos);
+
+    for (let i = 0; i < replacements.length; i++) {
+      const replacement = replacements[i];
+
+      result += str.slice(lastPos, replacement.pos) + replacement.ch;
+      lastPos = replacement.pos + 1;
+    }
+
+    return result + str.slice(lastPos)
   }
 
   function process_inlines (tokens, state) {
     let j;
 
     const stack = [];
+    // token index -> list of replacements in the original token content
+    const replacements = {};
 
     for (let i = 0; i < tokens.length; i++) {
       const token = tokens[i];
@@ -2759,9 +2819,9 @@
 
       if (token.type !== 'text') { continue }
 
-      let text = token.content;
+      const text = token.content;
       let pos = 0;
-      let max = text.length;
+      const max = text.length;
 
       /* eslint no-labels:0,block-scoped-var:0 */
       OUTER:
@@ -2809,8 +2869,8 @@
           }
         }
 
-        const isLastPunctChar = isMdAsciiPunct(lastChar) || isPunctChar(String.fromCharCode(lastChar));
-        const isNextPunctChar = isMdAsciiPunct(nextChar) || isPunctChar(String.fromCharCode(nextChar));
+        const isLastPunctChar = isMdAsciiPunct(lastChar) || isPunctCharCode(lastChar);
+        const isNextPunctChar = isMdAsciiPunct(nextChar) || isPunctCharCode(nextChar);
 
         const isLastWhiteSpace = isWhiteSpace(lastChar);
         const isNextWhiteSpace = isWhiteSpace(nextChar);
@@ -2853,7 +2913,7 @@
         if (!canOpen && !canClose) {
           // middle of word
           if (isSingle) {
-            token.content = replaceAt(token.content, t.index, APOSTROPHE);
+            addReplacement(replacements, i, t.index, APOSTROPHE);
           }
           continue
         }
@@ -2876,18 +2936,8 @@
                 closeQuote = state.md.options.quotes[1];
               }
 
-              // replace token.content *before* tokens[item.token].content,
-              // because, if they are pointing at the same token, replaceAt
-              // could mess up indices when quote length != 1
-              token.content = replaceAt(token.content, t.index, closeQuote);
-              tokens[item.token].content = replaceAt(
-                tokens[item.token].content, item.pos, openQuote);
-
-              pos += closeQuote.length - 1;
-              if (item.token === i) { pos += openQuote.length - 1; }
-
-              text = token.content;
-              max = text.length;
+              addReplacement(replacements, i, t.index, closeQuote);
+              addReplacement(replacements, item.token, item.pos, openQuote);
 
               stack.length = j;
               continue OUTER
@@ -2903,10 +2953,14 @@
             level: thisLevel
           });
         } else if (canClose && isSingle) {
-          token.content = replaceAt(token.content, t.index, APOSTROPHE);
+          addReplacement(replacements, i, t.index, APOSTROPHE);
         }
       }
     }
+
+    Object.keys(replacements).forEach(function (tokenIdx) {
+      tokens[tokenIdx].content = applyReplacements(tokens[tokenIdx].content, replacements[tokenIdx]);
+    });
   }
 
   function smartquotes (state) {
@@ -4503,11 +4557,22 @@
 
     let nextLine = startLine + 1;
 
+    // Block types 6 and 7 (the only ones whose end condition is a blank line)
+    // have `/^$/` as their closing regexp. For all other types (1-5, e.g.
+    // `<!--` comments), a blank line is regular content and must not terminate
+    // the block - it ends only when its closing sequence is found.
+    const endsOnBlankLine = HTML_SEQUENCES[i][1].test('');
+
     // If we are here - we detected HTML block.
     // Let's roll down till block end.
     if (!HTML_SEQUENCES[i][1].test(lineText)) {
       for (; nextLine < endLine; nextLine++) {
-        if (state.sCount[nextLine] < state.blkIndent) { break }
+        if (state.sCount[nextLine] < state.blkIndent) {
+          // An outdented blank line shouldn't end a block that doesn't end on a
+          // blank line (e.g. a `<!--` comment inside a list item). Such blocks
+          // must continue until their closing sequence regardless of indent.
+          if (endsOnBlankLine || !state.isEmpty(nextLine)) { break }
+        }
 
         pos = state.bMarks[nextLine] + state.tShift[nextLine];
         max = state.eMarks[nextLine];
@@ -4569,7 +4634,7 @@
     token_o.map    = [startLine, state.line];
 
     const token_i    = state.push('inline', '', 0);
-    token_i.content  = state.src.slice(pos, max).trim();
+    token_i.content  = asciiTrim(state.src.slice(pos, max));
     token_i.map      = [startLine, state.line];
     token_i.children = [];
 
@@ -4638,10 +4703,11 @@
 
     if (!level) {
       // Didn't find valid underline
+      state.parentType = oldParentType;
       return false
     }
 
-    const content = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
+    const content = asciiTrim(state.getLines(startLine, nextLine, state.blkIndent, false));
 
     state.line = nextLine + 1;
 
@@ -4690,7 +4756,7 @@
       if (terminate) { break }
     }
 
-    const content = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
+    const content = asciiTrim(state.getLines(startLine, nextLine, state.blkIndent, false));
 
     state.line = nextLine;
 
@@ -4915,8 +4981,30 @@
     const max = this.posMax;
     const marker = this.src.charCodeAt(start);
 
-    // treat beginning of the line as a whitespace
-    const lastChar = start > 0 ? this.src.charCodeAt(start - 1) : 0x20;
+    // Astral characters below are combined manually, because .codePointAt()
+    // does not guarantee numeric type output. And we don't wish JIT cache issues.
+    // The broken surrogate pairs are evaluated as U+FFFD to prevent possible
+    // crashes.
+
+    let lastChar;
+    if (start === 0) {
+      // treat beginning of the line as a whitespace
+      lastChar = 0x20;
+    } else if (start === 1) {
+      lastChar = this.src.charCodeAt(0);
+      if ((lastChar & 0xF800) === 0xD800) { lastChar = 0xFFFD; }
+    } else {
+      lastChar = this.src.charCodeAt(start - 1);
+      if ((lastChar & 0xFC00) === 0xDC00) {
+        // low surrogate => add high one, replace broken pair with U+FFFD
+        const highSurr = this.src.charCodeAt(start - 2);
+        lastChar = (highSurr & 0xFC00) === 0xD800
+          ? 0x10000 + ((highSurr - 0xD800) << 10) + (lastChar - 0xDC00)
+          : 0xFFFD;
+      } else if ((lastChar & 0xFC00) === 0xD800) {
+        lastChar = 0xFFFD;
+      }
+    }
 
     let pos = start;
     while (pos < max && this.src.charCodeAt(pos) === marker) { pos++; }
@@ -4924,10 +5012,19 @@
     const count = pos - start;
 
     // treat end of the line as a whitespace
-    const nextChar = pos < max ? this.src.charCodeAt(pos) : 0x20;
+    let nextChar = pos < max ? this.src.charCodeAt(pos) : 0x20;
+    if ((nextChar & 0xFC00) === 0xD800) {
+      // high surrogate => add low one, replace broken pair with U+FFFD
+      const lowSurr = this.src.charCodeAt(pos + 1);
+      nextChar = (lowSurr & 0xFC00) === 0xDC00
+        ? 0x10000 + ((nextChar - 0xD800) << 10) + (lowSurr - 0xDC00)
+        : 0xFFFD;
+    } else if ((nextChar & 0xFC00) === 0xDC00) {
+      nextChar = 0xFFFD;
+    }
 
-    const isLastPunctChar = isMdAsciiPunct(lastChar) || isPunctChar(String.fromCharCode(lastChar));
-    const isNextPunctChar = isMdAsciiPunct(nextChar) || isPunctChar(String.fromCharCode(nextChar));
+    const isLastPunctChar = isMdAsciiPunct(lastChar) || isPunctCharCode(lastChar);
+    const isNextPunctChar = isMdAsciiPunct(nextChar) || isPunctCharCode(nextChar);
 
     const isLastWhiteSpace = isWhiteSpace(lastChar);
     const isNextWhiteSpace = isWhiteSpace(nextChar);
@@ -5948,7 +6045,7 @@
     } else {
       const match = state.src.slice(pos).match(NAMED_RE);
       if (match) {
-        const decoded = decodeHTML(match[0]);
+        const decoded = decodeHTMLStrict(match[0]);
         if (decoded !== match[0]) {
           if (!silent) {
             const token   = state.push('text_special', '', 0);
@@ -6609,11 +6706,6 @@
   // DON'T try to make PRs with changes. Extend TLDs with LinkifyIt.tlds() instead
   const tlds_default = 'biz|com|edu|gov|net|org|pro|web|xxx|aero|asia|coop|info|museum|name|shop|рф'.split('|');
 
-  function resetScanCache (self) {
-    self.__index__ = -1;
-    self.__text_cache__ = '';
-  }
-
   function createValidator (re) {
     return function (text, pos) {
       const tail = text.slice(pos);
@@ -6652,8 +6744,11 @@
     function untpl (tpl) { return tpl.replace('%TLDS%', re.src_tlds) }
 
     re.email_fuzzy = RegExp(untpl(re.tpl_email_fuzzy), 'i');
+    re.email_fuzzy_global = RegExp(untpl(re.tpl_email_fuzzy), 'ig');
     re.link_fuzzy = RegExp(untpl(re.tpl_link_fuzzy), 'i');
+    re.link_fuzzy_global = RegExp(untpl(re.tpl_link_fuzzy), 'ig');
     re.link_no_ip_fuzzy = RegExp(untpl(re.tpl_link_no_ip_fuzzy), 'i');
+    re.link_no_ip_fuzzy_global = RegExp(untpl(re.tpl_link_no_ip_fuzzy), 'ig');
     re.host_fuzzy_test = RegExp(untpl(re.tpl_host_fuzzy_test), 'i');
 
     //
@@ -6747,12 +6842,6 @@
       '(' + self.re.schema_test.source + ')|(' + self.re.host_fuzzy_test.source + ')|@',
       'i'
     );
-
-    //
-    // Cleanup
-    //
-
-    resetScanCache(self);
   }
 
   /**
@@ -6760,55 +6849,45 @@
    *
    * Match result. Single element of array, returned by [[LinkifyIt#match]]
    **/
-  function Match (self, shift) {
-    const start = self.__index__;
-    const end = self.__last_index__;
-    const text = self.__text_cache__.slice(start, end);
+  function Match (text, schema, index, lastIndex) {
+    const raw = text.slice(index, lastIndex);
 
     /**
      * Match#schema -> String
      *
      * Prefix (protocol) for matched string.
      **/
-    this.schema = self.__schema__.toLowerCase();
+    this.schema = schema.toLowerCase();
     /**
      * Match#index -> Number
      *
      * First position of matched string.
      **/
-    this.index = start + shift;
+    this.index = index;
     /**
      * Match#lastIndex -> Number
      *
      * Next position after matched string.
      **/
-    this.lastIndex = end + shift;
+    this.lastIndex = lastIndex;
     /**
      * Match#raw -> String
      *
      * Matched string.
      **/
-    this.raw = text;
+    this.raw = raw;
     /**
      * Match#text -> String
      *
      * Notmalized text of matched string.
      **/
-    this.text = text;
+    this.text = raw;
     /**
      * Match#url -> String
      *
      * Normalized url of matched string.
      **/
-    this.url = text;
-  }
-
-  function createMatch (self, shift) {
-    const match = new Match(self, shift);
-
-    self.__compiled__[match.schema].normalize(match, self);
-
-    return match
+    this.url = raw;
   }
 
   /**
@@ -6863,12 +6942,6 @@
 
     this.__opts__ = assign({}, defaultOptions, options);
 
-    // Cache last tested result. Used to skip repeating steps on next `match` call.
-    this.__index__ = -1;
-    this.__last_index__ = -1; // Next scan position
-    this.__schema__ = '';
-    this.__text_cache__ = '';
-
     this.__schemas__ = assign({}, defaultSchemas, schemas);
     this.__compiled__ = {};
 
@@ -6910,69 +6983,38 @@
    * Searches linkifiable pattern and returns `true` on success or `false` on fail.
    **/
   LinkifyIt.prototype.test = function test (text) {
-    // Reset scan cache
-    this.__text_cache__ = text;
-    this.__index__ = -1;
-
     if (!text.length) { return false }
 
-    let m, ml, me, len, shift, next, re, tld_pos, at_pos;
+    let m, re;
 
     // try to scan for link with schema - that's the most simple rule
     if (this.re.schema_test.test(text)) {
       re = this.re.schema_search;
       re.lastIndex = 0;
       while ((m = re.exec(text)) !== null) {
-        len = this.testSchemaAt(text, m[2], re.lastIndex);
-        if (len) {
-          this.__schema__ = m[2];
-          this.__index__ = m.index + m[1].length;
-          this.__last_index__ = m.index + m[0].length + len;
-          break
-        }
+        if (this.testSchemaAt(text, m[2], re.lastIndex)) { return true }
       }
     }
 
     if (this.__opts__.fuzzyLink && this.__compiled__['http:']) {
       // guess schemaless links
-      tld_pos = text.search(this.re.host_fuzzy_test);
-      if (tld_pos >= 0) {
-        // if tld is located after found link - no need to check fuzzy pattern
-        if (this.__index__ < 0 || tld_pos < this.__index__) {
-          if ((ml = text.match(this.__opts__.fuzzyIP ? this.re.link_fuzzy : this.re.link_no_ip_fuzzy)) !== null) {
-            shift = ml.index + ml[1].length;
-
-            if (this.__index__ < 0 || shift < this.__index__) {
-              this.__schema__ = '';
-              this.__index__ = shift;
-              this.__last_index__ = ml.index + ml[0].length;
-            }
-          }
+      if (text.search(this.re.host_fuzzy_test) >= 0) {
+        if (text.match(this.__opts__.fuzzyIP ? this.re.link_fuzzy : this.re.link_no_ip_fuzzy) !== null) {
+          return true
         }
       }
     }
 
     if (this.__opts__.fuzzyEmail && this.__compiled__['mailto:']) {
       // guess schemaless emails
-      at_pos = text.indexOf('@');
-      if (at_pos >= 0) {
+      if (text.indexOf('@') >= 0) {
         // We can't skip this check, because this cases are possible:
         // 192.168.1.1@gmail.com, my.in@example.com
-        if ((me = text.match(this.re.email_fuzzy)) !== null) {
-          shift = me.index + me[1].length;
-          next = me.index + me[0].length;
-
-          if (this.__index__ < 0 || shift < this.__index__ ||
-              (shift === this.__index__ && next > this.__last_index__)) {
-            this.__schema__ = 'mailto:';
-            this.__index__ = shift;
-            this.__last_index__ = next;
-          }
-        }
+        if (text.match(this.re.email_fuzzy) !== null) { return true }
       }
     }
 
-    return this.__index__ >= 0
+    return false
   };
 
   /**
@@ -7021,23 +7063,88 @@
    **/
   LinkifyIt.prototype.match = function match (text) {
     const result = [];
-    let shift = 0;
+    const type_schemed = [];
+    const type_fuzzy_link = [];
+    const type_fuzzy_email = [];
+    let m, len, re;
 
-    // Try to take previous element from cache, if .test() called before
-    if (this.__index__ >= 0 && this.__text_cache__ === text) {
-      result.push(createMatch(this, shift));
-      shift = this.__last_index__;
+    function choose (a, b) {
+      if (!a) { return b }
+      if (!b) { return a }
+      if (a.index !== b.index) { return a.index < b.index ? a : b }
+      return a.lastIndex >= b.lastIndex ? a : b
     }
 
-    // Cut head if cache was used
-    let tail = shift ? text.slice(shift) : text;
+    if (!text.length) { return null }
 
-    // Scan string until end reached
-    while (this.test(tail)) {
-      result.push(createMatch(this, shift));
+    // scan for links with schema
+    if (this.re.schema_test.test(text)) {
+      re = this.re.schema_search;
+      re.lastIndex = 0;
+      while ((m = re.exec(text)) !== null) {
+        len = this.testSchemaAt(text, m[2], re.lastIndex);
+        if (len) {
+          type_schemed.push({
+            schema: m[2],
+            index: m.index + m[1].length,
+            lastIndex: m.index + m[0].length + len
+          });
+        }
+      }
+    }
 
-      tail = tail.slice(this.__last_index__);
-      shift += this.__last_index__;
+    if (this.__opts__.fuzzyLink && this.__compiled__['http:']) {
+      re = this.__opts__.fuzzyIP ? this.re.link_fuzzy_global : this.re.link_no_ip_fuzzy_global;
+      re.lastIndex = 0;
+      while ((m = re.exec(text)) !== null) {
+        type_fuzzy_link.push({
+          schema: '',
+          index: m.index + m[1].length,
+          lastIndex: m.index + m[0].length
+        });
+      }
+    }
+
+    if (this.__opts__.fuzzyEmail && this.__compiled__['mailto:']) {
+      re = this.re.email_fuzzy_global;
+      re.lastIndex = 0;
+      while ((m = re.exec(text)) !== null) {
+        type_fuzzy_email.push({
+          schema: 'mailto:',
+          index: m.index + m[1].length,
+          lastIndex: m.index + m[0].length
+        });
+      }
+    }
+
+    const indexes = [0, 0, 0];
+    let lastIndex = 0;
+
+    for (;;) {
+      const candidates = [
+        type_schemed[indexes[0]],
+        type_fuzzy_email[indexes[1]],
+        type_fuzzy_link[indexes[2]]
+      ];
+
+      const candidate = choose(choose(candidates[0], candidates[1]), candidates[2]);
+
+      if (!candidate) { break }
+
+      if (candidate === candidates[0]) {
+        indexes[0]++;
+      } else if (candidate === candidates[1]) {
+        indexes[1]++;
+      } else {
+        indexes[2]++;
+      }
+
+      if (candidate.index < lastIndex) { continue }
+
+      const match = new Match(text, candidate.schema, candidate.index, candidate.lastIndex);
+      this.__compiled__[match.schema].normalize(match, this);
+      result.push(match);
+      lastIndex = candidate.lastIndex;
     }
 
     if (result.length) {
@@ -7054,10 +7161,6 @@
    * of the string, and null otherwise.
    **/
   LinkifyIt.prototype.matchAtStart = function matchAtStart (text) {
-    // Reset scan cache
-    this.__text_cache__ = text;
-    this.__index__ = -1;
-
     if (!text.length) return null
 
     const m = this.re.schema_at_start.exec(text);
@@ -7066,11 +7169,10 @@
     const len = this.testSchemaAt(text, m[2], m[0].length);
     if (!len) return null
 
-    this.__schema__ = m[2];
-    this.__index__ = m.index + m[1].length;
-    this.__last_index__ = m.index + m[0].length + len;
+    const match = new Match(text, m[2], m.index + m[1].length, m.index + m[0].length + len);
 
-    return createMatch(this, 0)
+    this.__compiled__[match.schema].normalize(match, this);
+    return match
   };
 
   /** chainable
@@ -8121,7 +8223,7 @@
    * ```javascript
    * var md = require('markdown-it')()
    *             .set({ html: true, breaks: true })
-   *             .set({ typographer, true });
+   *             .set({ typographer: true });
    * ```
    *
    * __Note:__ To achieve the best possible performance, don't modify a

@@ -4642,10 +4642,23 @@
   directly at `from` but not including `to`.
   */
   class BlockWrapper extends RangeValue {
-      constructor(tagName, attributes) {
+      constructor(
+      /**
+      @internal
+      */
+      tagName, 
+      /**
+      @internal
+      */
+      attributes, 
+      /**
+      @internal
+      */
+      rank) {
           super();
           this.tagName = tagName;
           this.attributes = attributes;
+          this.rank = rank;
       }
       eq(other) {
           return other == this ||
@@ -4656,7 +4669,7 @@
       attributes.
       */
       static create(spec) {
-          return new BlockWrapper(spec.tagName, spec.attributes || noAttrs);
+          return new BlockWrapper(spec.tagName, spec.attributes || noAttrs, spec.rank == null ? 50 : Math.max(0, Math.min(spec.rank, 100)));
       }
       /**
       Create a range set from the given block wrapper ranges.
@@ -6557,6 +6570,7 @@
               this.cache.reused.set(oldTile, 2 /* Reused.DOM */);
           let text = new TextTile(composition.text, composition.text.nodeValue);
           text.flags |= 8 /* TileFlag.Composition */;
+          this.pos = composition.range.toB;
           head.append(text);
       }
       addInlineWidget(widget, marks, openStart) {
@@ -6655,7 +6669,8 @@
                   this.wrappers.splice(i, 1);
           for (let cur = this.blockWrappers; cur.value && cur.from <= this.pos; cur.next())
               if (cur.to >= this.pos) {
-                  let wrap = new OpenWrapper(cur.from, cur.to, cur.value, cur.rank), i = this.wrappers.length;
+                  let rank = (cur.rank * 102) + cur.value.rank;
+                  let wrap = new OpenWrapper(cur.from, cur.to, cur.value, rank), i = this.wrappers.length;
                   while (i > 0 && (this.wrappers[i - 1].rank - wrap.rank || this.wrappers[i - 1].to - wrap.to) < 0)
                       i--;
                   this.wrappers.splice(i, 0, wrap);
@@ -8081,7 +8096,7 @@
       // (including the position after the last piece). For a text tile,
       // these will be character clusters, for a composite tile, these
       // will be child tiles.
-      scan(positions, getRects) {
+      scan(positions, getRects, recursed = false) {
           let lo = 0, hi = positions.length - 1, seen = new Set();
           let bidi = this.bidiIn(positions[0], positions[hi]);
           let above, below;
@@ -8154,18 +8169,19 @@
           if (!closestRect) {
               let side = above && (!below || (this.y - above.bottom < below.top - this.y)) ? above : below;
               this.y = (side.top + side.bottom) / 2;
-              return this.scan(positions, getRects);
+              return this.scan(positions, getRects, true);
           }
           // Handle the case where closest matched a higher element on the
           // same line as an element below/above the coords
-          if (closestDx) {
-              if (above && above.bottom > closestRect.top) {
+          if (closestDx && !recursed) {
+              let { top, bottom } = closestRect;
+              if (above && above.bottom > (top + top + bottom) / 3) {
                   this.y = above.bottom - 1;
-                  return this.scan(positions, getRects);
+                  return this.scan(positions, getRects, true);
               }
-              if (below && below.top < closestRect.bottom) {
+              if (below && below.top < (top + bottom + bottom) / 3) {
                   this.y = below.top + 1;
-                  return this.scan(positions, getRects);
+                  return this.scan(positions, getRects, true);
               }
           }
           let ltr = (bidi ? this.dirAt(positions[closestI], 1) : this.baseDir) == Direction.LTR;
@@ -9459,7 +9475,7 @@
       view.inputState.compositionFirstChange = null;
       if (browser.chrome && browser.android) {
           // Delay flushing for a bit on Android because it'll often fire a
-          // bunch of contradictory changes in a row at end of compositon
+          // bunch of contradictory changes in a row at end of composition
           view.observer.flushSoon();
       }
       else if (view.inputState.compositionPendingChange) {
@@ -9534,8 +9550,8 @@
   const appliedFirefoxHack = /*@__PURE__*/new Set;
   // In Firefox, when cut/copy handlers are added to the document, that
   // somehow avoids a bug where those events aren't fired when the
-  // selection is empty. See https://github.com/codemirror/dev/issues/1082
-  // and https://bugzilla.mozilla.org/show_bug.cgi?id=995961
+  // selection is empty. See issue #1082 and
+  // https://bugzilla.mozilla.org/show_bug.cgi?id=995961
   function firefoxCopyCutHack(doc) {
       if (!appliedFirefoxHack.has(doc)) {
           appliedFirefoxHack.add(doc);
@@ -9590,8 +9606,7 @@
       }
       refresh(whiteSpace, lineHeight, charWidth, textHeight, lineLength, knownHeights) {
           let lineWrapping = wrappingWhiteSpace.indexOf(whiteSpace) > -1;
-          let changed = Math.abs(lineHeight - this.lineHeight) > 0.3 || this.lineWrapping != lineWrapping ||
-              Math.abs(charWidth - this.charWidth) > 0.1;
+          let changed = Math.abs(lineHeight - this.lineHeight) > 0.3 || this.lineWrapping != lineWrapping;
           this.lineWrapping = lineWrapping;
           this.lineHeight = lineHeight;
           this.charWidth = charWidth;
@@ -11021,7 +11036,7 @@
           flexShrink: 0,
           display: "block",
           whiteSpace: "pre",
-          wordWrap: "normal", // https://github.com/codemirror/dev/issues/456
+          wordWrap: "normal", // Issue #456
           boxSizing: "border-box",
           minHeight: "100%",
           padding: "4px 0",
@@ -11440,7 +11455,7 @@
       readSelectionRange() {
           let { view } = this;
           // The Selection object is broken in shadow roots in Safari. See
-          // https://github.com/codemirror/dev/issues/414
+          // issue #414
           let selection = getSelection(view.root);
           if (!selection)
               return false;
@@ -12909,7 +12924,7 @@
       }
       /**
       Create a theme extension. The first argument can be a
-      [`style-mod`](https://github.com/marijnh/style-mod#documentation)
+      [`style-mod`](https://code.haverbeke.berlin/marijn/style-mod#documentation)
       style spec providing the styles for the theme. These will be
       prefixed with a generated class for the style.
       
@@ -12955,7 +12970,7 @@
   }
   /**
   Facet to add a [style
-  module](https://github.com/marijnh/style-mod#documentation) to
+  module](https://code.haverbeke.berlin/marijn/style-mod#documentation) to
   an editor view. The view will ensure that the module is
   mounted in its [document
   root](https://codemirror.net/6/docs/ref/#view.EditorView.constructor^config.root).
@@ -15716,6 +15731,8 @@
           if (dPrec)
               this.score += dPrec;
           if (depth == 0) {
+              if (type < parser.minRepeatTerm && this.reducePos < this.pos)
+                  this.reducePos = this.pos;
               this.pushState(parser.getGoto(this.state, type, true), this.reducePos);
               // Zero-depth reductions are a special case—they add stuff to
               // the stack without popping anything off.
@@ -15730,7 +15747,10 @@
           // expression and the state that we'll be staying in, which should
           // be moved to `this.state`).
           let base = this.stack.length - ((depth - 1) * 3) - (action & 262144 /* Action.StayFlag */ ? 6 : 0);
-          let start = base ? this.stack[base - 2] : this.p.ranges[0].from, size = this.reducePos - start;
+          let start = base ? this.stack[base - 2] : this.p.ranges[0].from;
+          if (type < parser.minRepeatTerm && start == this.reducePos && this.reducePos < this.pos)
+              this.reducePos = this.pos;
+          let size = this.reducePos - start;
           // This is a kludge to try and detect overly deep left-associative
           // trees, which will not increase the parse stack depth and thus
           // won't be caught by the regular stack-depth limit check.
@@ -15770,16 +15790,12 @@
           if (term == 0 /* Term.Err */ &&
               (!this.stack.length || this.stack[this.stack.length - 1] < this.buffer.length + this.bufferBase)) {
               // Try to omit/merge adjacent error nodes
-              let cur = this, top = this.buffer.length;
-              if (top == 0 && cur.parent) {
-                  top = cur.bufferBase - cur.parent.bufferBase;
-                  cur = cur.parent;
-              }
-              if (top > 0 && cur.buffer[top - 4] == 0 /* Term.Err */ && cur.buffer[top - 1] > -1) {
+              let top = this.buffer.length;
+              if (top > 0 && this.buffer[top - 4] == 0 /* Term.Err */ && this.buffer[top - 1] > -1) {
                   if (start == end)
                       return;
-                  if (cur.buffer[top - 2] >= start) {
-                      cur.buffer[top - 2] = end;
+                  if (this.buffer[top - 2] >= start) {
+                      this.buffer[top - 2] = end;
                       return;
                   }
               }
@@ -15878,6 +15894,10 @@
       split() {
           let parent = this;
           let off = parent.buffer.length;
+          // Leave off top error node, if there, because that might be
+          // merged with other nodes.
+          if (off && parent.buffer[off - 4] == 0 /* Term.Err */)
+              off -= 4;
           // Because the top of the buffer (after this.pos) may be mutated
           // to reorder reductions and skipped tokens, and shared buffers
           // should be immutable, this copies any outstanding skipped tokens
@@ -19997,7 +20017,8 @@
           content: '"···"',
           opacity: 0.5,
           display: "block",
-          textAlign: "center"
+          textAlign: "center",
+          cursor: "pointer",
       },
       ".cm-tooltip.cm-completionInfo": {
           position: "absolute",

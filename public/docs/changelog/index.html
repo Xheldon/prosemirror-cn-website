@@ -7,7 +7,7 @@
     <div class="navlinks"><a href="/examples/">示例</a>
       <a href="/docs/" class="active">文档</a>
       <a href="https://discuss.prosemirror.net/">论坛</a>
-      <a href="https://code.haverbeke.berlin/prosemirror" data-x-en="Code">请提供需要翻译的源文本。</a>
+      <a href="https://code.haverbeke.berlin/prosemirror">请提供需要翻译的源文本。</a>
     <a href="https://www.xheldon.com" target="_blank">译者</a></div>
   </nav></header><article>
 <style>
@@ -80,7 +80,26 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.41.8 (2026-04-02)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#model">prosemirror-model</a> 1.25.7 (2026-05-18)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix a regression (since 1.25.5) in the way DOMOutputSpecs are interpreted.">修复自 1.25.5 版本以来 <code>DOMOutputSpec</code>s 解释方式的回归问题。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.25.6 (2026-05-15)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Remove an accidentally commited console.log.">移除意外提交的 <code>console.log</code>。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.25.5 (2026-05-14)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Properly reflect the fact that nodes must not serialize to just text nodes in the DOMOutputSpec type.">正确反映节点不能仅序列化为文本节点的事实，在 `<code>DOMOutputSpec</code>` 类型中。</p>
+<p data-x-en="Don't check content constraints in Slice.insertAt when inserting into an open node.">在向开放节点插入时，不要在<code>Slice.insertAt</code>中检查内容约束。</p>
+<h3><a href="../ref/#menu">prosemirror-menu</a> 1.3.2 (2026-04-17)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Give menu buttons a type=button attribute to make sure they don't try to submit surrounding forms.">给菜单按钮添加 <code>type=button</code> 属性以确保它们不会尝试提交周围的表单。</p>
+<h3><a href="../ref/#menu">prosemirror-menu</a> 1.3.1 (2026-04-15)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Move focus to button before closing a submenu, to avoid focus moving back to the document root.">在关闭子菜单之前将焦点移动到按钮上，以避免焦点返回到文档根部。</p>
+<h3><a href="../ref/#changeset">prosemirror-changeset</a> 2.4.1 (2026-04-14)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix a bug that would cause change simplification to sometimes expand changes over non-word characters.">修复一个可能导致更改简化有时在非单词字符上扩展更改的错误。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.41.8 (2026-04-02)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Make the types reflect that mark and node views should render elements, not any DOM node.">使类型反映标记和节点视图应渲染元素，而不是任何DOM节点。</p>
 <p data-x-en="Fix a bug causing dragCopies to be ignored when it returned false.">修复一个导致 <code>dragCopies</code> 在返回 false 时被忽略的 bug。</p>

@@ -3278,5 +3278,21 @@
   "By default, for backwards compatibility, an inserting step mapped over an insertion at that same position fill move after the inserted content. In a collaborative editing situation, that can make redone insertions appear in unexpected places. You can set this to -1 to make such mapping keep the step before the insertion instead.": {
     "_translate": "默认情况下，为了向后兼容，插入步骤会在同一位置的插入内容之后移动。在协作编辑的情况下，这可能会导致重新插入的内容出现在意外的位置。您可以将其设置为 -1，以使此类映射保持在插入内容之前。",
     "_note": ""
+  },
+  "When true, ignore content that matches this rule. Any <head>, <noscript>, <script>, <object>, <style>, or <title> tags encountered are automatically ignored when no rules match them..": {
+    "_translate": "当为真时，忽略与此规则匹配的内容。遇到的任何 <code>&lt;head&gt;</code>、<code>&lt;noscript&gt;</code>、<code>&lt;script&gt;</code>、<code>&lt;object&gt;</code>、<code>&lt;style&gt;</code> 或 <code>&lt;title&gt;</code> 标签在没有规则匹配它们时都会自动被忽略。",
+    "_note": ""
+  },
+  "Invoke a callback for all descendant nodes recursively overlapping the given two positions that are relative to start of this node's content. This includes all ancestors of the nodes containing the two positions. The callback is invoked with the node, its position relative to the original node (method receiver), its parent node, and its child index. When the callback returns false for a given node, that node's children will not be recursed over. The last parameter can be used to specify a starting position to count from.": {
+    "_translate": "调用回调函数，递归地处理从该节点内容起始位置算起的给定两个位置之间的所有后代节点。这包括包含这两个位置的所有祖先节点。回调函数被调用时，会传入节点、该节点相对于原始节点（方法接收者）的位置、其父节点及其子索引。当回调函数对给定节点返回 false 时，该节点的子节点将不会被递归处理。最后一个参数可用于指定开始计数的位置。",
+    "_note": ""
+  },
+  "A description of a DOM structure. Can be either a DOM element, a {dom, contentDOM} object, or an array.": {
+    "_translate": "DOM 结构的描述。可以是 DOM 元素，一个 <code>{dom, contentDOM}</code> 对象，或一个数组。",
+    "_note": ""
+  },
+  "An array describes a DOM element. The first value in the array should be a string—the name of the DOM element, optionally prefixed by a namespace URL and a space. If the second element is plain object, it is interpreted as a set of attributes for the element. Any elements after that (including the 2nd if it's not an attribute object) are interpreted as children of the DOM elements, and must either be valid DOMOutputSpec values, strings (for text nodes), or the number zero.": {
+    "_translate": "数组描述了一个 DOM 元素。数组中的第一个值应该是一个字符串——DOM 元素的名称，可选地由命名空间 URL 和一个空格前缀。如果第二个元素是普通对象，则被解释为元素的一组属性。之后的任何元素（包括第二个元素如果不是属性对象的话）都被解释为 DOM 元素的子元素，必须是有效的 <code>DOMOutputSpec</code> 值、字符串（用于文本节点）或数字零。",
+    "_note": ""
   }
 }

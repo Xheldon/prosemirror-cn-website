@@ -4566,5 +4566,33 @@
   "ReplaceStep.MAP_BIAS can now be adjusted to change the way insertion steps are mapped over other insertions at the same place. The default behavior remains the same for the sake of backwards compatibility.": {
     "_translate": "<code>ReplaceStep.MAP_BIAS</code> 现在可以调整，以改变在同一位置的插入步骤映射到其他插入的方式。默认行为为了向后兼容性保持不变。",
     "_note": ""
+  },
+  "Fix a regression (since 1.25.5) in the way DOMOutputSpecs are interpreted.": {
+    "_translate": "修复自 1.25.5 版本以来 <code>DOMOutputSpec</code>s 解释方式的回归问题。",
+    "_note": ""
+  },
+  "Remove an accidentally commited console.log.": {
+    "_translate": "移除意外提交的 <code>console.log</code>。",
+    "_note": ""
+  },
+  "Properly reflect the fact that nodes must not serialize to just text nodes in the DOMOutputSpec type.": {
+    "_translate": "正确反映节点不能仅序列化为文本节点的事实，在 `<code>DOMOutputSpec</code>` 类型中。",
+    "_note": ""
+  },
+  "Don't check content constraints in Slice.insertAt when inserting into an open node.": {
+    "_translate": "在向开放节点插入时，不要在<code>Slice.insertAt</code>中检查内容约束。",
+    "_note": ""
+  },
+  "Give menu buttons a type=button attribute to make sure they don't try to submit surrounding forms.": {
+    "_translate": "给菜单按钮添加 <code>type=button</code> 属性以确保它们不会尝试提交周围的表单。",
+    "_note": ""
+  },
+  "Move focus to button before closing a submenu, to avoid focus moving back to the document root.": {
+    "_translate": "在关闭子菜单之前将焦点移动到按钮上，以避免焦点返回到文档根部。",
+    "_note": ""
+  },
+  "Fix a bug that would cause change simplification to sometimes expand changes over non-word characters.": {
+    "_translate": "修复一个可能导致更改简化有时在非单词字符上扩展更改的错误。",
+    "_note": ""
   }
 }
