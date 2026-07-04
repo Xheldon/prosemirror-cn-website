@@ -4,7 +4,8 @@
 
 rm -rf website
 
-git clone https://github.com/ProseMirror/website.git
+# 上游已迁移至 Forgejo 平台，旧的 github.com/ProseMirror/website 已 archive 不再更新
+git clone https://code.haverbeke.berlin/prosemirror/website.git
 cd website
 npm i
 cat ../append-head.html >> templates/head.html

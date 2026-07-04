@@ -23,7 +23,9 @@ jobs:
 
       - name: 检出 Prosemirror/website 仓库
         run: |
-          git clone https://github.com/ProseMirror/website.git
+          # 上游已于 2026-04-01 将 GitHub 仓库 archive（冻结只读），迁移至 Forgejo 平台
+          # 旧地址 https://github.com/ProseMirror/website.git 不再更新
+          git clone https://code.haverbeke.berlin/prosemirror/website.git
 
       - name: 检查是否有更新
         id: check_commits
