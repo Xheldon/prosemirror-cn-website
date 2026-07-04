@@ -344,9 +344,8 @@ addEventListener("load", function() {
 
 </dd>
 <dt id="state.Command">
-  <code>
-    <span class="keyword">type</span>
-    <strong><a href="#state.Command">Command</a></strong> = <span class="fn">fn</span>(<div class="breaktype"><a id="state.Command^state" href="#state.Command^state"><span class="param">state</span></a>:&nbsp;<a href="#state.EditorState"><span class="type">EditorState</span></a>, </div><div class="breaktype"><a id="state.Command^dispatch" href="#state.Command^dispatch"><span class="param">dispatch</span></a>⁠?:&nbsp;<span class="fn">fn</span>(<a id="state.Command^dispatch^tr" href="#state.Command^dispatch^tr"><span class="param">tr</span></a>:&nbsp;<a href="#state.Transaction"><span class="type">Transaction</span></a>), </div><div class="breaktype"><a id="state.Command^view" href="#state.Command^view"><span class="param">view</span></a>⁠?:&nbsp;<a href="#view.EditorView"><span class="type">EditorView</span></a></div>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code>
+  <code><span class="keyword">type</span></code>
+  <code><strong><a href="#state.Command">Command</a></strong> = <span class="fn">fn</span>(<div class="breaktype"><a id="state.Command^state" href="#state.Command^state"><span class="param">state</span></a>:&nbsp;<a href="#state.EditorState"><span class="type">EditorState</span></a>, </div><div class="breaktype"><a id="state.Command^dispatch" href="#state.Command^dispatch"><span class="param">dispatch</span></a>⁠?:&nbsp;<span class="fn">fn</span>(<a id="state.Command^dispatch^tr" href="#state.Command^dispatch^tr"><span class="param">tr</span></a>:&nbsp;<a href="#state.Transaction"><span class="type">Transaction</span></a>), </div><div class="breaktype"><a id="state.Command^view" href="#state.Command^view"><span class="param">view</span></a>⁠?:&nbsp;<a href="#view.EditorView"><span class="type">EditorView</span></a></div>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code>
 </dt>
 
 <dd><p data-x-en="Commands are functions that take a state and a an optional transaction dispatch function and...">命令是一些函数，它们接受一个状态和一个可选的 transaction 分发函数，并且...</p>
@@ -988,17 +987,15 @@ addEventListener("load", function() {
 
 </dd>
 <dt id="view.NodeViewConstructor">
-  <code>
-    <span class="keyword">type</span>
-    <strong><a href="#view.NodeViewConstructor">NodeViewConstructor</a></strong> = <span class="fn">fn</span>(<div class="breaktype"><a id="view.NodeViewConstructor^node" href="#view.NodeViewConstructor^node"><span class="param">node</span></a>:&nbsp;<a href="#model.Node"><span class="type">Node</span></a>, </div><div class="breaktype"><a id="view.NodeViewConstructor^view" href="#view.NodeViewConstructor^view"><span class="param">view</span></a>:&nbsp;<a href="#view.EditorView"><span class="type">EditorView</span></a>, </div><div class="breaktype"><a id="view.NodeViewConstructor^getPos" href="#view.NodeViewConstructor^getPos"><span class="param">getPos</span></a>:&nbsp;<span class="fn">fn</span>() →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined"><span class="prim">undefined</span></a>, </div><div class="breaktype"><a id="view.NodeViewConstructor^decorations" href="#view.NodeViewConstructor^decorations"><span class="param">decorations</span></a>:&nbsp;<span class="keyword">readonly</span>&nbsp;<a href="#view.Decoration"><span class="type">Decoration</span></a>[], </div><div class="breaktype"><a id="view.NodeViewConstructor^innerDecorations" href="#view.NodeViewConstructor^innerDecorations"><span class="param">innerDecorations</span></a>:&nbsp;<a href="#view.DecorationSource"><span class="type">DecorationSource</span></a></div>) →&nbsp;<a href="#view.NodeView"><span class="type">NodeView</span></a></code>
+  <code><span class="keyword">type</span></code>
+  <code><strong><a href="#view.NodeViewConstructor">NodeViewConstructor</a></strong> = <span class="fn">fn</span>(<div class="breaktype"><a id="view.NodeViewConstructor^node" href="#view.NodeViewConstructor^node"><span class="param">node</span></a>:&nbsp;<a href="#model.Node"><span class="type">Node</span></a>, </div><div class="breaktype"><a id="view.NodeViewConstructor^view" href="#view.NodeViewConstructor^view"><span class="param">view</span></a>:&nbsp;<a href="#view.EditorView"><span class="type">EditorView</span></a>, </div><div class="breaktype"><a id="view.NodeViewConstructor^getPos" href="#view.NodeViewConstructor^getPos"><span class="param">getPos</span></a>:&nbsp;<span class="fn">fn</span>() →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number"><span class="prim">number</span></a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined"><span class="prim">undefined</span></a>, </div><div class="breaktype"><a id="view.NodeViewConstructor^decorations" href="#view.NodeViewConstructor^decorations"><span class="param">decorations</span></a>:&nbsp;<span class="keyword">readonly</span>&nbsp;<a href="#view.Decoration"><span class="type">Decoration</span></a>[], </div><div class="breaktype"><a id="view.NodeViewConstructor^innerDecorations" href="#view.NodeViewConstructor^innerDecorations"><span class="param">innerDecorations</span></a>:&nbsp;<a href="#view.DecorationSource"><span class="type">DecorationSource</span></a></div>) →&nbsp;<a href="#view.NodeView"><span class="type">NodeView</span></a></code>
 </dt>
 
 <dd><p data-x-en="The type of function provided to create node views.">提供用于创建<a href="#view.NodeView">节点视图</a>的<a href="#view.EditorProps.nodeViews">函数类型</a>。</p>
 </dd>
 <dt id="view.MarkViewConstructor">
-  <code>
-    <span class="keyword">type</span>
-    <strong><a href="#view.MarkViewConstructor">MarkViewConstructor</a></strong> = <span class="fn">fn</span>(<div class="breaktype"><a id="view.MarkViewConstructor^mark" href="#view.MarkViewConstructor^mark"><span class="param">mark</span></a>:&nbsp;<a href="#model.Mark"><span class="type">Mark</span></a>, </div><div class="breaktype"><a id="view.MarkViewConstructor^view" href="#view.MarkViewConstructor^view"><span class="param">view</span></a>:&nbsp;<a href="#view.EditorView"><span class="type">EditorView</span></a>, </div><div class="breaktype"><a id="view.MarkViewConstructor^inline" href="#view.MarkViewConstructor^inline"><span class="param">inline</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></div>) →&nbsp;<a href="#view.MarkView"><span class="type">MarkView</span></a></code>
+  <code><span class="keyword">type</span></code>
+  <code><strong><a href="#view.MarkViewConstructor">MarkViewConstructor</a></strong> = <span class="fn">fn</span>(<div class="breaktype"><a id="view.MarkViewConstructor^mark" href="#view.MarkViewConstructor^mark"><span class="param">mark</span></a>:&nbsp;<a href="#model.Mark"><span class="type">Mark</span></a>, </div><div class="breaktype"><a id="view.MarkViewConstructor^view" href="#view.MarkViewConstructor^view"><span class="param">view</span></a>:&nbsp;<a href="#view.EditorView"><span class="type">EditorView</span></a>, </div><div class="breaktype"><a id="view.MarkViewConstructor^inline" href="#view.MarkViewConstructor^inline"><span class="param">inline</span></a>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></div>) →&nbsp;<a href="#view.MarkView"><span class="type">MarkView</span></a></code>
 </dt>
 
 <dd><p data-x-en="The function types used to create mark views.">函数类型<a href="#view.EditorProps.markViews">用于</a>创建标记视图。</p>
@@ -1092,6 +1089,10 @@ addEventListener("load", function() {
   <code><strong><a href="#view.MarkView.contentDOM">contentDOM</a></strong>⁠?: <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a></code></dt>
 
 <dd><p data-x-en="The DOM node that should hold the mark's content. When this is not present, the dom property is used as the content DOM.">应包含标记内容的 DOM 节点。当此属性不存在时，<code>dom</code> 属性用作内容 DOM。</p>
+</dd><dt id="view.MarkView.update">
+  <code><strong><a href="#view.MarkView.update">update</a></strong>⁠?: <span class="fn">fn</span>(<a id="view.MarkView.update^mark" href="#view.MarkView.update^mark"><span class="param">mark</span></a>:&nbsp;<a href="#model.Mark"><span class="type">Mark</span></a>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
+
+<dd><p data-x-en="When given, this is called when the view is updating itself. It will be given a mark (of the same type as the current one). When it returns true, the existing DOM is kept and reused (its content is still managed by ProseMirror); when it returns false, the mark view is rebuilt.">当提供时，这将在视图更新自身时被调用。它将被提供一个标记（与当前标记类型相同）。当它返回 true 时，现有的 DOM 会被保留并重用（其内容仍由 ProseMirror 管理）；当它返回 false 时，标记视图将被重建。</p>
 </dd><dt id="view.MarkView.ignoreMutation">
   <code><strong><a href="#view.MarkView.ignoreMutation">ignoreMutation</a></strong>⁠?: <span class="fn">fn</span>(<a id="view.MarkView.ignoreMutation^mutation" href="#view.MarkView.ignoreMutation^mutation"><span class="param">mutation</span></a>:&nbsp;<a href="#view.ViewMutationRecord"><span class="type">ViewMutationRecord</span></a>) →&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean"><span class="prim">boolean</span></a></code></dt>
 
@@ -1104,9 +1105,8 @@ addEventListener("load", function() {
 
 </dd>
 <dt id="view.ViewMutationRecord">
-  <code>
-    <span class="keyword">type</span>
-    <strong><a href="#view.ViewMutationRecord">ViewMutationRecord</a></strong> = <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord"><span class="type">MutationRecord</span></a> | <div class="breaktype">{<span class="prop">type</span>:&nbsp;<span class="string">"selection"</span>, <span class="prop">target</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node"><span class="type">DOMNode</span></a>}</div></code>
+  <code><span class="keyword">type</span></code>
+  <code><strong><a href="#view.ViewMutationRecord">ViewMutationRecord</a></strong> = <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationRecord"><span class="type">MutationRecord</span></a> | <div class="breaktype">{<span class="prop">type</span>:&nbsp;<span class="string">"selection"</span>, <span class="prop">target</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/Node"><span class="type">DOMNode</span></a>}</div></code>
 </dt>
 
 <dd><p data-x-en="A ViewMutationRecord represents a DOM mutation or a selection change happens within the view. When the change is a selection change, the record will have a type property of &quot;selection&quot; (which doesn't occur for native mutation records).">一个 ViewMutationRecord 表示视图内发生的 DOM
@@ -1117,7 +1117,7 @@ addEventListener("load", function() {
 <dt id="view.DOMEventMap">
   <h4>
     <code><span class="keyword">interface</span></code>
-    <a href="#view.DOMEventMap">DOMEventMap</a> <code><span class="keyword">extends</span> <a href="https://microsoft.github.io/PowerBI-JavaScript/interfaces/_node_modules_typedoc_node_modules_typescript_lib_lib_dom_d_.htmlelementeventmap.html"><span class="type">HTMLElementEventMap</span></a></code></h4>
+    <a href="#view.DOMEventMap">DOMEventMap</a> <code><span class="keyword">extends</span> <a href="https://typhonjs-typedoc.github.io/ts-lib-docs/2023/dom/interfaces/HTMLElementEventMap.html"><span class="type">HTMLElementEventMap</span></a></code></h4>
 </dt>
 
 <dd><p data-x-en="Helper type that maps event names to event object types, but includes events that TypeScript's HTMLElementEventMap doesn't know about.">帮助器类型将事件名称映射到事件对象类型，但包括 TypeScript 的 HTMLElementEventMap 不知道的事件。</p>
@@ -2502,9 +2502,8 @@ addEventListener("load", function() {
 
 </dd>
 <dt id="model.ParseRule">
-  <code>
-    <span class="keyword">type</span>
-    <strong><a href="#model.ParseRule">ParseRule</a></strong> = <a href="#model.TagParseRule"><span class="type">TagParseRule</span></a> | <a href="#model.StyleParseRule"><span class="type">StyleParseRule</span></a></code>
+  <code><span class="keyword">type</span></code>
+  <code><strong><a href="#model.ParseRule">ParseRule</a></strong> = <a href="#model.TagParseRule"><span class="type">TagParseRule</span></a> | <a href="#model.StyleParseRule"><span class="type">StyleParseRule</span></a></code>
 </dt>
 
 <dd><p data-x-en="A value that describes how to parse a given DOM node or inline style as a ProseMirror node or mark.">一个描述了如何 parse 给定 DOM 节点及行内样式成 ProseMirror 节点及 mark 的对象。</p>
@@ -2556,9 +2555,8 @@ addEventListener("load", function() {
 
 </dd>
 <dt id="model.DOMOutputSpec">
-  <code>
-    <span class="keyword">type</span>
-    <strong><a href="#model.DOMOutputSpec">DOMOutputSpec</a></strong> = <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a> | <div class="breaktype">{<span class="prop">dom</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a>, <span class="prop">contentDOM</span>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a>} | </div><div class="breaktype">[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a>, <span class="type">any</span>]</div></code>
+  <code><span class="keyword">type</span></code>
+  <code><strong><a href="#model.DOMOutputSpec">DOMOutputSpec</a></strong> = <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a> | <div class="breaktype">{<span class="prop">dom</span>:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a>, <span class="prop">contentDOM</span>⁠?:&nbsp;<a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement"><span class="type">HTMLElement</span></a>} | </div><div class="breaktype">[<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String"><span class="prim">string</span></a>, <span class="type">any</span>]</div></code>
 </dt>
 
 <dd><p data-x-en="A description of a DOM structure. Can be either a DOM element, a {dom, contentDOM} object, or an array.">DOM 结构的描述。可以是 DOM 元素，一个 <code>{dom, contentDOM}</code> 对象，或一个数组。</p>

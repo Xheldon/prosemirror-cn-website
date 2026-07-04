@@ -4594,5 +4594,33 @@
   "Fix a bug that would cause change simplification to sometimes expand changes over non-word characters.": {
     "_translate": "修复一个可能导致更改简化有时在非单词字符上扩展更改的错误。",
     "_note": ""
+  },
+  "The clipboard content parser now inlines simple styles defined in the pasted HTML before parsing it, since some applications output their styling that way.": {
+    "_translate": "剪贴板内容解析器现在在解析之前会内联粘贴的HTML中定义的简单样式，因为某些应用程序以这种方式输出其样式。",
+    "_note": ""
+  },
+  "Mark views now also support an update method.": {
+    "_translate": "Mark 现在也支持 <code>update</code> 方法。",
+    "_note": ""
+  },
+  "Fix bad exception message caused by a shadowed variable.": {
+    "_translate": "修复由变量遮蔽导致的异常消息。",
+    "_note": ""
+  },
+  "Fix a bug that caused some types of invalid replace steps to crash, rather than returning a failed StepResult, on apply.": {
+    "_translate": "修复了一个在应用时导致某些类型的无效替换步骤崩溃而不是返回失败的<code>StepResult</code>的错误。",
+    "_note": ""
+  },
+  "Make sure Fragment.findDiffStart/End doesn't return positions in the middle of UTF16 surrogate pairs.": {
+    "_translate": "确保 <code>Fragment.findDiffStart</code>/<code>End</code> 不返回位于 UTF16 补码对中间的位置。",
+    "_note": ""
+  },
+  "Allow triple-click drag selection.": {
+    "_translate": "允许三击拖动选择。",
+    "_note": ""
+  },
+  "Adjust an existing workaround to work around the fact that Chrome no longer fires key events for backspace during composition.": {
+    "_translate": "调整现有的解决方法，以解决 Chrome 在组合输入期间不再触发退格键事件的问题。",
+    "_note": ""
   }
 }

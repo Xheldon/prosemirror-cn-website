@@ -62,7 +62,7 @@
   }
 
   function prevClusterBreak(str, pos, includeExtending) {
-    while (pos > 0) {
+    while (pos > 1) {
       let found = nextClusterBreak(str, pos - 2, includeExtending);
       if (found < pos) return found
       pos--;
@@ -1333,10 +1333,18 @@
       /**
       The upper boundary of the range.
       */
-      to, flags) {
+      to, flags, 
+      /**
+      The goal column (stored vertical offset) associated with a
+      cursor. This is used to preserve the vertical position when
+      [moving](https://codemirror.net/6/docs/ref/#view.EditorView.moveVertically) across
+      lines of different length.
+      */
+      goalColumn) {
           this.from = from;
           this.to = to;
           this.flags = flags;
+          this.goalColumn = goalColumn;
       }
       /**
       The anchor of the range—the side that doesn't move when you
@@ -1360,22 +1368,22 @@
       */
       get assoc() { return this.flags & 8 /* RangeFlag.AssocBefore */ ? -1 : this.flags & 16 /* RangeFlag.AssocAfter */ ? 1 : 0; }
       /**
+      A flag that, when set, makes some selection-extending commands
+      treat the range's head and anchor as exchangeable, so that for
+      example Shift-ArrowUp will make the lower side of the selection
+      the anchor, even if that was the head before. Used to implement
+      MacOS-style undirectional selections.
+      */
+      get undirectional() {
+          return (this.flags & 64 /* RangeFlag.Undirectional */) > 0;
+      }
+      /**
       The bidirectional text level associated with this cursor, if
       any.
       */
       get bidiLevel() {
           let level = this.flags & 7 /* RangeFlag.BidiLevelMask */;
           return level == 7 ? null : level;
-      }
-      /**
-      The goal column (stored vertical offset) associated with a
-      cursor. This is used to preserve the vertical position when
-      [moving](https://codemirror.net/6/docs/ref/#view.EditorView.moveVertically) across
-      lines of different length.
-      */
-      get goalColumn() {
-          let value = this.flags >> 6 /* RangeFlag.GoalColumnOffset */;
-          return value == 16777215 /* RangeFlag.NoGoalColumn */ ? undefined : value;
       }
       /**
       Map this range through a change, producing a valid range in the
@@ -1390,7 +1398,7 @@
               from = change.mapPos(this.from, 1);
               to = change.mapPos(this.to, -1);
           }
-          return from == this.from && to == this.to ? this : new SelectionRange(from, to, this.flags);
+          return from == this.from && to == this.to ? this : new SelectionRange(from, to, this.flags, this.goalColumn);
       }
       /**
       Extend this range to cover at least `from` to `to`.
@@ -1424,8 +1432,8 @@
       /**
       @internal
       */
-      static create(from, to, flags) {
-          return new SelectionRange(from, to, flags);
+      static create(from, to, flags, goalColumn) {
+          return new SelectionRange(from, to, flags, goalColumn);
       }
   }
   /**
@@ -1540,19 +1548,26 @@
       */
       static cursor(pos, assoc = 0, bidiLevel, goalColumn) {
           return SelectionRange.create(pos, pos, (assoc == 0 ? 0 : assoc < 0 ? 8 /* RangeFlag.AssocBefore */ : 16 /* RangeFlag.AssocAfter */) |
-              (bidiLevel == null ? 7 : Math.min(6, bidiLevel)) |
-              ((goalColumn !== null && goalColumn !== void 0 ? goalColumn : 16777215 /* RangeFlag.NoGoalColumn */) << 6 /* RangeFlag.GoalColumnOffset */));
+              (bidiLevel == null ? 7 : Math.min(6, bidiLevel)), goalColumn);
       }
       /**
       Create a selection range.
       */
       static range(anchor, head, goalColumn, bidiLevel, assoc) {
-          let flags = ((goalColumn !== null && goalColumn !== void 0 ? goalColumn : 16777215 /* RangeFlag.NoGoalColumn */) << 6 /* RangeFlag.GoalColumnOffset */) |
-              (bidiLevel == null ? 7 : Math.min(6, bidiLevel));
+          let flags = bidiLevel == null ? 7 : Math.min(6, bidiLevel);
           if (!assoc && anchor != head)
               assoc = head < anchor ? 1 : -1;
-          return head < anchor ? SelectionRange.create(head, anchor, 32 /* RangeFlag.Inverted */ | 16 /* RangeFlag.AssocAfter */ | flags)
-              : SelectionRange.create(anchor, head, (!assoc ? 0 : assoc < 0 ? 8 /* RangeFlag.AssocBefore */ : 16 /* RangeFlag.AssocAfter */) | flags);
+          if (assoc)
+              flags |= assoc < 0 ? 8 /* RangeFlag.AssocBefore */ : 16 /* RangeFlag.AssocAfter */;
+          return head < anchor ? SelectionRange.create(head, anchor, flags | 32 /* RangeFlag.Inverted */, goalColumn)
+              : SelectionRange.create(anchor, head, flags, goalColumn);
+      }
+      /**
+      Create an [undirectional](https://codemirror.net/6/docs/ref/#state.SelectionRange.undirectional)
+      selection range.
+      */
+      static undirectionalRange(from, to) {
+          return SelectionRange.create(from, to, 64 /* RangeFlag.Undirectional */, undefined);
       }
       /**
       @internal
@@ -6877,6 +6892,7 @@
               if (composition && next.fromA <= composition.range.fromA && next.toA >= composition.range.toA) {
                   this.forward(next.fromA, composition.range.fromA, composition.range.fromA < composition.range.toA ? 1 : -1);
                   this.emit(posB, composition.range.fromB);
+                  this.builder.flushBuffer();
                   this.cache.clear(); // Must not reuse DOM across composition
                   this.builder.addComposition(composition, compositionContext);
                   this.text.skip(composition.range.toB - composition.range.fromB);
@@ -7028,10 +7044,12 @@
                       }
                       pendingLineAttrs = null;
                   }
+                  markCount = active.length;
               }
           });
-          b.addLineStartIfNotCovered(pendingLineAttrs);
           this.openWidget = openEnd > markCount;
+          if (!this.openWidget)
+              b.addLineStartIfNotCovered(pendingLineAttrs);
           this.openMarks = openEnd;
       }
       forward(from, to, side = 1) {
@@ -7856,7 +7874,7 @@
               break;
           to = next;
       }
-      return EditorSelection.range(from + line.from, to + line.from);
+      return EditorSelection.undirectionalRange(from + line.from, to + line.from);
   }
   function posAtCoordsImprecise(view, contentRect, block, x, y) {
       let into = Math.round((x - contentRect.left) * view.defaultCharacterWidth);
@@ -7993,8 +8011,12 @@
           else {
               let from = skipAtomicRanges(atoms, range.from, -1);
               let to = skipAtomicRanges(atoms, range.to, 1);
-              if (from != range.from || to != range.to)
-                  updated = EditorSelection.range(range.from == range.anchor ? from : to, range.from == range.head ? from : to);
+              if (from != range.from || to != range.to) {
+                  if (range.undirectional)
+                      updated = EditorSelection.undirectionalRange(range.from, range.to);
+                  else
+                      updated = EditorSelection.range(range.from == range.anchor ? from : to, range.from == range.head ? from : to);
+              }
           }
           if (updated) {
               if (!ranges)
@@ -8090,12 +8112,11 @@
       }
       // Scan through the rectangles for the content of a tile with inline
       // content, looking for one that overlaps the queried position
-      // vertically andis
-      // closest horizontally. The caller is responsible for dividing its
-      // content into N pieces, and pass an array with N+1 positions
-      // (including the position after the last piece). For a text tile,
-      // these will be character clusters, for a composite tile, these
-      // will be child tiles.
+      // vertically and is closest horizontally. The caller is responsible
+      // for dividing its content into N pieces, and pass an array with
+      // N+1 positions (including the position after the last piece). For
+      // a text tile, these will be character clusters, for a composite
+      // tile, these will be child tiles.
       scan(positions, getRects, recursed = false) {
           let lo = 0, hi = positions.length - 1, seen = new Set();
           let bidi = this.bidiIn(positions[0], positions[hi]);
@@ -8167,6 +8188,8 @@
           // If no element with y overlap is found, find the nearest element
           // on the y axis, move this.y into it, and retry the scan.
           if (!closestRect) {
+              if (!below && !above)
+                  return { i: positions[0], after: false };
               let side = above && (!below || (this.y - above.bottom < below.top - this.y)) ? above : below;
               this.y = (side.top + side.bottom) / 2;
               return this.scan(positions, getRects, true);
@@ -8399,7 +8422,8 @@
               // Chrome will put the selection *inside* them, confusing
               // posFromDOM
               let vp = view.viewport;
-              if ((browser.ios || browser.chrome) && curSel.main.empty && head != anchor &&
+              if ((browser.ios || browser.chrome) && head != anchor &&
+                  Math.min(head, anchor) <= curSel.main.from && Math.max(head, anchor) >= curSel.main.to &&
                   (vp.from > 0 || vp.to < view.state.doc.length)) {
                   let from = Math.min(head, anchor), to = Math.max(head, anchor);
                   let offFrom = vp.from - from, offTo = vp.to - to;
@@ -8720,13 +8744,11 @@
           // (after which we retroactively handle them and reset the DOM) to
           // avoid messing up the virtual keyboard state.
           this.pendingIOSKey = undefined;
-          /**
-          When enabled (>-1), tab presses are not given to key handlers,
-          leaving the browser's default behavior. If >0, the mode expires
-          at that timestamp, and any other keypress clears it.
-          Esc enables temporary tab focus mode for two seconds when not
-          otherwise handled.
-          */
+          // When enabled (>-1), tab presses are not given to key handlers,
+          // leaving the browser's default behavior. If >0, the mode expires
+          // at that timestamp, and any other keypress clears it.
+          // Esc enables temporary tab focus mode for two seconds when not
+          // otherwise handled.
           this.tabFocusMode = -1;
           this.lastSelectionOrigin = null;
           this.lastSelectionTime = 0;
@@ -8834,11 +8856,16 @@
           // state. So we let it go through, and then, in
           // applyDOMChange, notify key handlers of it and reset to
           // the state they produce.
-          let pending;
-          if (browser.ios && !event.synthetic && !event.altKey && !event.metaKey && !event.shiftKey &&
-              ((pending = PendingKeys.find(key => key.keyCode == event.keyCode)) && !event.ctrlKey ||
+          if (browser.ios && !event.synthetic && !event.altKey && !event.metaKey &&
+              (PendingKeys.some(key => key.keyCode == event.keyCode) && !event.ctrlKey ||
                   EmacsyPendingKeys.indexOf(event.key) > -1 && event.ctrlKey)) {
-              this.pendingIOSKey = pending || event;
+              let mods = { ctrlKey: event.ctrlKey, altKey: event.altKey, metaKey: event.metaKey, shiftKey: event.shiftKey };
+              // On iOS with autocapitalize, drop the shift modifier for these
+              // keys, since it will be set at the start of every sentence.
+              if (mods.shiftKey && browser.ios && !/^(off|none)$/.test(this.view.contentDOM.autocapitalize) &&
+                  iosVirtualKeyboardOpen(this.view.win))
+                  mods.shiftKey = false;
+              this.pendingIOSKey = { key: event.key, keyCode: event.keyCode, mods };
               setTimeout(() => this.flushIOSKey(), 250);
               return true;
           }
@@ -8854,7 +8881,7 @@
           if (key.key == "Enter" && change && change.from < change.to && /^\S+$/.test(change.insert.toString()))
               return false;
           this.pendingIOSKey = undefined;
-          return dispatchKey(this.view.contentDOM, key.key, key.keyCode, key instanceof KeyboardEvent ? key : undefined);
+          return dispatchKey(this.view.contentDOM, key.key, key.keyCode, key.mods);
       }
       ignoreDuringComposition(event) {
           if (!/^key/.test(event.type) || event.synthetic)
@@ -8891,6 +8918,11 @@
           if (this.mouseSelection)
               this.mouseSelection.destroy();
       }
+  }
+  function iosVirtualKeyboardOpen(win) {
+      if (!win.visualViewport)
+          return false;
+      return win.visualViewport.height * win.visualViewport.scale / win.document.documentElement.clientHeight < 0.85;
   }
   function bindHandler(plugin, handler) {
       return (view, event) => {
@@ -9211,7 +9243,7 @@
           let from = visual ? visual.posAtStart : line.from, to = visual ? visual.posAtEnd : line.to;
           if (to < view.state.doc.length && to == line.to)
               to++;
-          return EditorSelection.range(from, to);
+          return EditorSelection.undirectionalRange(from, to);
       }
   }
   const BadMouseDetail = browser.ie && browser.ie_version <= 11;
@@ -9269,7 +9301,7 @@
           if (tile && tile.isWidget()) {
               let from = tile.posAtStart, to = from + tile.length;
               if (from >= range.to || to <= range.from)
-                  range = EditorSelection.range(from, to);
+                  range = EditorSelection.undirectionalRange(from, to);
           }
       }
       let { inputState } = view;
@@ -11059,6 +11091,7 @@
           padding: "0 2px 0 6px"
       },
       ".cm-layer": {
+          userSelect: "none", // #1708
           position: "absolute",
           left: 0,
           top: 0,
@@ -11893,7 +11926,6 @@
           for (let event in this.handlers)
               context.addEventListener(event, this.handlers[event]);
           this.measureReq = { read: view => {
-                  this.editContext.updateControlBounds(view.contentDOM.getBoundingClientRect());
                   let sel = getSelection(view.root);
                   if (sel && sel.rangeCount)
                       this.editContext.updateSelectionBounds(sel.getRangeAt(0).getBoundingClientRect());
@@ -18719,8 +18751,7 @@
   }
   /**
   A subclass of [`Language`](https://codemirror.net/6/docs/ref/#language.Language) for use with Lezer
-  [LR parsers](https://lezer.codemirror.net/docs/ref#lr.LRParser)
-  parsers.
+  [LR parsers](https://lezer.codemirror.net/docs/ref#lr.LRParser).
   */
   class LRLanguage extends Language {
       constructor(data, parser, name) {
@@ -19616,7 +19647,7 @@
       or array of tags in their `tag` property, and either a single
       `class` property providing a static CSS class (for highlighter
       that rely on external styling), or a
-      [`style-mod`](https://github.com/marijnh/style-mod#documentation)-style
+      [`style-mod`](https://code.haverbeke.berlin/marijn/style-mod#documentation)-style
       set of CSS properties (which define the styling for those tags).
       
       The CSS rules created for a highlighter will be emitted in the
@@ -20141,6 +20172,9 @@
           for (let line of template.split(/\r\n?|\n/)) {
               while (m = /[#$]\{(?:(\d+)(?::([^{}]*))?|((?:\\[{}]|[^{}])*))\}/.exec(line)) {
                   let seq = m[1] ? +m[1] : null, rawName = m[2] || m[3] || "", found = -1;
+                  // `${0}` is the cursor's final position, after every other tab stop.
+                  if (seq === 0)
+                      seq = 1e9;
                   let name = rawName.replace(/\\[{}]/g, m => m[1]);
                   for (let i = 0; i < fields.length; i++) {
                       if (seq != null ? fields[i].seq == seq : name ? fields[i].name == name : false)
@@ -20255,7 +20289,8 @@
 
   The order of fields defaults to textual order, but you can add
   numbers to placeholders (`${1}` or `${1:defaultText}`) to provide
-  a custom order.
+  a custom order. `${0}` is special—it is always the last stop, where
+  the cursor ends up after tabbing through the other fields.
 
   To include a literal `{` or `}` in your template, put a backslash
   in front of it. This will be removed and the brace will not be
@@ -21067,8 +21102,10 @@
   on, if any.
   */
   const cursorMatchingBracket = ({ state, dispatch }) => toMatchingBracket(state, dispatch, false);
-  function extendSel(target, how) {
+  function extendSel(target, forward, how) {
       let selection = updateSel(target.state.selection, range => {
+          if (range.undirectional && (range.head >= range.anchor) != forward)
+              range = EditorSelection.range(range.head, range.anchor);
           let head = how(range);
           return EditorSelection.range(range.anchor, head.head, head.goalColumn, head.bidiLevel || undefined, head.assoc);
       });
@@ -21078,7 +21115,7 @@
       return true;
   }
   function selectByChar(view, forward) {
-      return extendSel(view, range => view.moveByChar(range, forward));
+      return extendSel(view, forward, range => view.moveByChar(range, forward));
   }
   /**
   Move the selection head one character to the left, while leaving
@@ -21090,7 +21127,7 @@
   */
   const selectCharRight = view => selectByChar(view, ltrAtCursor(view));
   function selectByGroup(view, forward) {
-      return extendSel(view, range => view.moveByGroup(range, forward));
+      return extendSel(view, forward, range => view.moveByGroup(range, forward));
   }
   /**
   Move the selection head one [group](https://codemirror.net/6/docs/ref/#commands.cursorGroupLeft) to
@@ -21104,13 +21141,19 @@
   /**
   Move the selection head over the next syntactic element to the left.
   */
-  const selectSyntaxLeft = view => extendSel(view, range => moveBySyntax(view.state, range, !ltrAtCursor(view)));
+  const selectSyntaxLeft = view => {
+      let forward = !ltrAtCursor(view);
+      return extendSel(view, forward, range => moveBySyntax(view.state, range, forward));
+  };
   /**
   Move the selection head over the next syntactic element to the right.
   */
-  const selectSyntaxRight = view => extendSel(view, range => moveBySyntax(view.state, range, ltrAtCursor(view)));
+  const selectSyntaxRight = view => {
+      let forward = ltrAtCursor(view);
+      return extendSel(view, forward, range => moveBySyntax(view.state, range, forward));
+  };
   function selectByLine(view, forward) {
-      return extendSel(view, range => view.moveVertically(range, forward));
+      return extendSel(view, forward, range => view.moveVertically(range, forward));
   }
   /**
   Move the selection head one line up.
@@ -21121,7 +21164,7 @@
   */
   const selectLineDown = view => selectByLine(view, true);
   function selectByPage(view, forward) {
-      return extendSel(view, range => view.moveVertically(range, forward, pageInfo(view).height));
+      return extendSel(view, forward, range => view.moveVertically(range, forward, pageInfo(view).height));
   }
   /**
   Move the selection head one page up.
@@ -21134,27 +21177,33 @@
   /**
   Move the selection head to the next line boundary.
   */
-  const selectLineBoundaryForward = view => extendSel(view, range => moveByLineBoundary(view, range, true));
+  const selectLineBoundaryForward = view => extendSel(view, true, range => moveByLineBoundary(view, range, true));
   /**
   Move the selection head to the previous line boundary.
   */
-  const selectLineBoundaryBackward = view => extendSel(view, range => moveByLineBoundary(view, range, false));
+  const selectLineBoundaryBackward = view => extendSel(view, false, range => moveByLineBoundary(view, range, false));
   /**
   Move the selection head one line boundary to the left.
   */
-  const selectLineBoundaryLeft = view => extendSel(view, range => moveByLineBoundary(view, range, !ltrAtCursor(view)));
+  const selectLineBoundaryLeft = view => {
+      let forward = !ltrAtCursor(view);
+      return extendSel(view, forward, range => moveByLineBoundary(view, range, forward));
+  };
   /**
   Move the selection head one line boundary to the right.
   */
-  const selectLineBoundaryRight = view => extendSel(view, range => moveByLineBoundary(view, range, ltrAtCursor(view)));
+  const selectLineBoundaryRight = view => {
+      let forward = ltrAtCursor(view);
+      return extendSel(view, forward, range => moveByLineBoundary(view, range, forward));
+  };
   /**
   Move the selection head to the start of the line.
   */
-  const selectLineStart = view => extendSel(view, range => EditorSelection.cursor(view.lineBlockAt(range.head).from));
+  const selectLineStart = view => extendSel(view, false, range => EditorSelection.cursor(view.lineBlockAt(range.head).from));
   /**
   Move the selection head to the end of the line.
   */
-  const selectLineEnd = view => extendSel(view, range => EditorSelection.cursor(view.lineBlockAt(range.head).to));
+  const selectLineEnd = view => extendSel(view, true, range => EditorSelection.cursor(view.lineBlockAt(range.head).to));
   /**
   Move the selection to the start of the document.
   */
