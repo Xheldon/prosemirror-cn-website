@@ -51,6 +51,10 @@ exports.translate = async (text, { key, file } = {}) => {
       temperature: 0,
       top_p: 0.95,
       max_tokens: 4096,
+      // Note: Qwen3 系列默认开启"思考模式"，会先长时间推理再输出，批量翻译时
+      // 极易触发超时（实测开启时单条请求 90s 都无响应）。翻译任务不需要思考，
+      // 必须关闭以保证速度和稳定。
+      enable_thinking: false,
     });
     // Note: -sS 静默但保留错误；加连接/整体超时，避免接口挂起时 CI 长时间卡死；
     // 对网络类瞬时错误做少量重试。
