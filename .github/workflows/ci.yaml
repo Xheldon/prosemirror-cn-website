@@ -5,6 +5,13 @@ on:
   schedule:
     - cron: '0 0 * * 0' # 每周日的午夜
 
+# Note: 同一时间只允许一个翻译任务运行，避免手动触发与定时任务重叠时
+# 两个 job 同时向 main 强推打架。cancel-in-progress: false 表示排队而非取消，
+# 不会中断正在进行的翻译/推送。
+concurrency:
+  group: prosemirror-translate
+  cancel-in-progress: false
+
 jobs:
   Build_and_Publish:
     runs-on: ubuntu-latest
@@ -16,6 +23,11 @@ jobs:
           ref: main
           persist-credentials: true
 
+      - name: 设置 Node 环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: 设置 Git
         run: |
           git config --global user.name 'Xheldon[bot]'
@@ -25,13 +37,14 @@ jobs:
         run: |
           # 上游已于 2026-04-01 将 GitHub 仓库 archive（冻结只读），迁移至 Forgejo 平台
           # 旧地址 https://github.com/ProseMirror/website.git 不再更新
-          git clone https://code.haverbeke.berlin/prosemirror/website.git
+          # 参考文档由 npm 上的 prosemirror-* 模块源码生成，不需要 website 的历史，
+          # 用 --depth 1 浅克隆加速。
+          git clone --depth 1 https://code.haverbeke.berlin/prosemirror/website.git
 
       - name: 检查是否有更新
         id: check_commits
         run: |
           cd website
-          git fetch
           NEW_COMMIT=$(git rev-parse HEAD)
           cd ..
           if [ -f last-commit.txt ]; then
@@ -71,7 +84,10 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_URL: ${{ secrets.OPENAI_URL }}
         run: |
-          npm install
+          # Note: 根目录翻译脚本依赖用 npm ci（有 lock 文件，可复现）；
+          # website 的依赖仍用 npm install，以便按 ^ 版本范围拉取 npm 上最新的
+          # prosemirror-* 模块，从而生成最新的接口文档。
+          npm ci
           # Note: 清空上一次可能遗留在仓库里的错误记录，确保 error.txt 只反映本次运行
           rm -f error.txt
           node index.js
@@ -81,7 +97,7 @@ jobs:
         run: |
           git checkout -b temp
           rm -rf public
-          mkdir -p public && cp vercel.sh public && cp -R website/public/* public
+          mkdir -p public && cp -R website/public/* public
           # Note: 上游 2026-07-02 加入了屏蔽各家 AI 爬虫的 robots.txt，这里删除它，
           # 不让中文翻译站跟着屏蔽（Googlebot 未被屏蔽，不影响普通搜索收录）。
           rm -f public/robots.txt

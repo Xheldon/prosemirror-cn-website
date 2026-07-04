@@ -2,7 +2,7 @@
 
 ## Prosemirror Chinese Documentation
 
-1. Based on Azure GPT-4o-128k + manual correction translation.
+1. Based on Qwen3.5 (via SiliconFlow) + manual correction translation.
 2. Comments are manually added.
 
 ## PR Instructions
@@ -16,7 +16,7 @@
 1. Pull from the original repository `code.haverbeke.berlin/prosemirror/website` (upstream migrated here from GitHub, which was archived on 2026-04-01), compare with last-commit.txt; if there are updates, proceed to the next step; if not, interrupt CI.
 2. cd into website, follow instructions from the original repository: after `npm i` + `make`, various index.html files will be built in the publish directory.
 3. After running `npm i` in root directory, run index.js to query dictionary files (index.json) in dict directories that match paths with those under public for Chinese replacement; if fields aren't found, perform AI translation and update dictionary.
-4. Move `website/public` directory up one level into `public` directory and push remotely to trigger Vercel's build update.
+4. Move `website/public` directory up one level into `public` directory and push remotely to trigger Cloudflare Pages's build update.
 
 ## Local Build Instructions
 
@@ -28,13 +28,13 @@
 
 1. This project's CI can be triggered two ways: manually or via weekly checks once per week
    2.CI may modify files within dict directories along with generating new index.htmls overwriting same-path/same-name ones inside public
-   3.CI commits modifications back into this repo triggering Vercel updates hence merges cannot trigger here
+   3.CI commits modifications back into this repo triggering Cloudflare Pages updates hence merges cannot trigger here
 
 # 中文说明
 
 ## Prosemirror 中文文档
 
-1. 基于 Azure GPT-4o-128k + 人工修正翻译。
+1. 基于 Qwen3.5（硅基流动）+ 人工修正翻译。
 2. 注释部分为人工添加。
 
 ## PR 说明
@@ -48,7 +48,7 @@
 1. 拉取原仓库 `code.haverbeke.berlin/prosemirror/website`（上游已于 2026-04-01 从 GitHub archive 迁移至此），对比 last-commit.txt，有更新则执行下一步，无更新则中断 CI。
 2. cd 到 website，按原仓库说明，`npm i` + `make` 后，会构建出 publish 目录的各个 index.html
 3. 根目录 `npm i` 后，运行 index.js，查询跟 index 在 public 中同路径的 dict 目录中的 index.json 字典，进行中文替换，如果字段未查询到，则进行 AI 翻译并更新字典。
-4. 将 website 中的 public 目录移动到上层的 docs 目录中，推送到远端，出发 Vercel 的构建更新。
+4. 将 website 中的 public 目录移动到上层的 docs 目录中，推送到远端，触发 Cloudflare Pages 的构建更新。
 
 ## 本地构建说明
 
@@ -60,4 +60,4 @@
 
 1. 本项目 CI 有两种触发方式：手动触发和每周检查一次。
 2. ci 可能会修改 dict 目录中的文件，以及新产生 index.html 覆盖 public 中的同路径同名文件。
-3. ci 会将修改再次提交到本仓库中，以触发 Vercel 的更新，因此本仓库不能通过 Merge 触发。
+3. ci 会将修改再次提交到本仓库中，以触发 Cloudflare Pages 的更新，因此本仓库不能通过 Merge 触发。

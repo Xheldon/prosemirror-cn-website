@@ -27,7 +27,7 @@ exports.translate = async (text, { key, file } = {}) => {
       return;
     }
     const payload = JSON.stringify({
-      model: 'Qwen/Qwen2.5-72B-Instruct',
+      model: 'Qwen/Qwen3.5-27B',
       messages: [
         {
           role: 'system',

@@ -107,7 +107,7 @@ Promise.all(
       banner.id = 'banner-info';
       // Note: 整站通知
       const p = key.replace('website/public', '').replace('index.html', '');
-      banner.innerHTML = `本文档为 GPT-4o + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}index.json" target="_blank">我来翻译！</a>`;
+      banner.innerHTML = `本文档为 Qwen3.5 + 人工翻译，hover 可以显示原文。<a style="cursor: pointer;" href="https://prosemirror-old.xheldon.com${p}" target="_blank">原始翻译地址</a>。翻译有问题？<a style="cursor: pointer;" href="https://github.com/Xheldon/prosemirror-cn-website/blob/main/dict${p}index.json" target="_blank">我来翻译！</a>`;
       const header = document.querySelector('header');
       if (header) {
         header.parentNode.insertBefore(banner, header);
@@ -117,7 +117,7 @@ Promise.all(
       const add = document.createElement('div');
       add.id = 'add-info';
       add.innerHTML = `<blockquote>
-  本手册/文档采用 GPT-4o + 人工方式翻译。每周检查一次原仓库或手动更新，<a href="https://github.com/Xheldon/prosemirror-cn-website" target="_blank">欢迎 Star 和 PR</a>。
+  本手册/文档采用 Qwen3.5 + 人工方式翻译。每周检查一次原仓库或手动更新，<a href="https://github.com/Xheldon/prosemirror-cn-website" target="_blank">欢迎 Star 和 PR</a>。
   </blockquote>
   <b>译者前言：</b>
   <ol>
