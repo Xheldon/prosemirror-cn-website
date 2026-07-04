@@ -2,8 +2,30 @@ const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-exports.translate = async (text, { key, file }) => {
-  return new Promise((resolve) => {
+const ERROR_PATH = path.resolve(__dirname, 'error.txt');
+
+// Note: 记录一条翻译错误到 error.txt，供 CI 判定本次是否存在错误
+const recordError = (message) => {
+  try {
+    fs.appendFileSync(ERROR_PATH, `${message}\n`);
+  } catch (e) {
+    console.error('写入 error.txt 失败:', e && e.message);
+  }
+};
+
+// Note: 返回翻译后的字符串；失败时 reject（由调用方决定保留原文、不写入字典），
+// 并把错误写入 error.txt。不再返回占位符，避免占位符被固化进字典。
+exports.translate = async (text, { key, file } = {}) => {
+  return new Promise((resolve, reject) => {
+    const apiKey = process.env.OPENAI_API_KEY;
+    const url = process.env.OPENAI_URL;
+    // Note: 缺少必要的环境变量时直接失败，而不是拿着空配置去请求
+    if (!apiKey || !url) {
+      const msg = `缺少 OPENAI_API_KEY 或 OPENAI_URL 环境变量`;
+      recordError(`[${file}-${key}]: ${text} -> ${msg}`);
+      reject(new Error(msg));
+      return;
+    }
     const payload = JSON.stringify({
       model: 'Qwen/Qwen2.5-72B-Instruct',
       messages: [
@@ -30,13 +52,22 @@ exports.translate = async (text, { key, file }) => {
       top_p: 0.95,
       max_tokens: 4096,
     });
-    const apiKey = process.env.OPENAI_API_KEY;
-    const url = process.env.OPENAI_URL;
+    // Note: -sS 静默但保留错误；加连接/整体超时，避免接口挂起时 CI 长时间卡死；
+    // 对网络类瞬时错误做少量重试。
     const res = spawn('curl', [
       '--request',
       'POST',
       '--url',
       url,
+      '-sS',
+      '--connect-timeout',
+      '15',
+      '--max-time',
+      '120',
+      '--retry',
+      '3',
+      '--retry-delay',
+      '3',
       '-H',
       'Content-Type: application/json',
       '-H',
@@ -45,41 +76,41 @@ exports.translate = async (text, { key, file }) => {
       payload,
     ]);
     let result = '';
+    let stderr = '';
     res.stdout.on('data', (data) => {
       result += data.toString();
     });
-    res.stdout.on('close', () => {
+    res.stderr.on('data', (data) => {
+      stderr += data.toString();
+    });
+    // Note: curl 本身启动失败（如未安装）
+    res.on('error', (err) => {
+      recordError(`[${file}-${key}]: ${text} -> curl 启动失败: ${err.message}`);
+      reject(err);
+    });
+    res.on('close', (code) => {
+      // Note: curl 非 0 退出（网络/超时等），result 往往为空
+      if (code !== 0) {
+        const msg = `curl 退出码 ${code}: ${stderr.trim() || '(无 stderr)'}`;
+        console.error(`ai 翻译失败: [${text}] -> [${msg}]`);
+        recordError(`[${file}-${key}]: ${text} -> ${msg}`);
+        reject(new Error(msg));
+        return;
+      }
       try {
         const json = JSON.parse(result);
         const translate = json.choices?.[0]?.message?.content;
         if (!translate) {
           console.error(`ai 翻译失败: [${text}] -> [${result}]`);
-          // Note: 创建一个 error.txt ，如果不存在则创建
-          const errorPath = path.resolve(__dirname, 'error.txt');
-          if (!fs.existsSync(errorPath)) {
-            fs.writeFileSync(errorPath, '');
-          }
-          // Note：追加到文件
-          fs.appendFileSync(
-            errorPath,
-            `[${file}-${key}]: ${text} -> ${result}\n`
-          );
-          resolve('【翻译引擎出错，请联系作者】');
+          recordError(`[${file}-${key}]: ${text} -> ${result}`);
+          reject(new Error('接口未返回有效译文'));
           return;
         }
         resolve(translate);
       } catch (e) {
         console.error(`ai 翻译失败: [${text}] -> [${result}]`);
-        // Note: 创建一个 error.txt ，如果不存在则创建
-        if (!fs.existsSync('error.txt')) {
-          fs.writeFileSync('error.txt', '');
-        }
-        // Note：追加到文件
-        fs.appendFileSync(
-          'error.txt',
-          `[${file}-${key}]: ${text} -> ${result}\n`
-        );
-        resolve('【翻译引擎出错，请联系作者】');
+        recordError(`[${file}-${key}]: ${text} -> ${result}`);
+        reject(e);
       }
     });
   });

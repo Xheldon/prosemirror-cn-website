@@ -44,7 +44,9 @@ jobs:
           if [[ "$NEW_COMMIT" != "$OLD_COMMIT" ]]; then
             echo "每周检查发现新的提交"
             echo "new_commits=true" >> $GITHUB_ENV
-            echo "$NEW_COMMIT" > last-commit.txt
+            # Note: last-commit.txt 不在此处推进，改为在"推送"步骤中仅当本次翻译无错误时才写入。
+            # 这样如果翻译中途出错（如接口临时不可用），last-commit.txt 保持旧值，
+            # 下次定时检查会再次判定"有更新"从而自动重试，避免漏翻。
           else
             if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
               echo "手动触发更新"
@@ -70,6 +72,8 @@ jobs:
           OPENAI_URL: ${{ secrets.OPENAI_URL }}
         run: |
           npm install
+          # Note: 清空上一次可能遗留在仓库里的错误记录，确保 error.txt 只反映本次运行
+          rm -f error.txt
           node index.js
 
       - name: 推送到 gp 分支
@@ -78,6 +82,13 @@ jobs:
           git checkout -b temp
           rm -rf public
           mkdir -p public && cp vercel.sh public && cp -R website/public/* public
+          # Note: 上游 2026-07-02 加入了屏蔽各家 AI 爬虫的 robots.txt，这里删除它，
+          # 不让中文翻译站跟着屏蔽（Googlebot 未被屏蔽，不影响普通搜索收录）。
+          rm -f public/robots.txt
+          # Note: 仅当本次翻译无错误时才推进 last-commit.txt，出错则保持旧值以便下次重试
+          if [ ! -s error.txt ]; then
+            echo "$new_commit" > last-commit.txt
+          fi
           git add .
           if [ -s "error.txt" ]; then
             git commit -m "本次翻译存在错误[bot]"
@@ -87,8 +98,9 @@ jobs:
           git push -f https://Xheldon:${{ secrets.GIT_TOKEN }}@github.com/${{ github.repository }} temp:main
 
       - name: 检查是否存在错误
+        if: env.new_commits == 'true'
         run: |
           if [ -s "error.txt" ]; then
-            echo "本次翻译存在错误"
+            echo "本次翻译存在错误，已保留原文并未推进 last-commit.txt，下次运行会自动重试"
             exit 1
           fi

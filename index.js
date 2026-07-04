@@ -234,6 +234,12 @@ Promise.all(
                     item.innerHTML = dict[pureText]._translate;
                     item.setAttribute('data-x-en', pureText);
                   })
+                  .catch((e) => {
+                    // Note: 翻译失败时保留英文原文，且【不写入字典】，避免把错误占位符
+                    // 永久固化到字典里导致后续永远命中缓存而不再重试。错误详情已由
+                    // utils.translate 记录到 error.txt，CI 会据此判定本次存在错误。
+                    console.error(`翻译失败，保留原文: ${pureText} (${e && e.message})`);
+                  })
                   .finally(() => {
                     // Note: 随机增加延迟
                     setTimeout(() => {
