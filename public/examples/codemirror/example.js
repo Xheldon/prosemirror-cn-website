@@ -1739,6 +1739,7 @@
               }
           };
       }
+      get extension() { return this; }
   }
   function compareArray(a, b, compare) {
       if (a.length != b.length)
@@ -1936,6 +1937,7 @@
           this.inner = inner;
           this.prec = prec;
       }
+      get extension() { return this; }
   }
   /**
   Extension compartments can be used to make a configuration
@@ -1970,6 +1972,7 @@
           this.compartment = compartment;
           this.inner = inner;
       }
+      get extension() { return this; }
   }
   class Configuration {
       constructor(base, compartments, dynamicSlots, address, staticValues, facets) {
@@ -2079,6 +2082,8 @@
           else {
               let content = ext.extension;
               if (!content)
+                  throw new Error(`Unrecognized extension value in extension set (${ext}).`);
+              if (content == ext)
                   throw new Error(`Unrecognized extension value in extension set (${ext}). This sometimes happens because multiple instances of @codemirror/state are loaded, breaking instanceof checks.`);
               inner(content, prec);
           }
@@ -6999,7 +7004,7 @@
       }
       emit(from, to) {
           let pendingLineAttrs = null;
-          let b = this.builder, markCount = 0;
+          let b = this.builder, markCount = -1;
           let openEnd = RangeSet.spans(this.decorations, from, to, {
               point: (from, to, deco, active, openStart, index) => {
                   if (deco instanceof PointDecoration) {
@@ -7053,7 +7058,8 @@
                   markCount = active.length;
               }
           });
-          this.openWidget = openEnd > markCount;
+          if (markCount > -1)
+              this.openWidget = openEnd > markCount;
           if (!this.openWidget)
               b.addLineStartIfNotCovered(pendingLineAttrs);
           this.openMarks = openEnd;

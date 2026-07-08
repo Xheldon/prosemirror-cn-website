@@ -4622,5 +4622,17 @@
   "Adjust an existing workaround to work around the fact that Chrome no longer fires key events for backspace during composition.": {
     "_translate": "调整现有的解决方法，以解决 Chrome 在组合输入期间不再触发退格键事件的问题。",
     "_note": ""
+  },
+  "Allow non-HTML elements in DOMOutputSpec.": {
+    "_translate": "允许在 <code>DOMOutputSpec</code> 中使用非 HTML 元素。",
+    "_note": ""
+  },
+  "Don't drop an order attribute of 0 for numbered lists when serializing.": {
+    "_translate": "在序列化时，不要为编号列表丢弃值为 0 的 <code>order</code> 属性。",
+    "_note": ""
+  },
+  "Properly update the drop cursor for incoming changes during a drag.": {
+    "_translate": "在拖拽期间正确更新用于接收更改的插入光标。",
+    "_note": ""
   }
 }

@@ -8879,7 +8879,8 @@
           state.renderList(node, "  ", () => (node.attrs.bullet || "*") + " ");
       },
       ordered_list(state, node) {
-          let start = node.attrs.order || 1;
+          var _a;
+          let start = (_a = node.attrs.order) !== null && _a !== void 0 ? _a : 1;
           let maxW = String(start + node.childCount - 1).length;
           let space = state.repeat(" ", maxW + 2);
           state.renderList(node, space, i => {
