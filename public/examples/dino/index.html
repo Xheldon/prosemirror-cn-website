@@ -114,7 +114,7 @@
                           <span class="tok-propertyName tok-definition">src</span><span class="tok-punctuation">:</span> <span class="tok-string">"/img/dino/"</span> <span class="tok-operator">+</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span> <span class="tok-operator">+</span> <span class="tok-string">".png"</span><span class="tok-punctuation">,</span>
                           <span class="tok-propertyName tok-definition">title</span><span class="tok-punctuation">:</span> <span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">attrs</span><span class="tok-operator">.</span><span class="tok-propertyName">type</span><span class="tok-punctuation">,</span>
                           <span class="tok-propertyName tok-definition">class</span><span class="tok-punctuation">:</span> <span class="tok-string">"dinosaur"</span><span class="tok-punctuation">}</span><span class="tok-punctuation">]</span><span class="tok-punctuation">,</span>
-  <span class="tok-comment">// 解析时，如果图像的类型与已知类型之一匹配，直接输出翻译结果，不添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
+  <span class="tok-comment">// 解析时，如果图像的类型与已知类型之一匹配</span>
   <span class="tok-comment">// 类型，转换为一个 dino 节点。</span>
   <span class="tok-propertyName tok-definition">parseDOM</span><span class="tok-punctuation">:</span> <span class="tok-punctuation">[</span><span class="tok-punctuation">{</span>
     <span class="tok-propertyName tok-definition">tag</span><span class="tok-punctuation">:</span> <span class="tok-string">"img[dino-type]"</span><span class="tok-punctuation">,</span>

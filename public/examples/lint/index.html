@@ -119,7 +119,7 @@
     <span class="tok-variableName">result</span><span class="tok-operator">.</span><span class="tok-propertyName">push</span><span class="tok-punctuation">(</span><span class="tok-punctuation">{</span><span class="tok-propertyName tok-definition">msg</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">from</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">to</span><span class="tok-punctuation">,</span> <span class="tok-propertyName tok-definition">fix</span><span class="tok-punctuation">}</span><span class="tok-punctuation">)</span>
   <span class="tok-punctuation">}</span>
 
-  <span class="tok-comment">// 对于文档中的每个节点，直接输出翻译，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！</span>
+  <span class="tok-comment">// 对于文档中的每个节点</span>
   <span class="tok-variableName">doc</span><span class="tok-operator">.</span><span class="tok-propertyName">descendants</span><span class="tok-punctuation">(</span><span class="tok-punctuation">(</span><span class="tok-variableName tok-definition">node</span><span class="tok-punctuation">,</span> <span class="tok-variableName tok-definition">pos</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">=&gt;</span> <span class="tok-punctuation">{</span>
     <span class="tok-keyword">if</span> <span class="tok-punctuation">(</span><span class="tok-variableName">node</span><span class="tok-operator">.</span><span class="tok-propertyName">isText</span><span class="tok-punctuation">)</span> <span class="tok-punctuation">{</span>
       <span class="tok-comment">// 扫描文本节点以查找可疑模式</span>
