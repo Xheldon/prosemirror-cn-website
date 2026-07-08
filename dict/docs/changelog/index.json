@@ -4548,7 +4548,7 @@
     "_note": ""
   },
   "Code": {
-    "_translate": "请提供需要翻译的源文本。",
+    "_translate": "源码",
     "_note": ""
   },
   "Make the types reflect that mark and node views should render elements, not any DOM node.": {

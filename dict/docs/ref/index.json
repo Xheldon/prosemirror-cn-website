@@ -3272,7 +3272,7 @@
     "_note": ""
   },
   "Code": {
-    "_translate": "请提供需要翻译的源文本。",
+    "_translate": "源码",
     "_note": ""
   },
   "By default, for backwards compatibility, an inserting step mapped over an insertion at that same position fill move after the inserted content. In a collaborative editing situation, that can make redone insertions appear in unexpected places. You can set this to -1 to make such mapping keep the step before the insertion instead.": {

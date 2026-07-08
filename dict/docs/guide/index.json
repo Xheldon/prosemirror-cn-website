@@ -1116,7 +1116,7 @@
     "_note": ""
   },
   "Code": {
-    "_translate": "请提供需要翻译的源文本。",
+    "_translate": "源码",
     "_note": ""
   },
   "In addition, there are modules for basic editing commands, binding keys, undo history, input macros, collaborative editing, a simple document schema, and more under the prosemirror organization.": {
