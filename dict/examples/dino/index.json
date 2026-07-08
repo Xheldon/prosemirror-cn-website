@@ -84,7 +84,7 @@
     "_note": ""
   },
   "// When parsing, such an image, if its type matches one of the known": {
-    "_translate": "// 解析时，如果图像的类型与已知类型之一匹配，直接输出翻译结果，不添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 解析时，如果图像的类型与已知类型之一匹配",
     "_note": ""
   },
   "// types, is converted to a dino node.": {

@@ -944,15 +944,15 @@
     "_note": ""
   },
   "// → 0 0": {
-    "_translate": "// → 0 0，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 0 0",
     "_note": ""
   },
   "// From start of first paragraph": {
-    "_translate": "// 从第一个段落开始，直接输出翻译，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 从第一个段落开始",
     "_note": ""
   },
   "// to end of second": {
-    "_translate": "// 结束第二段，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 结束第二段",
     "_note": ""
   },
   "/* ... and so on */": {
@@ -960,7 +960,7 @@
     "_note": ""
   },
   "// → 1 1": {
-    "_translate": "// → 1 1，直接输出翻译结果，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 1 1",
     "_note": ""
   },
   "// and <i> nodes": {
@@ -968,7 +968,7 @@
     "_note": ""
   },
   "// Match <em> nodes": {
-    "_translate": "// 匹配 &lt;em&gt; 节点，直接输出翻译结果，不要添加任何额外文本。记住，保留所有 HTML 标签和属性，只翻译内容！",
+    "_translate": "// 匹配 &lt;em&gt; 节点",
     "_note": ""
   },
   "// and inline 'font-style: italic'": {
@@ -1000,7 +1000,7 @@
     "_note": ""
   },
   "// → 2": {
-    "_translate": "// → 2，直接输出翻译结果，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 2",
     "_note": ""
   },
   "// Delete 4-5": {
@@ -1008,7 +1008,7 @@
     "_note": ""
   },
   "// → 6": {
-    "_translate": "// → 6，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 6",
     "_note": ""
   },
   "// → 2 (nothing changes before the change)": {
@@ -1020,23 +1020,23 @@
     "_note": ""
   },
   "// -3 tokens at 2": {
-    "_translate": "// -3 tokens at 2，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// -3 tokens at 2",
     "_note": ""
   },
   "// → 14": {
-    "_translate": "// → 14，直接输出翻译结果，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 14",
     "_note": ""
   },
   "// → 3": {
-    "_translate": "// → 3，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 3",
     "_note": ""
   },
   "// → 9": {
-    "_translate": "// → 9，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 9",
     "_note": ""
   },
   "// → 7": {
-    "_translate": "// → 7，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 7",
     "_note": ""
   },
   "// 1, the start of the paragraph": {
@@ -1048,7 +1048,7 @@
     "_note": ""
   },
   "// 25": {
-    "_translate": "// 25，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 25",
     "_note": ""
   },
   "// Replaces selection with 'hello'": {
@@ -1056,7 +1056,7 @@
     "_note": ""
   },
   "// 30": {
-    "_translate": "// 30，直接输出翻译内容，不要任何附加文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 30",
     "_note": ""
   },
   "// → 8 (moved back)": {
@@ -1064,7 +1064,7 @@
     "_note": ""
   },
   "// → 10": {
-    "_translate": "// → 10，直接输出翻译结果，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// → 10",
     "_note": ""
   },
   "// We did not handle this": {
@@ -1092,7 +1092,7 @@
     "_note": ""
   },
   "// The editor will use this as the node's DOM representation": {
-    "_translate": "// 编辑器将使用此作为节点的DOM表示，直接输出翻译结果，不要添加任何额外文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 编辑器将使用此作为节点的DOM表示",
     "_note": ""
   },
   "// Apply and accumulate new steps": {
@@ -1100,7 +1100,7 @@
     "_note": ""
   },
   "// Signal listeners": {
-    "_translate": "// 信号监听器，直接输出翻译，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 信号监听器",
     "_note": ""
   },
   "译者": {

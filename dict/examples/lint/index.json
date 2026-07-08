@@ -68,7 +68,7 @@
     "_note": ""
   },
   "// For each node in the document": {
-    "_translate": "// 对于文档中的每个节点，直接输出翻译，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 对于文档中的每个节点",
     "_note": ""
   },
   "// Matches punctuation with a space before it": {

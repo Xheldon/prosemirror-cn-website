@@ -108,11 +108,11 @@
     "_note": ""
   },
   "// You can use any node as an editor document": {
-    "_translate": "// 您可以使用任何节点作为编辑器文档，直接输出翻译结果，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 您可以使用任何节点作为编辑器文档",
     "_note": ""
   },
   "// This is the magic part": {
-    "_translate": "// 这是神奇的部分，直接输出翻译内容，不要任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 这是神奇的部分",
     "_note": ""
   },
   "// Kludge to prevent issues due to the fact that the whole": {

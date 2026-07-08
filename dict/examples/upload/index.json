@@ -80,7 +80,7 @@
     "_note": ""
   },
   "// If the content around the placeholder has been deleted, drop": {
-    "_translate": "// 如果占位符周围的内容已被删除，请删除，直接输出翻译后的内容，不要添加任何额外的文本。记住，保留所有HTML标签和属性，只翻译内容！",
+    "_translate": "// 如果占位符周围的内容已被删除，请删除",
     "_note": ""
   },
   "// the image": {

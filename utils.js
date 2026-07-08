@@ -34,7 +34,10 @@ exports.translate = async (text, { key, file } = {}) => {
           content: [
             {
               type: 'text',
-              text: 'You are a professional, authentic machine translation engine.',
+              // Note: 指令全部放在 system，user 只放纯待译文本。此前把指令和文本拼在
+              // 同一句 user 消息里，遇到很短的文本（如 Code / 短代码注释）时模型会把
+              // 指令一起译出来（例如 "Code" 被译成"请提供需要翻译的源文本。"）。
+              text: 'You are a professional, authentic machine translation engine. Translate the text provided by the user into Simplified Chinese. Output ONLY the translated text, with no additional commentary, notes, quotes, or explanation. Preserve ALL HTML tags and attributes exactly as-is; translate only the human-readable text content, never tag names, attribute values, or code. If the text is a single word or short phrase, translate just that word or phrase.',
             },
           ],
         },
@@ -43,7 +46,7 @@ exports.translate = async (text, { key, file } = {}) => {
           content: [
             {
               type: 'text',
-              text: `Translate the following source text to chinese: ${text}，Output translation directly without any additional text. Remember, Keep ALL HTML TAG AND ATTRIBUTE, ONLY TRANSLATE CONTENT!`,
+              text: text,
             },
           ],
         },
