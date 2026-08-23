@@ -8,11 +8,11 @@
   ;(() => {
     // Compressed representation of the Grapheme_Cluster_Break=Extend
     // information from
-    // http://www.unicode.org/Public/16.0.0/ucd/auxiliary/GraphemeBreakProperty.txt.
+    // http://www.unicode.org/Public/17.0.0/ucd/auxiliary/GraphemeBreakProperty.txt.
     // Each pair of elements represents a range, as an offet from the
     // previous range and a length. Numbers are in base-36, with the empty
-    // string being a shorthand for 1.
-    let numbers = "lc,34,7n,7,7b,19,,,,2,,2,,,20,b,1c,l,g,,2t,7,2,6,2,2,,4,z,,u,r,2j,b,1m,9,9,,o,4,,9,,3,,5,17,3,3b,f,,w,1j,,,,4,8,4,,3,7,a,2,t,,1m,,,,2,4,8,,9,,a,2,q,,2,2,1l,,4,2,4,2,2,3,3,,u,2,3,,b,2,1l,,4,5,,2,4,,k,2,m,6,,,1m,,,2,,4,8,,7,3,a,2,u,,1n,,,,c,,9,,14,,3,,1l,3,5,3,,4,7,2,b,2,t,,1m,,2,,2,,3,,5,2,7,2,b,2,s,2,1l,2,,,2,4,8,,9,,a,2,t,,20,,4,,2,3,,,8,,29,,2,7,c,8,2q,,2,9,b,6,22,2,r,,,,,,1j,e,,5,,2,5,b,,10,9,,2u,4,,6,,2,2,2,p,2,4,3,g,4,d,,2,2,6,,f,,jj,3,qa,3,t,3,t,2,u,2,1s,2,,7,8,,2,b,9,,19,3,3b,2,y,,3a,3,4,2,9,,6,3,63,2,2,,1m,,,7,,,,,2,8,6,a,2,,1c,h,1r,4,1c,7,,,5,,14,9,c,2,w,4,2,2,,3,1k,,,2,3,,,3,1m,8,2,2,48,3,,d,,7,4,,6,,3,2,5i,1m,,5,ek,,5f,x,2da,3,3x,,2o,w,fe,6,2x,2,n9w,4,,a,w,2,28,2,7k,,3,,4,,p,2,5,,47,2,q,i,d,,12,8,p,b,1a,3,1c,,2,4,2,2,13,,1v,6,2,2,2,2,c,,8,,1b,,1f,,,3,2,2,5,2,,,16,2,8,,6m,,2,,4,,fn4,,kh,g,g,g,a6,2,gt,,6a,,45,5,1ae,3,,2,5,4,14,3,4,,4l,2,fx,4,ar,2,49,b,4w,,1i,f,1k,3,1d,4,2,2,1x,3,10,5,,8,1q,,c,2,1g,9,a,4,2,,2n,3,2,,,2,6,,4g,,3,8,l,2,1l,2,,,,,m,,e,7,3,5,5f,8,2,3,,,n,,29,,2,6,,,2,,,2,,2,6j,,2,4,6,2,,2,r,2,2d,8,2,,,2,2y,,,,2,6,,,2t,3,2,4,,5,77,9,,2,6t,,a,2,,,4,,40,4,2,2,4,,w,a,14,6,2,4,8,,9,6,2,3,1a,d,,2,ba,7,,6,,,2a,m,2,7,,2,,2,3e,6,3,,,2,,7,,,20,2,3,,,,9n,2,f0b,5,1n,7,t4,,1r,4,29,,f5k,2,43q,,,3,4,5,8,8,2,7,u,4,44,3,1iz,1j,4,1e,8,,e,,m,5,,f,11s,7,,h,2,7,,2,,5,79,7,c5,4,15s,7,31,7,240,5,gx7k,2o,3k,6o".split(",").map(s => s ? parseInt(s, 36) : 1);
+    // string being a shorthand for 1. See bin/build-extenders.js.
+    let numbers = "lc,34,7n,7,7b,19,,,,2,,2,,,20,b,1c,l,g,,2t,7,2,6,2,2,,4,z,,u,r,2j,b,1m,9,9,,o,4,,9,,3,,5,17,3,1n,9,16,o,,x,1i,3,,i,,7,a,2,t,3,1k,,,7,2,2,2,3,9,,a,2,q,,2,3,1k,,,5,4,2,2,3,3,,u,2,3,,b,3,1k,,,8,,3,,3,k,2,m,6,,3,1k,,,7,2,2,2,3,7,3,a,2,u,,1n,5,3,3,,4,9,,14,5,1j,,,7,,3,,4,7,2,b,2,t,3,1k,,,7,,3,,4,7,2,b,2,f,,c,4,1j,2,,7,,3,,4,9,,a,2,t,3,1y,,4,6,,,,8,i,2,1p,,,8,c,8,2q,,,a,b,7,21,2,r,,,,,,4,2,1d,k,,2,5,b,,10,9,,2u,b,,6,n,4,4,3,g,4,d,,,3,6,,f,,jj,3,qa,4,s,3,t,2,u,2,1s,w,9,,19,3,,,39,2,y,,3a,c,4,c,63,5,1l,a,,,,,2,o,2,,1c,1a,2,c,k,5,1b,h,12,9,c,3,u,d,1k,e,1c,k,48,3,,l,4,,6,,2,3,5i,1s,ek,,5f,x,2da,3,3x,,2o,w,fe,6,2x,2,n9w,4,,a,w,2,28,2,7k,,3,,4,,n,5,4,,2b,2,1e,i,q,i,d,,12,8,p,d,18,4,1b,e,10,,1v,e,c,,8,2,1a,,1f,,,3,2,2,5,2,,,15,5,5,2,6k,8,,2,fn4,,kh,g,g,g,a6,2,gt,,6a,,45,5,1ae,3,,2,5,4,14,3,4,,4l,2,fx,4,1t,5,8t,2,25,6,1y,b,1d,4,3e,3,1h,f,15,,2,2,a,4,19,b,7,,1p,3,10,e,g,2,18,,c,3,1c,e,8,4,,2,2k,c,6,,2,,4d,c,l,4,1j,2,,7,2,2,2,3,9,,a,2,2,7,3,5,1v,9,,,2,,,4,,5,,,e,2,2a,i,n,,29,k,6j,7,2,9,r,2,2a,h,2y,d,2t,3,2,a,74,f,6t,6,,2,2,4,,,,2,3x,7,2,7,3,,s,a,14,7,,4,8,,9,b,1a,g,5i,8,5j,8,,8,2a,m,,e,3e,6,3,,,2,,7,,,1u,5,,2,,5,9n,4,9,2,,,1c,7,3,5,n,,44l,,6,f,8ug,i,1xc,5,1n,7,t4,,,1j,7,4,29,,b,2,f57,2,3mp,1a,2,n,f2,5,3,6,8,8,2,7,u,4,44,3,1iz,1j,4,1e,8,,e,,m,5,,f,11s,7,,h,2,7,,2,,5,2s,,4g,7,af,,1p,4,e4,4,72,2,6r,,2,,7,2,5,,d6,7,31,7,240,5".split(",").map(s => s ? parseInt(s, 36) : 1);
     for (let i = 0, n = 0; i < numbers.length; i++)
       (i % 2 ? rangeTo : rangeFrom).push(n = n + numbers[i]);
   })();
@@ -4952,6 +4952,22 @@
           this.focusOffset = focusOffset;
       }
   }
+  function getScrollStack(target) {
+      let stack = [];
+      for (let cur = target; cur; cur = cur.nodeType == 11 ? cur.host : cur.parentNode) {
+          if (cur.nodeType == 1)
+              stack.push({ node: cur, left: cur.scrollLeft, top: cur.scrollTop });
+      }
+      return stack;
+  }
+  function restoreScrollStack(stack, vert = true) {
+      for (let { node, left, top } of stack) {
+          if (vert && node.scrollTop != top)
+              node.scrollTop = top;
+          if (node.scrollLeft != left)
+              node.scrollLeft = left;
+      }
+  }
   let preventScrollSupported = null;
   // Safari 26 breaks preventScroll support
   if (browser.safari && browser.safari_version >= 26)
@@ -4963,12 +4979,7 @@
           return dom.setActive(); // in IE
       if (preventScrollSupported)
           return dom.focus(preventScrollSupported);
-      let stack = [];
-      for (let cur = dom; cur; cur = cur.parentNode) {
-          stack.push(cur, cur.scrollTop, cur.scrollLeft);
-          if (cur == cur.ownerDocument)
-              break;
-      }
+      let stack = getScrollStack(dom);
       dom.focus(preventScrollSupported == null ? {
           get preventScroll() {
               preventScrollSupported = { preventScroll: true };
@@ -4977,13 +4988,7 @@
       } : undefined);
       if (!preventScrollSupported) {
           preventScrollSupported = false;
-          for (let i = 0; i < stack.length;) {
-              let elt = stack[i++], top = stack[i++], left = stack[i++];
-              if (elt.scrollTop != top)
-                  elt.scrollTop = top;
-              if (elt.scrollLeft != left)
-                  elt.scrollLeft = left;
-          }
+          restoreScrollStack(stack);
       }
   }
   let scratchRange;
@@ -6236,6 +6241,9 @@
       }
       get domAttrs() { return this.attrs; }
       // Find the tile associated with a given position in this line.
+      // Side -2/2 is handled specially, in that it allows the position
+      // returned to be before (-2) or after (2) widgets that would always
+      // be after/before a cursor position.
       resolveInline(pos, side, forCoords) {
           let before = null, beforeOff = -1, after = null, afterOff = -1;
           function scan(tile, pos) {
@@ -6246,11 +6254,11 @@
                           scan(child, pos - off);
                       }
                       else if ((!after || after.isHidden && (side > 0 && !(after.flags & 32 /* TileFlag.After */) || forCoords && onSameLine(after, child))) &&
-                          (end > pos || (child.flags & 32 /* TileFlag.After */))) {
+                          (end > pos || (child.flags & 32 /* TileFlag.After */) && side <= 1)) {
                           after = child;
                           afterOff = pos - off;
                       }
-                      else if (off < pos || (child.flags & 16 /* TileFlag.Before */) && !child.isHidden) {
+                      else if (off < pos || (child.flags & 16 /* TileFlag.Before */) && !child.isHidden && side >= -1) {
                           before = child;
                           beforeOff = pos - off;
                       }
@@ -6456,20 +6464,21 @@
           let { tile, index, beforeBreak, parents } = this;
           while (dist || side > 0) {
               if (!tile.isComposite()) {
-                  if (index == tile.length) {
+                  let len = tile.length;
+                  if (index < len && dist) {
+                      let take = Math.min(dist, len - index);
+                      if (walker)
+                          walker.skip(tile, index, index + take);
+                      dist -= take;
+                      index += take;
+                  }
+                  if (index == len) {
                       beforeBreak = !!tile.breakAfter;
                       ({ tile, index } = parents.pop());
                       index++;
                   }
                   else if (!dist) {
                       break;
-                  }
-                  else {
-                      let take = Math.min(dist, tile.length - index);
-                      if (walker)
-                          walker.skip(tile, index, index + take);
-                      dist -= take;
-                      index += take;
                   }
               }
               else if (beforeBreak) {
@@ -7724,11 +7733,14 @@
           // can affect it. So this tries to kludge around the problem by
           // calling scrollIntoView on the scroll target's line.
           if (window.visualViewport && window.innerHeight - window.visualViewport.height > 1 &&
-              (rect.top > window.pageYOffset + window.visualViewport.offsetTop + window.visualViewport.height ||
-                  rect.bottom < window.pageYOffset + window.visualViewport.offsetTop)) {
+              (rect.top > window.visualViewport.offsetTop + window.visualViewport.height ||
+                  rect.bottom < window.visualViewport.offsetTop)) {
               let line = this.view.docView.lineAt(range.head, 1);
-              if (line)
+              if (line) {
+                  let stack = getScrollStack(line.dom);
                   line.dom.scrollIntoView({ block: "nearest" });
+                  restoreScrollStack(stack, false);
+              }
           }
       }
       lineHasWidget(pos) {
@@ -8150,23 +8162,22 @@
           search: while (lo < hi) {
               let dist = hi - lo, mid = (lo + hi) >> 1;
               adjust: if (seen.has(mid)) {
-                  let scan = lo + Math.floor(Math.random() * dist);
-                  for (let i = 0; i < dist; i++) {
+                  for (let i = 1; i < dist; i++) {
+                      let scan = mid + i;
+                      if (scan >= hi)
+                          scan -= dist;
                       if (!seen.has(scan)) {
                           mid = scan;
                           break adjust;
                       }
-                      scan++;
-                      if (scan == hi)
-                          scan = lo; // Wrap around
                   }
                   break search; // No index found, we're done
               }
               seen.add(mid);
-              let rects = getRects(mid);
+              let rects = getRects(mid), side = 0;
               if (rects)
                   for (let i = 0; i < rects.length; i++) {
-                      let rect = rects[i], side = 0;
+                      let rect = rects[i];
                       // Ignore empty rectangles when there are other rectangles
                       if (rect.width == 0 && rects.length > 1)
                           continue;
@@ -8191,12 +8202,12 @@
                           if (off)
                               side = (off < 0) == (this.baseDir == Direction.LTR) ? -1 : 1;
                       }
-                      // Narrow binary search when it is safe to do so
-                      if (side == -1 && (!bidi || this.baseDirAt(positions[mid], 1)))
-                          hi = mid;
-                      else if (side == 1 && (!bidi || this.baseDirAt(positions[mid + 1], -1)))
-                          lo = mid + 1;
                   }
+              // Narrow binary search when it is safe to do so
+              if (side == -1 && (!bidi || this.baseDirAt(positions[mid], 1)))
+                  hi = mid;
+              else if (side == 1 && (!bidi || this.baseDirAt(positions[mid + 1], -1)))
+                  lo = mid + 1;
           }
           // If no element with y overlap is found, find the nearest element
           // on the y axis, move this.y into it, and retry the scan.
@@ -11248,6 +11259,8 @@
           backgroundColor: "#f5f5f5",
           color: "black"
       },
+      ".cm-panels-top": { top: "0" },
+      ".cm-panels-bottom": { bottom: "0" },
       "&light .cm-panels-top": {
           borderBottom: "1px solid #ddd"
       },
@@ -12488,10 +12501,12 @@
                                   (scroll == this.scrollDOM || this.hasFocus ||
                                       Math.max(this.inputState.lastWheelEvent, this.inputState.lastTouchTime) > Date.now() - 100)) {
                                   scrollOffset = scrollOffset + diff;
-                                  if (scroll)
-                                      scroll.scrollTop += diff;
-                                  else
+                                  if (!scroll)
                                       this.win.scrollBy(0, diff);
+                                  else if (scrollAnchorPos < 0)
+                                      scroll.scrollTop = scroll.scrollHeight;
+                                  else
+                                      scroll.scrollTop += diff;
                                   scrollAnchorHeight = -1;
                                   continue;
                               }
@@ -13840,9 +13855,11 @@
       },
       class: "cm-selectionLayer"
   });
+  // https://discuss.codemirror.net/t/firefox-153-ignores-transparent-selection-styling/9838
+  const selectionBg = browser.gecko && browser.gecko_version == 153 ? "#ffffff01" : "transparent";
   const hideNativeSelection = /*@__PURE__*/Prec.highest(/*@__PURE__*/EditorView.theme({
       ".cm-line": {
-          "& ::selection, &::selection": { backgroundColor: "transparent !important" },
+          "& ::selection, &::selection": { backgroundColor: `${selectionBg} !important` },
           caretColor: "transparent !important"
       },
       ".cm-content": {
@@ -21266,7 +21283,7 @@
   Expand the selection to cover entire lines.
   */
   const selectLine = ({ state, dispatch }) => {
-      let ranges = selectedLineBlocks(state).map(({ from, to }) => EditorSelection.range(from, Math.min(to + 1, state.doc.length)));
+      let ranges = selectedLineBlocks(state).map(({ from, to }) => EditorSelection.undirectionalRange(from, Math.min(to + 1, state.doc.length)));
       dispatch(state.update({ selection: EditorSelection.create(ranges), userEvent: "select" }));
       return true;
   };
@@ -21289,7 +21306,7 @@
               if (((node.from < range.from && node.to >= range.to) ||
                   (node.to > range.to && node.from <= range.from)) &&
                   cur.next)
-                  return EditorSelection.range(node.to, node.from);
+                  return EditorSelection.undirectionalRange(node.from, node.to);
           }
           return range;
       });
@@ -21877,7 +21894,7 @@
   - Shift-Ctrl-k (Shift-Cmd-k on macOS): [`deleteLine`](https://codemirror.net/6/docs/ref/#commands.deleteLine)
   - Shift-Ctrl-\\ (Shift-Cmd-\\ on macOS): [`cursorMatchingBracket`](https://codemirror.net/6/docs/ref/#commands.cursorMatchingBracket)
   - Ctrl-/ (Cmd-/ on macOS): [`toggleComment`](https://codemirror.net/6/docs/ref/#commands.toggleComment).
-  - Shift-Alt-a: [`toggleBlockComment`](https://codemirror.net/6/docs/ref/#commands.toggleBlockComment).
+  - Shift-Alt-a (Shift-Ctrl-a on macOS): [`toggleBlockComment`](https://codemirror.net/6/docs/ref/#commands.toggleBlockComment).
   - Ctrl-m (Alt-Shift-m on macOS): [`toggleTabFocusMode`](https://codemirror.net/6/docs/ref/#commands.toggleTabFocusMode).
   */
   const defaultKeymap = /*@__PURE__*/[
@@ -21899,7 +21916,7 @@
       { key: "Shift-Mod-k", run: deleteLine },
       { key: "Shift-Mod-\\", run: cursorMatchingBracket },
       { key: "Mod-/", run: toggleComment },
-      { key: "Alt-A", run: toggleBlockComment },
+      { key: "Alt-A", mac: "Ctrl-A", run: toggleBlockComment },
       { key: "Ctrl-m", mac: "Shift-Alt-m", run: toggleTabFocusMode },
   ].concat(standardKeymap);
 

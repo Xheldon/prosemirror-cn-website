@@ -4634,5 +4634,33 @@
   "Properly update the drop cursor for incoming changes during a drag.": {
     "_translate": "在拖拽期间正确更新用于接收更改的插入光标。",
     "_note": ""
+  },
+  "Fix an issue where the diffing of changed ranges would waste a bunch of time building up tokens and trying to compute a diff even if the ranges were too big to find a solution for.": {
+    "_translate": "修复了一个问题：在变更范围过大以至于无法找到解决方案时，差异比较过程仍会浪费时间构建令牌并尝试计算差异。",
+    "_note": ""
+  },
+  "Fix an issue where MarkdownSerializer could emit invalid strong/emphasis marks when the mark was broken up by another mark right before whitespace.": {
+    "_translate": "修复了一个问题：当标记在空白字符之前被另一个标记打断时，<code>MarkdownSerializer</code> 可能会生成无效的粗体/强调标记。",
+    "_note": ""
+  },
+  "Fix a crash in splitBlock when run on specific types of non-empty selections.": {
+    "_translate": "修复在特定类型的非空选区上运行 <code>splitBlock</code> 时发生的崩溃问题。",
+    "_note": ""
+  },
+  "Enable a workaround for backspace not taking effect on Android for Firefox as well as Chrome (for which it already kicked in).": {
+    "_translate": "为 Firefox 和 Chrome（该功能已生效）启用 Android 上退格键无效的变通方案。",
+    "_note": ""
+  },
+  "Work around the situation where Chrome/Webkit replace a node's content DOM with a completely different element.": {
+    "_translate": "规避 Chrome/Webkit 将节点的 DOM 内容替换为完全不同元素的情况。",
+    "_note": ""
+  },
+  "Fix parsing of trailing/leading whitespace when the element given to parseSlice is a body element.": {
+    "_translate": "修复当传递给 parseSlice 的元素为 body 元素时，对尾部/前导空白符的解析问题。",
+    "_note": ""
+  },
+  "Don't scroll to a bogus position when trying to scroll an element that has no layout into view.": {
+    "_translate": "尝试将未布局的元素滚动到可视区域时，不要滚动到无效位置。",
+    "_note": ""
   }
 }

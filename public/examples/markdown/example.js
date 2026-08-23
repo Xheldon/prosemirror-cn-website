@@ -9139,34 +9139,6 @@
                       let next = parent.child(index + 1);
                       return m.isInSet(next.marks) && (!next.isText || /\S/.test(next.text));
                   });
-              let leading = trailing;
-              trailing = "";
-              // If whitespace has to be expelled from the node, adjust
-              // leading and trailing accordingly.
-              if (node && node.isText && marks.some(mark => {
-                  let info = this.getMark(mark.type.name);
-                  return info && info.expelEnclosingWhitespace && !mark.isInSet(active);
-              })) {
-                  let [_, lead, rest] = /^(\s*)(.*)$/m.exec(node.text);
-                  if (lead) {
-                      leading += lead;
-                      node = rest ? node.withText(rest) : null;
-                      if (!node)
-                          marks = active;
-                  }
-              }
-              if (node && node.isText && marks.some(mark => {
-                  let info = this.getMark(mark.type.name);
-                  return info && info.expelEnclosingWhitespace && !this.isMarkAhead(parent, index + 1, mark);
-              })) {
-                  let [_, rest, trail] = /^(.*?)(\s*)$/m.exec(node.text);
-                  if (trail) {
-                      trailing = trail;
-                      node = rest ? node.withText(rest) : null;
-                      if (!node)
-                          marks = active;
-                  }
-              }
               let inner = marks.length ? marks[marks.length - 1] : null;
               let noEsc = inner && this.getMark(inner.type.name).escape === false;
               let len = marks.length - (noEsc ? 1 : 0);
@@ -9195,9 +9167,38 @@
               let keep = 0;
               while (keep < Math.min(active.length, len) && marks[keep].eq(active[keep]))
                   ++keep;
+              let leading = trailing;
+              trailing = "";
+              // If whitespace has to be expelled from the node, adjust
+              // leading and trailing accordingly.
+              if (node && node.isText && marks.some(mark => {
+                  let info = this.getMark(mark.type.name);
+                  return info && info.expelEnclosingWhitespace && !active.some((m, i) => i < keep && m.eq(mark));
+              })) {
+                  let [_, lead, rest] = /^(\s*)(.*)$/m.exec(node.text);
+                  if (lead) {
+                      leading += lead;
+                      node = rest ? node.withText(rest) : null;
+                      if (!node)
+                          marks = active;
+                  }
+              }
+              if (node && node.isText && marks.some(mark => {
+                  let info = this.getMark(mark.type.name);
+                  return info && info.expelEnclosingWhitespace && !this.isMarkAhead(parent, index + 1, mark);
+              })) {
+                  let [_, rest, trail] = /^(.*?)(\s*)$/m.exec(node.text);
+                  if (trail) {
+                      trailing = trail;
+                      node = rest ? node.withText(rest) : null;
+                      if (!node)
+                          marks = active;
+                  }
+              }
               // Close the marks that need to be closed
-              while (keep < active.length)
-                  this.text(this.markString(active.pop(), false, parent, index), false);
+              if (node || index == parent.childCount)
+                  while (keep < active.length)
+                      this.text(this.markString(active.pop(), false, parent, index), false);
               // Output any previously expelled trailing whitespace outside the marks
               if (leading)
                   this.text(leading);
@@ -9217,15 +9218,14 @@
                   else
                       this.render(node, parent, index);
                   this.atBlockStart = false;
-              }
-              // After the first non-empty text node is rendered, the end of output
-              // is no longer at block start.
-              //
-              // FIXME: If a non-text node writes something to the output for this
-              // block, the end of output is also no longer at block start. But how
-              // can we detect that?
-              if ((node === null || node === void 0 ? void 0 : node.isText) && node.nodeSize > 0) {
-                  this.atBlockStart = false;
+                  // After the first non-empty text node is rendered, the end of output
+                  // is no longer at block start.
+                  //
+                  // FIXME: If a non-text node writes something to the output for this
+                  // block, the end of output is also no longer at block start. But how
+                  // can we detect that?
+                  if (node.isText && node.nodeSize > 0)
+                      this.atBlockStart = false;
               }
           };
           parent.forEach(progress);
