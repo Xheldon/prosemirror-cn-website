@@ -4662,5 +4662,17 @@
   "Don't scroll to a bogus position when trying to scroll an element that has no layout into view.": {
     "_translate": "尝试将未布局的元素滚动到可视区域时，不要滚动到无效位置。",
     "_note": ""
+  },
+  "Don't set contenteditable=false on widgets that already have a contenteditable attribute.": {
+    "_translate": "不要在已经具有 <code>contenteditable</code> 属性的组件上设置 <code>contenteditable=false</code>。",
+    "_note": ""
+  },
+  "Fix a bug that broke pasting when there was a default trusted type policy defined without a createHTML function.": {
+    "_translate": "修复了一个 bug：当定义了默认的可信类型策略但未包含 <code>createHTML</code> 函数时，粘贴功能会失效。",
+    "_note": ""
+  },
+  "Run attribute validators on attributes provided via slice context in clipboard content. This closes an XSS vulnerability (found by Pedro Paniago).": {
+    "_translate": "对通过切片上下文提供的剪贴板内容中的属性运行属性验证器。这修复了一个跨站脚本（XSS）漏洞（由 Pedro Paniago 发现）。",
+    "_note": ""
   }
 }

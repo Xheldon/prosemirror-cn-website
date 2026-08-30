@@ -1525,7 +1525,7 @@
       if (code < 0x20 || code === 0x7F) { break }
 
       if (code === 0x5C /* \ */ && pos + 1 < max) {
-        if (str.charCodeAt(pos + 1) === 0x20) { break }
+        if (str.charCodeAt(pos + 1) === 0x20) { pos++; continue }
         pos += 2;
         continue
       }
@@ -2530,6 +2530,9 @@
   }
 
   // Replace link-like texts with link nodes.
+  //
+  // Currently restricted by `md.validateLink()` to http/https/ftp
+  //
 
   function isLinkOpen$1 (str) {
     return /^<a[>\s]/i.test(str)
@@ -2549,7 +2552,8 @@
         continue
       }
 
-      let tokens = blockTokens[j].children;
+      const tokens = blockTokens[j].children;
+      const replacements = [];
 
       let htmlLinkLevel = 0;
 
@@ -2652,9 +2656,36 @@
             nodes.push(token);
           }
 
-          // replace current node
-          blockTokens[j].children = tokens = arrayReplaceAt(tokens, i, nodes);
+          replacements.push({ index: i, nodes });
         }
+      }
+
+      if (replacements.length > 0) {
+        let newTokensLength = tokens.length;
+        for (const replacement of replacements) {
+          newTokensLength += replacement.nodes.length - 1;
+        }
+
+        const newTokens = new Array(newTokensLength);
+        let replacementIndex = 0;
+        let newTokenIndex = 0;
+
+        replacements.reverse();
+
+        for (let i = 0; i < tokens.length; i++) {
+          const replacement = replacements[replacementIndex];
+
+          if (replacement?.index === i) {
+            for (const node of replacement.nodes) {
+              newTokens[newTokenIndex++] = node;
+            }
+            replacementIndex++;
+          } else {
+            newTokens[newTokenIndex++] = tokens[i];
+          }
+        }
+
+        blockTokens[j].children = newTokens;
       }
     }
   }
@@ -4516,7 +4547,7 @@
     [/^<(script|pre|style|textarea)(?=(\s|>|$))/i, /<\/(script|pre|style|textarea)>/i, true],
     [/^<!--/, /-->/, true],
     [/^<\?/, /\?>/, true],
-    [/^<![A-Z]/, />/, true],
+    [/^<![A-Za-z]/, />/, true],
     [/^<!\[CDATA\[/, /\]\]>/, true],
     [new RegExp('^</?(' + block_names.join('|') + ')(?=(\\s|/?>|$))', 'i'), /^$/, true],
     [new RegExp(HTML_OPEN_CLOSE_TAG_RE.source + '\\s*$'), /^$/, false]
@@ -5121,10 +5152,20 @@
     return true;
   }; */
 
-  // Process links like https://example.org/
+  // Early process links like https://example.org/ to have priority
+  // over emphasis, etc.
 
   // RFC3986: scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
-  const SCHEME_RE = /(?:^|[^a-z0-9.+-])([a-z][a-z0-9.+-]*)$/i;
+  function isAsciiAlpha (code) {
+    return (code >= 0x41 && code <= 0x5A) || (code >= 0x61 && code <= 0x7A)
+  }
+
+  function isSchemeChar (code) {
+    return (code >= 0x41 && code <= 0x5A) ||
+      (code >= 0x61 && code <= 0x7A) ||
+      (code >= 0x30 && code <= 0x39) ||
+      code === 0x2B || code === 0x2D || code === 0x2E
+  }
 
   function linkify (state, silent) {
     if (!state.md.options.linkify) return false
@@ -5138,19 +5179,27 @@
     if (state.src.charCodeAt(pos + 1) !== 0x2F/* / */) return false
     if (state.src.charCodeAt(pos + 2) !== 0x2F/* / */) return false
 
-    const match = state.pending.match(SCHEME_RE);
-    if (!match) return false
+    // Search backwards for the scheme, but no more than 10 characters, the length
+    // of the pending string, or the length of the source prefix.
+    // Use state.src instead of state.pending because it is faster to access.
+    const protoMin = pos - Math.min(10, state.pending.length, pos);
+    let protoStart = pos;
+    while (protoStart > protoMin && isSchemeChar(state.src.charCodeAt(protoStart - 1))) {
+      protoStart--;
+    }
 
-    const proto = match[1];
+    if (protoStart === pos || !isAsciiAlpha(state.src.charCodeAt(protoStart))) return false
 
-    const link = state.md.linkify.matchAtStart(state.src.slice(pos - proto.length));
+    const protoLength = pos - protoStart;
+
+    const link = state.md.linkify.matchAtStart(state.src.slice(protoStart));
     if (!link) return false
 
     let url = link.url;
 
     // invalid link, but still detected by linkify somehow;
     // need to check to prevent infinite loop below
-    if (url.length <= proto.length) return false
+    if (url.length <= protoLength) return false
 
     // disallow '*' at the end of the link (conflicts with emphasis)
     // do manual backsearch to avoid perf issues with regex /\*+$/ on "****...****a".
@@ -5166,7 +5215,7 @@
     if (!state.md.validateLink(fullUrl)) return false
 
     if (!silent) {
-      state.pending = state.pending.slice(0, -proto.length);
+      state.pending = state.pending.slice(0, -protoLength);
 
       const token_o = state.push('link_open', 'a', 1);
       token_o.attrs = [['href', fullUrl]];
@@ -5181,7 +5230,7 @@
       token_c.info = 'auto';
     }
 
-    state.pos += url.length - proto.length;
+    state.pos += url.length - protoLength;
     return true
   }
 

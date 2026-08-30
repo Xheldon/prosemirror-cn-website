@@ -80,7 +80,12 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#changeset">prosemirror-changeset</a> 2.4.2 (2026-08-21)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.42.3 (2026-08-25)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Don't set contenteditable=false on widgets that already have a contenteditable attribute.">不要在已经具有 <code>contenteditable</code> 属性的组件上设置 <code>contenteditable=false</code>。</p>
+<p data-x-en="Fix a bug that broke pasting when there was a default trusted type policy defined without a createHTML function.">修复了一个 bug：当定义了默认的可信类型策略但未包含 <code>createHTML</code> 函数时，粘贴功能会失效。</p>
+<p data-x-en="Run attribute validators on attributes provided via slice context in clipboard content. This closes an XSS vulnerability (found by Pedro Paniago).">对通过切片上下文提供的剪贴板内容中的属性运行属性验证器。这修复了一个跨站脚本（XSS）漏洞（由 Pedro Paniago 发现）。</p>
+<h3><a href="../ref/#changeset">prosemirror-changeset</a> 2.4.2 (2026-08-21)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Fix an issue where the diffing of changed ranges would waste a bunch of time building up tokens and trying to compute a diff even if the ranges were too big to find a solution for.">修复了一个问题：在变更范围过大以至于无法找到解决方案时，差异比较过程仍会浪费时间构建令牌并尝试计算差异。</p>
 <h3><a href="../ref/#markdown">prosemirror-markdown</a> 1.13.6 (2026-08-16)</h3>
