@@ -4674,5 +4674,25 @@
   "Run attribute validators on attributes provided via slice context in clipboard content. This closes an XSS vulnerability (found by Pedro Paniago).": {
     "_translate": "对通过切片上下文提供的剪贴板内容中的属性运行属性验证器。这修复了一个跨站脚本（XSS）漏洞（由 Pedro Paniago 发现）。",
     "_note": ""
+  },
+  "Prevent uneditable elements rendered as part of node or mark view from blocking cursor motion.": {
+    "_translate": "防止作为节点或标记视图一部分渲染的不可编辑元素阻碍光标移动。",
+    "_note": ""
+  },
+  "Fix a bug that could break some types of composition input starting with a non-empty selection.": {
+    "_translate": "修复了一个可能导致某些以非空选区开始的组合输入类型出现问题的错误。",
+    "_note": ""
+  },
+  "Fix a regression that broke changed range diffing in bigger documents.": {
+    "_translate": "修复一个导致大型文档中更改范围差异计算失效的回归问题。",
+    "_note": ""
+  },
+  "Fix an issue where replace step fitting could create an invalid slice, and then crash or loop forever.": {
+    "_translate": "修复了一个问题，该问题会导致替换步骤拟合创建无效切片，进而引发崩溃或无限循环。",
+    "_note": ""
+  },
+  "Make sure trailing whitespace is expelled from strong/emphasis marks when they are broken up by other marks.": {
+    "_translate": "确保当强调标记被其他标记打断时，尾随空格会被移除。",
+    "_note": ""
   }
 }

@@ -3149,7 +3149,7 @@
           this.value = value;
           this.maxPoint = maxPoint;
       }
-      get length() { return this.to[this.to.length - 1]; }
+      get length() { return last(this.to); }
       // Find the index of the given position and side. Use the ranges'
       // `from` pos when `end == false`, `to` when `end == true`.
       findIndex(pos, side, end, startAt = 0) {
@@ -3172,9 +3172,9 @@
               if (f(this.from[i] + offset, this.to[i] + offset, this.value[i]) === false)
                   return false;
       }
-      map(offset, changes) {
+      map(offset, changes, basePos, baseSide, spill) {
           let value = [], from = [], to = [], newPos = -1, maxPoint = -1;
-          for (let i = 0; i < this.value.length; i++) {
+          iter: for (let i = 0; i < this.value.length; i++) {
               let val = this.value[i], curFrom = this.from[i] + offset, curTo = this.to[i] + offset, newFrom, newTo;
               if (curFrom == curTo) {
                   let mapped = changes.mapPos(curFrom, val.startSide, val.mapMode);
@@ -3199,9 +3199,29 @@
                   newPos = newFrom;
               if (val.point)
                   maxPoint = Math.max(maxPoint, newTo - newFrom);
-              value.push(val);
-              from.push(newFrom - newPos);
-              to.push(newTo - newPos);
+              if ((newFrom - basePos || val.startSide - baseSide) >= 0) {
+                  value.push(val);
+                  from.push(newFrom - newPos);
+                  to.push(newTo - newPos);
+                  basePos = newTo;
+                  baseSide = val.endSide;
+              }
+              else {
+                  if (newFrom == newTo) { // Try to reorder points to fit in here
+                      for (let i = value.length; i > 0; i--) {
+                          if ((newFrom - (to[i - 1] + newPos) || val.startSide - value[i - 1].endSide) >= 0) {
+                              value.splice(i, 0, val);
+                              from.splice(i, 0, newFrom - newPos);
+                              to.splice(i, 0, newTo - newPos);
+                              continue iter;
+                          }
+                          if ((newFrom - (from[i - 1] + newPos) || val.endSide - value[i - 1].startSide) > 0)
+                              break;
+                      }
+                  }
+                  // Otherwise, spill into a new layer
+                  spill(newFrom, newTo, val);
+              }
           }
           return { mapped: value.length ? new Chunk(from, to, value, maxPoint) : null, pos: newPos };
       }
@@ -3288,7 +3308,7 @@
           while (cur.value || i < add.length) {
               if (i < add.length && (cur.from - add[i].from || cur.startSide - add[i].value.startSide) >= 0) {
                   let range = add[i++];
-                  if (!builder.addInner(range.from, range.to, range.value))
+                  if (!builder.addInner(range.from, range.to, range.value, false))
                       spill.push(range);
               }
               else if (cur.rangeIndex == 1 && cur.chunkIndex < this.chunk.length &&
@@ -3299,7 +3319,7 @@
               }
               else {
                   if (!filter || filterFrom > cur.to || filterTo < cur.from || filter(cur.from, cur.to, cur.value)) {
-                      if (!builder.addInner(cur.from, cur.to, cur.value))
+                      if (!builder.addInner(cur.from, cur.to, cur.value, false))
                           spill.push(Range$1.create(cur.from, cur.to, cur.value));
                   }
                   cur.next();
@@ -3315,6 +3335,12 @@
           if (changes.empty || this.isEmpty)
               return this;
           let chunks = [], chunkPos = [], maxPoint = -1;
+          let spilled;
+          let spill = (from, to, value) => {
+              if (!spilled)
+                  spilled = new RangeSetBuilder();
+              spilled.addRange(from, to, value, false);
+          };
           for (let i = 0; i < this.chunk.length; i++) {
               let start = this.chunkPos[i], chunk = this.chunk[i];
               let touch = changes.touchesRange(start, start + chunk.length);
@@ -3324,7 +3350,9 @@
                   chunkPos.push(changes.mapPos(start));
               }
               else if (touch === true) {
-                  let { mapped, pos } = chunk.map(start, changes);
+                  let [prevPos, prevSide] = !chunks.length ? [-1, -1]
+                      : [last(chunkPos) + last(chunks).length, last(last(chunks).value).endSide];
+                  let { mapped, pos } = chunk.map(start, changes, prevPos, prevSide, spill);
                   if (mapped) {
                       maxPoint = Math.max(maxPoint, mapped.maxPoint);
                       chunks.push(mapped);
@@ -3333,6 +3361,8 @@
               }
           }
           let next = this.nextLayer.map(changes);
+          if (spilled)
+              next = spilled.finishInner(next);
           return chunks.length == 0 ? next : new RangeSet(chunkPos, chunks, next || RangeSet.empty, maxPoint);
       }
       /**
@@ -3474,7 +3504,7 @@
       static join(sets) {
           if (!sets.length)
               return RangeSet.empty;
-          let result = sets[sets.length - 1];
+          let result = last(sets);
           for (let i = sets.length - 2; i >= 0; i--) {
               for (let layer = sets[i]; layer != RangeSet.empty; layer = layer.nextLayer)
                   result = new RangeSet(layer.chunkPos, layer.chunk, result, Math.max(layer.maxPoint, result.maxPoint));
@@ -3486,6 +3516,7 @@
   The empty set of ranges.
   */
   RangeSet.empty = /*@__PURE__*/new RangeSet([], [], null, -1);
+  function last(arr) { return arr[arr.length - 1]; }
   function lazySort(ranges) {
       if (ranges.length > 1)
           for (let prev = ranges[0], i = 1; i < ranges.length; i++) {
@@ -3536,16 +3567,20 @@
       Add a range. Ranges should be added in sorted (by `from` and
       `value.startSide`) order.
       */
-      add(from, to, value) {
-          if (!this.addInner(from, to, value))
-              (this.nextLayer || (this.nextLayer = new RangeSetBuilder)).add(from, to, value);
+      add(from, to, value) { this.addRange(from, to, value, true); }
+      /**
+      @internal
+      */
+      addRange(from, to, value, strict) {
+          if (!this.addInner(from, to, value, strict))
+              (this.nextLayer || (this.nextLayer = new RangeSetBuilder)).addRange(from, to, value, strict);
       }
       /**
       @internal
       */
-      addInner(from, to, value) {
+      addInner(from, to, value, strict) {
           let diff = from - this.lastTo || value.startSide - this.last.endSide;
-          if (diff <= 0 && (from - this.lastFrom || value.startSide - this.last.startSide) < 0)
+          if (strict && diff <= 0 && (from - this.lastFrom || value.startSide - this.last.startSide) < 0)
               throw new Error("Ranges must be added sorted by `from` position and `startSide`");
           if (diff < 0)
               return false;
@@ -3899,8 +3934,10 @@
               boundChange = false;
           }
           else {
-              if (boundChange)
+              if (boundChange) {
                   comparator.boundChange(pos);
+                  boundChange = false;
+              }
               if (clipEnd > pos && !sameValues(a.active, b.active))
                   comparator.compareRange(pos, clipEnd, a.active, b.active);
               if (bounds && clipEnd < endB && (dEnd || a.openEnd(end) != b.openEnd(end)))
@@ -4089,15 +4126,18 @@
     mount(modules, root) {
       let sheet = this.sheet;
       let pos = 0 /* Current rule offset */, j = 0; /* Index into this.modules */
+      let changed = false;
       for (let i = 0; i < modules.length; i++) {
         let mod = modules[i], index = this.modules.indexOf(mod);
         if (index < j && index > -1) { // Ordering conflict
           this.modules.splice(index, 1);
+          changed = true;
           j--;
           index = -1;
         }
         if (index == -1) {
           this.modules.splice(j++, 0, mod);
+          changed = true;
           if (sheet) for (let k = 0; k < mod.rules.length; k++)
             sheet.insertRule(mod.rules[k], pos++);
         } else {
@@ -4111,10 +4151,12 @@
         if (root.adoptedStyleSheets.indexOf(this.sheet) < 0)
           root.adoptedStyleSheets = [this.sheet, ...root.adoptedStyleSheets];
       } else {
-        let text = "";
-        for (let i = 0; i < this.modules.length; i++)
-          text += this.modules[i].getRules() + "\n";
-        this.styleTag.textContent = text;
+        if (changed) {
+          let text = "";
+          for (let i = 0; i < this.modules.length; i++)
+            text += this.modules[i].getRules() + "\n";
+          this.styleTag.textContent = text;
+        }
         let target = root.head || root;
         if (this.styleTag.parentNode != target)
           target.insertBefore(this.styleTag, target.firstChild);
@@ -6589,12 +6631,13 @@
                   head = last;
               }
               else {
+                  let { dom } = mark;
                   if (this.cache.reused.get(mark)) {
                       let tile = Tile.get(mark.dom);
                       if (tile)
-                          tile.setDOM(freeNode(mark.dom));
+                          dom = freeNode(mark.dom);
                   }
-                  let nw = MarkTile.of(mark.mark, mark.dom);
+                  let nw = MarkTile.of(mark.mark, dom);
                   head.append(nw);
                   head = nw;
               }
@@ -7094,12 +7137,14 @@
               else if (tile === null || tile === void 0 ? void 0 : tile.isLine())
                   line = tile;
               else if (tile instanceof BlockWrapperTile) ; // Ignore
-              else if (parent.nodeName == "DIV" && !line && parent != this.view.contentDOM)
+              else if (parent.nodeName == "DIV" && !line)
                   line = new LineTile(parent, lineBaseAttrs);
               else if (!line)
                   marks.push(MarkTile.of(new MarkDecoration({ tagName: parent.nodeName.toLowerCase(), attributes: getAttrs(parent) }), parent));
           }
-          return { line: line, marks };
+          if (!line)
+              return null;
+          return { line, marks };
       }
   }
   function hasContent(tile, requireText) {
@@ -7930,18 +7975,21 @@
       return line;
   }
   function moveToLineBoundary(view, start, forward, includeWrap) {
-      let line = blockAt(view, start.head, start.assoc || -1);
-      let coords = !includeWrap || line.type != BlockType.Text || !(view.lineWrapping || line.widgetLineBreaks) ? null
-          : view.coordsAtPos(start.assoc < 0 && start.head > line.from ? start.head - 1 : start.head);
+      let block = blockAt(view, start.head, start.assoc || -1);
+      let coords = !includeWrap || block.type != BlockType.Text || !(view.lineWrapping || block.widgetLineBreaks) ? null
+          : view.coordsAtPos(start.assoc < 0 && start.head > block.from ? start.head - 1 : start.head);
       if (coords) {
           let editorRect = view.dom.getBoundingClientRect();
-          let direction = view.textDirectionAt(line.from);
+          let direction = view.textDirectionAt(block.from);
           let pos = view.posAtCoords({ x: forward == (direction == Direction.LTR) ? editorRect.right - 1 : editorRect.left + 1,
               y: (coords.top + coords.bottom) / 2 });
           if (pos != null)
               return EditorSelection.cursor(pos, forward ? -1 : 1);
       }
-      return EditorSelection.cursor(forward ? line.to : line.from, forward ? -1 : 1);
+      let line = view.state.doc.lineAt(start.head);
+      if (forward ? line.to == block.to : line.from == block.from)
+          return view.visualLineSide(line, forward);
+      return EditorSelection.cursor(forward ? block.to : block.from, forward ? -1 : 1);
   }
   function moveByChar(view, start, forward, by) {
       let line = view.state.doc.lineAt(start.head), spans = view.bidiSpans(line);
@@ -8213,7 +8261,7 @@
           // on the y axis, move this.y into it, and retry the scan.
           if (!closestRect) {
               if (!below && !above)
-                  return { i: positions[0], after: false };
+                  return { i: 0, after: false };
               let side = above && (!below || (this.y - above.bottom < below.top - this.y)) ? above : below;
               this.y = (side.top + side.bottom) / 2;
               return this.scan(positions, getRects, true);
@@ -8895,7 +8943,7 @@
                   iosVirtualKeyboardOpen(this.view.win))
                   mods.shiftKey = false;
               this.pendingIOSKey = { key: event.key, keyCode: event.keyCode, mods };
-              setTimeout(() => this.flushIOSKey(), 250);
+              setTimeout(() => this.flushIOSKey(), 50);
               return true;
           }
           if (event.keyCode != 229)
@@ -8904,7 +8952,7 @@
       }
       flushIOSKey(change) {
           let key = this.pendingIOSKey;
-          if (!key)
+          if (!key || this.view.observer.pendingRecords().length)
               return false;
           // This looks like an autocorrection before Enter
           if (key.key == "Enter" && change && change.from < change.to && /^\S+$/.test(change.insert.toString()))
@@ -9529,6 +9577,13 @@
       if (view.inputState.compositionFirstChange == null)
           view.inputState.compositionFirstChange = true;
       if (view.inputState.composing < 0) {
+          let { main } = view.state.selection;
+          if (!main.empty && view.lineBlockAt(main.from).from != view.lineBlockAt(main.to).from) {
+              view.dispatch({
+                  changes: view.state.selection.ranges.filter(r => !r.empty).map(r => ({ from: r.from, to: r.to })),
+                  userEvent: "input"
+              });
+          }
           // FIXME possibly set a timeout to clear it again on Android
           view.inputState.composing = 0;
       }
@@ -10910,9 +10965,8 @@
               scaleBlock(this.heightMap.lineAt(this.scaler.fromDOM(height), QueryType.ByHeight, this.heightOracle, 0, 0), this.scaler);
       }
       getScrollOffset() {
-          let base = this.scrollParent == this.view.scrollDOM ? this.scrollParent.scrollTop
+          return this.scrollParent == this.view.scrollDOM ? this.scrollParent.scrollTop * this.scaleY
               : (this.scrollParent ? this.scrollParent.getBoundingClientRect().top : 0) - this.view.contentDOM.getBoundingClientRect().top;
-          return base * this.scaleY;
       }
       scrollAnchorAt(scrollOffset) {
           let block = this.lineBlockAtHeight(scrollOffset + 8);
@@ -11304,8 +11358,9 @@
           userSelect: "none"
       },
       ".cm-highlightSpace": {
-          backgroundImage: "radial-gradient(circle at 50% 55%, #aaa 20%, transparent 5%)",
-          backgroundPosition: "center",
+          background: "radial-gradient(circle at 50% 55%, #aaa 20%, transparent 0) no-repeat",
+          backgroundSize: ".4em",
+          backgroundPosition: "calc(min(50%, 0px)) center"
       },
       ".cm-highlightTab": {
           backgroundImage: `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="20"><path stroke="%23888" stroke-width="1" fill="none" d="M1 10H196L190 5M190 15L196 10M197 4L197 16"/></svg>')`,
@@ -12161,6 +12216,7 @@
           @internal
           */
           this.measureRequests = [];
+          this.clearAnnouncement = -1;
           this.contentDOM = document.createElement("div");
           this.scrollDOM = document.createElement("div");
           this.scrollDOM.tabIndex = -1;
@@ -12416,7 +12472,7 @@
               this.observer.forceFlush();
           let updated = null;
           let scroll = this.viewState.scrollParent, scrollOffset = this.viewState.getScrollOffset();
-          let { scrollAnchorPos, scrollAnchorHeight } = this.viewState;
+          let { scrollAnchorPos, scrollAnchorHeight, scaleY: scrollScale } = this.viewState;
           if (Math.abs(scrollOffset - this.viewState.scrollOffset) > 1)
               scrollAnchorHeight = -1;
           this.viewState.scrollAnchorHeight = -1;
@@ -12425,13 +12481,14 @@
                   if (scrollAnchorHeight < 0) {
                       if (isScrolledToBottom(scroll || this.win)) {
                           scrollAnchorPos = -1;
-                          scrollAnchorHeight = this.viewState.heightMap.height;
+                          scrollAnchorHeight = this.viewState.heightMap.height / this.viewState.scaleY;
                       }
                       else {
                           let block = this.viewState.scrollAnchorAt(scrollOffset);
                           scrollAnchorPos = block.from;
                           scrollAnchorHeight = block.top;
                       }
+                      scrollScale = this.viewState.scaleY;
                   }
                   this.updateState = 1 /* UpdateState.Measuring */;
                   let changed = this.viewState.measure();
@@ -12495,7 +12552,7 @@
                           else {
                               let newAnchorHeight = scrollAnchorPos < 0 ? this.viewState.heightMap.height :
                                   this.viewState.lineBlockAt(scrollAnchorPos).top;
-                              let diff = (newAnchorHeight - scrollAnchorHeight) / this.scaleY;
+                              let diff = (newAnchorHeight / this.viewState.scaleY) - (scrollAnchorHeight / scrollScale);
                               if ((diff > 1 || diff < -1) &&
                                   !(browser.ios && this.inputState.lastIOSMomentumScroll > Date.now() - 100) &&
                                   (scroll == this.scrollDOM || this.hasFocus ||
@@ -12565,9 +12622,14 @@
           for (let tr of trs)
               for (let effect of tr.effects)
                   if (effect.is(EditorView.announce)) {
-                      if (first)
+                      if (first) {
                           this.announceDOM.textContent = "";
-                      first = false;
+                          this.win.clearTimeout(this.clearAnnouncement);
+                          this.clearAnnouncement = this.win.setTimeout(() => {
+                              this.announceDOM.textContent = "\u00a0";
+                          }, 200);
+                          first = false;
+                      }
                       let div = this.announceDOM.appendChild(document.createElement("div"));
                       div.textContent = effect.value;
                   }
@@ -12917,6 +12979,7 @@
           this.docView.destroy();
           this.dom.remove();
           this.observer.destroy();
+          this.win.clearTimeout(this.clearAnnouncement);
           if (this.measureScheduled > -1)
               this.win.cancelAnimationFrame(this.measureScheduled);
           this.destroyed = true;
@@ -21115,11 +21178,11 @@
   /**
   Move the selection to the start of the line.
   */
-  const cursorLineStart = view => moveSel(view, range => EditorSelection.cursor(view.lineBlockAt(range.head).from, 1));
+  const cursorLineStart = view => moveSel(view, range => view.moveToLineBoundary(range, false, false));
   /**
   Move the selection to the end of the line.
   */
-  const cursorLineEnd = view => moveSel(view, range => EditorSelection.cursor(view.lineBlockAt(range.head).to, -1));
+  const cursorLineEnd = view => moveSel(view, range => view.moveToLineBoundary(range, true, false));
   function toMatchingBracket(state, dispatch, extend) {
       let found = false, selection = updateSel(state.selection, range => {
           let matching = matchBrackets(state, range.head, -1)

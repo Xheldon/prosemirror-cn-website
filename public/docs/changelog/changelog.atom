@@ -5,11 +5,44 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2026-08-30T02:41:09.380Z</updated>
+  <updated>2026-09-20T02:35:28.268Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-view 1.42.4</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.42.4"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.42.4</id>
+      <updated>2026-09-18T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Prevent uneditable elements rendered as part of node or mark view from blocking cursor motion.</p>
+<p>Fix a bug that could break some types of composition input starting with a non-empty selection.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-changeset 2.4.3</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-changeset/v/2.4.3"/>
+      <id>https://www.npmjs.com/package/prosemirror-changeset/v/2.4.3</id>
+      <updated>2026-09-17T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix a regression that broke changed range diffing in bigger documents.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-transform 1.12.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-transform/v/1.12.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-transform/v/1.12.1</id>
+      <updated>2026-09-02T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where replace step fitting could create an invalid slice, and then crash or loop forever.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-markdown 1.13.7</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-markdown/v/1.13.7"/>
+      <id>https://www.npmjs.com/package/prosemirror-markdown/v/1.13.7</id>
+      <updated>2026-08-31T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make sure trailing whitespace is expelled from strong/emphasis marks when they are broken up by other marks.</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-view 1.42.3</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.42.3"/>
       <id>https://www.npmjs.com/package/prosemirror-view/v/1.42.3</id>

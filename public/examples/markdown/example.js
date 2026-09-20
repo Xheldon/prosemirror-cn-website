@@ -2797,6 +2797,19 @@
   const QUOTE_TEST_RE = /['"]/;
   const QUOTE_RE = /['"]/g;
   const APOSTROPHE = '\u2019'; /* ’ */
+  // Caps memory on malicious input
+  const MAX_OPENERS = 1000;
+
+  function truncateStack (stack, heads, length) {
+    while (stack.length > length) {
+      const item = stack.pop();
+      if (item.isSingleQuote) {
+        heads.single = item.prevSameQuoteIdx;
+      } else {
+        heads.double = item.prevSameQuoteIdx;
+      }
+    }
+  }
 
   function addReplacement (replacements, tokenIdx, pos, ch) {
     if (!replacements[tokenIdx]) {
@@ -2826,6 +2839,8 @@
     let j;
 
     const stack = [];
+    // stack indexes of topmost openers of each type (-1 if none)
+    const heads = { single: -1, double: -1 };
     // token index -> list of replacements in the original token content
     const replacements = {};
 
@@ -2837,7 +2852,7 @@
       for (j = stack.length - 1; j >= 0; j--) {
         if (stack[j].level <= thisLevel) { break }
       }
-      stack.length = j + 1;
+      truncateStack(stack, heads, j + 1);
 
       if (token.type !== 'text') { continue }
 
@@ -2941,39 +2956,45 @@
         }
 
         if (canClose) {
-          // this could be a closing quote, rewind the stack to get a match
-          for (j = stack.length - 1; j >= 0; j--) {
-            let item = stack[j];
-            if (stack[j].level < thisLevel) { break }
-            if (item.single === isSingle && stack[j].level === thisLevel) {
-              item = stack[j];
+          // Stack levels never decrease, so an opener of this type below
+          // the current level means there is no match
+          j = isSingle ? heads.single : heads.double;
+          if (j >= 0 && stack[j].level === thisLevel) {
+            const item = stack[j];
 
-              let openQuote;
-              let closeQuote;
-              if (isSingle) {
-                openQuote = state.md.options.quotes[2];
-                closeQuote = state.md.options.quotes[3];
-              } else {
-                openQuote = state.md.options.quotes[0];
-                closeQuote = state.md.options.quotes[1];
-              }
-
-              addReplacement(replacements, i, t.index, closeQuote);
-              addReplacement(replacements, item.token, item.pos, openQuote);
-
-              stack.length = j;
-              continue OUTER
+            let openQuote;
+            let closeQuote;
+            if (isSingle) {
+              openQuote = state.md.options.quotes[2];
+              closeQuote = state.md.options.quotes[3];
+            } else {
+              openQuote = state.md.options.quotes[0];
+              closeQuote = state.md.options.quotes[1];
             }
+
+            addReplacement(replacements, i, t.index, closeQuote);
+            addReplacement(replacements, item.tokenIdx, item.contentPos, openQuote);
+
+            truncateStack(stack, heads, j);
+            continue OUTER
           }
         }
 
         if (canOpen) {
+          if (stack.length >= MAX_OPENERS) { return }
           stack.push({
-            token: i,
-            pos: t.index,
-            single: isSingle,
-            level: thisLevel
+            tokenIdx: i,
+            contentPos: t.index,
+            isSingleQuote: isSingle,
+            level: thisLevel,
+            // stack index of the previous opener of the same quote type, -1 if none
+            prevSameQuoteIdx: isSingle ? heads.single : heads.double
           });
+          if (isSingle) {
+            heads.single = stack.length - 1;
+          } else {
+            heads.double = stack.length - 1;
+          }
         } else if (canClose && isSingle) {
           addReplacement(replacements, i, t.index, APOSTROPHE);
         }
@@ -9232,9 +9253,9 @@
                           marks = active;
                   }
               }
-              if (node && node.isText && marks.some(mark => {
+              if (node && node.isText && marks.some((mark, i) => {
                   let info = this.getMark(mark.type.name);
-                  return info && info.expelEnclosingWhitespace && !this.isMarkAhead(parent, index + 1, mark);
+                  return info && info.expelEnclosingWhitespace && !this.isMarkAhead(parent, index + 1, marks.slice(0, i + 1));
               })) {
                   let [_, rest, trail] = /^(.*?)(\s*)$/m.exec(node.text);
                   if (trail) {
@@ -9353,13 +9374,14 @@
       /**
       @internal
       */
-      isMarkAhead(parent, index, mark) {
+      isMarkAhead(parent, index, marks) {
           for (;; index++) {
               if (index >= parent.childCount)
                   return false;
               let next = parent.child(index);
-              if (next.type.name != this.options.hardBreakNodeName)
-                  return mark.isInSet(next.marks);
+              if (next.type.name != this.options.hardBreakNodeName) {
+                  return next.marks.length >= marks.length && prosemirrorModel.Mark.sameSet(next.marks.slice(0, marks.length), marks);
+              }
               index++;
           }
       }
