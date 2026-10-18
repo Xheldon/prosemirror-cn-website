@@ -5,11 +5,88 @@
     <name>Marijn Haverbeke</name>
     <uri>https://marijnhaverbeke.nl/</uri>
   </author>
-  <updated>2026-09-20T02:35:28.268Z</updated>
+  <updated>2026-10-18T02:18:36.744Z</updated>
   <id>https://prosemirror.net/docs/changelog/changelog.atom</id>
 
   <link rel="self" type="application/atom+xml"
         href="https://prosemirror.net/docs/changelog/changelog.atom"/><entry>
+      <title>prosemirror-history 1.5.1</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-history/v/1.5.1"/>
+      <id>https://www.npmjs.com/package/prosemirror-history/v/1.5.1</id>
+      <updated>2026-09-29T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue that allowed remote changes to corrupt the undo history.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-transform 1.12.2</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-transform/v/1.12.2"/>
+      <id>https://www.npmjs.com/package/prosemirror-transform/v/1.12.2</id>
+      <updated>2026-09-25T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix a bug that caused <code>StepMap.mapResult</code> to set deletion flags for insertions adjacent to the mapped position.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.42.6</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.42.6"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.42.6</id>
+      <updated>2026-09-25T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Work around an issue in Firefox where horizontal cursor motion would refuse to stop between an inline atom node and the start of a line.</p>
+<p>On Safari and Firefox, work around skipped cursor positions and odd cursor drawing by putting a dummy node in front of atomic inline nodes when they appear at the start of the block or right after another atom.</p>
+<p>Fix an issue where <code>posAtDOM</code> would incorrectly return a position before a node when querying a DOM position outside of its content element but inside of a wrapping element.</p>
+<p>Work around a Firefox bug that causes content wrapped in a scrollable element to be skipped over in keyboard cursor motion.</p>
+<p>Improve performance of non-DOM-connected editors by avoiding DOM selection queries.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-schema-basic 1.2.5</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-schema-basic/v/1.2.5"/>
+      <id>https://www.npmjs.com/package/prosemirror-schema-basic/v/1.2.5</id>
+      <updated>2026-09-25T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make sure that, even if an attacker manages to smuggle a string in a heading's <code>level</code> attribute, they cannot inject arbitrary tag names.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-changeset 2.4.4</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-changeset/v/2.4.4"/>
+      <id>https://www.npmjs.com/package/prosemirror-changeset/v/2.4.4</id>
+      <updated>2026-09-25T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Increase the size of changed chunks that diffing will compare prefix and suffix equality for, even if too big to properly diff.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-dropcursor 1.8.4</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-dropcursor/v/1.8.4"/>
+      <id>https://www.npmjs.com/package/prosemirror-dropcursor/v/1.8.4</id>
+      <updated>2026-09-24T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Make removing the plugin clear the active drop cursor, if present.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-model 1.25.12</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-model/v/1.25.12"/>
+      <id>https://www.npmjs.com/package/prosemirror-model/v/1.25.12</id>
+      <updated>2026-09-21T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Perform attribute validation in <code>NodeType</code>/<code>MarkType.create</code> to make it easier to ensure it happens for every way nodes and marks are created.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-view 1.42.5</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.42.5"/>
+      <id>https://www.npmjs.com/package/prosemirror-view/v/1.42.5</id>
+      <updated>2026-09-21T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Fix an issue where some kinds of deletions on Chrome Android were interpreted as Enter presses.</p>
+<p>Fix a regression where some types of Enter presses on Android would not go through the Enter key handling.</p>
+]]></content>
+    </entry><entry>
+      <title>prosemirror-markdown 1.13.8</title>
+      <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-markdown/v/1.13.8"/>
+      <id>https://www.npmjs.com/package/prosemirror-markdown/v/1.13.8</id>
+      <updated>2026-09-21T00:00:00.000Z</updated>
+      <content type="html" xml:base="https://prosemirror.net/"><![CDATA[<h3>Bug fixes</h3>
+<p>Add a validator that makes sure the heading node's <code>level</code> attribute is validated as a number.</p>
+]]></content>
+    </entry><entry>
       <title>prosemirror-view 1.42.4</title>
       <link rel="alternate" type="text/html" href="https://www.npmjs.com/package/prosemirror-view/v/1.42.4"/>
       <id>https://www.npmjs.com/package/prosemirror-view/v/1.42.4</id>

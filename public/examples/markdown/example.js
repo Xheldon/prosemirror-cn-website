@@ -4260,114 +4260,141 @@
     return true
   }
 
+  // CommonMark limits reference labels to 999 Unicode code points.
+  const MAX_LABEL_LENGTH = 999;
+
+  function countCodePoints (str) {
+    let length = str.length;
+
+    for (let i = 0; i < str.length - 1; i++) {
+      const high = str.charCodeAt(i);
+      if (high < 0xD800 || high > 0xDBFF) { continue }
+
+      const low = str.charCodeAt(i + 1);
+      if (low >= 0xDC00 && low <= 0xDFFF) {
+        length--;
+        i++;
+      }
+    }
+
+    return length
+  }
+
+  // Exclusive end offset of the line, after its newline if present
+  function lineEnd (state, line) {
+    return Math.min(state.eMarks[line] + 1, state.src.length)
+  }
+
+  // Returns -1 if the reference can't continue on this line
+  function getNextLinePos (state, nextLine) {
+    const endLine = state.lineMax;
+
+    if (nextLine >= endLine || state.isEmpty(nextLine)) {
+      // empty line or end of input
+      return -1
+    }
+
+    let isContinuation = false;
+
+    // this would be a code block normally, but after paragraph
+    // it's considered a lazy continuation regardless of what's there
+    if (state.sCount[nextLine] - state.blkIndent > 3) { isContinuation = true; }
+
+    // quirk for blockquotes, this line should already be checked by that rule
+    if (state.sCount[nextLine] < 0) { isContinuation = true; }
+
+    if (!isContinuation) {
+      const terminatorRules = state.md.block.ruler.getRules('reference');
+      const oldParentType = state.parentType;
+      state.parentType = 'reference';
+
+      // Some tags can terminate paragraph without empty line.
+      let terminate = false;
+      for (let i = 0, l = terminatorRules.length; i < l; i++) {
+        if (terminatorRules[i](state, nextLine, endLine, true)) {
+          terminate = true;
+          break
+        }
+      }
+
+      state.parentType = oldParentType;
+      if (terminate) {
+        // terminated by another block
+        return -1
+      }
+    }
+
+    return state.bMarks[nextLine] + state.tShift[nextLine]
+  }
+
   function reference (state, startLine, _endLine, silent) {
+    const src = state.src;
     let pos = state.bMarks[startLine] + state.tShift[startLine];
-    let max = state.eMarks[startLine];
     let nextLine = startLine + 1;
 
     // if it's indented more than 3 spaces, it should be a code block
     if (state.sCount[startLine] - state.blkIndent >= 4) { return false }
 
-    if (state.src.charCodeAt(pos) !== 0x5B/* [ */) { return false }
+    if (src.charCodeAt(pos) !== 0x5B/* [ */) { return false }
 
-    function getNextLine (nextLine) {
-      const endLine = state.lineMax;
+    // Scan the source directly: indexing a string after each appended line
+    // can make V8 copy the accumulated prefix on every continuation.
+    let max = lineEnd(state, startLine);
 
-      if (nextLine >= endLine || state.isEmpty(nextLine)) {
-        // empty line or end of input
-        return null
-      }
-
-      let isContinuation = false;
-
-      // this would be a code block normally, but after paragraph
-      // it's considered a lazy continuation regardless of what's there
-      if (state.sCount[nextLine] - state.blkIndent > 3) { isContinuation = true; }
-
-      // quirk for blockquotes, this line should already be checked by that rule
-      if (state.sCount[nextLine] < 0) { isContinuation = true; }
-
-      if (!isContinuation) {
-        const terminatorRules = state.md.block.ruler.getRules('reference');
-        const oldParentType = state.parentType;
-        state.parentType = 'reference';
-
-        // Some tags can terminate paragraph without empty line.
-        let terminate = false;
-        for (let i = 0, l = terminatorRules.length; i < l; i++) {
-          if (terminatorRules[i](state, nextLine, endLine, true)) {
-            terminate = true;
-            break
-          }
-        }
-
-        state.parentType = oldParentType;
-        if (terminate) {
-          // terminated by another block
-          return null
-        }
-      }
-
-      const pos = state.bMarks[nextLine] + state.tShift[nextLine];
-      const max = state.eMarks[nextLine];
-
-      // max + 1 explicitly includes the newline
-      return state.src.slice(pos, max + 1)
-    }
-
-    let str = state.src.slice(pos, max + 1);
-
-    max = str.length;
+    let rawLabel = '';
     let labelEnd = -1;
+    let segmentStart = ++pos;
 
-    for (pos = 1; pos < max; pos++) {
-      const ch = str.charCodeAt(pos);
-      if (ch === 0x5B /* [ */) {
-        return false
-      } else if (ch === 0x5D /* ] */) {
+    while (pos < max) {
+      if (rawLabel.length + pos - segmentStart > MAX_LABEL_LENGTH * 2) { return false }
+
+      let ch = src.charCodeAt(pos);
+      if (ch === 0x5B /* [ */) { return false }
+      if (ch === 0x5D /* ] */) {
         labelEnd = pos;
         break
-      } else if (ch === 0x0A /* \n */) {
-        const lineContent = getNextLine(nextLine);
-        if (lineContent !== null) {
-          str += lineContent;
-          max = str.length;
-          nextLine++;
-        }
-      } else if (ch === 0x5C /* \ */) {
-        pos++;
-        if (pos < max && str.charCodeAt(pos) === 0x0A) {
-          const lineContent = getNextLine(nextLine);
-          if (lineContent !== null) {
-            str += lineContent;
-            max = str.length;
-            nextLine++;
-          }
-        }
       }
+      if (ch === 0x5C /* \ */) { ch = src.charCodeAt(++pos); }
+
+      if (ch === 0x0A /* \n */ && pos < max) {
+        const nextPos = getNextLinePos(state, nextLine);
+        if (nextPos < 0) { return false }
+        rawLabel += src.slice(segmentStart, max);
+        pos = segmentStart = nextPos;
+        max = lineEnd(state, nextLine++);
+        continue
+      }
+      pos++;
     }
 
-    if (labelEnd < 0 || str.charCodeAt(labelEnd + 1) !== 0x3A/* : */) { return false }
+    if (labelEnd < 0 || src.charCodeAt(labelEnd + 1) !== 0x3A/* : */) { return false }
+
+    rawLabel += src.slice(segmentStart, labelEnd);
+
+    if (rawLabel.length > MAX_LABEL_LENGTH && countCodePoints(rawLabel) > MAX_LABEL_LENGTH) {
+      return false
+    }
 
     // [label]:   destination   'title'
     //         ^^^ skip optional whitespace here
-    for (pos = labelEnd + 2; pos < max; pos++) {
-      const ch = str.charCodeAt(pos);
+    pos = labelEnd + 2;
+    while (pos < max) {
+      const ch = src.charCodeAt(pos);
       if (ch === 0x0A) {
-        const lineContent = getNextLine(nextLine);
-        if (lineContent !== null) {
-          str += lineContent;
-          max = str.length;
-          nextLine++;
-        }
-      } else if (isSpace(ch)) ; else {
+        const nextPos = getNextLinePos(state, nextLine);
+        if (nextPos < 0) { break }
+        pos = nextPos;
+        max = lineEnd(state, nextLine++);
+      } else if (isSpace(ch)) {
+        pos++;
+      } else {
         break
       }
     }
 
     // [label]:   destination   'title'
     //            ^^^^^^^^^^^ parse this
-    const destRes = state.md.helpers.parseLinkDestination(str, pos, max);
+    const destRes = state.md.helpers.parseLinkDestination(src, pos, max);
     if (!destRes.ok) { return false }
 
     const href = state.md.normalizeLink(destRes.str);
@@ -4377,76 +4404,77 @@
 
     // save cursor state, we could require to rollback later
     const destEndPos = pos;
+    const destEndMax = max;
     const destEndLineNo = nextLine;
 
     // [label]:   destination   'title'
     //                       ^^^ skipping those spaces
-    const start = pos;
-    for (; pos < max; pos++) {
-      const ch = str.charCodeAt(pos);
+    while (pos < max) {
+      const ch = src.charCodeAt(pos);
       if (ch === 0x0A) {
-        const lineContent = getNextLine(nextLine);
-        if (lineContent !== null) {
-          str += lineContent;
-          max = str.length;
-          nextLine++;
-        }
-      } else if (isSpace(ch)) ; else {
+        const nextPos = getNextLinePos(state, nextLine);
+        if (nextPos < 0) { break }
+        pos = nextPos;
+        max = lineEnd(state, nextLine++);
+      } else if (isSpace(ch)) {
+        pos++;
+      } else {
         break
       }
     }
 
     // [label]:   destination   'title'
     //                          ^^^^^^^ parse this
-    let titleRes = state.md.helpers.parseLinkTitle(str, pos, max);
+    const titleStart = pos;
+    let titleRes = state.md.helpers.parseLinkTitle(src, pos, max);
     while (titleRes.can_continue) {
-      const lineContent = getNextLine(nextLine);
-      if (lineContent === null) break
-      str += lineContent;
-      pos = max;
-      max = str.length;
-      nextLine++;
-      titleRes = state.md.helpers.parseLinkTitle(str, pos, max, titleRes);
+      const nextPos = getNextLinePos(state, nextLine);
+      if (nextPos < 0) break
+      pos = nextPos;
+      max = lineEnd(state, nextLine++);
+      titleRes = state.md.helpers.parseLinkTitle(src, pos, max, titleRes);
     }
     let title;
 
-    if (pos < max && start !== pos && titleRes.ok) {
+    if (titleStart !== destEndPos && titleRes.ok) {
       title = titleRes.str;
       pos = titleRes.pos;
     } else {
       title = '';
       pos = destEndPos;
+      max = destEndMax;
       nextLine = destEndLineNo;
     }
 
     // skip trailing spaces until the rest of the line
     while (pos < max) {
-      const ch = str.charCodeAt(pos);
+      const ch = src.charCodeAt(pos);
       if (!isSpace(ch)) { break }
       pos++;
     }
 
-    if (pos < max && str.charCodeAt(pos) !== 0x0A) {
+    if (pos < max && src.charCodeAt(pos) !== 0x0A) {
       if (title) {
         // garbage at the end of the line after title,
         // but it could still be a valid reference if we roll back
         title = '';
         pos = destEndPos;
+        max = destEndMax;
         nextLine = destEndLineNo;
         while (pos < max) {
-          const ch = str.charCodeAt(pos);
+          const ch = src.charCodeAt(pos);
           if (!isSpace(ch)) { break }
           pos++;
         }
       }
     }
 
-    if (pos < max && str.charCodeAt(pos) !== 0x0A) {
+    if (pos < max && src.charCodeAt(pos) !== 0x0A) {
       // garbage at the end of the line
       return false
     }
 
-    const label = normalizeReference(str.slice(1, labelEnd));
+    const label = normalizeReference(rawLabel);
     if (!label) {
       // CommonMark 0.20 disallows empty labels
       return false
@@ -4550,13 +4578,6 @@
   const open_tag = '<[A-Za-z][A-Za-z0-9\\-]*' + attribute + '*\\s*\\/?>';
 
   const close_tag = '<\\/[A-Za-z][A-Za-z0-9\\-]*\\s*>';
-  const comment = '<!---?>|<!--(?:[^-]|-[^-]|--[^>])*-->';
-  const processing = '<[?][\\s\\S]*?[?]>';
-  const declaration = '<![A-Za-z][^>]*>';
-  const cdata = '<!\\[CDATA\\[[\\s\\S]*?\\]\\]>';
-
-  const HTML_TAG_RE = new RegExp('^(?:' + open_tag + '|' + close_tag + '|' + comment +
-                          '|' + processing + '|' + declaration + '|' + cdata + ')');
   const HTML_OPEN_CLOSE_TAG_RE = new RegExp('^(?:' + open_tag + '|' + close_tag + ')');
 
   // HTML block
@@ -4964,6 +4985,10 @@
     // backtick length => last seen position
     this.backticks = {};
     this.backticksScanned = false;
+
+    // Set when html comment / PI / declaration / CDATA has no terminator,
+    // to skip further scans of these constructs
+    this.skipHtmlSpecial = false;
 
     // Counter used to disable inline linkify-it execution
     // inside <a> and markdown links
@@ -6054,6 +6079,43 @@
     return (lc >= 0x61/* a */) && (lc <= 0x7a/* z */)
   }
 
+  // Comment, processing instruction, declaration or CDATA: fixed opener,
+  // then everything up to the first terminator. Returns end position or -1.
+  function scanSpecial (state, pos) {
+    const src = state.src;
+    let start;
+    let terminator;
+
+    if (src.startsWith('<!--', pos)) {
+      if (src.startsWith('>', pos + 4)) { return pos + 5 }
+      if (src.startsWith('->', pos + 4)) { return pos + 6 }
+      start = pos + 4;
+      terminator = '-->';
+    } else if (src.startsWith('<![CDATA[', pos)) {
+      start = pos + 9;
+      terminator = ']]>';
+    } else if (src.charCodeAt(pos + 1) === 0x3F/* ? */) {
+      start = pos + 2;
+      terminator = '?>';
+    } else if (isLetter(src.charCodeAt(pos + 2))) {
+      start = pos + 3;
+      terminator = '>';
+    } else {
+      return -1
+    }
+
+    if (state.skipHtmlSpecial) { return -1 }
+
+    const end = src.indexOf(terminator, start);
+    if (end < 0) {
+      // One flag for all constructs to keep code simple. Valid constructs after
+      // an unclosed one in the same paragraph become text, that's acceptable.
+      state.skipHtmlSpecial = true;
+      return -1
+    }
+    return end + terminator.length
+  }
+
   function html_inline (state, silent) {
     if (!state.md.options.html) { return false }
 
@@ -6065,26 +6127,28 @@
       return false
     }
 
-    // Quick fail on second char
+    let end;
     const ch = state.src.charCodeAt(pos + 1);
-    if (ch !== 0x21/* ! */ &&
-        ch !== 0x3F/* ? */ &&
-        ch !== 0x2F/* / */ &&
-        !isLetter(ch)) {
+
+    if (ch === 0x21/* ! */ || ch === 0x3F/* ? */) {
+      end = scanSpecial(state, pos);
+    } else if (ch === 0x2F/* / */ || isLetter(ch)) {
+      const match = state.src.slice(pos).match(HTML_OPEN_CLOSE_TAG_RE);
+      end = match ? pos + match[0].length : -1;
+    } else {
       return false
     }
 
-    const match = state.src.slice(pos).match(HTML_TAG_RE);
-    if (!match) { return false }
+    if (end < 0) { return false }
 
     if (!silent) {
       const token = state.push('html_inline', '', 0);
-      token.content = match[0];
+      token.content = state.src.slice(pos, end);
 
       if (isLinkOpen(token.content)) state.linkLevel++;
       if (isLinkClose(token.content)) state.linkLevel--;
     }
-    state.pos += match[0].length;
+    state.pos = end;
     return true
   }
 
@@ -8537,7 +8601,7 @@
               toDOM() { return ["div", ["hr"]]; }
           },
           heading: {
-              attrs: { level: { default: 1 } },
+              attrs: { level: { default: 1, validate: "number" } },
               content: "(text | image)*",
               group: "block",
               defining: true,
@@ -8547,7 +8611,7 @@
                   { tag: "h4", attrs: { level: 4 } },
                   { tag: "h5", attrs: { level: 5 } },
                   { tag: "h6", attrs: { level: 6 } }],
-              toDOM(node) { return ["h" + node.attrs.level, 0]; }
+              toDOM(node) { return ["h" + +node.attrs.level, 0]; }
           },
           code_block: {
               content: "text*",

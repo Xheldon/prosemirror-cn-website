@@ -80,7 +80,39 @@
     padding-left: 10px;
     margin-left: 0;
   }
-</style><h2>Version Changelog</h2><h3><a href="../ref/#view">prosemirror-view</a> 1.42.4 (2026-09-18)</h3>
+</style><h2>Version Changelog</h2><h3><a href="../ref/#history">prosemirror-history</a> 1.5.1 (2026-09-29)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue that allowed remote changes to corrupt the undo history.">修复了一个允许远程更改破坏撤销历史的问题。</p>
+<h3><a href="../ref/#transform">prosemirror-transform</a> 1.12.2 (2026-09-25)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix a bug that caused StepMap.mapResult to set deletion flags for insertions adjacent to the mapped position.">修复了一个导致 <code>StepMap.mapResult</code> 为映射位置相邻的插入操作设置删除标志的 bug。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.42.6 (2026-09-25)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Work around an issue in Firefox where horizontal cursor motion would refuse to stop between an inline atom node and the start of a line.">解决 Firefox 中的一个问题：在行内原子节点与行首之间，水平光标移动会拒绝停止。</p>
+<p data-x-en="On Safari and Firefox, work around skipped cursor positions and odd cursor drawing by putting a dummy node in front of atomic inline nodes when they appear at the start of the block or right after another atom.">在 Safari 和 Firefox 上，通过在原子内联节点出现在块级元素开头或紧跟在另一个原子之后时，在其前面插入一个虚拟节点，来规避光标位置被跳过和光标绘制异常的问题。</p>
+<p data-x-en="Fix an issue where posAtDOM would incorrectly return a position before a node when querying a DOM position outside of its content element but inside of a wrapping element.">修复了一个问题：当查询位于包装元素内但不在其内容元素内的 DOM 位置时，<code>posAtDOM</code> 会错误地返回该节点之前的位置。</p>
+<p data-x-en="Work around a Firefox bug that causes content wrapped in a scrollable element to be skipped over in keyboard cursor motion.">规避 Firefox 的一个 bug，该 bug 会导致在键盘光标移动时跳过包裹在可滚动元素中的内容。</p>
+<p data-x-en="Improve performance of non-DOM-connected editors by avoiding DOM selection queries.">通过避免 DOM 选择查询，提升未连接到 DOM 的编辑器的性能。</p>
+<h3><a href="../ref/#schema-basic">prosemirror-schema-basic</a> 1.2.5 (2026-09-25)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Make sure that, even if an attacker manages to smuggle a string in a heading's level attribute, they cannot inject arbitrary tag names.">请确保即使攻击者设法将字符串混入标题的 <code>level</code> 属性中，他们也无法注入任意的标签名称。</p>
+<h3><a href="../ref/#changeset">prosemirror-changeset</a> 2.4.4 (2026-09-25)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Increase the size of changed chunks that diffing will compare prefix and suffix equality for, even if too big to properly diff.">增加 diff 工具在比较前缀和后缀相等性时会检查的已更改块的大小，即使这些块过大而无法进行正确的 diff 比较。</p>
+<h3><a href="../ref/#dropcursor">prosemirror-dropcursor</a> 1.8.4 (2026-09-24)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Make removing the plugin clear the active drop cursor, if present.">确保移除插件时，如果存在，会清除活动的插入光标。</p>
+<h3><a href="../ref/#model">prosemirror-model</a> 1.25.12 (2026-09-21)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Perform attribute validation in NodeType/MarkType.create to make it easier to ensure it happens for every way nodes and marks are created.">在 <code>NodeType</code>/<code>MarkType.create</code> 中执行属性验证，以便更容易确保在创建节点和标记的每种方式中都会进行验证。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.42.5 (2026-09-21)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Fix an issue where some kinds of deletions on Chrome Android were interpreted as Enter presses.">修复了 Chrome Android 上某些类型的删除操作被误识别为回车键按下的问题。</p>
+<p data-x-en="Fix a regression where some types of Enter presses on Android would not go through the Enter key handling.">修复了一个回归问题，该问题导致 Android 上某些类型的 Enter 键按下无法通过 Enter 键处理流程。</p>
+<h3><a href="../ref/#markdown">prosemirror-markdown</a> 1.13.8 (2026-09-21)</h3>
+<h4>Bug fixes</h4>
+<p data-x-en="Add a validator that makes sure the heading node's level attribute is validated as a number.">添加一个验证器，确保标题节点的 <code>level</code> 属性被验证为数字。</p>
+<h3><a href="../ref/#view">prosemirror-view</a> 1.42.4 (2026-09-18)</h3>
 <h4>Bug fixes</h4>
 <p data-x-en="Prevent uneditable elements rendered as part of node or mark view from blocking cursor motion.">防止作为节点或标记视图一部分渲染的不可编辑元素阻碍光标移动。</p>
 <p data-x-en="Fix a bug that could break some types of composition input starting with a non-empty selection.">修复了一个可能导致某些以非空选区开始的组合输入类型出现问题的错误。</p>

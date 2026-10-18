@@ -4694,5 +4694,61 @@
   "Make sure trailing whitespace is expelled from strong/emphasis marks when they are broken up by other marks.": {
     "_translate": "确保当强调标记被其他标记打断时，尾随空格会被移除。",
     "_note": ""
+  },
+  "Fix an issue that allowed remote changes to corrupt the undo history.": {
+    "_translate": "修复了一个允许远程更改破坏撤销历史的问题。",
+    "_note": ""
+  },
+  "Fix a bug that caused StepMap.mapResult to set deletion flags for insertions adjacent to the mapped position.": {
+    "_translate": "修复了一个导致 <code>StepMap.mapResult</code> 为映射位置相邻的插入操作设置删除标志的 bug。",
+    "_note": ""
+  },
+  "Work around an issue in Firefox where horizontal cursor motion would refuse to stop between an inline atom node and the start of a line.": {
+    "_translate": "解决 Firefox 中的一个问题：在行内原子节点与行首之间，水平光标移动会拒绝停止。",
+    "_note": ""
+  },
+  "On Safari and Firefox, work around skipped cursor positions and odd cursor drawing by putting a dummy node in front of atomic inline nodes when they appear at the start of the block or right after another atom.": {
+    "_translate": "在 Safari 和 Firefox 上，通过在原子内联节点出现在块级元素开头或紧跟在另一个原子之后时，在其前面插入一个虚拟节点，来规避光标位置被跳过和光标绘制异常的问题。",
+    "_note": ""
+  },
+  "Fix an issue where posAtDOM would incorrectly return a position before a node when querying a DOM position outside of its content element but inside of a wrapping element.": {
+    "_translate": "修复了一个问题：当查询位于包装元素内但不在其内容元素内的 DOM 位置时，<code>posAtDOM</code> 会错误地返回该节点之前的位置。",
+    "_note": ""
+  },
+  "Work around a Firefox bug that causes content wrapped in a scrollable element to be skipped over in keyboard cursor motion.": {
+    "_translate": "规避 Firefox 的一个 bug，该 bug 会导致在键盘光标移动时跳过包裹在可滚动元素中的内容。",
+    "_note": ""
+  },
+  "Make sure that, even if an attacker manages to smuggle a string in a heading's level attribute, they cannot inject arbitrary tag names.": {
+    "_translate": "请确保即使攻击者设法将字符串混入标题的 <code>level</code> 属性中，他们也无法注入任意的标签名称。",
+    "_note": ""
+  },
+  "Improve performance of non-DOM-connected editors by avoiding DOM selection queries.": {
+    "_translate": "通过避免 DOM 选择查询，提升未连接到 DOM 的编辑器的性能。",
+    "_note": ""
+  },
+  "Make removing the plugin clear the active drop cursor, if present.": {
+    "_translate": "确保移除插件时，如果存在，会清除活动的插入光标。",
+    "_note": ""
+  },
+  "Increase the size of changed chunks that diffing will compare prefix and suffix equality for, even if too big to properly diff.": {
+    "_translate": "增加 diff 工具在比较前缀和后缀相等性时会检查的已更改块的大小，即使这些块过大而无法进行正确的 diff 比较。",
+    "_note": ""
+  },
+  "Perform attribute validation in NodeType/MarkType.create to make it easier to ensure it happens for every way nodes and marks are created.": {
+    "_translate": "在 <code>NodeType</code>/<code>MarkType.create</code> 中执行属性验证，以便更容易确保在创建节点和标记的每种方式中都会进行验证。",
+    "_note": ""
+  },
+  "Fix an issue where some kinds of deletions on Chrome Android were interpreted as Enter presses.": {
+    "_translate": "修复了 Chrome Android 上某些类型的删除操作被误识别为回车键按下的问题。",
+    "_note": ""
+  },
+  "Fix a regression where some types of Enter presses on Android would not go through the Enter key handling.": {
+    "_translate": "修复了一个回归问题，该问题导致 Android 上某些类型的 Enter 键按下无法通过 Enter 键处理流程。",
+    "_note": ""
+  },
+  "Add a validator that makes sure the heading node's level attribute is validated as a number.": {
+    "_translate": "添加一个验证器，确保标题节点的 <code>level</code> 属性被验证为数字。",
+    "_note": ""
   }
 }
