@@ -98,9 +98,11 @@ jobs:
           git checkout -b temp
           rm -rf public
           mkdir -p public && cp -R website/public/* public
-          # Note: 上游 2026-07-02 加入了屏蔽各家 AI 爬虫的 robots.txt，这里删除它，
-          # 不让中文翻译站跟着屏蔽（Googlebot 未被屏蔽，不影响普通搜索收录）。
-          rm -f public/robots.txt
+          # Note: 上游 robots.txt 会 Disallow 多家爬虫，不能原样发布。
+          # 重新套一层 SEO：按页中文 title/description、自指 canonical、OG，
+          # 并写上允许抓取的 robots.txt、sitemap.xml，以及根目录 404.html。
+          # 没有 404.html 时，Pages 会把未知路径（曾经包括 /sitemap.xml）以 200 回成首页。
+          node seo.js public
           # Note: 仅当本次翻译无错误时才推进 last-commit.txt，出错则保持旧值以便下次重试
           if [ ! -s error.txt ]; then
             echo "$new_commit" > last-commit.txt

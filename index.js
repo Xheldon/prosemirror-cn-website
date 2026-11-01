@@ -8,6 +8,7 @@ const glob = require('glob');
 const { Semaphore } = require('async-mutex');
 
 const { translate } = require('./utils');
+const { applySeoToHtml, writeCrawlFiles, writeRobotsAndNotFound } = require('./seo');
 // 使用信号量控制并发
 
 const args = process.argv.slice(2);
@@ -41,13 +42,13 @@ const config = {
   'website/public/docs/index.html': [...defaultConfig('h2, h3')],
 };
 
-const propertyMap = {
-  'og:title': 'ProseMirror 中文',
-  'og:url': 'https://prosemirror.xheldon.com',
-  'og:image': 'https://prosemirror.xheldon.com/img/picture.png',
-  'og:description': '基于浏览器的结构化文本编辑器组件',
-};
 const semaphore = new Semaphore(MAX_CONCURRENT);
+const websitePublic = path.resolve(__dirname, 'website/public');
+// Note: 上游 robots.txt 会 Disallow 多家爬虫。先换成允许抓取并声明 sitemap 的版本，
+// 同时放上 404.html，避免 Pages 把未知 URL（包括当时还不存在的 sitemap）回成首页。
+if (fs.existsSync(websitePublic)) {
+  writeRobotsAndNotFound(websitePublic);
+}
 // 使用 glob 模块来匹配文件
 let files;
 files = glob.sync(path.resolve(__dirname, `website/public/**/index.html`));
@@ -67,15 +68,6 @@ Promise.all(
       document.querySelector('html').setAttribute('lang', 'zh-CN');
       const head = document.querySelector('head');
       if (head) {
-        const metas = head.querySelectorAll('meta');
-        if (metas.length) {
-          metas.forEach((meta) => {
-            const property = meta.getAttribute('property');
-            if (property && propertyMap[property]) {
-              meta.setAttribute('content', propertyMap[property]);
-            }
-          });
-        }
         // Note: 增加 google 统计/广告（要吃饭呀）
         // Note: 谷歌统计
         const script = document.createElement('script');
@@ -255,11 +247,16 @@ Promise.all(
         // 在文件处理完成后（不管有没有错误,保存更新后的字典
         console.log(`${file} 翻译完成`);
         fs.writeFileSync(dictPath, JSON.stringify(dict, null, 2));
-        fs.writeFileSync(file, dom.serialize());
+        fs.writeFileSync(file, applySeoToHtml(dom.serialize(), key));
         rootResolve();
       });
     });
   })
 ).finally(() => {
+  // Note: 翻译循环只处理 index.html。这里补上 backers.html 等其余页面，
+  // 并按最终 HTML 重新生成 sitemap.xml、robots.txt 和 404.html。
+  if (fs.existsSync(websitePublic)) {
+    writeCrawlFiles(websitePublic);
+  }
   console.log(`文件全部翻译完成`);
 });

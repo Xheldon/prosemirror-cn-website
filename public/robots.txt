@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://prosemirror.xheldon.com/sitemap.xml
