@@ -15,7 +15,7 @@
 
 1. Pull from the original repository `code.haverbeke.berlin/prosemirror/website` (upstream migrated here from GitHub, which was archived on 2026-04-01), compare with last-commit.txt; if there are updates, proceed to the next step; if not, interrupt CI.
 2. cd into website, follow instructions from the original repository: after `npm i` + `make`, various index.html files will be built in the publish directory.
-3. After running `npm i` in root directory, run index.js to query dictionary files (index.json) in dict directories that match paths with those under public for Chinese replacement; if fields aren't found, perform AI translation and update dictionary.
+3. After running `npm i` in root directory, run index.js to query dictionary files (index.json) in dict directories that match paths with those under public for Chinese replacement; if fields aren't found, perform AI translation and update dictionary. The same step writes per-page Chinese titles, descriptions, canonical URLs, and Open Graph tags, plus `sitemap.xml`, a crawlable `robots.txt`, and `404.html` (without that file, Cloudflare Pages serves the homepage with HTTP 200 for unknown URLs).
 4. Move `website/public` directory up one level into `public` directory and push remotely to trigger Cloudflare Pages's build update.
 
 ## Local Build Instructions
@@ -47,7 +47,7 @@
 
 1. 拉取原仓库 `code.haverbeke.berlin/prosemirror/website`（上游已于 2026-04-01 从 GitHub archive 迁移至此），对比 last-commit.txt，有更新则执行下一步，无更新则中断 CI。
 2. cd 到 website，按原仓库说明，`npm i` + `make` 后，会构建出 publish 目录的各个 index.html
-3. 根目录 `npm i` 后，运行 index.js，查询跟 index 在 public 中同路径的 dict 目录中的 index.json 字典，进行中文替换，如果字段未查询到，则进行 AI 翻译并更新字典。
+3. 根目录 `npm i` 后，运行 index.js，查询跟 index 在 public 中同路径的 dict 目录中的 index.json 字典，进行中文替换，如果字段未查询到，则进行 AI 翻译并更新字典。同一步会写入按页中文 title、description、自指 canonical 和 Open Graph，以及 `sitemap.xml`、允许抓取的 `robots.txt` 和 `404.html`（没有 404.html 时，Cloudflare Pages 会把未知地址以 200 返回首页）。
 4. 将 website 中的 public 目录移动到上层的 docs 目录中，推送到远端，触发 Cloudflare Pages 的构建更新。
 
 ## 本地构建说明
